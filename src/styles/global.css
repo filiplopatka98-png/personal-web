@@ -52,19 +52,36 @@
     background: var(--color-accent);
     color: var(--color-accent-ink);
   }
+}
 
-  /* Skip link */
-  .skip-link {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
-    padding: 0.5rem 1rem;
-    z-index: 100;
-  }
-  .skip-link:focus-visible {
-    left: 1rem;
-    top: 1rem;
-  }
+/*
+ * Skip link — outside @layer base so Tailwind's content-purge doesn't drop it
+ * (the .skip-link class is referenced in BaseLayout — coming in Task 7 — but
+ * static CSS rules outside @layer survive purging).
+ *
+ * Modern visually-hidden pattern (clip-path) is more reliable than off-screen
+ * positioning for screen readers (esp. iOS VoiceOver rotor navigation).
+ */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  padding: 0.5rem 1rem;
+  z-index: 100;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  width: auto;
+  height: auto;
+  clip-path: none;
+  top: 1rem;
+  left: 1rem;
 }
