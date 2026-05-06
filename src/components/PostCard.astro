@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { type Lang } from '../i18n';
+
+export interface Props {
+  entry: CollectionEntry<'posts'>;
+  lang: Lang;
+}
+
+const { entry, lang } = Astro.props;
+const { data } = entry;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const detailHref = lang === 'sk'
+  ? `${baseUrl}/blog/${data.slug}/`
+  : `${baseUrl}/en/blog/${data.slug}/`;
+
+const dateFormatter = new Intl.DateTimeFormat(lang === 'sk' ? 'sk-SK' : 'en-US', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+---
+<a href={detailHref} class="group block no-underline">
+  <article>
+    {data.cover && (
+      <div class="aspect-[16/10] overflow-hidden rounded mb-4 bg-surface">
+        <Image
+          src={data.cover}
+          alt={data.title}
+          widths={[400, 800]}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+    )}
+    <p class="font-mono text-xs uppercase tracking-wider text-text-muted mb-2">
+      <time datetime={data.date.toISOString()}>{dateFormatter.format(data.date)}</time>
+      {data.tags.length > 0 && <span class="mx-2">·</span>}
+      {data.tags.slice(0, 2).join(' · ')}
+    </p>
+    <h3 class="font-serif font-medium mb-2 group-hover:text-accent-hover">
+      {data.title}
+    </h3>
+    <p class="text-sm text-text-muted">{data.excerpt}</p>
+  </article>
+</a>
