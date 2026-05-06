@@ -1,0 +1,34 @@
+---
+slugKey: prompt-engineering-pre-webovky
+slug: prompt-engineering-pre-webovky
+lang: sk
+title: "Prompt engineering pre webovky (čo reálne funguje)"
+date: 2026-03-22
+tags: [ai, productivity]
+excerpt: "Ako používam Claude a GPT pri každodennom vývoji bez toho, aby som strácal kontrolu nad kódom."
+draft: false
+---
+
+V poslednom roku som strávil viac času s AI-asistovaným kódom ako bez. Čo som sa naučil:
+
+## Píšte špec, nie príkazy
+
+Zlý prompt: „Sprav mi formulár v Astro."
+
+Dobrý prompt: „Astro komponent FormContact, props: action (string), method (POST/GET). Polia: meno (required, min 2), email (validated), správa (textarea, required min 10). Submit cez fetch, success state inline, error state pod fieldom. Tailwind, naše tokeny v var(--color-accent). Žiadny external state lib."
+
+Druhý funguje 9× z 10. Prvý 1× z 10 a ešte to musíte celé prepísať.
+
+## Drag the model into your style
+
+Najlepší trik: na začiatku ukážte AI 2-3 existujúce komponenty z projektu. „Tu je BaseLayout, tu Header, tu MobileMenu. Drž sa tohto patternu pri novom komponente." Modely (Claude, GPT-4) udržia konzistentnosť oveľa lepšie ako bez kontextu.
+
+## Čo nikdy neAIzujem
+
+- Auth flow (security-critical, vyžaduje hĺbku rozumienia)
+- Database migrations (jeden zlý dotaz = downtime)
+- Build config (Astro/Vite/PostCSS — modely halucinujú API)
+
+## Cost reality check
+
+Anthropic API + Cursor + ChatGPT: ~$60/mesiac za solídnu produktivitu. Vrátia sa pri prvom 2-hodinovom úspore za týždeň. Worth it.

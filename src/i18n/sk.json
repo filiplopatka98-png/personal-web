@@ -61,6 +61,14 @@
   "projects.tags.label": "Tech stack",
   "projects.viewAll": "Všetky projekty",
 
+  "blog.title": "Blog",
+  "blog.eyebrow": "Myšlienky a poznámky",
+  "blog.intro": "Občas píšem o tom, ako buduje weby v 2026. Témy: WordPress, AI vo vývoji, frontend rýchlosť.",
+  "blog.publishedOn": "Publikované",
+  "blog.updatedOn": "Aktualizované",
+  "blog.viewAll": "Všetky články",
+  "blog.relatedTags": "Tagy",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

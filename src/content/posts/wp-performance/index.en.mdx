@@ -1,0 +1,29 @@
+---
+slugKey: wp-performance-2026
+slug: how-to-speed-up-wordpress
+lang: en
+title: "How to speed up WordPress in 2026"
+date: 2026-04-15
+tags: [wordpress, performance]
+cover: "./cover.jpg"
+excerpt: "WP isn't slow — what's slow is how we installed it."
+draft: false
+---
+
+WordPress has a reputation for being a slow CMS. Deserved? Partly. But after 5 years of tuning WP sites I can say: WordPress can be fast, you just need to know what you're doing.
+
+## Three things that almost always change the game
+
+**1. Drop the page builder.** Elementor, Divi, WPBakery — they all generate excessive HTML/CSS/JS. Unless you're building for a non-technical client with 50 block types, custom Gutenberg blocks are dramatically faster.
+
+**2. Cache aggressively.** WP Rocket or W3 Total Cache + page cache + object cache (Redis) + critical CSS. Slow queries go from 800 ms to 8 ms.
+
+**3. Optimize images on upload.** ShortPixel automatically or Imagify. WebP/AVIF. Lazy load. Biggest performance wins in one step.
+
+## What doesn't help as much as you think
+
+- Better hosting without other measures (expensive, marginal gains)
+- "Optimization plugins" with 50+ toggles (indirect, frequent regressions)
+- Migrating to headless just for speed (complexity > gain for most projects)
+
+In practice: a solid WP with these 3 things hits Lighthouse 90+ without a headless rewrite. If you want 95+ and clean control, consider Astro or Next — but not as a "WordPress fix," that's a different project.

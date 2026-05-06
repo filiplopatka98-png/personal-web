@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { t } from '../../../i18n';
+
+const lang = 'en';
+const posts = (await getCollection('posts'))
+  .filter((p) => p.data.lang === lang && !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<BaseLayout lang={lang} canonicalPath="/en/blog/" altLangUrl="/blog/" title={`${t('blog.title', lang)} — Filip Lopatka`}>
+  <section class="py-16">
+    <SectionHeader number="04" eyebrow={t('blog.eyebrow', lang)} title={t('blog.title', lang)} level={1} />
+    <p class="text-lg max-w-prose mb-12">{t('blog.intro', lang)}</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {posts.map((entry) => <PostCard entry={entry} lang={lang} />)}
+    </div>
+  </section>
+</BaseLayout>

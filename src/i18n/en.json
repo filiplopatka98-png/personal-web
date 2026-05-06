@@ -61,6 +61,14 @@
   "projects.tags.label": "Tech stack",
   "projects.viewAll": "All projects",
 
+  "blog.title": "Blog",
+  "blog.eyebrow": "Thoughts and notes",
+  "blog.intro": "I write occasionally about how I build websites in 2026. Topics: WordPress, AI in development, frontend speed.",
+  "blog.publishedOn": "Published",
+  "blog.updatedOn": "Updated",
+  "blog.viewAll": "All posts",
+  "blog.relatedTags": "Tags",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

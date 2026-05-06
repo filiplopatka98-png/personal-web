@@ -1,0 +1,29 @@
+---
+slugKey: wp-performance-2026
+slug: ako-zrychlit-wordpress
+lang: sk
+title: "Ako zrýchliť WordPress v 2026"
+date: 2026-04-15
+tags: [wordpress, performance]
+cover: "./cover.jpg"
+excerpt: "WP nie je pomalý — pomalý je ako sme ho nainštalovali."
+draft: false
+---
+
+WordPress má povesť pomalého CMS-ka. Zaslúženú? Sčasti. Ale po 5 rokoch ladenia WP webov môžem povedať: WordPress vie byť rýchly, len musíte vedieť, čo robíte.
+
+## Tri veci, ktoré skoro vždy zmenia hru
+
+**1. Vyhoďte page builder.** Elementor, Divi, WPBakery — všetky generujú nadbytočný HTML/CSS/JS. Ak nepíšete pre netechnického klienta s 50 typmi blokov, custom Gutenberg bloky sú výrazne rýchlejšie.
+
+**2. Cachujte agresívne.** WP Rocket alebo W3 Total Cache + page cache + object cache (Redis) + critical CSS. Pomalé queries idú zo 800 ms na 8 ms.
+
+**3. Optimalizujte obrázky pri uploade.** ShortPixel automaticky alebo Imagify. WebP/AVIF. Lazy load. Najväčšie performance wins v jednom kroku.
+
+## Čo nepomáha tak ako si myslíte
+
+- Lepší hosting bez ostatných opatrení (drahé, marginal gains)
+- "Optimalizačné pluginy" s 50+ togglami (nepriame, časté regresie)
+- Migrácia na headless len kvôli rýchlosti (zložitosť > zisk pre väčšinu projektov)
+
+V praxi: solídny WP s týmito 3 vecami robí Lighthouse 90+ bez headless prepisov. Ak chcete 95+ a čistú kontrolu, zvažte Astro alebo Next — ale nie ako "WordPress fix", to je iný projekt.
