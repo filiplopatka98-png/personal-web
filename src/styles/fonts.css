@@ -2,6 +2,10 @@
  * Self-hosted variable fonts.
  * font-display: swap — text shows immediately with default fallback,
  * swaps to webfont once loaded.
+ *
+ * TODO: parametrize the /personal-web/ base path. When we move to a custom
+ * domain (WebSupport phase), these URLs need updating along with the matching
+ * preload tags in BaseLayout. CSS @font-face cannot see Astro env vars.
  */
 
 @font-face {

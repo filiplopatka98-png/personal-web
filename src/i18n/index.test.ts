@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { t } from './index';
+import skDict from './sk.json';
+import enDict from './en.json';
 
 describe('t() — i18n helper', () => {
   it('returns SK string for SK lang', () => {
@@ -23,5 +25,13 @@ describe('t() — i18n helper', () => {
     // when interpolating something other than {year}, leaves it alone
     const result = t('footer.copy', 'sk', { wrong: 'X' });
     expect(result).toBe('© {year} Filip Lopatka');
+  });
+});
+
+describe('SK and EN dictionaries — parity', () => {
+  it('have identical key sets (catches drift in either direction)', () => {
+    const skKeys = Object.keys(skDict).sort();
+    const enKeys = Object.keys(enDict).sort();
+    expect(enKeys).toEqual(skKeys);
   });
 });
