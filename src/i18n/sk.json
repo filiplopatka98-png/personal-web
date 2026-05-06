@@ -29,6 +29,20 @@
   "lang.switch.toSK": "Slovensky",
   "lang.switch.notAvailable": "Tento obsah zatiaľ nie je preložený",
 
+  "about.title": "O mne",
+  "about.subtitle": "Web developer s 5+ rokmi praxe",
+  "about.intro": "Volám sa Filip Lopatka. Buduje weby pre malé a stredné firmy, e-shopy aj individuálnych klientov. Špecializujem sa na WordPress, moderné frontend frameworky a integráciu AI nástrojov.",
+  "about.approach.title": "Ako pracujem",
+  "about.approach.body": "Začínam od cieľa. Pred kódom riešim, čo má web doručiť — viac dopytov, vyššiu konverziu, lepšiu rýchlosť alebo proste lepší dojem. Nezačínam dizajnovať, kým neviem, kto a prečo to bude používať. Komunikujem otvorene, dodávam v týždenných alebo dvojtýždenných cykloch a robím transparentne — vidíš, čo sa deje, a meníme smer keď treba.",
+  "about.values.title": "Čomu verím",
+  "about.value.craft": "Remeslu pred trendmi. Hezký dizajn netreba dokazovať každú sezónu.",
+  "about.value.speed": "Rýchlosti. 5 sekúnd na load = stratený klient.",
+  "about.value.ownership": "Vlastníctvu. Klient vie pochopiť, ako jeho web funguje, a vie ho prevziať keď ja nie som dostupný.",
+  "about.value.ai": "AI ako nástroju, nie zázraku. Vie urýchliť 30 % roboty — zvyšok stále musí prísť od človeka, ktorý vie čo robí.",
+  "about.cta.title": "Pracujme spolu",
+  "about.cta.body": "Hľadám klientov, ktorých záleží na tom, ako ich web vyzerá aj funguje.",
+  "about.cta.button": "Napíš mi",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

@@ -29,6 +29,20 @@
   "lang.switch.toSK": "Slovensky",
   "lang.switch.notAvailable": "This content is not translated yet",
 
+  "about.title": "About",
+  "about.subtitle": "Web developer with 5+ years of experience",
+  "about.intro": "I'm Filip Lopatka. I build websites for small-to-medium businesses, e-shops, and individual clients. I specialize in WordPress, modern frontend frameworks, and AI tool integration.",
+  "about.approach.title": "How I work",
+  "about.approach.body": "I start from the goal. Before the code, I figure out what the site needs to deliver — more inquiries, higher conversion, better speed, or simply a better impression. I don't start designing until I know who will use it and why. I communicate openly, ship in weekly or biweekly cycles, and work transparently — you see what's happening, and we adjust when needed.",
+  "about.values.title": "What I believe",
+  "about.value.craft": "Craft over trends. Good design doesn't need to prove itself every season.",
+  "about.value.speed": "Speed. A 5-second load is a lost client.",
+  "about.value.ownership": "Ownership. The client should understand how their site works and be able to take it over if I'm not available.",
+  "about.value.ai": "AI as a tool, not magic. It speeds up 30% of the work — the rest still has to come from a person who knows what they're doing.",
+  "about.cta.title": "Let's work together",
+  "about.cta.body": "I'm looking for clients who care how their website looks and works.",
+  "about.cta.button": "Get in touch",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }
