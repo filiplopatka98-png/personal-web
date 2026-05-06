@@ -1,0 +1,16 @@
+---
+export interface Props {
+  variant?: 'accent' | 'outline';
+  class?: string;
+}
+const { variant = 'accent', class: className = '' } = Astro.props;
+
+const base = 'inline-block font-mono text-xs uppercase tracking-wider px-2.5 py-1 rounded';
+const variants = {
+  accent: 'bg-accent text-accent-ink',
+  outline: 'border border-text text-text',
+};
+---
+<span class:list={[base, variants[variant], className]}>
+  <slot />
+</span>

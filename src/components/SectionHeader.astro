@@ -1,0 +1,24 @@
+---
+export interface Props {
+  /** Section number, e.g. "01", "02". Optional. */
+  number?: string;
+  /** Eyebrow label above the title (uppercase mono). */
+  eyebrow?: string;
+  /** The actual heading text. */
+  title: string;
+  /** Heading level — defaults to h2. */
+  level?: 1 | 2 | 3;
+}
+const { number, eyebrow, title, level = 2 } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
+---
+<header class="mb-8">
+  {(number || eyebrow) && (
+    <p class="font-mono text-xs uppercase tracking-widest text-text-muted mb-3">
+      {number && <span>№ {number}</span>}
+      {number && eyebrow && <span class="mx-2">—</span>}
+      {eyebrow && <span>{eyebrow}</span>}
+    </p>
+  )}
+  <Tag class="font-serif font-normal">{title}</Tag>
+</header>
