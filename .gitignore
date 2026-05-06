@@ -1,0 +1,23 @@
+# deps & build
+node_modules
+dist
+.astro
+
+# env & local
+.env
+.env.local
+.env.*.local
+
+# editor
+.DS_Store
+.vscode
+.idea
+*.swp
+
+# logs
+*.log
+npm-debug.log*
+
+# planning docs (lokálne, NIE do gitu — viď CLAUDE.md memory)
+.superpowers/
+docs/superpowers/
