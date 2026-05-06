@@ -1,4 +1,5 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
 const lang = 'sk';
 ---
 <!doctype html>
@@ -11,6 +12,6 @@ const lang = 'sk';
   <body>
     <h1>Filip Lopatka</h1>
     <p>Web developer / SK placeholder</p>
-    <a href="/personal-web/en/">English version</a>
+    <a href={getRelativeLocaleUrl('en', '')}>English version</a>
   </body>
 </html>
