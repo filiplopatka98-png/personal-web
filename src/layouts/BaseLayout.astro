@@ -13,7 +13,11 @@ export interface Props {
    * If undefined, the switch is hidden (showing the other lang has no equivalent).
    */
   altLangUrl?: string;
-  /** URL of the current page (for canonical). */
+  /**
+   * Path of the current page (for canonical URL construction).
+   * Must start with `/` and end with `/` to match `trailingSlash: 'always'`
+   * in astro.config.mjs — e.g. `/`, `/o-mne/`, `/en/projects/foo/`.
+   */
   canonicalPath: string;
 }
 

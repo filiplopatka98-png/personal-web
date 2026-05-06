@@ -21,11 +21,11 @@ const navLinks = [
 const homeHref = lang === 'sk' ? '/' : '/en/';
 ---
 <header class="border-b border-border">
-  <div class="max-w-content mx-auto px-6 py-5 flex items-center justify-between gap-6">
+  <div class="max-w-content mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
     <a href={`${baseUrl}${homeHref}`} class="font-serif text-xl no-underline">
       Filip Lopatka
     </a>
-    <nav aria-label="Primary" class="flex items-center gap-6">
+    <nav aria-label="Primary" class="flex flex-wrap items-center gap-x-6 gap-y-2">
       {navLinks.map((link) => (
         <a
           href={`${baseUrl}${lang === 'sk' ? link.sk : link.en}`}
