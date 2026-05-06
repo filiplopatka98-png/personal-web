@@ -1,0 +1,34 @@
+{
+  "nav.about": "O mne",
+  "nav.services": "Služby",
+  "nav.projects": "Projekty",
+  "nav.blog": "Blog",
+  "nav.contact": "Kontakt",
+  "nav.openMenu": "Otvoriť menu",
+  "nav.closeMenu": "Zatvoriť menu",
+
+  "common.skipToContent": "Prejsť na obsah",
+  "common.availableForProjects": "Voľný pre nové projekty",
+  "common.readMore": "Čítať viac",
+  "common.viewProject": "Pozrieť projekt",
+  "common.viewAllProjects": "Všetky projekty",
+  "common.viewAllPosts": "Všetky články",
+
+  "hero.title": "Buduje weby, ktoré prinášajú klientov.",
+  "hero.titleEm": "WordPress, AI, frontend.",
+  "hero.cta": "Pozri si projekty",
+  "hero.ctaSecondary": "Napíš mi",
+
+  "footer.copy": "© {year} Filip Lopatka",
+  "footer.builtWith": "Postavené pomocou Astro",
+
+  "site.title": "Filip Lopatka — Web Developer",
+  "site.description": "Freelance web developer s 5+ rokmi praxe. WordPress, AI integrácie, moderný frontend.",
+
+  "lang.switch.toEN": "English",
+  "lang.switch.toSK": "Slovensky",
+  "lang.switch.notAvailable": "Tento obsah zatiaľ nie je preložený",
+
+  "errors.pageNotFound": "Stránka neexistuje",
+  "errors.backHome": "Späť na úvod"
+}

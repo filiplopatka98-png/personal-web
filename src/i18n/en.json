@@ -1,0 +1,34 @@
+{
+  "nav.about": "About",
+  "nav.services": "Services",
+  "nav.projects": "Projects",
+  "nav.blog": "Blog",
+  "nav.contact": "Contact",
+  "nav.openMenu": "Open menu",
+  "nav.closeMenu": "Close menu",
+
+  "common.skipToContent": "Skip to content",
+  "common.availableForProjects": "Available for new projects",
+  "common.readMore": "Read more",
+  "common.viewProject": "View project",
+  "common.viewAllProjects": "All projects",
+  "common.viewAllPosts": "All posts",
+
+  "hero.title": "Builds websites that bring clients.",
+  "hero.titleEm": "WordPress, AI, frontend.",
+  "hero.cta": "View projects",
+  "hero.ctaSecondary": "Get in touch",
+
+  "footer.copy": "© {year} Filip Lopatka",
+  "footer.builtWith": "Built with Astro",
+
+  "site.title": "Filip Lopatka — Web Developer",
+  "site.description": "Freelance web developer with 5+ years of experience. WordPress, AI integrations, modern frontend.",
+
+  "lang.switch.toEN": "English",
+  "lang.switch.toSK": "Slovensky",
+  "lang.switch.notAvailable": "This content is not translated yet",
+
+  "errors.pageNotFound": "Page not found",
+  "errors.backHome": "Back to home"
+}
