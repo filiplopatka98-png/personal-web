@@ -12,8 +12,8 @@ const { entry, lang } = Astro.props;
 const { data } = entry;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const detailHref = lang === 'sk'
-  ? `${baseUrl}/projekty/${data.slug}/`
-  : `${baseUrl}/en/projects/${data.slug}/`;
+  ? `${baseUrl}/projekty/${entry.slug}/`
+  : `${baseUrl}/en/projects/${entry.slug}/`;
 ---
 <a href={detailHref} class="group block no-underline">
   <article class="rounded overflow-hidden border border-border hover:border-accent-hover transition-colors">

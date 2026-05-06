@@ -47,6 +47,20 @@
   "services.eyebrow": "Čo robím",
   "services.intro": "Postavím vám web alebo upracem ten existujúci. Tu je čo viem dodať — od hotových WordPress stránok cez AI integrácie po performance audity.",
 
+  "projects.title": "Projekty",
+  "projects.eyebrow": "Vybrané práce",
+  "projects.intro": "Niekoľko prác z posledných rokov. Nie všetky som mohol zaradiť — niektorí klienti si neželajú zverejnenie, iné sú stále live ale s NDA.",
+  "projects.role.label": "Moja rola",
+  "projects.client.label": "Klient",
+  "projects.year.label": "Rok",
+  "projects.url.label": "Live link",
+  "projects.urlExternal.label": "Pozrieť stránku",
+  "projects.section.problem": "Problém",
+  "projects.section.solution": "Riešenie",
+  "projects.section.result": "Výsledok",
+  "projects.tags.label": "Tech stack",
+  "projects.viewAll": "Všetky projekty",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

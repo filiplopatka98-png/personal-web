@@ -1,0 +1,35 @@
+---
+slugKey: clinic-ai
+slug: ai-asistent-pre-kliniku
+lang: sk
+title: "AI asistent pre súkromnú kliniku"
+client: "Klinika MediGo (NDA)"
+year: 2026
+role: "OpenAI integrácia, Next.js, custom RAG"
+tags: [ai, nextjs, openai]
+cover: "./cover.jpg"
+excerpt: "GPT-4 chatbot s prístupom k internej databáze procedúr."
+featured: false
+order: 3
+---
+
+## Problém
+
+Klinika mala recepciu zaplavenú 200+ telefonátmi denne s opakujúcimi sa otázkami: ceny zákrokov, dostupnosť termínov, predoperačná príprava. Recepcia nestíhala, kvalitná pacientska komunikácia trpela. Klient chcel pilotne testovať AI asistenta na webe predtým, ako investuje do plnohodnotného call-centra.
+
+## Riešenie
+
+Next.js chat widget integrovaný do existujúceho WordPressu, GPT-4o + custom RAG nad internou databázou (~400 procedúr, cenníky, FAQ). Streaming responses, fallback na live agent po 3 neúspešných pokusoch, full audit log pre compliance. Rate limiting per IP + per session.
+
+Costs:
+- ~12 000 dotazov/mesiac
+- $84/mesiac OpenAI náklady
+- 35 % dopytov resolvovaných bez ľudského zásahu
+
+## Výsledok
+
+Po 6 týždňoch v produkcii:
+- Telefonátov na recepciu -22 %
+- Priemerný čas odpovede pacientovi: z 4 hodín → 8 sekúnd (pre common otázky)
+- Klient sa rozhodol nezvyšovať head-count v call-centre
+- NPS pre digital channel: 72 (pred: žiadny meraný)

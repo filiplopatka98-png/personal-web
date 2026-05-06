@@ -47,6 +47,20 @@
   "services.eyebrow": "What I do",
   "services.intro": "I'll build you a new site or fix the one you have. Here's what I deliver — from ready-made WordPress sites through AI integrations to performance audits.",
 
+  "projects.title": "Projects",
+  "projects.eyebrow": "Selected work",
+  "projects.intro": "A few projects from the last few years. Not all could be included — some clients don't want public disclosure, others are still live under NDA.",
+  "projects.role.label": "My role",
+  "projects.client.label": "Client",
+  "projects.year.label": "Year",
+  "projects.url.label": "Live URL",
+  "projects.urlExternal.label": "View site",
+  "projects.section.problem": "Problem",
+  "projects.section.solution": "Solution",
+  "projects.section.result": "Result",
+  "projects.tags.label": "Tech stack",
+  "projects.viewAll": "All projects",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }
