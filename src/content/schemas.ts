@@ -1,6 +1,21 @@
 import { z } from 'zod';
 
-const langEnum = z.enum(['sk', 'en']);
+export const langEnum = z.enum(['sk', 'en']);
+
+/**
+ * Cross-language pair identifier — must match between SK/EN versions of the
+ * same logical content. Empty string would silently break pairing.
+ */
+const slugKey = z.string().min(1);
+
+/**
+ * URL-safe slug — only lowercase letters, digits, and hyphens.
+ * Catches authoring mistakes (spaces, accented chars, slashes) at build time.
+ */
+const urlSlug = z.string().regex(
+  /^[a-z0-9-]+$/,
+  'Slug must contain only lowercase letters, digits, and hyphens'
+);
 
 /**
  * Image stub for testing context — accepts string (path) or any object with `src`.
@@ -12,8 +27,8 @@ const imageStub = z.union([
 ]);
 
 export const projectSchema = z.object({
-  slugKey: z.string(),
-  slug: z.string(),
+  slugKey,
+  slug: urlSlug,
   lang: langEnum,
   title: z.string().min(1),
   client: z.string().optional(),
@@ -29,8 +44,8 @@ export const projectSchema = z.object({
 });
 
 export const postSchema = z.object({
-  slugKey: z.string(),
-  slug: z.string(),
+  slugKey,
+  slug: urlSlug,
   lang: langEnum,
   title: z.string().min(1),
   date: z.coerce.date(),
@@ -42,7 +57,7 @@ export const postSchema = z.object({
 });
 
 export const serviceSchema = z.object({
-  slugKey: z.string(),
+  slugKey,
   lang: langEnum,
   title: z.string().min(1),
   icon: z.string(),
@@ -51,6 +66,11 @@ export const serviceSchema = z.object({
   ctaLabel: z.string().min(1),
 });
 
+/**
+ * Testimonials don't have their own URL — they're embedded on home/services/contact
+ * pages. So no `slug`/`slugKey`. The optional `projectKey` links a quote back to
+ * the project it's about (matches a project's `slugKey`).
+ */
 export const testimonialSchema = z.object({
   quote: z.string().min(10),
   author: z.string().min(1),
@@ -60,3 +80,10 @@ export const testimonialSchema = z.object({
   lang: langEnum,
   featured: z.boolean().default(false),
 });
+
+// Inferred types for consumers (Astro pages, helper modules).
+export type Project = z.infer<typeof projectSchema>;
+export type Post = z.infer<typeof postSchema>;
+export type Service = z.infer<typeof serviceSchema>;
+export type Testimonial = z.infer<typeof testimonialSchema>;
+export type Lang = z.infer<typeof langEnum>;

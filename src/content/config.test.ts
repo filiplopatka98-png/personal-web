@@ -33,6 +33,51 @@ describe('projects schema', () => {
     };
     expect(() => projectSchema.parse(invalid)).toThrow();
   });
+
+  it('rejects slug with non-URL-safe characters', () => {
+    const invalid = {
+      slugKey: 'a', slug: 'has spaces', lang: 'sk', title: 'X', excerpt: 'X',
+      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+    };
+    expect(() => projectSchema.parse(invalid)).toThrow();
+  });
+
+  it('rejects empty slugKey', () => {
+    const invalid = {
+      slugKey: '', slug: 'foo', lang: 'sk', title: 'X', excerpt: 'X',
+      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+    };
+    expect(() => projectSchema.parse(invalid)).toThrow();
+  });
+
+  it('rejects year before 2000', () => {
+    const invalid = {
+      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
+      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+      year: 1999,
+    };
+    expect(() => projectSchema.parse(invalid)).toThrow();
+  });
+
+  it('rejects invalid url', () => {
+    const invalid = {
+      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
+      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+      url: 'not-a-url',
+    };
+    expect(() => projectSchema.parse(invalid)).toThrow();
+  });
+
+  it('applies defaults: featured=false, order=999, tags=[], gallery=[]', () => {
+    const result = projectSchema.parse({
+      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
+      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+    });
+    expect(result.featured).toBe(false);
+    expect(result.order).toBe(999);
+    expect(result.tags).toEqual([]);
+    expect(result.gallery).toEqual([]);
+  });
 });
 
 describe('posts schema', () => {
