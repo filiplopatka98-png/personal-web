@@ -69,6 +69,16 @@
   "blog.viewAll": "Všetky články",
   "blog.relatedTags": "Tagy",
 
+  "home.servicesEyebrow": "Čo robím",
+  "home.servicesViewAll": "Pozrieť všetky služby",
+  "home.projectsEyebrow": "Vybrané projekty",
+  "home.projectsViewAll": "Pozrieť všetky projekty",
+  "home.testimonialsEyebrow": "Čo o mojej práci hovoria klienti",
+  "home.contactEyebrow": "Pracujme spolu",
+  "home.contactBody": "Hľadám klientov, ktorí vedia, čo chcú dosiahnuť. Začneme rozhovorom — bezplatne, bez záväzku.",
+  "home.contactCTA": "Napíš mi",
+  "home.testimonialsTitle": "",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
