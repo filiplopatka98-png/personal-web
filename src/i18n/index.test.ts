@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { t, type Lang } from './index';
+import { t } from './index';
 
 describe('t() — i18n helper', () => {
   it('returns SK string for SK lang', () => {
