@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import { t } from '../../i18n';
+
+const lang = 'en';
+
+// TODO: replace FORMSPREE_FORM_ID with the actual ID from formspree.io after creating the form.
+const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
+const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
+---
+<BaseLayout lang={lang} canonicalPath="/en/contact/" altLangUrl="/kontakt/" title={`${t('contact.title', lang)} — Filip Lopatka`}>
+  <section class="py-16 max-w-prose">
+    <SectionHeader number="05" eyebrow={t('contact.eyebrow', lang)} title={t('contact.title', lang)} level={1} />
+    <p class="text-lg mb-12">{t('contact.intro', lang)}</p>
+
+    <form action={formAction} method="POST" class="grid gap-6 mb-16">
+      <label class="grid gap-2">
+        <span class="font-mono text-xs uppercase tracking-wider text-text-muted">
+          {t('contact.form.name', lang)} <span class="text-accent" aria-label={t('contact.form.required', lang)}>*</span>
+        </span>
+        <input type="text" name="name" required class="border border-border rounded px-3 py-2 bg-surface focus:border-accent-hover focus:outline-none" />
+      </label>
+      <label class="grid gap-2">
+        <span class="font-mono text-xs uppercase tracking-wider text-text-muted">
+          {t('contact.form.email', lang)} <span class="text-accent" aria-label={t('contact.form.required', lang)}>*</span>
+        </span>
+        <input type="email" name="email" required class="border border-border rounded px-3 py-2 bg-surface focus:border-accent-hover focus:outline-none" />
+      </label>
+      <label class="grid gap-2">
+        <span class="font-mono text-xs uppercase tracking-wider text-text-muted">
+          {t('contact.form.message', lang)} <span class="text-accent" aria-label={t('contact.form.required', lang)}>*</span>
+        </span>
+        <textarea name="message" rows="6" required class="border border-border rounded px-3 py-2 bg-surface focus:border-accent-hover focus:outline-none resize-y"></textarea>
+      </label>
+      <button type="submit" class="bg-accent text-accent-ink font-medium px-5 py-3 rounded hover:bg-accent-hover transition-colors justify-self-start">
+        {t('contact.form.submit', lang)}
+      </button>
+    </form>
+
+    <section class="border-t border-border pt-8">
+      <h2 class="font-serif font-normal mb-4">{t('contact.altMethods.title', lang)}</h2>
+      <ul class="space-y-2 list-none pl-0">
+        <li><strong>{t('contact.altMethods.email', lang)}:</strong> <a href="mailto:filip.lopatka@modulario.eu" class="hover:text-accent-hover">filip.lopatka@modulario.eu</a></li>
+        <li><strong>{t('contact.altMethods.linkedin', lang)}:</strong> <a href="https://linkedin.com/in/filiplopatka" target="_blank" rel="noopener noreferrer" class="hover:text-accent-hover">linkedin.com/in/filiplopatka</a></li>
+        <li><strong>{t('contact.altMethods.github', lang)}:</strong> <a href="https://github.com/filiplopatka98-png" target="_blank" rel="noopener noreferrer" class="hover:text-accent-hover">@filiplopatka98-png</a></li>
+      </ul>
+    </section>
+  </section>
+</BaseLayout>

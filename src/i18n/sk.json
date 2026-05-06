@@ -79,6 +79,19 @@
   "home.contactCTA": "Napíš mi",
   "home.testimonialsTitle": "",
 
+  "contact.title": "Kontakt",
+  "contact.eyebrow": "Pošli mi správu",
+  "contact.intro": "Najjednoduchší spôsob ma osloviť. Reagujem do 24 hodín, väčšinou skôr.",
+  "contact.form.name": "Vaše meno",
+  "contact.form.email": "Váš email",
+  "contact.form.message": "Stručne — o čom by ste sa chceli baviť?",
+  "contact.form.submit": "Odoslať správu",
+  "contact.form.required": "Povinné pole",
+  "contact.altMethods.title": "Iné spôsoby",
+  "contact.altMethods.email": "Email",
+  "contact.altMethods.linkedin": "LinkedIn",
+  "contact.altMethods.github": "GitHub",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

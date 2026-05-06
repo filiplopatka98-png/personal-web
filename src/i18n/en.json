@@ -79,6 +79,19 @@
   "home.contactCTA": "Get in touch",
   "home.testimonialsTitle": "",
 
+  "contact.title": "Contact",
+  "contact.eyebrow": "Send me a message",
+  "contact.intro": "The simplest way to reach me. I respond within 24 hours, usually faster.",
+  "contact.form.name": "Your name",
+  "contact.form.email": "Your email",
+  "contact.form.message": "Briefly — what would you like to discuss?",
+  "contact.form.submit": "Send message",
+  "contact.form.required": "Required",
+  "contact.altMethods.title": "Other ways",
+  "contact.altMethods.email": "Email",
+  "contact.altMethods.linkedin": "LinkedIn",
+  "contact.altMethods.github": "GitHub",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }
