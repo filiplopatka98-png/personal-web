@@ -104,6 +104,13 @@
   "service.modal.close": "Zavrieť",
   "service.modal.pdf": "Stiahni ukážku procesu (PDF)",
 
+  "featured.eyebrow": "Posledný case study",
+  "featured.read": "Prečítaj case study",
+  "inlineContact.subject": "O čom sa chceš baviť? (1-3 vety stačia)",
+  "inlineContact.lede": "Zaberie ti to 30 sekúnd. Reagujem do 24 hodín, väčšinou skôr.",
+  "inlineContact.title": "Máš projekt, alebo iba nápad?",
+  "inlineContact.submit": "Odoslať",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

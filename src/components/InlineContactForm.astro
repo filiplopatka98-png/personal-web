@@ -1,0 +1,56 @@
+---
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+  /** Override title (defaults to inlineContact.title). */
+  title?: string;
+  /** Override eyebrow (defaults to home.contactEyebrow). */
+  eyebrow?: string;
+}
+const { lang, title, eyebrow } = Astro.props;
+const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
+const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
+const finalTitle = title ?? t('inlineContact.title', lang);
+const finalEyebrow = eyebrow ?? t('home.contactEyebrow', lang);
+---
+<section class="bg-[#1a1a1a] text-white py-20 px-10 -mx-6">
+  <div class="max-w-extra mx-auto grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,520px)] gap-14">
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-accent mb-5">
+        {finalEyebrow}
+      </p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal leading-tight mb-5">{finalTitle}</h2>
+      <p class="text-[#ccc] text-base leading-relaxed max-w-lg">{t('inlineContact.lede', lang)}</p>
+    </div>
+    <form action={formAction} method="POST" class="grid gap-3">
+      <input
+        type="text"
+        name="name"
+        required
+        placeholder={t('contact.form.name', lang)}
+        class="bg-white/5 border border-[#444] text-white px-4 py-3 rounded text-sm focus:outline-none focus:border-accent transition-colors"
+      />
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder={t('contact.form.email', lang)}
+        class="bg-white/5 border border-[#444] text-white px-4 py-3 rounded text-sm focus:outline-none focus:border-accent transition-colors"
+      />
+      <textarea
+        name="message"
+        rows="4"
+        required
+        placeholder={t('inlineContact.subject', lang)}
+        class="bg-white/5 border border-[#444] text-white px-4 py-3 rounded text-sm focus:outline-none focus:border-accent transition-colors resize-y"
+      ></textarea>
+      <button
+        type="submit"
+        class="bg-accent text-accent-ink px-5 py-3 rounded text-sm font-semibold cursor-pointer justify-self-start hover:bg-accent-hover transition-colors"
+      >
+        {t('inlineContact.submit', lang)} →
+      </button>
+    </form>
+  </div>
+</section>
