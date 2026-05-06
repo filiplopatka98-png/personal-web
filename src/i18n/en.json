@@ -43,6 +43,10 @@
   "about.cta.body": "I'm looking for clients who care how their website looks and works.",
   "about.cta.button": "Get in touch",
 
+  "services.title": "Services",
+  "services.eyebrow": "What I do",
+  "services.intro": "I'll build you a new site or fix the one you have. Here's what I deliver — from ready-made WordPress sites through AI integrations to performance audits.",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

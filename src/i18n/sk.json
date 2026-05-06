@@ -43,6 +43,10 @@
   "about.cta.body": "Hľadám klientov, ktorých záleží na tom, ako ich web vyzerá aj funguje.",
   "about.cta.button": "Napíš mi",
 
+  "services.title": "Služby",
+  "services.eyebrow": "Čo robím",
+  "services.intro": "Postavím vám web alebo upracem ten existujúci. Tu je čo viem dodať — od hotových WordPress stránok cez AI integrácie po performance audity.",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
