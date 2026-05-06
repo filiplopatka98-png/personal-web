@@ -2,6 +2,7 @@
 import { t, type Lang } from '../i18n';
 import { getStaticRoute, type StaticRouteKey } from '../i18n/routes';
 import LangSwitch from './LangSwitch.astro';
+import MobileMenu from './MobileMenu.astro';
 
 export interface Props {
   lang: Lang;
@@ -22,11 +23,13 @@ const navOrder: { key: StaticRouteKey; tKey: 'nav.about' | 'nav.services' | 'nav
 const homeHref = lang === 'sk' ? '/' : '/en/';
 ---
 <header class="border-b border-border">
-  <div class="max-w-content mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+  <div class="max-w-content mx-auto px-6 py-5 flex items-center justify-between gap-6">
     <a href={`${baseUrl}${homeHref}`} class="font-serif text-xl no-underline" aria-label={t('site.title', lang)}>
       Filip Lopatka
     </a>
-    <nav aria-label="Primary" class="flex flex-wrap items-center gap-x-6 gap-y-2">
+
+    {/* Desktop nav (md+) */}
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-6">
       {navOrder.map((item) => (
         <a
           href={`${baseUrl}${getStaticRoute(item.key, lang)}`}
@@ -37,5 +40,8 @@ const homeHref = lang === 'sk' ? '/' : '/en/';
       ))}
       <LangSwitch currentLang={lang} altLangUrl={altLangUrl} />
     </nav>
+
+    {/* Mobile menu (sub-md) */}
+    <MobileMenu lang={lang} altLangUrl={altLangUrl} />
   </div>
 </header>
