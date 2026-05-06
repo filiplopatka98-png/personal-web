@@ -86,3 +86,132 @@
   top: 1rem;
   left: 1rem;
 }
+
+/* ============================================ */
+/* REDESIGN: motion infrastructure              */
+/* ============================================ */
+
+/* Reveal-on-scroll: starts hidden, .visible reveals */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition:
+    opacity var(--reveal-duration) ease-out,
+    transform var(--reveal-duration) ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pulse animation for status indicators */
+@keyframes pulse-breath {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 170, 85, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(34, 170, 85, 0); }
+}
+
+.pulse-dot {
+  animation: pulse-breath 2s ease-in-out infinite;
+}
+
+/* Animated link underline */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--hover-duration) ease-out;
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Counter element styling — applied to elements that animate from 0 to data-count value */
+.counter[data-count] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sticky header shrink */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--color-bg);
+  transition: padding var(--hover-duration) ease-out;
+}
+header.site-header.scrolled .site-header-inner {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Drop cap on first paragraph of article body */
+.prose-dropcap > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 4em;
+  font-weight: 400;
+  float: left;
+  line-height: 0.85;
+  padding: 0.1em 0.1em 0 0;
+  color: var(--color-text-strong);
+}
+
+/* Scroll-snap container for testimonials horizontal scroll */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-snap-x > * {
+  scroll-snap-align: start;
+}
+
+/* Modal: native dialog styling */
+dialog.modal {
+  border: none;
+  padding: 0;
+  background: transparent;
+  max-height: 90vh;
+  margin: auto;
+}
+dialog.modal::backdrop {
+  background: rgba(20, 20, 20, 0.7);
+}
+
+/* Modal content frame */
+.modal-frame {
+  background: var(--color-bg);
+  border-radius: 8px;
+  padding: 2.25rem 2.5rem;
+  max-width: 35rem;
+  position: relative;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: modal-in var(--modal-duration) ease-out forwards;
+}
+
+@keyframes modal-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .pulse-dot { animation: none; box-shadow: 0 0 0 4px rgba(34, 170, 85, 0.15); }
+  .modal-frame { opacity: 1; transform: none; animation: none; }
+}

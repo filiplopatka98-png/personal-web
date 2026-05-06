@@ -21,6 +21,10 @@ export default {
       maxWidth: {
         content: 'var(--content-max)',
         prose: 'var(--content-prose)',
+        narrow: 'var(--content-narrow)',
+        mid: 'var(--content-mid)',
+        wide: 'var(--content-wide)',
+        extra: 'var(--content-extra)',
       },
     },
   },
