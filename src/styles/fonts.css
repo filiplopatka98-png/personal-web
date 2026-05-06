@@ -1,0 +1,37 @@
+/*
+ * Self-hosted variable fonts.
+ * font-display: swap — text shows immediately with default fallback,
+ * swaps to webfont once loaded.
+ */
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/personal-web/fonts/fraunces-variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/personal-web/fonts/fraunces-variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/personal-web/fonts/inter-variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/personal-web/fonts/jetbrains-mono-variable.woff2') format('woff2-variations');
+}
