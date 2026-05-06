@@ -1,22 +1,18 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
-import '../styles/global.css';
-const lang = 'sk';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../i18n';
 ---
-<!doctype html>
-<html lang={lang}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="preload" href="/personal-web/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/personal-web/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
-    <title>Filip Lopatka — Web Developer</title>
-  </head>
-  <body class="bg-bg text-text">
-    <main class="max-w-content mx-auto px-6 py-16">
-      <h1 class="font-serif">Filip Lopatka</h1>
-      <p class="text-text-muted">Web developer / SK placeholder</p>
-      <a href={getRelativeLocaleUrl('en', '')} class="hover:text-accent-hover">English version →</a>
-    </main>
-  </body>
-</html>
+<BaseLayout lang="sk" canonicalPath="/" altLangUrl="/en/">
+  <section class="py-24">
+    <p class="font-mono text-xs uppercase tracking-widest text-text-muted mb-6">
+      Filip Lopatka — Web Developer
+    </p>
+    <h1 class="font-serif font-normal mb-6">
+      {t('hero.title', 'sk')}
+      <em class="text-text-muted">{t('hero.titleEm', 'sk')}</em>
+    </h1>
+    <p class="text-text-muted">
+      Zatiaľ placeholder. Plnú homepage vyrobíme v Pláne 2.
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import { t, type Lang } from '../i18n';
+import LangSwitch from './LangSwitch.astro';
+
+export interface Props {
+  lang: Lang;
+  altLangUrl?: string;
+}
+
+const { lang, altLangUrl } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const navLinks = [
+  { key: 'nav.about' as const, sk: '/o-mne/', en: '/en/about/' },
+  { key: 'nav.services' as const, sk: '/sluzby/', en: '/en/services/' },
+  { key: 'nav.projects' as const, sk: '/projekty/', en: '/en/projects/' },
+  { key: 'nav.blog' as const, sk: '/blog/', en: '/en/blog/' },
+  { key: 'nav.contact' as const, sk: '/kontakt/', en: '/en/contact/' },
+];
+
+const homeHref = lang === 'sk' ? '/' : '/en/';
+---
+<header class="border-b border-border">
+  <div class="max-w-content mx-auto px-6 py-5 flex items-center justify-between gap-6">
+    <a href={`${baseUrl}${homeHref}`} class="font-serif text-xl no-underline">
+      Filip Lopatka
+    </a>
+    <nav aria-label="Primary" class="flex items-center gap-6">
+      {navLinks.map((link) => (
+        <a
+          href={`${baseUrl}${lang === 'sk' ? link.sk : link.en}`}
+          class="text-xs uppercase tracking-wider hover:text-accent-hover no-underline"
+        >
+          {t(link.key, lang)}
+        </a>
+      ))}
+      <LangSwitch currentLang={lang} altLangUrl={altLangUrl} />
+    </nav>
+  </div>
+</header>

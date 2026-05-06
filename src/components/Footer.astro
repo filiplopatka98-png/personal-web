@@ -1,0 +1,19 @@
+---
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const year = new Date().getFullYear().toString();
+---
+<footer class="border-t border-border mt-24">
+  <div class="max-w-content mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-text-muted text-xs">
+    <p>{t('footer.copy', lang, { year })}</p>
+    <p>
+      {t('footer.builtWith', lang)}
+      <a href="https://astro.build" class="hover:text-accent-hover">Astro</a>
+    </p>
+  </div>
+</footer>
