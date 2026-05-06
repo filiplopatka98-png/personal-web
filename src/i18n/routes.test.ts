@@ -10,7 +10,7 @@ describe('staticRoutes', () => {
   });
 
   it('every entry has both sk and en path', () => {
-    for (const [key, paths] of Object.entries(staticRoutes)) {
+    for (const paths of Object.values(staticRoutes)) {
       expect(paths.sk).toMatch(/^\//);
       expect(paths.en).toMatch(/^\/en\//);
     }

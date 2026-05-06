@@ -67,7 +67,7 @@ const testimonials = (await getCollection('testimonials'))
   <!-- Testimonials preview -->
   {testimonials.length > 0 && (
     <section class="py-16 border-t border-border">
-      <SectionHeader number="03" eyebrow={t('home.testimonialsEyebrow', lang)} title={t('home.testimonialsTitle', lang)} />
+      <SectionHeader number="03" eyebrow={t('home.testimonialsEyebrow', lang)} />
       {testimonials.map((entry) => <Testimonial entry={entry} />)}
     </section>
   )}

@@ -4,8 +4,8 @@ export interface Props {
   number?: string;
   /** Eyebrow label above the title (uppercase mono). */
   eyebrow?: string;
-  /** The actual heading text. */
-  title: string;
+  /** Heading text. Optional — when omitted, no heading element is rendered (avoids empty `<h2>` Lighthouse failure). */
+  title?: string;
   /** Heading level — defaults to h2. */
   level?: 1 | 2 | 3;
 }
@@ -20,5 +20,5 @@ const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
       {eyebrow && <span>{eyebrow}</span>}
     </p>
   )}
-  <Tag class="font-serif font-normal">{title}</Tag>
+  {title && <Tag class="font-serif font-normal">{title}</Tag>}
 </header>
