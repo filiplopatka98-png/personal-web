@@ -64,6 +64,12 @@ export const serviceSchema = z.object({
   order: z.number().int().default(999),
   priceFrom: z.string().optional(),
   ctaLabel: z.string().min(1),
+  // NEW (redesign): richer detail for service modal
+  longTitle: z.string().optional(),
+  typicalTime: z.string().optional(),
+  included: z.array(z.string()).default([]),
+  notFor: z.string().optional(),
+  pdfLink: z.string().optional(),
 });
 
 /**

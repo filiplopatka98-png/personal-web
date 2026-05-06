@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  entry: CollectionEntry<'services'>;
+  modalId: string;
+  number: string;
+}
+const { entry, modalId, number } = Astro.props;
+const { data } = entry;
+---
+<button
+  type="button"
+  class="service-row group grid grid-cols-[60px_1fr_auto_30px] gap-6 py-6 border-t border-border w-full text-left items-baseline hover:bg-[rgba(244,208,63,0.08)] transition-colors duration-150 cursor-pointer last:border-b"
+  data-modal-target={modalId}
+  aria-haspopup="dialog"
+>
+  <span class="font-serif text-2xl text-text-muted">{number}</span>
+  <span>
+    <span class="font-serif text-2xl font-medium block">{data.title}</span>
+    {data.included.length > 0 && (
+      <span class="text-sm text-text-muted block mt-1 max-w-md leading-snug">
+        {data.included.slice(0, 1).join(', ')}…
+      </span>
+    )}
+  </span>
+  <span class="font-mono text-sm whitespace-nowrap">{data.priceFrom ?? ''}</span>
+  <span class="text-right transition-transform duration-150 group-hover:translate-x-1 group-hover:text-accent-hover">→</span>
+</button>

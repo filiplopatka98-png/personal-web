@@ -106,6 +106,25 @@ describe('services schema', () => {
       slugKey: 'a', lang: 'sk', title: 'X', ctaLabel: 'Y',
     })).toThrow();
   });
+
+  it('accepts new optional fields: typicalTime, included, notFor, pdfLink, longTitle', () => {
+    const valid = {
+      slugKey: 'wp', lang: 'sk', title: 'WordPress', icon: 'wp', ctaLabel: 'Idem',
+      typicalTime: '3-6 týždňov',
+      included: ['Custom theme', 'Block library'],
+      notFor: 'Lacné weby do týždňa',
+      pdfLink: '/files/process.pdf',
+      longTitle: 'WordPress weby s telom aj dušou',
+    };
+    expect(() => serviceSchema.parse(valid)).not.toThrow();
+  });
+
+  it('still accepts services without new fields (backwards compatible)', () => {
+    const valid = {
+      slugKey: 'wp', lang: 'sk', title: 'WordPress', icon: 'wp', ctaLabel: 'Idem',
+    };
+    expect(() => serviceSchema.parse(valid)).not.toThrow();
+  });
 });
 
 describe('testimonials schema', () => {

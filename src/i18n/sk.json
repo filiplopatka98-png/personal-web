@@ -95,6 +95,15 @@
   "stats.projects": "projektov",
   "stats.clients": "spokojných klientov",
 
+  "service.modal.label": "Služba",
+  "service.modal.from": "Od",
+  "service.modal.time": "Typický čas",
+  "service.modal.included": "Čo dostaneš",
+  "service.modal.notFor": "Pre koho to nie je",
+  "service.modal.cta": "Mám záujem",
+  "service.modal.close": "Zavrieť",
+  "service.modal.pdf": "Stiahni ukážku procesu (PDF)",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

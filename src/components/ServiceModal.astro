@@ -1,0 +1,107 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  entry: CollectionEntry<'services'>;
+  modalId: string;
+  number: string;
+  lang: Lang;
+}
+const { entry, modalId, number, lang } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const contactHref = lang === 'sk' ? `${baseUrl}/kontakt/` : `${baseUrl}/en/contact/`;
+---
+<dialog id={modalId} class="modal" aria-labelledby={`${modalId}-title`}>
+  <div class="modal-frame">
+    <button
+      type="button"
+      class="modal-close absolute top-4 right-4 w-7 h-7 border border-text rounded-full text-sm flex items-center justify-center hover:bg-text hover:text-bg transition-colors"
+      aria-label={t('service.modal.close', lang)}
+    >×</button>
+
+    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-4 font-mono text-[11px] uppercase tracking-widest text-text-muted">
+      <div>
+        {t('service.modal.label', lang)} №{number}
+        <strong class="block font-serif text-sm tracking-normal normal-case text-text font-normal mt-0.5">{data.title}</strong>
+      </div>
+      {data.priceFrom && (
+        <div>
+          {t('service.modal.from', lang)}
+          <strong class="block font-serif text-sm tracking-normal normal-case text-text font-normal mt-0.5">{data.priceFrom}</strong>
+        </div>
+      )}
+      {data.typicalTime && (
+        <div>
+          {t('service.modal.time', lang)}
+          <strong class="block font-serif text-sm tracking-normal normal-case text-text font-normal mt-0.5">{data.typicalTime}</strong>
+        </div>
+      )}
+    </div>
+
+    <h4 id={`${modalId}-title`} class="font-serif text-3xl font-normal mb-4 leading-tight">
+      {data.longTitle ?? data.title}
+    </h4>
+
+    <div class="prose-modal text-sm leading-relaxed text-text [&_p]:mb-4">
+      <Content />
+    </div>
+
+    {data.included.length > 0 && (
+      <>
+        <h5 class="font-mono text-[11px] uppercase tracking-widest text-text-muted mt-6 mb-3">
+          {t('service.modal.included', lang)}
+        </h5>
+        <ul class="text-sm leading-relaxed pl-5 list-disc mb-4">
+          {data.included.map((item) => <li class="my-1">{item}</li>)}
+        </ul>
+      </>
+    )}
+
+    {data.notFor && (
+      <>
+        <h5 class="font-mono text-[11px] uppercase tracking-widest text-text-muted mt-5 mb-2">
+          {t('service.modal.notFor', lang)}
+        </h5>
+        <p class="text-[13px] text-text-muted leading-relaxed">{data.notFor}</p>
+      </>
+    )}
+
+    <div class="flex flex-wrap items-center gap-3 mt-6 pt-5 border-t border-border">
+      <a
+        href={contactHref}
+        class="bg-text text-bg px-5 py-3 rounded font-medium text-sm no-underline hover:bg-accent-hover hover:text-accent-ink transition-colors"
+      >
+        {t('service.modal.cta', lang)} →
+      </a>
+      {data.pdfLink && (
+        <a href={data.pdfLink} class="text-sm underline link-underline">
+          {t('service.modal.pdf', lang)}
+        </a>
+      )}
+    </div>
+  </div>
+</dialog>
+
+<script define:vars={{ modalId }}>
+  const dialog = document.getElementById(modalId);
+  if (dialog) {
+    document.querySelectorAll(`[data-modal-target="${modalId}"]`).forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        dialog.showModal();
+      });
+    });
+    dialog.querySelector('.modal-close')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX && e.clientX <= rect.left + rect.width
+      );
+      if (!isInDialog) dialog.close();
+    });
+  }
+</script>

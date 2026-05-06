@@ -95,6 +95,15 @@
   "stats.projects": "projects",
   "stats.clients": "happy clients",
 
+  "service.modal.label": "Service",
+  "service.modal.from": "From",
+  "service.modal.time": "Typical time",
+  "service.modal.included": "What you get",
+  "service.modal.notFor": "Who this isn't for",
+  "service.modal.cta": "I'm interested",
+  "service.modal.close": "Close",
+  "service.modal.pdf": "Download process sample (PDF)",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }
