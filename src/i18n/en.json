@@ -91,6 +91,10 @@
   "contact.altMethods.linkedin": "LinkedIn",
   "contact.altMethods.github": "GitHub",
 
+  "stats.years": "years of experience",
+  "stats.projects": "projects",
+  "stats.clients": "happy clients",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

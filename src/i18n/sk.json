@@ -91,6 +91,10 @@
   "contact.altMethods.linkedin": "LinkedIn",
   "contact.altMethods.github": "GitHub",
 
+  "stats.years": "rokov praxe",
+  "stats.projects": "projektov",
+  "stats.clients": "spokojných klientov",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

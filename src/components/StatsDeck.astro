@@ -1,0 +1,39 @@
+---
+export interface Stat {
+  /** Numeric or string value (e.g. "5+", "40+"). */
+  value: string;
+  /** Label shown below value. */
+  label: string;
+  /** Optional numeric portion for counter animation (extracted from value). */
+  count?: number;
+}
+
+export interface Props {
+  stats: Stat[];
+  /** Whether to animate counters when scrolled into view. */
+  animate?: boolean;
+}
+
+const { stats, animate = true } = Astro.props;
+---
+<div class="grid grid-cols-3 border-t border-b" style="border-color: var(--color-divider-strong)">
+  {stats.map((stat, i) => (
+    <div
+      class:list={[
+        'px-10 py-7',
+        i < stats.length - 1 ? 'border-r border-border' : '',
+      ]}
+    >
+      <div
+        class:list={['font-serif text-4xl leading-none', animate ? 'counter' : '']}
+        data-count={animate && stat.count !== undefined ? String(stat.count) : undefined}
+        data-suffix={stat.value.replace(/[\d]/g, '')}
+      >
+        {stat.value}
+      </div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-text-muted mt-2">
+        {stat.label}
+      </div>
+    </div>
+  ))}
+</div>
