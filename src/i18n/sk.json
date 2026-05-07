@@ -1,11 +1,13 @@
 {
-  "nav.about": "O mne",
+  "nav.work": "Práca",
   "nav.services": "Služby",
-  "nav.projects": "Projekty",
   "nav.blog": "Blog",
-  "nav.contact": "Kontakt",
+  "nav.brief": "Brief",
+  "nav.menu": "Menu",
+  "nav.close": "Zavrieť",
   "nav.openMenu": "Otvoriť menu",
   "nav.closeMenu": "Zatvoriť menu",
+  "nav.home": "Domov",
 
   "common.skipToContent": "Prejsť na obsah",
   "common.availableForProjects": "Voľný pre nové projekty",

@@ -1,11 +1,13 @@
 {
-  "nav.about": "About",
+  "nav.work": "Work",
   "nav.services": "Services",
-  "nav.projects": "Projects",
-  "nav.blog": "Blog",
-  "nav.contact": "Contact",
+  "nav.blog": "Journal",
+  "nav.brief": "Brief",
+  "nav.menu": "Menu",
+  "nav.close": "Close",
   "nav.openMenu": "Open menu",
   "nav.closeMenu": "Close menu",
+  "nav.home": "Home",
 
   "common.skipToContent": "Skip to content",
   "common.availableForProjects": "Available for new projects",

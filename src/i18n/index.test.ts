@@ -5,11 +5,11 @@ import enDict from './en.json';
 
 describe('t() — i18n helper', () => {
   it('returns SK string for SK lang', () => {
-    expect(t('nav.about', 'sk')).toBe('O mne');
+    expect(t('nav.work', 'sk')).toBe('Práca');
   });
 
   it('returns EN string for EN lang', () => {
-    expect(t('nav.about', 'en')).toBe('About');
+    expect(t('nav.work', 'en')).toBe('Work');
   });
 
   it('returns key itself when key is missing (fail-loud)', () => {

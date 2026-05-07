@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { staticRoutes, getAltUrl, getStaticRoute } from './routes';
 
 describe('staticRoutes', () => {
-  it('exposes 5 top-level page keys', () => {
-    expect(Object.keys(staticRoutes)).toHaveLength(5);
+  it('exposes 4 top-level page keys', () => {
+    expect(Object.keys(staticRoutes)).toHaveLength(4);
     expect(Object.keys(staticRoutes).sort()).toEqual(
-      ['about', 'blog', 'contact', 'projects', 'services'].sort()
+      ['blog', 'brief', 'services', 'work'].sort()
     );
   });
 
@@ -19,11 +19,11 @@ describe('staticRoutes', () => {
 
 describe('getStaticRoute', () => {
   it('returns SK path for sk lang', () => {
-    expect(getStaticRoute('about', 'sk')).toBe('/o-mne/');
+    expect(getStaticRoute('work', 'sk')).toBe('/praca/');
   });
 
   it('returns EN path for en lang', () => {
-    expect(getStaticRoute('about', 'en')).toBe('/en/about/');
+    expect(getStaticRoute('work', 'en')).toBe('/en/work/');
   });
 });
 
@@ -37,13 +37,13 @@ describe('getAltUrl', () => {
   });
 
   it('maps SK static page to EN equivalent', () => {
-    expect(getAltUrl('/o-mne/', 'sk')).toBe('/en/about/');
-    expect(getAltUrl('/projekty/', 'sk')).toBe('/en/projects/');
+    expect(getAltUrl('/praca/', 'sk')).toBe('/en/work/');
+    expect(getAltUrl('/ponuka/', 'sk')).toBe('/en/brief/');
   });
 
   it('maps EN static page to SK equivalent', () => {
-    expect(getAltUrl('/en/about/', 'en')).toBe('/o-mne/');
-    expect(getAltUrl('/en/blog/', 'en')).toBe('/blog/');
+    expect(getAltUrl('/en/work/', 'en')).toBe('/praca/');
+    expect(getAltUrl('/en/brief/', 'en')).toBe('/ponuka/');
   });
 
   it('returns null for unknown path', () => {

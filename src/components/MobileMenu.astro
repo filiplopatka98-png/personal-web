@@ -11,12 +11,11 @@ export interface Props {
 const { lang, altLangUrl } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const navOrder: { key: StaticRouteKey; tKey: 'nav.about' | 'nav.services' | 'nav.projects' | 'nav.blog' | 'nav.contact' }[] = [
-  { key: 'about',    tKey: 'nav.about' },
+const navOrder: { key: StaticRouteKey; tKey: 'nav.work' | 'nav.services' | 'nav.blog' | 'nav.brief' }[] = [
+  { key: 'work',     tKey: 'nav.work' },
   { key: 'services', tKey: 'nav.services' },
-  { key: 'projects', tKey: 'nav.projects' },
   { key: 'blog',     tKey: 'nav.blog' },
-  { key: 'contact',  tKey: 'nav.contact' },
+  { key: 'brief',    tKey: 'nav.brief' },
 ];
 ---
 <details class="mobile-menu md:hidden">
