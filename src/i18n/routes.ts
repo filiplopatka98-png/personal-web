@@ -11,10 +11,12 @@ import type { Lang } from './index';
  * Contact is no longer a standalone page — it's the footer.
  */
 export const staticRoutes = {
-  work:     { sk: '/praca/',   en: '/en/work/'     },
-  services: { sk: '/sluzby/',  en: '/en/services/' },
-  blog:     { sk: '/blog/',    en: '/en/blog/'     },
-  brief:    { sk: '/ponuka/',  en: '/en/brief/'    },
+  work:     { sk: '/praca/',                    en: '/en/work/'     },
+  services: { sk: '/sluzby/',                   en: '/en/services/' },
+  blog:     { sk: '/blog/',                     en: '/en/blog/'     },
+  brief:    { sk: '/ponuka/',                   en: '/en/brief/'    },
+  privacy:  { sk: '/ochrana-osobnych-udajov/',  en: '/en/privacy/'  },
+  imprint:  { sk: '/impressum/',                en: '/en/imprint/'  },
 } as const;
 
 export type StaticRouteKey = keyof typeof staticRoutes;

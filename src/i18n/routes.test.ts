@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { staticRoutes, getAltUrl, getStaticRoute } from './routes';
 
 describe('staticRoutes', () => {
-  it('exposes 4 top-level page keys', () => {
-    expect(Object.keys(staticRoutes)).toHaveLength(4);
+  it('exposes 6 top-level page keys (4 main + 2 legal)', () => {
+    expect(Object.keys(staticRoutes)).toHaveLength(6);
     expect(Object.keys(staticRoutes).sort()).toEqual(
-      ['blog', 'brief', 'services', 'work'].sort()
+      ['blog', 'brief', 'imprint', 'privacy', 'services', 'work'].sort()
     );
   });
 

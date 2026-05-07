@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import { t } from '../../i18n';
+
+const lang = 'en';
+const lastUpdated = 'May 7, 2026';
+---
+<BaseLayout
+  lang={lang}
+  canonicalPath="/en/privacy/"
+  altLangUrl="/ochrana-osobnych-udajov/"
+  title="Privacy Policy — Filip Lopatka"
+  description="Privacy policy and cookie use for filiplopatka.sk."
+>
+  <PageHead
+    eyebrow={t('legal.privacy.nav', lang)}
+    titleHtml="Privacy <em>policy</em>."
+    lead={`${t('legal.lastUpdated', lang)}: ${lastUpdated}`}
+  />
+
+  <article class="legal">
+    <section>
+      <h2>1. Data controller</h2>
+      <p>
+        The controller of personal data processed via this website is
+        <strong>Filip Lopatka</strong>, a self-employed individual operating under a
+        Slovak business license (živnostenské oprávnenie).
+      </p>
+      <ul class="legal-meta">
+        <li><span>Address:</span> <em class="placeholder">{`{{REGISTERED ADDRESS, POSTCODE CITY}}`}</em></li>
+        <li><span>Business ID (IČO):</span> <em class="placeholder">{`{{IČO}}`}</em></li>
+        <li><span>Tax ID (DIČ):</span> <em class="placeholder">{`{{DIČ or "not VAT registered"}}`}</em></li>
+        <li><span>E-mail:</span> <a href="mailto:ahoj@filiplopatka.sk">ahoj@filiplopatka.sk</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. What data I collect</h2>
+      <p>I only process data you provide voluntarily through the contact or brief form:</p>
+      <ul>
+        <li><strong>Identification:</strong> first name, last name, optionally company name.</li>
+        <li><strong>Contact:</strong> e-mail address, optionally phone.</li>
+        <li><strong>Message content:</strong> project description you submit through the form.</li>
+        <li><strong>Server technical data:</strong> IP address, browser type, access time — kept short-term in hosting access logs for security purposes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Purpose and legal basis</h2>
+      <p>
+        I process your personal data solely to <strong>respond to your inquiry</strong>,
+        prepare a quote, and potentially conclude an agreement to deliver web services.
+      </p>
+      <p>Legal bases under GDPR (Art. 6(1)):</p>
+      <ul>
+        <li><strong>(b)</strong> — pre-contractual measures and contract performance,</li>
+        <li><strong>(f)</strong> — legitimate interest (web security via access logs).</li>
+      </ul>
+      <p>I do not run marketing, newsletters, or profiling. I never sell or transfer data outside the EU.</p>
+    </section>
+
+    <section>
+      <h2>4. Retention period</h2>
+      <ul>
+        <li><strong>Form submissions:</strong> 3 years from last communication (Slovak Civil Code statute of limitations).</li>
+        <li><strong>Accounting records (if a contract is concluded):</strong> 10 years (Act 431/2002 on Accounting).</li>
+        <li><strong>Server access logs:</strong> 30 days.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Recipients of data</h2>
+      <p>I do not share data with third parties except for the following processors providing technical services:</p>
+      <ul>
+        <li>
+          <strong>Web hosting:</strong>
+          <em class="placeholder">{`{{hosting provider — e.g. GitHub Pages, Microsoft, USA — or WebSupport, SK}}`}</em>
+        </li>
+        <li>
+          <strong>E-mail server:</strong>
+          <em class="placeholder">{`{{email provider — e.g. Google Workspace, Proton, self-hosted}}`}</em>
+        </li>
+        <li>
+          <strong>Contact form processor:</strong>
+          <em class="placeholder">{`{{Formspree / Web3Forms / other — or "n/a, e-mailed directly"}}`}</em>
+        </li>
+      </ul>
+      <p>I have GDPR-compliant Data Processing Agreements (DPA) with all of them.</p>
+    </section>
+
+    <section>
+      <h2>6. Your rights</h2>
+      <p>As a data subject, under GDPR (Art. 15–22) you have the right to:</p>
+      <ul>
+        <li><strong>access</strong> your data,</li>
+        <li><strong>rectification</strong> of inaccurate data,</li>
+        <li><strong>erasure</strong> ("right to be forgotten"),</li>
+        <li><strong>restrict processing</strong>,</li>
+        <li><strong>data portability</strong>,</li>
+        <li><strong>object</strong> to processing,</li>
+        <li><strong>file a complaint</strong> with the supervisory authority (Slovak Data Protection Office, <a href="https://dataprotection.gov.sk" target="_blank" rel="noopener noreferrer">dataprotection.gov.sk</a>).</li>
+      </ul>
+      <p>
+        To exercise any of these rights, e-mail me at
+        <a href="mailto:ahoj@filiplopatka.sk">ahoj@filiplopatka.sk</a>. I respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Cookies and tracking</h2>
+      <p>
+        This website <strong>does not use tracking cookies, analytics, or advertising systems</strong>.
+        Only technical <code>localStorage</code> values needed for the interface to work properly
+        (e.g. cursor preference, hero variant selection during development) are stored in your
+        browser. These never leave your browser and are not transmitted to any server.
+      </p>
+      <p>If I add an analytics tool in the future, I'll update this document and add a cookie consent banner if needed.</p>
+    </section>
+
+    <section>
+      <h2>8. Updates to this document</h2>
+      <p>
+        I may update this document if legislation or processing scope changes. The current
+        version is always published at this URL with the last-updated date at the top.
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 56px 120px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .legal section {
+    margin-bottom: 40px;
+  }
+  .legal h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .legal p {
+    margin: 0 0 14px;
+    opacity: 0.85;
+  }
+  .legal ul {
+    margin: 0 0 14px;
+    padding-left: 20px;
+  }
+  .legal li {
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .legal a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+  }
+  .legal-meta {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .legal-meta li {
+    display: flex;
+    gap: 12px;
+    padding: 6px 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .legal-meta li:first-child {
+    border-top: 0;
+  }
+  .legal-meta span {
+    opacity: 0.55;
+    min-width: 140px;
+  }
+  .placeholder {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    color: var(--accent3, var(--ink));
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  @media (max-width: 768px) {
+    .legal {
+      padding: 40px 20px 80px;
+      font-size: 16px;
+    }
+    .legal h2 {
+      font-size: 22px;
+    }
+  }
+</style>

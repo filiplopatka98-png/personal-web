@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import { t } from '../i18n';
+
+const lang = 'sk';
+const lastUpdated = '7. máj 2026';
+---
+<BaseLayout
+  lang={lang}
+  canonicalPath="/ochrana-osobnych-udajov/"
+  altLangUrl="/en/privacy/"
+  title="Ochrana osobných údajov — Filip Lopatka"
+  description="Zásady spracovania osobných údajov a používania cookies na webe filiplopatka.sk."
+>
+  <PageHead
+    eyebrow={t('legal.privacy.nav', lang)}
+    titleHtml="Ochrana <em>osobných údajov</em>."
+    lead={`${t('legal.lastUpdated', lang)}: ${lastUpdated}`}
+  />
+
+  <article class="legal">
+    <section>
+      <h2>1. Prevádzkovateľ</h2>
+      <p>
+        Prevádzkovateľom týchto webových stránok a spracovateľom osobných údajov je
+        <strong>Filip Lopatka</strong>, fyzická osoba podnikajúca na základe živnostenského oprávnenia.
+      </p>
+      <ul class="legal-meta">
+        <li><span>Sídlo:</span> <em class="placeholder">{`{{ADRESA SÍDLA, PSČ MESTO}}`}</em></li>
+        <li><span>IČO:</span> <em class="placeholder">{`{{IČO}}`}</em></li>
+        <li><span>DIČ:</span> <em class="placeholder">{`{{DIČ alebo "neplatca DPH"}}`}</em></li>
+        <li><span>E-mail:</span> <a href="mailto:ahoj@filiplopatka.sk">ahoj@filiplopatka.sk</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Aké údaje spracúvam</h2>
+      <p>Spracúvam iba údaje, ktoré mi sami poskytnete cez kontaktný alebo brief formulár:</p>
+      <ul>
+        <li><strong>Identifikačné údaje:</strong> meno, priezvisko, prípadne názov firmy.</li>
+        <li><strong>Kontaktné údaje:</strong> e-mailová adresa, prípadne telefónne číslo.</li>
+        <li><strong>Obsah správy:</strong> popis projektu, ktorý mi pošlete cez formulár.</li>
+        <li><strong>Technické údaje servera:</strong> IP adresa, typ prehliadača, čas prístupu — uchované krátkodobo v access logoch hostingu na účely bezpečnosti.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Účel a právny základ spracovania</h2>
+      <p>
+        Vaše osobné údaje spracúvam výlučne za účelom <strong>odpovede na vašu správu</strong>,
+        prípravy cenovej ponuky a prípadného uzavretia zmluvy o dodaní webovej služby.
+      </p>
+      <p>Právne základy podľa GDPR (čl. 6 ods. 1):</p>
+      <ul>
+        <li><strong>písm. b)</strong> — predzmluvné rokovania a plnenie zmluvy (príprava cenovej ponuky, dodanie projektu),</li>
+        <li><strong>písm. f)</strong> — oprávnený záujem (zabezpečenie webu cez access logy).</li>
+      </ul>
+      <p>
+        Marketing, newsletter ani profilovanie nerobím. Vaše údaje nikomu nepredávam ani
+        neprenášam mimo EÚ.
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Doba uchovania</h2>
+      <ul>
+        <li><strong>Údaje z formulára:</strong> 3 roky od poslednej komunikácie (premlčacia lehota podľa Občianskeho zákonníka).</li>
+        <li><strong>Účtovné doklady (ak vznikne zmluvný vzťah):</strong> 10 rokov (zákon č. 431/2002 Z. z. o účtovníctve).</li>
+        <li><strong>Server access logy:</strong> 30 dní.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Komu údaje sprístupňujem</h2>
+      <p>Údaje neposúvam tretím stranám, okrem nasledovných sprostredkovateľov, ktorí poskytujú technické služby:</p>
+      <ul>
+        <li>
+          <strong>Hosting webu:</strong>
+          <em class="placeholder">{`{{poskytovateľ hostingu — napr. GitHub Pages, Microsoft, USA — alebo WebSupport, SK}}`}</em>
+        </li>
+        <li>
+          <strong>E-mailový server:</strong>
+          <em class="placeholder">{`{{poskytovateľ email služby — napr. Google Workspace, Proton, vlastný}}`}</em>
+        </li>
+        <li>
+          <strong>Spracovanie kontaktného formulára:</strong>
+          <em class="placeholder">{`{{Formspree / Web3Forms / iný — alebo "neuplatňuje sa, e-mailujem priamo"}}`}</em>
+        </li>
+      </ul>
+      <p>So všetkými mám zmluvu o spracovaní údajov (DPA) v súlade s GDPR.</p>
+    </section>
+
+    <section>
+      <h2>6. Vaše práva</h2>
+      <p>Ako dotknutá osoba máte podľa GDPR (čl. 15–22) tieto práva:</p>
+      <ul>
+        <li>právo na <strong>prístup</strong> k vašim údajom,</li>
+        <li>právo na <strong>opravu</strong> nesprávnych údajov,</li>
+        <li>právo na <strong>vymazanie</strong> ("byť zabudnutý"),</li>
+        <li>právo na <strong>obmedzenie spracovania</strong>,</li>
+        <li>právo na <strong>prenosnosť</strong> údajov,</li>
+        <li>právo <strong>namietať</strong> proti spracovaniu,</li>
+        <li>právo podať <strong>sťažnosť</strong> dozornému orgánu (Úrad na ochranu osobných údajov SR, <a href="https://dataprotection.gov.sk" target="_blank" rel="noopener noreferrer">dataprotection.gov.sk</a>).</li>
+      </ul>
+      <p>
+        Ak chcete uplatniť ktorékoľvek z týchto práv, napíšte mi na
+        <a href="mailto:ahoj@filiplopatka.sk">ahoj@filiplopatka.sk</a>. Odpoviem do 30 dní.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Cookies a sledovanie</h2>
+      <p>
+        Tento web <strong>nepoužíva tracking cookies, analytické nástroje ani reklamné systémy</strong>.
+        V prehliadači sa ukladajú iba technické <code>localStorage</code> hodnoty potrebné pre
+        správne fungovanie rozhrania (napr. preferencia kurzora, vybraný dizajn variantu hero
+        sekcie počas vývoja). Tieto údaje neopúšťajú váš prehliadač a nie sú odosielané na server.
+      </p>
+      <p>
+        Ak v budúcnosti pridám analytický nástroj, aktualizujem tento dokument a v prípade potreby
+        pridám cookie consent banner.
+      </p>
+    </section>
+
+    <section>
+      <h2>8. Aktualizácie tohto dokumentu</h2>
+      <p>
+        Tento dokument môžem upraviť pri zmene legislatívy alebo rozsahu spracovania. Aktuálna
+        verzia je vždy publikovaná na tejto URL s dátumom poslednej aktualizácie hore.
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 56px 120px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .legal section {
+    margin-bottom: 40px;
+  }
+  .legal h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .legal p {
+    margin: 0 0 14px;
+    opacity: 0.85;
+  }
+  .legal ul {
+    margin: 0 0 14px;
+    padding-left: 20px;
+  }
+  .legal li {
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .legal a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+  }
+  .legal-meta {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .legal-meta li {
+    display: flex;
+    gap: 12px;
+    padding: 6px 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .legal-meta li:first-child {
+    border-top: 0;
+  }
+  .legal-meta span {
+    opacity: 0.55;
+    min-width: 96px;
+  }
+  .placeholder {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    color: var(--accent3, var(--ink));
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  @media (max-width: 768px) {
+    .legal {
+      padding: 40px 20px 80px;
+      font-size: 16px;
+    }
+    .legal h2 {
+      font-size: 22px;
+    }
+  }
+</style>

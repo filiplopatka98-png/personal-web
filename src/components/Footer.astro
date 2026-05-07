@@ -9,6 +9,8 @@ export interface Props {
 const { lang } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
+const privacyHref = `${baseUrl}${getStaticRoute('privacy', lang)}`;
+const imprintHref = `${baseUrl}${getStaticRoute('imprint', lang)}`;
 
 // Title with line break — handoff style: split on first space
 const titleStr = t('footer.title', lang);
@@ -74,6 +76,11 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
 
   <div class="footer-bottom">
     <div>{t('footer.copy', lang)}</div>
+    <nav class="footer-legal" aria-label={lang === 'sk' ? 'Právne informácie' : 'Legal'}>
+      <a data-cursor="hover" href={privacyHref}>{t('legal.privacy.nav', lang)}</a>
+      <span aria-hidden="true">·</span>
+      <a data-cursor="hover" href={imprintHref}>{t('legal.imprint.nav', lang)}</a>
+    </nav>
     <div>{t('footer.made', lang)}</div>
   </div>
 </footer>
@@ -227,6 +234,24 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     position: relative;
     flex-wrap: wrap;
     gap: 12px;
+  }
+  .footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-legal a {
+    color: var(--bg);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .footer-legal a:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .footer-legal span {
+    opacity: 0.5;
   }
 
   @media (max-width: 768px) {

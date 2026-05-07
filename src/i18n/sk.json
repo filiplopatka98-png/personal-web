@@ -209,5 +209,9 @@
   "notFound.seeWork": "Pozrieť práce",
 
   "errors.pageNotFound": "Stránka neexistuje",
-  "errors.backHome": "Späť na úvod"
+  "errors.backHome": "Späť na úvod",
+
+  "legal.privacy.nav": "Ochrana údajov",
+  "legal.imprint.nav": "Impressum",
+  "legal.lastUpdated": "Naposledy aktualizované"
 }

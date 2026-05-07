@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#F4ECE0"/>
+
+  <!-- Soft warm blob (terracotta) -->
+  <defs>
+    <filter id="blur1" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="55"/>
+    </filter>
+    <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="45"/>
+    </filter>
+  </defs>
+  <ellipse cx="990" cy="180" rx="240" ry="240" fill="#D2693A" opacity="0.55" filter="url(#blur1)"/>
+  <ellipse cx="860" cy="380" rx="170" ry="170" fill="#E8A33D" opacity="0.45" filter="url(#blur2)"/>
+
+  <!-- Eyebrow (mono) -->
+  <text x="80" y="120" font-family="Geist Mono, ui-monospace, monospace" font-size="20" fill="#1F1813" fill-opacity="0.6" letter-spacing="2.5">01 — FILIP LOPATKA</text>
+
+  <!-- Big serif title -->
+  <text x="80" y="270" font-family="Instrument Serif, Georgia, serif" font-size="108" fill="#1F1813" font-weight="400" letter-spacing="-2">Rýchle weby</text>
+  <text x="80" y="390" font-family="Instrument Serif, Georgia, serif" font-size="108" fill="#1F1813" font-weight="400" letter-spacing="-2">a <tspan font-style="italic" fill="#D2693A">eshopy</tspan>.</text>
+
+  <!-- Squiggle under "eshopy" -->
+  <path d="M 217 408 Q 245 393 273 408 T 329 408 T 385 408 T 441 408" stroke="#D2693A" stroke-width="4" fill="none"/>
+
+  <!-- Footer line (mono) -->
+  <text x="80" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1">Web developer · WordPress · Next.js · Bratislava</text>
+
+  <!-- Right-aligned URL -->
+  <text x="1120" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1" text-anchor="end">filiplopatka.sk</text>
+</svg>

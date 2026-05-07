@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import { t } from '../../i18n';
+
+const lang = 'en';
+const lastUpdated = 'May 7, 2026';
+---
+<BaseLayout
+  lang={lang}
+  canonicalPath="/en/imprint/"
+  altLangUrl="/impressum/"
+  title="Imprint — Filip Lopatka"
+  description="Legal disclosure and identification details for the operator of filiplopatka.sk."
+>
+  <PageHead
+    eyebrow={t('legal.imprint.nav', lang)}
+    titleHtml="<em>Imprint</em>."
+    lead="Mandatory operator disclosure under § 4 of Slovak Act 22/2004 on Electronic Commerce."
+  />
+
+  <article class="legal">
+    <section>
+      <h2>Operator</h2>
+      <ul class="legal-meta">
+        <li><span>Name:</span> Filip Lopatka</li>
+        <li><span>Address:</span> <em class="placeholder">{`{{REGISTERED ADDRESS, POSTCODE CITY}}`}</em></li>
+        <li><span>Business ID (IČO):</span> <em class="placeholder">{`{{IČO}}`}</em></li>
+        <li><span>Tax ID (DIČ):</span> <em class="placeholder">{`{{DIČ or "not VAT registered"}}`}</em></li>
+        <li><span>VAT ID:</span> <em class="placeholder">{`{{IČ DPH if VAT registered, otherwise omit}}`}</em></li>
+        <li><span>Registration:</span> <em class="placeholder">{`{{District Office CITY, business register no. XX-YYYYY}}`}</em></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <ul class="legal-meta">
+        <li><span>E-mail:</span> <a href="mailto:ahoj@filiplopatka.sk">ahoj@filiplopatka.sk</a></li>
+        <li><span>Phone:</span> <em class="placeholder">{`{{PHONE — optional, only if you wish to publish}}`}</em></li>
+        <li><span>Web:</span> <a href="https://filiplopatka.sk">filiplopatka.sk</a></li>
+        <li><span>LinkedIn:</span> <a href="https://linkedin.com/in/filiplopatka" target="_blank" rel="noopener noreferrer">linkedin.com/in/filiplopatka</a></li>
+        <li><span>GitHub:</span> <a href="https://github.com/filiplopatka" target="_blank" rel="noopener noreferrer">github.com/filiplopatka</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Bank details</h2>
+      <p class="legal-optional">Optional — publish only if you want to (useful for B2B invoicing):</p>
+      <ul class="legal-meta">
+        <li><span>IBAN:</span> <em class="placeholder">{`{{IBAN — optional}}`}</em></li>
+        <li><span>BIC/SWIFT:</span> <em class="placeholder">{`{{BIC/SWIFT — optional}}`}</em></li>
+        <li><span>Bank:</span> <em class="placeholder">{`{{Bank name — optional}}`}</em></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Supervisory authority</h2>
+      <p>
+        Slovak Trade Inspection (SOI), Inspectorate of SOI for <em class="placeholder">{`{{REGION — e.g. Bratislava region}}`}</em>,
+        <em class="placeholder">{`{{Inspectorate address}}`}</em>.
+        Web: <a href="https://www.soi.sk" target="_blank" rel="noopener noreferrer">soi.sk</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Out-of-court dispute resolution</h2>
+      <p>
+        Consumers have the right to seek out-of-court resolution via the
+        <strong>Slovak Trade Inspection</strong>
+        (<a href="https://www.soi.sk" target="_blank" rel="noopener noreferrer">soi.sk</a>),
+        or use the European Commission's online dispute resolution platform
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">ec.europa.eu/consumers/odr</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Data protection</h2>
+      <p>
+        Personal data processing and cookie use are described in the
+        <a href="/personal-web/en/privacy/">Privacy Policy</a>.
+      </p>
+    </section>
+
+    <p class="legal-footer">{t('legal.lastUpdated', lang)}: {lastUpdated}</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 56px 120px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .legal section {
+    margin-bottom: 40px;
+  }
+  .legal h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .legal p {
+    margin: 0 0 14px;
+    opacity: 0.85;
+  }
+  .legal a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+  }
+  .legal-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .legal-meta li {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .legal-meta li:first-child {
+    border-top: 0;
+  }
+  .legal-meta span {
+    opacity: 0.55;
+    min-width: 150px;
+  }
+  .legal-optional {
+    font-size: 13px;
+    opacity: 0.6;
+    font-family: var(--font-mono);
+    margin: 0 0 8px;
+  }
+  .legal-footer {
+    margin-top: 60px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.5;
+    text-align: center;
+  }
+  .placeholder {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    color: var(--accent3, var(--ink));
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  @media (max-width: 768px) {
+    .legal {
+      padding: 40px 20px 80px;
+      font-size: 16px;
+    }
+    .legal h2 {
+      font-size: 22px;
+    }
+    .legal-meta li {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+</style>

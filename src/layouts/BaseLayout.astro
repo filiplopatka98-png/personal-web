@@ -14,9 +14,14 @@ export interface Props {
   altLangUrl?: string;
   /** Path of the current page for canonical (must start and end with `/`). */
   canonicalPath: string;
+  /**
+   * Path to OG image relative to baseUrl (e.g. "/og-default.png" or
+   * "/og/projekt-tatra.png"). Defaults to /og-default.png.
+   */
+  ogImage?: string;
 }
 
-const { lang, title, description, altLangUrl, canonicalPath } = Astro.props;
+const { lang, title, description, altLangUrl, canonicalPath, ogImage } = Astro.props;
 
 const fullTitle = title ?? t('site.title', lang);
 const fullDesc = description ?? t('site.description', lang);
@@ -26,6 +31,7 @@ const canonicalUrl = `${siteUrl}${baseUrl}${canonicalPath}`;
 const altUrl = altLangUrl ? `${siteUrl}${baseUrl}${altLangUrl}` : null;
 const skUrl = lang === 'sk' ? canonicalUrl : altUrl;
 const enUrl = lang === 'en' ? canonicalUrl : altUrl;
+const ogImageUrl = `${siteUrl}${baseUrl}${ogImage ?? '/og-default.png'}`;
 
 // JSON-LD: Person schema (always inline)
 const personLd = {
@@ -92,10 +98,15 @@ const breadcrumbLd = buildBreadcrumbs();
     <meta property="og:locale" content={lang === 'sk' ? 'sk_SK' : 'en_US'} />
     <meta property="og:locale:alternate" content={lang === 'sk' ? 'en_US' : 'sk_SK'} />
     <meta property="og:site_name" content="Filip Lopatka" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={fullTitle} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={fullDesc} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="preload" href={`${baseUrl}/fonts/instrument-serif.woff2`} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={`${baseUrl}/fonts/geist-regular.woff2`} as="font" type="font/woff2" crossorigin />

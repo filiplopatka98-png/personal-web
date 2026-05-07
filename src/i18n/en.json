@@ -209,5 +209,9 @@
   "notFound.seeWork": "See work",
 
   "errors.pageNotFound": "Page not found",
-  "errors.backHome": "Back to home"
+  "errors.backHome": "Back to home",
+
+  "legal.privacy.nav": "Privacy",
+  "legal.imprint.nav": "Imprint",
+  "legal.lastUpdated": "Last updated"
 }
