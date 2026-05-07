@@ -1,45 +1,98 @@
 /*
- * Design tokens — Personal Web
- * Spec: docs/superpowers/specs/2026-05-06-personal-web-design.md sekcia 8
+ * Design tokens — Claude Design redesign.
+ * 4 palettes selectable via [data-theme] on the html element.
+ * Default theme is 'warm' (set by BaseLayout).
  */
 
+:root[data-theme='warm'] {
+  --bg: #F4ECE0;
+  --bg2: #EADFCD;
+  --ink: #1F1813;
+  --accent: #D2693A;
+  --accent2: #E8A33D;
+  --accent3: #7B4B2A;
+}
+
+:root[data-theme='clay'] {
+  --bg: #EFE6DA;
+  --bg2: #E2D4BF;
+  --ink: #2A1B12;
+  --accent: #B8462C;
+  --accent2: #D88A3A;
+  --accent3: #3F6B57;
+}
+
+:root[data-theme='cream'] {
+  --bg: #F7F2E8;
+  --bg2: #EFE5D2;
+  --ink: #1A1A1A;
+  --accent: #FF6B35;
+  --accent2: #FFC857;
+  --accent3: #274060;
+}
+
+:root[data-theme='forest'] {
+  --bg: #EFEAD8;
+  --bg2: #E1DBC4;
+  --ink: #1F2A1A;
+  --accent: #D9572C;
+  --accent2: #C9A227;
+  --accent3: #3D5C3A;
+}
+
 :root {
-  /* Colors */
-  --color-bg: #FAFAF7;
-  --color-surface: #FFFFFF;
-  --color-text: #1A1A1A;
-  --color-text-muted: #6B6B6B;
-  --color-border: #E8E5DE;
-  --color-accent: #F4D03F;
-  --color-accent-ink: #1A1A1A;
-  --color-accent-hover: #E8C12E;
+  /* Typography */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Typography — font families */
-  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  /* Type scale */
+  --text-hero: clamp(56px, 12vw + 8px, 120px);
+  --text-h1: clamp(56px, 10vw + 8px, 108px);
+  --text-h2-big: clamp(40px, 6vw + 8px, 64px);
+  --text-h2: clamp(32px, 4vw + 8px, 48px);
+  --text-h3: 36px;
+  --text-article-h2: 36px;
+  --text-article-h3: 24px;
+  --text-article-body: 18px;
+  --text-body: 17px;
+  --text-mono: 13px;
+  --text-mono-sm: 11px;
 
-  /* Type scale (mobile-first) */
-  --text-h1: clamp(2.25rem, 4vw + 1rem, 3rem);
-  --text-h1-line: 1.1;
-  --text-h2: clamp(1.75rem, 3vw + 0.5rem, 2rem);
-  --text-h2-line: 1.25;
-  --text-h3: 1.375rem;
-  --text-h3-line: 1.36;
-  --text-body: 1.0625rem;
-  --text-body-line: 1.65;
-  --text-small: 0.8125rem;
-  --text-small-line: 1.4;
+  /* Layout / spacing */
+  --section-pad-y: 80px;
+  --section-pad-x: 56px;
+  --section-pad-y-tight: 32px;
+  --section-pad-y-loose: 96px;
 
-  /* Spacing scale */
-  --space-section-y: clamp(3rem, 6vw, 6rem);
-  --content-max: 75rem;
-  --content-prose: 45rem;
+  /* Radii */
+  --radius-card: 14px;
+  --radius-large: 18px;
+  --radius-pill: 999px;
+
+  /* Borders */
+  --border-soft: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  --border-softer: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
 
   /* Motion */
-  --transition-fast: 150ms ease-out;
-  --transition-base: 250ms ease-out;
+  --motion-reveal-distance: 28px;
+  --motion-reveal-duration: 900ms;
+  --motion-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-page-duration: 250ms;
+  --motion-page-distance: 12px;
+  --motion-blob-duration: 14s;
+  --motion-marquee-duration: 30s;
+  --motion-pulse-duration: 1.5s;
+  --motion-float-duration: 5s;
+  --motion-rotate-duration: 22s;
+  --motion-cursor-lerp: 0.18;
 
-  /* Focus */
-  --focus-ring: 0 0 0 2px var(--color-accent);
+  /* Italic display words need padding */
+  --italic-pad-l: 0.08em;
+  --italic-pad-r: 0.06em;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
 }

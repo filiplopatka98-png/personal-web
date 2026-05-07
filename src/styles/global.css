@@ -5,64 +5,44 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    background: var(--color-bg);
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    font-size: var(--text-body);
-    line-height: var(--text-body-line);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
+  html, body { margin: 0; padding: 0; }
   body {
-    margin: 0;
-    min-height: 100vh;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
   }
+  * { box-sizing: border-box; }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
+    margin: 0;
   }
 
-  h1 { font-size: var(--text-h1); line-height: var(--text-h1-line); }
-  h2 { font-size: var(--text-h2); line-height: var(--text-h2-line); }
-  h3 { font-size: var(--text-h3); line-height: var(--text-h3-line); font-weight: 500; }
-
-  a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
-  }
-
-  a:hover {
-    text-decoration-color: var(--color-accent);
-    text-decoration-thickness: 3px;
+  h1 em, h2 em, h3 em, .display em {
+    font-style: italic;
+    padding-left: var(--italic-pad-l);
+    padding-right: var(--italic-pad-r);
   }
 
   *:focus-visible {
-    outline: none;
-    box-shadow: var(--focus-ring);
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
     border-radius: 2px;
   }
 
-  ::selection {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+  @media (pointer: coarse) {
+    html.has-cursor, html.has-cursor * { cursor: auto !important; }
   }
 }
 
-/*
- * Skip link — outside @layer base so Tailwind's content-purge doesn't drop it
- * (the .skip-link class is referenced in BaseLayout — coming in Task 7 — but
- * static CSS rules outside @layer survive purging).
- *
- * Modern visually-hidden pattern (clip-path) is more reliable than off-screen
- * positioning for screen readers (esp. iOS VoiceOver rotor navigation).
- */
 .skip-link {
   position: absolute;
   top: 0;
@@ -71,12 +51,13 @@
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--accent);
+  color: var(--ink);
   padding: 0.5rem 1rem;
   z-index: 100;
   text-decoration: none;
   font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .skip-link:focus-visible {
@@ -85,4 +66,84 @@
   clip-path: none;
   top: 1rem;
   left: 1rem;
+  outline: none;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.08); }
+}
+
+@keyframes pulse-cd {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes scrollM {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes rotate-cd {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: blobFloat var(--motion-blob-duration) ease-in-out infinite;
+}
+
+.pulse-dot { animation: pulse-cd var(--motion-pulse-duration) ease-in-out infinite; }
+.float-y { animation: floatY var(--motion-float-duration) ease-in-out infinite; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--motion-reveal-distance));
+  transition:
+    opacity var(--motion-reveal-duration) var(--motion-reveal-ease),
+    transform var(--motion-reveal-duration) var(--motion-reveal-ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.proj {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+.proj:hover { transform: translateY(-4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .blob, .pulse-dot, .float-y { animation: none; }
+}
+
+::view-transition-old(root) {
+  animation: vt-out var(--motion-page-duration) ease forwards;
+}
+::view-transition-new(root) {
+  animation: vt-in var(--motion-page-duration) ease forwards;
+}
+@keyframes vt-out {
+  to { opacity: 0; transform: translateY(calc(-1 * var(--motion-page-distance))); }
+}
+@keyframes vt-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
