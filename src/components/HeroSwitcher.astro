@@ -1,14 +1,13 @@
 ---
 /**
- * Hero variant switcher (TEMPORARY — remove before final launch).
+ * Hero variant switcher — production feature (NOT temporary).
  *
- * Renders a small floating panel with 4 chips so the user can preview each hero
- * variant on the home page. Selection persists in localStorage('heroVariant').
+ * Renders a small floating panel with 2 chips so Filip can switch the home-page
+ * hero variant depending on context: "Default" (generic intro) vs "Live preview"
+ * (concrete recent project showcase). Selection persists in localStorage so the
+ * choice survives reloads.
  *
- * To remove: delete this component, remove its <HeroSwitcher /> usage from
- * src/pages/index.astro and src/pages/en/index.astro, and pick ONE of the four
- * <div class="hero-variant" data-hero-variant="X"> wrappers in those files
- * (delete the other three).
+ * The dismiss × collapses to a small reopen pill (the choice still applies).
  */
 import { type Lang } from '../i18n';
 
@@ -21,15 +20,11 @@ const variants: Array<{ id: string; label: string }> =
   lang === 'sk'
     ? [
         { id: 'default', label: 'Default' },
-        { id: 'portrait', label: 'Portrét' },
         { id: 'mini', label: 'Live preview' },
-        { id: 'now', label: 'Now playing' },
       ]
     : [
         { id: 'default', label: 'Default' },
-        { id: 'portrait', label: 'Portrait' },
         { id: 'mini', label: 'Live preview' },
-        { id: 'now', label: 'Now playing' },
       ];
 ---
 <aside class="hero-switcher" aria-label={lang === 'sk' ? 'Prepínač hero variantov' : 'Hero variant switcher'}>
@@ -239,10 +234,10 @@ const variants: Array<{ id: string; label: string }> =
    * is also hidden in localStorage['heroSwitcherHidden'] === '1' if the user
    * dismissed it (one-shot, until they reset localStorage).
    */
-  type Variant = 'default' | 'portrait' | 'mini' | 'now';
+  type Variant = 'default' | 'mini';
   const STORAGE_KEY = 'heroVariant';
   const HIDDEN_KEY = 'heroSwitcherHidden';
-  const VALID: Variant[] = ['default', 'portrait', 'mini', 'now'];
+  const VALID: Variant[] = ['default', 'mini'];
 
   function readVariant(): Variant {
     try {
