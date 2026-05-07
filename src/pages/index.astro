@@ -4,6 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Reveal from '../components/Reveal.astro';
 import Marquee from '../components/Marquee.astro';
 import HeroDefault from '../components/HeroDefault.astro';
+import HeroPortrait from '../components/HeroPortrait.astro';
+import HeroMini from '../components/HeroMini.astro';
+import HeroNow from '../components/HeroNow.astro';
+import HeroSwitcher from '../components/HeroSwitcher.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import ExperienceList from '../components/ExperienceList.astro';
@@ -32,7 +36,11 @@ const articles = (await getCollection('articles'))
       <div class="mono small right">{t('home.locationCity', lang)}<br/>{t('home.locationTz', lang)}</div>
     </Reveal>
 
-    <HeroDefault lang={lang} />
+    {/* TEMP: 4 hero variants rendered side-by-side, switcher (HeroSwitcher) toggles which is visible. Remove HeroSwitcher and 3 unused wrappers before final launch. */}
+    <div data-hero-variant="default" class="hero-variant"><HeroDefault lang={lang} /></div>
+    <div data-hero-variant="portrait" class="hero-variant" style="display:none"><HeroPortrait lang={lang} /></div>
+    <div data-hero-variant="mini" class="hero-variant" style="display:none"><HeroMini lang={lang} /></div>
+    <div data-hero-variant="now" class="hero-variant" style="display:none"><HeroNow lang={lang} /></div>
 
     <Reveal delay={0.2} class="home-hero-bottom">
       <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
@@ -97,6 +105,8 @@ const articles = (await getCollection('articles'))
       ))}
     </div>
   </section>
+
+  <HeroSwitcher lang={lang} />
 
 </BaseLayout>
 
