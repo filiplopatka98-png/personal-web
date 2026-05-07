@@ -228,7 +228,12 @@ const projectLd = {
     font-family: var(--font-mono);
     text-decoration: none;
   }
-  .proj-header-grid {
+  /*
+   * .proj-header-grid and .proj-body-grid are on <Reveal> wrappers; Astro
+   * doesn't propagate the page's scope marker to elements rendered by child
+   * components, so layout rules must be :global() to match the rendered <div>.
+   */
+  :global(.proj-header-grid) {
     margin-top: 32px;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -316,7 +321,7 @@ const projectLd = {
     position: relative;
     overflow: hidden;
   }
-  .proj-body-grid {
+  :global(.proj-body-grid) {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 64px;
@@ -504,7 +509,8 @@ const projectLd = {
       padding-left: 20px;
       padding-right: 20px;
     }
-    .proj-header-grid, .proj-body-grid {
+    :global(.proj-header-grid),
+    :global(.proj-body-grid) {
       grid-template-columns: 1fr;
       gap: 32px;
     }

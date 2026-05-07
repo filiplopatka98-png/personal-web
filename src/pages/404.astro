@@ -37,7 +37,12 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     position: relative;
     overflow: hidden;
   }
-  .not-found-content {
+  /*
+   * .not-found-content is on a <Reveal> wrapper; Astro doesn't propagate the
+   * page's scope marker to elements rendered by child components, so this
+   * rule must be :global() to match the rendered <div>.
+   */
+  :global(.not-found-content) {
     position: relative;
     z-index: 2;
   }

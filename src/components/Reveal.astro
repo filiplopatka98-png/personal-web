@@ -6,12 +6,14 @@ export interface Props {
   as?: string;
   /** Extra classes to merge. */
   class?: string;
+  /** Any other HTML attributes (data-*, aria-*, id, etc.) are forwarded to the rendered tag. */
+  [key: string]: unknown;
 }
 
-const { delay = 0, as: Tag = 'div', class: className = '' } = Astro.props;
+const { delay = 0, as: Tag = 'div', class: className = '', ...rest } = Astro.props;
 const delayStyle = delay > 0 ? `transition-delay:${delay}s;` : '';
 ---
-<Tag class:list={['reveal', className]} style={delayStyle} data-reveal>
+<Tag {...rest} class:list={['reveal', className]} style={delayStyle} data-reveal>
   <slot />
 </Tag>
 
