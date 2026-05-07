@@ -25,7 +25,7 @@ const {
 
 const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
 ---
-<div class:list={['relative w-full overflow-hidden', className]} style={styleStr}>
+<div class:list={['relative w-full overflow-hidden', className]} style={styleStr} aria-hidden="true">
   <div class="absolute top-3.5 left-4 font-mono text-[11px] opacity-70" style="color: var(--ink);">▢ {label}</div>
   {caption && (
     <div class="absolute bottom-3.5 left-4 font-mono text-[10px] opacity-60" style="color: var(--ink);">{caption}</div>
