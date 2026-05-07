@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  entry: CollectionEntry<'services'>;
+  lang: Lang;
+}
+const { entry, lang } = Astro.props;
+const { data } = entry;
+---
+<article class:list={['service-card', data.featured && 'is-featured']}>
+  {data.featured && (
+    <div class="service-popular mono">{t('services.popular', lang)}</div>
+  )}
+  <div class="service-name display">{data.name}</div>
+  <div class="service-price-row mono">
+    <span class="service-price">{data.price}</span>
+    <span class="service-dot">·</span>
+    <span class="service-duration">{data.duration}</span>
+  </div>
+  <p class="service-tagline display">{data.tagline}</p>
+  <p class="service-desc">{data.desc}</p>
+
+  <div class="service-section">
+    <div class="service-section-label mono">{t('services.includes', lang)}</div>
+    <ul class="service-includes">
+      {data.includes.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+
+  {data.notFor && (
+    <div class="service-section">
+      <div class="service-section-label mono">{t('services.notFor', lang)}</div>
+      <p class="service-notfor">{data.notFor}</p>
+    </div>
+  )}
+</article>
+
+<style>
+  .service-card {
+    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-radius: var(--radius-large);
+    padding: 32px;
+    background: var(--bg);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .service-card.is-featured {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+  }
+
+  .service-popular {
+    position: absolute;
+    top: -12px;
+    left: 32px;
+    background: var(--accent);
+    color: var(--ink);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .service-name {
+    font-size: 32px;
+    line-height: 1.05;
+    font-family: var(--font-display);
+    margin: 0;
+  }
+
+  .service-price-row {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .service-price {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .service-dot { opacity: 0.4; }
+  .service-duration { opacity: 0.7; }
+
+  .service-tagline {
+    font-size: 22px;
+    line-height: 1.3;
+    font-family: var(--font-display);
+    font-style: italic;
+    margin: 8px 0 0;
+    opacity: 0.9;
+  }
+
+  .service-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  .service-section {
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+
+  .service-section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  .service-includes {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .service-includes li {
+    margin: 4px 0;
+  }
+
+  .service-notfor {
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+    opacity: 0.7;
+    font-style: italic;
+  }
+</style>

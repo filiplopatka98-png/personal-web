@@ -1,17 +1,178 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import Reveal from '../components/Reveal.astro';
+import Blob from '../components/Blob.astro';
 import { t } from '../i18n';
+import { getStaticRoute } from '../i18n/routes';
+import { processSteps } from '../data/process';
 
 const lang = 'sk';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const services = (await getCollection('services'))
+  .filter((s) => s.slug.startsWith('sk/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;
+const steps = processSteps[lang];
 ---
 <BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title={`${t('nav.services', lang)} — Filip Lopatka`}>
-  <section style="padding: 96px 56px; max-width: 880px; margin: 0 auto;">
-    <p style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 24px;">02 — {t('nav.services', lang)}</p>
-    <h1 style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; margin: 0;">
-      Služby — <em>v príprave</em>.
-    </h1>
-    <p style="margin-top: 32px; font-size: 18px; opacity: 0.7; max-width: 600px;">
-      Plný obsah pripravujem. Zatiaľ ma môžeš osloviť cez brief alebo formulár v päte.
-    </p>
+  <PageHead
+    eyebrow={t('services.eyebrow', lang)}
+    titleHtml={titleHtml}
+    lead={t('services.lead', lang)}
+    blobColor="var(--accent2)"
+  />
+
+  <section class="services-section">
+    <div class="services-grid">
+      {services.map((s, i) => (
+        <Reveal delay={(i % 2) * 0.1}>
+          <ServiceCard entry={s} lang={lang} />
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="process-section">
+    <Blob color="var(--accent3)" size={280} position="bottom: 40px; right: 80px; opacity: 0.3;" />
+    <Reveal>
+      <div class="process-eyebrow mono">{t('services.processEyebrow', lang)}</div>
+      <h2 class="process-title display">{t('services.processTitle', lang)}</h2>
+    </Reveal>
+    <div class="process-grid">
+      {steps.map((step, i) => (
+        <Reveal delay={i * 0.05}>
+          <div class="process-step">
+            <div class="step-num display">{step.num}</div>
+            <div class="step-title">{step.title}</div>
+            <p class="step-desc">{step.desc}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="services-cta">
+    <Reveal>
+      <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} class="services-cta-link" data-cursor="hover">
+        <span class="cta-arrow">→</span>
+        <span class="cta-text">{t('services.cta', lang)}</span>
+      </a>
+    </Reveal>
   </section>
 </BaseLayout>
+
+<style>
+  .services-section {
+    padding: 80px 56px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .process-section {
+    padding: 96px 56px;
+    background: var(--bg2);
+    border-top: var(--border-soft);
+    border-bottom: var(--border-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .process-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 14px;
+    letter-spacing: 0.06em;
+    position: relative;
+  }
+  .process-title {
+    font-size: 56px;
+    margin: 0 0 48px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    position: relative;
+  }
+  .process-step {
+    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    padding-top: 20px;
+  }
+  .step-num {
+    font-size: 36px;
+    color: var(--accent);
+    font-family: var(--font-display);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .services-cta {
+    padding: 80px 56px;
+    text-align: center;
+  }
+  .services-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 20px 32px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .services-cta-link:hover {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .cta-arrow {
+    font-size: 18px;
+  }
+
+  @media (max-width: 768px) {
+    .services-section, .process-section, .services-cta {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .services-section, .process-section, .services-cta { padding-top: 60px; padding-bottom: 60px; }
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .process-title {
+      font-size: 36px;
+    }
+  }
+</style>
