@@ -58,16 +58,16 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     <Reveal delay={0.1} class="footer-form-wrap">
       <form action={formAction} method="POST" class="footer-form">
         <div class="form-field">
-          <label>{t('footer.formName', lang)}</label>
-          <input type="text" name="name" required />
+          <label for="footer-form-name">{t('footer.formName', lang)}</label>
+          <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
         </div>
         <div class="form-field">
-          <label>{t('footer.formEmail', lang)}</label>
-          <input type="email" name="email" required />
+          <label for="footer-form-email">{t('footer.formEmail', lang)}</label>
+          <input type="email" name="email" id="footer-form-email" required autocomplete="email" />
         </div>
         <div class="form-field">
-          <label>{t('footer.formDesc', lang)}</label>
-          <textarea name="message" rows="4" required></textarea>
+          <label for="footer-form-message">{t('footer.formDesc', lang)}</label>
+          <textarea name="message" id="footer-form-message" rows="4" required></textarea>
         </div>
         <button type="submit" data-cursor="hover" class="footer-submit">
           {t('footer.formSend', lang)}
@@ -121,7 +121,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
   .footer-eyebrow {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.5;
+    opacity: 0.65;
     margin-bottom: 8px;
   }
 
@@ -232,7 +232,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.5;
+    opacity: 0.65;
     position: relative;
     flex-wrap: wrap;
     gap: 12px;
@@ -253,7 +253,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     text-underline-offset: 3px;
   }
   .footer-legal span {
-    opacity: 0.5;
+    opacity: 0.65;
   }
 
   /* Tablet — dial 280×280 / -60px, padding tightens. */
@@ -286,7 +286,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
       height: 200px;
       right: -80px;
       top: -80px;
-      opacity: 0.5;
+      opacity: 0.65;
     }
     .footer-title {
       font-size: 56px !important;

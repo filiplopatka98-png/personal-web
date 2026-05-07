@@ -36,6 +36,7 @@ const navOrder: NavItem[] = [
   aria-modal="true"
   aria-labelledby="overlay-menu-heading"
   aria-hidden="true"
+  inert
   tabindex="-1"
 >
   <h2 id="overlay-menu-heading" class="visually-hidden">{lang === 'sk' ? 'Hlavné menu' : 'Main menu'}</h2>
@@ -164,7 +165,7 @@ const navOrder: NavItem[] = [
   .menu-section-label {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.5;
+    opacity: 0.65;
     margin-bottom: 24px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -196,7 +197,7 @@ const navOrder: NavItem[] = [
   .menu-link-num {
     font-family: var(--font-mono);
     font-size: 14px;
-    opacity: 0.4;
+    opacity: 0.6;
     margin-right: 24px;
     vertical-align: middle;
   }
@@ -236,7 +237,7 @@ const navOrder: NavItem[] = [
     margin-top: 48px;
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.4;
+    opacity: 0.6;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
@@ -312,6 +313,10 @@ const navOrder: NavItem[] = [
       lastFocused = (document.activeElement as HTMLElement | null) ?? null;
       menu!.classList.add('open');
       menu!.setAttribute('aria-hidden', 'false');
+      // Remove `inert` so links inside become focusable + tabbable. This is
+      // the modern alternative to manually toggling tabindex on each child;
+      // also fixes Lighthouse "aria-hidden contains focusable descendants".
+      menu!.removeAttribute('inert');
       document.body.style.overflow = 'hidden';
       // Defer to next frame so transition can start before we move focus.
       requestAnimationFrame(() => {
@@ -323,6 +328,7 @@ const navOrder: NavItem[] = [
     function close() {
       menu!.classList.remove('open');
       menu!.setAttribute('aria-hidden', 'true');
+      menu!.setAttribute('inert', '');
       document.body.style.overflow = '';
       // Restore focus to whatever opened the menu (typically the menu button).
       lastFocused?.focus();

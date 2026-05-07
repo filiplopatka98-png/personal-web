@@ -13,7 +13,7 @@ export interface Props {
 const { eyebrow, titleHtml, lead, blobColor = 'var(--accent)' } = Astro.props;
 ---
 <div class="page-head">
-  <Blob color={blobColor} size={280} position="top: -60px; right: 120px; opacity: 0.4;" />
+  <Blob color={blobColor} size={280} position="top: -60px; right: 120px; opacity: 0.6;" />
   <Reveal>
     <div class="page-head-eyebrow mono">{eyebrow}</div>
     <h1 class="page-head-title display" set:html={titleHtml}></h1>

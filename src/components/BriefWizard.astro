@@ -137,9 +137,11 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 
     <!-- Step 3: Description -->
     <fieldset class="brief-step" data-step="3" hidden>
-      <h2 class="brief-q display">{t('brief.q.desc', lang)}</h2>
+      <h2 class="brief-q display" id="brief-desc-label">{t('brief.q.desc', lang)}</h2>
       <textarea
         name="description"
+        id="brief-desc"
+        aria-labelledby="brief-desc-label"
         rows="10"
         required
         minlength="10"
@@ -154,16 +156,16 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       <h2 class="brief-q display">{t('brief.q.contact', lang)}</h2>
       <div class="brief-fields">
         <div class="brief-field">
-          <label class="brief-field-label mono">{t('brief.label.name', lang)}</label>
-          <input type="text" name="name" required class="brief-input" />
+          <label for="brief-name" class="brief-field-label mono">{t('brief.label.name', lang)}</label>
+          <input type="text" name="name" id="brief-name" required autocomplete="name" class="brief-input" />
         </div>
         <div class="brief-field">
-          <label class="brief-field-label mono">{t('brief.label.email', lang)}</label>
-          <input type="email" name="email" required class="brief-input" />
+          <label for="brief-email" class="brief-field-label mono">{t('brief.label.email', lang)}</label>
+          <input type="email" name="email" id="brief-email" required autocomplete="email" class="brief-input" />
         </div>
         <div class="brief-field">
-          <label class="brief-field-label mono">{t('brief.label.company', lang)}</label>
-          <input type="text" name="company" class="brief-input" />
+          <label for="brief-company" class="brief-field-label mono">{t('brief.label.company', lang)}</label>
+          <input type="text" name="company" id="brief-company" autocomplete="organization" class="brief-input" />
         </div>
       </div>
     </fieldset>
@@ -253,7 +255,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     display: flex;
     align-items: center;
     gap: 10px;
-    opacity: 0.3;
+    opacity: 0.5;
     transition: opacity 0.2s;
   }
   .brief-progress-step[data-step-index="0"] { opacity: 1; }
@@ -389,7 +391,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-char-count {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.5;
+    opacity: 0.65;
     margin-top: 8px;
   }
 
@@ -471,7 +473,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     color: var(--ink);
     cursor: pointer;
   }
-  .brief-btn-back:disabled { opacity: 0.3; cursor: default; }
+  .brief-btn-back:disabled { opacity: 0.5; cursor: default; }
   .brief-btn-next, .brief-btn-submit {
     padding: 14px 28px;
     border: 0;
@@ -485,7 +487,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-btn-next:disabled, .brief-btn-submit:disabled {
     background: color-mix(in srgb, var(--ink) 22%, transparent);
     color: var(--ink);
-    opacity: 0.5;
+    opacity: 0.65;
     cursor: default;
   }
 
