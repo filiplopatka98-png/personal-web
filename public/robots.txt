@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://filiplopatka98-png.github.io/personal-web/sitemap-index.xml
