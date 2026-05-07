@@ -7,15 +7,37 @@ export interface Props {
 const { lang } = Astro.props;
 
 const experience = lang === 'sk' ? [
-  { years: '2024 — dnes', role: 'Freelance Web Developer', desc: 'Vlastná značka — eshopy a weby pre SK/CZ klientov.' },
-  { years: '2022 — 2024', role: 'Senior Developer · Studio Pixel', desc: 'Headless WP, Next.js, výkon a SEO.' },
-  { years: '2019 — 2022', role: 'Web Developer · Webhouse', desc: 'WooCommerce shopy, custom témy.' },
-  { years: '2017 — 2019', role: 'Junior Developer · Promiseo', desc: 'PHP, MySQL, WordPress.' },
+  {
+    years: 'Mar 2025 — dnes',
+    role: 'Freelance Web Developer',
+    desc: 'Samostatný freelance, remote. Weby a eshopy pre slovenských a českých klientov.',
+  },
+  {
+    years: 'Jún 2022 — Mar 2025',
+    role: 'WordPress Developer · Brain:IT',
+    desc: 'Bratislava, full-time. WordPress, WooCommerce, custom témy, performance a SEO.',
+  },
+  {
+    years: 'Jún 2020 — Máj 2022',
+    role: 'Junior WordPress Developer · Visitero',
+    desc: 'Žilina, part-time. PHP, WordPress, prvé klientské projekty.',
+  },
 ] : [
-  { years: '2024 — now', role: 'Freelance Web Developer', desc: 'Solo — e-shops and sites for SK/CZ clients.' },
-  { years: '2022 — 2024', role: 'Senior Developer · Studio Pixel', desc: 'Headless WP, Next.js, perf & SEO.' },
-  { years: '2019 — 2022', role: 'Web Developer · Webhouse', desc: 'WooCommerce, custom themes.' },
-  { years: '2017 — 2019', role: 'Junior Developer · Promiseo', desc: 'PHP, MySQL, WordPress.' },
+  {
+    years: 'Mar 2025 — present',
+    role: 'Freelance Web Developer',
+    desc: 'Solo freelance, remote. Sites and e-shops for SK/CZ clients.',
+  },
+  {
+    years: 'Jun 2022 — Mar 2025',
+    role: 'WordPress Developer · Brain:IT',
+    desc: 'Bratislava, full-time. WordPress, WooCommerce, custom themes, performance & SEO.',
+  },
+  {
+    years: 'Jun 2020 — May 2022',
+    role: 'Junior WordPress Developer · Visitero',
+    desc: 'Žilina, part-time. PHP, WordPress, first client projects.',
+  },
 ];
 ---
 <div class="exp-list">
