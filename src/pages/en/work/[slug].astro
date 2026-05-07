@@ -3,7 +3,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Reveal from '../../../components/Reveal.astro';
 import Plate from '../../../components/Plate.astro';
-import Blob from '../../../components/Blob.astro';
 import { t } from '../../../i18n';
 
 export async function getStaticPaths() {
@@ -23,7 +22,6 @@ const data = entry.data;
 const lang = 'en';
 const cleanSlug = entry.slug.replace(/^en\//, '');
 
-// Find next project (by order, wrap around)
 const allProjects = (await getCollection('projects'))
   .filter((p) => p.slug.startsWith('en/'))
   .sort((a, b) => a.data.order - b.data.order);
@@ -34,7 +32,6 @@ const nextSlug = next.slug.replace(/^en\//, '');
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const accentColor = `var(--${data.accent})`;
 
-// JSON-LD: CreativeWork
 const projectUrlPath = `${baseUrl}/en/work/${cleanSlug}/`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const fullProjectUrl = `${siteUrl}${projectUrlPath}`;
@@ -64,10 +61,10 @@ const projectLd = {
   description={data.brief}
 >
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(projectLd)}></script>
-  <!-- Header -->
+
   <section class="proj-header">
     <Reveal>
-      <a href={`${baseUrl}/en/work/`} class="back-link mono" data-cursor="hover">← {t('cta.back', lang)}</a>
+      <a href={`${baseUrl}/en/work/`} class="back-link mono" data-cursor="hover">{t('cta.back', lang)}</a>
     </Reveal>
     <Reveal delay={0.05} class="proj-header-grid">
       <div>
@@ -75,22 +72,22 @@ const projectLd = {
         <h1 class="proj-name display">{data.name}</h1>
         <div class="proj-kind mono">{data.kind}</div>
       </div>
-      <dl class="proj-meta-grid mono">
+      <dl class="proj-meta-grid">
         <div class="proj-meta-cell">
-          <dt>{t('project.client', lang)}</dt>
+          <dt class="mono">{t('project.client', lang)}</dt>
           <dd>{data.client}</dd>
         </div>
         <div class="proj-meta-cell">
-          <dt>{t('project.role', lang)}</dt>
+          <dt class="mono">{t('project.role', lang)}</dt>
           <dd>{data.role}</dd>
         </div>
         <div class="proj-meta-cell">
-          <dt>{t('project.duration', lang)}</dt>
+          <dt class="mono">{t('project.duration', lang)}</dt>
           <dd>{data.duration}</dd>
         </div>
         {data.url && (
           <div class="proj-meta-cell">
-            <dt>{t('project.url', lang)}</dt>
+            <dt class="mono">{t('project.url', lang)}</dt>
             <dd>{data.url}</dd>
           </div>
         )}
@@ -98,119 +95,90 @@ const projectLd = {
     </Reveal>
   </section>
 
-  <!-- Hero Plate -->
   <section class="proj-hero">
     <Reveal>
-      <Plate label={`${cleanSlug}-hero.png`} color={accentColor} ratio="16/9" caption={`hero · ${data.year}`} />
+      <Plate label={`${data.name} · hero`} color={accentColor} ratio="16/9" caption="screen-01.png" radius={20} />
     </Reveal>
   </section>
 
-  <!-- Metrics row -->
   {data.metrics.length > 0 && (
     <section class="proj-metrics">
-      <Reveal>
-        <div class="metrics-grid">
-          {data.metrics.map((m) => (
-            <div class="metric-tile">
-              <div class="metric-value display">{m.value}</div>
-              <div class="metric-label mono">{m.label}</div>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-    </section>
-  )}
-
-  <!-- Brief / body -->
-  <section class="proj-body">
-    <Blob color={accentColor} size={300} position="top: -40px; right: -40px; opacity: 0.3;" />
-    <Reveal class="proj-body-grid">
-      <div>
-        <div class="proj-section-eyebrow mono">{t('project.brief', lang)}</div>
-        <h2 class="proj-brief-title display">{t('project.briefHeadline', lang)}</h2>
-        <p class="proj-brief-text">{data.brief}</p>
-      </div>
-      <div class="proj-body-prose">
-        <Content />
-      </div>
-    </Reveal>
-  </section>
-
-  <!-- Screens grid (3 Plate placeholders) -->
-  <section class="proj-screens">
-    <Reveal>
-      <div class="proj-section-eyebrow mono">{t('project.screens', lang)}</div>
-    </Reveal>
-    <div class="screens-grid">
-      <Reveal>
-        <Plate label={`${cleanSlug}-screen-1.png`} color={accentColor} ratio="16/10" caption="screen-1 · production" />
-      </Reveal>
-      <Reveal delay={0.1}>
-        <Plate label={`${cleanSlug}-screen-2.png`} color="var(--bg2)" ratio="16/10" caption="screen-2 · production" />
-      </Reveal>
-      <Reveal delay={0.2}>
-        <Plate label={`${cleanSlug}-screen-3.png`} color={accentColor} ratio="16/10" caption="screen-3 · production" />
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Process timeline -->
-  {data.process.length > 0 && (
-    <section class="proj-process">
-      <Reveal>
-        <div class="proj-section-eyebrow mono">{t('project.process', lang)}</div>
-        <h2 class="proj-section-title display">{t('project.process', lang)}</h2>
-      </Reveal>
-      <div class="process-list">
-        {data.process.map((p, i) => (
-          <Reveal delay={i * 0.05}>
-            <div class="process-row">
-              <div class="process-num mono">0{i + 1}</div>
-              <div class="process-content">
-                <div class="process-title">{p.title}</div>
-                <div class="process-duration mono">{p.duration}</div>
-                <div class="process-desc">{p.desc}</div>
-              </div>
-            </div>
+      <div class="metrics-grid">
+        {data.metrics.map((m, i) => (
+          <Reveal delay={i * 0.08}>
+            <div class="metric-value display">{m.value}</div>
+            <div class="metric-label mono">{m.label}</div>
           </Reveal>
         ))}
       </div>
     </section>
   )}
 
-  <!-- Stack -->
-  {data.stack.length > 0 && (
-    <section class="proj-stack">
+  <section class="proj-body">
+    <div class="proj-body-grid">
       <Reveal>
-        <div class="proj-section-eyebrow mono">{t('project.stack', lang)}</div>
-        <div class="stack-row">
-          {data.stack.map((s) => (
-            <span class="stack-chip mono">{s}</span>
-          ))}
-        </div>
+        <div class="proj-section-eyebrow mono">{t('project.brief', lang)}</div>
+        <div class="proj-brief-title display">{data.brief}</div>
       </Reveal>
+      <Reveal delay={0.1} class="proj-body-prose">
+        <Content />
+      </Reveal>
+    </div>
+  </section>
+
+  {data.process.length > 0 && (
+    <section class="proj-process">
+      <Reveal>
+        <div class="proj-section-eyebrow mono proj-process-eyebrow">{t('project.process', lang)}</div>
+      </Reveal>
+      <div class="process-list">
+        {data.process.map((p, i) => (
+          <Reveal delay={i * 0.05} class="process-row">
+            <div class="process-num mono">0{i + 1}</div>
+            <div class="process-title display">{p.title}</div>
+            <div class="process-duration mono">{p.duration}</div>
+            <div class="process-desc">{p.desc}</div>
+          </Reveal>
+        ))}
+      </div>
     </section>
   )}
 
-  <!-- Live URL CTA -->
-  {data.url && (
-    <section class="proj-live">
+  <section class="proj-screens">
+    <div class="screens-grid">
       <Reveal>
-        <a href={`https://${data.url}`} target="_blank" rel="noopener noreferrer" class="live-link" data-cursor="hover">
-          <span class="live-icon">↗</span>
-          <span class="live-text">{t('cta.liveSite', lang)}</span>
-          <span class="live-url mono">{data.url}</span>
-        </a>
+        <Plate label="screen-02" color={accentColor} ratio="4/3" caption="checkout flow" />
       </Reveal>
-    </section>
-  )}
+      <Reveal delay={0.08}>
+        <Plate label="screen-03" color="var(--accent2)" ratio="4/3" caption="product detail" />
+      </Reveal>
+    </div>
+  </section>
 
-  <!-- Next project -->
+  <section class="proj-stack-live">
+    <div class="stack-block">
+      <div class="stack-eyebrow mono">{t('project.stack', lang).toUpperCase()}</div>
+      <div class="stack-list mono">
+        {data.stack.map((s, i) => (
+          <Fragment>
+            <span>{s}</span>
+            {i < data.stack.length - 1 && <span class="stack-sep" aria-hidden="true">·</span>}
+          </Fragment>
+        ))}
+      </div>
+    </div>
+    {data.url && (
+      <a href={`https://${data.url}`} target="_blank" rel="noopener noreferrer" class="live-link mono" data-cursor="hover">
+        {t('cta.liveSite', lang)} {data.url} →
+      </a>
+    )}
+  </section>
+
   <section class="proj-next">
     <Reveal>
+      <div class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</div>
       <a href={`${baseUrl}/en/work/${nextSlug}/`} class="next-link" data-cursor="hover">
-        <div class="next-eyebrow mono">{t('project.next', lang)} →</div>
-        <div class="next-name display">{next.data.name}</div>
+        <div class="next-name display">{next.data.name} <span class="next-arrow">→</span></div>
         <div class="next-kind mono">{next.data.kind}</div>
       </a>
     </Reveal>
@@ -218,9 +186,7 @@ const projectLd = {
 </BaseLayout>
 
 <style>
-  .proj-header {
-    padding: 60px 56px 40px;
-  }
+  .proj-header { padding: 60px 56px 40px; }
   .back-link {
     font-size: 13px;
     color: var(--ink);
@@ -228,11 +194,7 @@ const projectLd = {
     font-family: var(--font-mono);
     text-decoration: none;
   }
-  /*
-   * .proj-header-grid and .proj-body-grid are on <Reveal> wrappers; Astro
-   * doesn't propagate the page's scope marker to elements rendered by child
-   * components, so layout rules must be :global() to match the rendered <div>.
-   */
+  .back-link::before { content: '← '; }
   :global(.proj-header-grid) {
     margin-top: 32px;
     display: grid;
@@ -269,7 +231,7 @@ const projectLd = {
     margin: 0;
   }
   .proj-meta-cell {
-    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
     padding-top: 10px;
   }
   .proj-meta-cell dt {
@@ -278,282 +240,242 @@ const projectLd = {
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .proj-meta-cell dd {
-    margin: 4px 0 0;
-  }
+  .proj-meta-cell dd { margin: 4px 0 0; }
 
-  .proj-hero {
-    padding: 0 56px 80px;
-  }
+  .proj-hero { padding: 0 56px 32px; }
 
   .proj-metrics {
-    padding: 0 56px 80px;
+    padding: 40px 56px;
+    background: var(--bg2);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
   }
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    padding: 32px 0;
-  }
-  .metric-tile {
-    text-align: center;
   }
   .metric-value {
-    font-size: 64px;
+    font-size: 80px;
+    line-height: 0.9;
     color: var(--accent);
     font-family: var(--font-display);
-    line-height: 1;
   }
   .metric-label {
     font-size: 12px;
-    opacity: 0.7;
-    margin-top: 8px;
+    opacity: 0.6;
+    margin-top: 12px;
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .proj-body {
-    padding: 80px 56px;
-    background: var(--bg2);
-    position: relative;
-    overflow: hidden;
-  }
+  .proj-body { padding: 80px 56px; }
   :global(.proj-body-grid) {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr 2fr;
     gap: 64px;
-    position: relative;
   }
   .proj-section-eyebrow {
-    font-size: 13px;
+    font-size: 11px;
     opacity: 0.6;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .proj-brief-title {
-    font-size: 48px;
-    line-height: 1.05;
-    margin: 0 0 24px;
+    font-size: 32px;
+    line-height: 1.2;
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
   }
-  .proj-brief-text {
+  :global(.proj-body-prose) {
     font-size: 18px;
-    line-height: 1.5;
-    opacity: 0.85;
-  }
-  .proj-body-prose {
-    font-size: 17px;
     line-height: 1.65;
   }
-  .proj-body-prose :global(p) {
-    margin: 0 0 18px;
-    opacity: 0.85;
-  }
-  .proj-body-prose :global(p:first-child::first-letter) {
-    font-family: var(--font-display);
-    font-size: 4em;
-    font-weight: 400;
-    float: left;
-    line-height: 0.85;
-    padding: 0.1em 0.1em 0 0;
-    color: var(--ink);
-  }
-
-  .proj-screens {
-    padding: 80px 56px;
-  }
-  .proj-screens .proj-section-eyebrow {
-    margin-bottom: 32px;
-  }
-  .screens-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px;
-  }
+  :global(.proj-body-prose p) { margin: 0; }
+  :global(.proj-body-prose p + p) { margin-top: 20px; }
 
   .proj-process {
-    padding: 80px 56px;
+    padding: 60px 56px;
     background: var(--bg2);
-    border-top: var(--border-soft);
-    border-bottom: var(--border-soft);
   }
-  .proj-section-title {
-    font-size: 56px;
-    margin: 0 0 40px;
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+  .proj-process-eyebrow {
+    font-size: 13px;
+    margin-bottom: 32px;
+    text-transform: none;
+    letter-spacing: 0;
   }
-  .process-list {
-    display: flex;
-    flex-direction: column;
-  }
-  .process-row {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 24px;
+  .process-list { display: flex; flex-direction: column; }
+  :global(.process-row) {
+    display: grid !important;
+    grid-template-columns: 60px 1fr 200px 2fr;
+    gap: 32px;
     padding: 24px 0;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
   }
   .process-num {
-    font-size: 13px;
-    opacity: 0.5;
     font-family: var(--font-mono);
-    padding-top: 4px;
+    font-size: 13px;
+    opacity: 0.4;
   }
   .process-title {
-    font-size: 22px;
-    margin-bottom: 4px;
+    font-size: 24px;
+    font-family: var(--font-display);
+    line-height: 1.1;
   }
   .process-duration {
+    font-family: var(--font-mono);
     font-size: 12px;
     opacity: 0.6;
-    font-family: var(--font-mono);
-    margin-bottom: 12px;
   }
   .process-desc {
-    font-size: 16px;
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.5;
     opacity: 0.8;
-    max-width: 720px;
   }
 
-  .proj-stack {
-    padding: 60px 56px;
-  }
-  .stack-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  .stack-chip {
-    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    padding: 6px 14px;
-    border-radius: var(--radius-pill);
-    font-family: var(--font-mono);
-    font-size: 12px;
+  .proj-screens { padding: 60px 56px; }
+  .screens-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
 
-  .proj-live {
-    padding: 60px 56px;
-  }
-  .live-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    padding: 18px 28px;
-    border-radius: var(--radius-pill);
-    transition: all 0.2s;
-  }
-  .live-link:hover {
+  .proj-stack-live {
+    padding: 40px 56px;
     background: var(--ink);
     color: var(--bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
   }
-  .live-icon {
-    font-size: 20px;
-  }
-  .live-text {
-    font-family: var(--font-display);
-    font-size: 18px;
-  }
-  .live-url {
+  .stack-eyebrow {
     font-family: var(--font-mono);
-    font-size: 13px;
-    opacity: 0.7;
+    font-size: 11px;
+    opacity: 0.5;
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+  }
+  .stack-list {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
+  .stack-sep { opacity: 0.3; margin-left: 16px; }
+  .live-link {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .live-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
   .proj-next {
     padding: 80px 56px;
-    background: var(--ink);
-    color: var(--bg);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .next-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 16px;
   }
   .next-link {
     display: block;
     text-decoration: none;
-    color: var(--bg);
-  }
-  .next-eyebrow {
-    font-size: 13px;
-    opacity: 0.6;
-    font-family: var(--font-mono);
-    margin-bottom: 16px;
+    color: var(--ink);
   }
   .next-name {
-    font-size: 88px;
-    line-height: 0.92;
     font-family: var(--font-display);
+    font-size: 96px;
+    line-height: 0.95;
     font-weight: 400;
     letter-spacing: -0.02em;
   }
-  .next-link:hover .next-name {
-    color: var(--accent);
-  }
+  .next-arrow { color: var(--accent); }
   .next-kind {
-    font-size: 14px;
-    margin-top: 12px;
-    opacity: 0.6;
     font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.6;
+    margin-top: 12px;
   }
 
   @media (max-width: 1024px) {
-    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
-    .proj-process, .proj-stack, .proj-live, .proj-next {
+    .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
       padding-left: 32px;
       padding-right: 32px;
     }
+    .proj-hero { padding: 0 32px 24px; }
+    .proj-metrics { padding: 32px; }
+    .proj-stack-live { padding: 32px; }
     .proj-name { font-size: 72px; }
-    .proj-brief-title { font-size: 40px; }
-    .proj-section-title { font-size: 48px; }
-    .next-name { font-size: 64px; }
-    .screens-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-    .process-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 20px 0; }
+    .proj-brief-title { font-size: 28px; }
+    .next-name { font-size: 72px; }
+    .metric-value { font-size: 64px; }
+    :global(.process-row) {
+      grid-template-columns: 40px 1fr 140px 2fr;
+      gap: 20px;
+    }
     :global(.proj-body-grid) { gap: 36px; }
   }
 
   @media (max-width: 768px) {
-    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
-    .proj-process, .proj-stack, .proj-live, .proj-next {
+    .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
       padding-left: 20px;
       padding-right: 20px;
     }
-    :global(.proj-header-grid),
-    :global(.proj-body-grid) {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
+    .proj-hero { padding: 0 20px 20px; }
+    .proj-metrics { padding: 32px 20px; }
+    .proj-stack-live { padding: 32px 20px; }
+
+    :global(.proj-header-grid) { grid-template-columns: 1fr; gap: 32px; }
+    :global(.proj-body-grid) { grid-template-columns: 1fr; gap: 32px; }
+
     .proj-name { font-size: 56px; }
-    .proj-brief-title, .proj-section-title { font-size: 36px; }
+    .proj-brief-title { font-size: 26px; }
     .next-name { font-size: 48px; }
+
     .metrics-grid { grid-template-columns: 1fr; gap: 24px; }
-    .metric-value { font-size: 48px; }
+    .metric-value { font-size: 56px; }
+
     .screens-grid { grid-template-columns: 1fr; }
     .proj-meta-grid { grid-template-columns: 1fr 1fr; }
-    .process-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
-    .process-num {
-      font-size: 11px; opacity: 0.55;
-      text-transform: uppercase; letter-spacing: 0.06em;
+
+    :global(.process-row) {
+      grid-template-columns: 1fr !important;
+      gap: 4px;
+      padding: 18px 0;
     }
-    .stack-row { flex-direction: column; align-items: flex-start; }
+    .process-num {
+      font-size: 11px;
+      opacity: 0.55;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .process-duration { order: -1; margin-bottom: 4px; }
+
+    .proj-stack-live { flex-direction: column; align-items: flex-start; }
   }
 
   @media (max-width: 480px) {
-    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
-    .proj-process, .proj-stack, .proj-live, .proj-next {
+    .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
       padding-left: 16px;
       padding-right: 16px;
     }
     .proj-name { font-size: 44px; }
-    .proj-brief-title, .proj-section-title { font-size: 30px; }
+    .proj-brief-title { font-size: 22px; }
     .next-name { font-size: 36px; }
     .proj-meta-grid { grid-template-columns: 1fr; }
+    .metric-value { font-size: 48px; }
   }
 </style>
