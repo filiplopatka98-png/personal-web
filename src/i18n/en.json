@@ -176,6 +176,9 @@
   "article.backToBlog": "Back to journal",
   "article.about": "About the author",
   "article.aboutText": "I'm Filip — I build sites for small and medium businesses. WordPress, Next.js, Astro. Performance + SEO + meaningful UI.",
+  "article.next": "Next article",
+  "article.shareCopy": "Copy link",
+  "article.shareCopied": "✓ Copied",
 
   "brief.eyebrow": "BRIEF · 5 STEPS · 3 MIN",
   "brief.title.before": "Let's start a ",
