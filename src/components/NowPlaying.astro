@@ -1,0 +1,97 @@
+---
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const itemsRaw = t('nav.nowItems', lang);
+const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
+const nowLabel = t('nav.now', lang);
+const initial = items[0] ?? '';
+---
+<div
+  class="now-playing"
+  data-now-items={JSON.stringify(items)}
+>
+  <span class="pulse-dot"></span>
+  <span class="now-label">{nowLabel}</span>
+  <span class="now-text">{initial}</span>
+</div>
+
+<style>
+  .now-playing {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 360px;
+    overflow: hidden;
+    color: var(--ink);
+  }
+
+  .now-playing .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .now-playing .now-label {
+    opacity: 0.55;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .now-playing .now-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  function initNowPlaying() {
+    const els = document.querySelectorAll<HTMLElement>('.now-playing');
+    els.forEach((el) => {
+      if ((el as any).__nowPlayingInitialized) return;
+      (el as any).__nowPlayingInitialized = true;
+
+      const raw = el.dataset.nowItems;
+      if (!raw) return;
+      let items: string[] = [];
+      try {
+        items = JSON.parse(raw);
+      } catch {
+        return;
+      }
+      if (items.length < 2) return;
+
+      const span = el.querySelector('.now-text') as HTMLElement | null;
+      if (!span) return;
+
+      let i = 0;
+      const id = setInterval(() => {
+        i = (i + 1) % items.length;
+        span.textContent = items[i];
+      }, 4000);
+
+      // Cleanup on view transitions
+      document.addEventListener('astro:before-swap', () => {
+        clearInterval(id);
+        (el as any).__nowPlayingInitialized = false;
+      }, { once: true });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNowPlaying);
+  } else {
+    initNowPlaying();
+  }
+  document.addEventListener('astro:page-load', initNowPlaying);
+</script>

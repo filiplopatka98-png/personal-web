@@ -93,6 +93,10 @@
 
   "ticker.items": "WordPress,Next.js,React,PHP,WooCommerce,SEO & speed,Headless CMS",
 
+  "nav.nowPill": "Available from June 2026",
+  "nav.now": "now",
+  "nav.nowItems": "Tatra Apartmány redesign,tuning WP cache,writing about ISR",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

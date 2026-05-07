@@ -93,6 +93,10 @@
 
   "ticker.items": "WordPress,Next.js,React,PHP,WooCommerce,SEO & výkon,Headless CMS",
 
+  "nav.nowPill": "Voľný od jún 2026",
+  "nav.now": "teraz",
+  "nav.nowItems": "redesign Tatra Apartmány,tuning WP cache,písanie blogu o ISR",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
