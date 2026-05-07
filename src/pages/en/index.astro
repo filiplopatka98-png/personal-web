@@ -1,9 +1,75 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Reveal from '../../components/Reveal.astro';
+import Marquee from '../../components/Marquee.astro';
+import Squiggle from '../../components/Squiggle.astro';
+import Blob from '../../components/Blob.astro';
+
 const lang = 'en';
 ---
 <BaseLayout lang={lang} canonicalPath="/en/" altLangUrl="/">
-  <div style="min-height: 50vh; padding: 80px 56px; font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--ink);">
-    Filip Lopatka — <em>redesign in progress</em>.
-  </div>
+  <Reveal>
+    <section class="home-hero">
+      <Blob color="var(--accent2)" size={300} position="top: -60px; right: -40px;" />
+      <Blob color="var(--accent)" size={220} position="top: 200px; right: 200px; opacity: 0.35;" delay={-3} />
+      <h1 class="hero-title display">
+        I build <em>fast</em>,<br/>
+        accessible websites<br/>
+        and <em>shops<Squiggle /></em> for small<br/>
+        and medium businesses.
+      </h1>
+    </section>
+  </Reveal>
+  <Marquee lang={lang} />
+  <Reveal>
+    <section class="home-intro">
+      <p class="eyebrow">01 — Intro</p>
+      <p class="lead">
+        I'm a freelance web developer based in Bratislava. I specialize in WordPress, Next.js, and modern frontend with a focus on performance and SEO. Full redesign with 4 hero variants, work, blog, and brief wizard coming in CD-2/CD-3.
+      </p>
+    </section>
+  </Reveal>
 </BaseLayout>
+
+<style>
+  .home-hero {
+    padding: 96px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0;
+    max-width: 14ch;
+    position: relative;
+  }
+  .hero-title em {
+    position: relative;
+  }
+  .home-intro {
+    padding: 96px 56px;
+    max-width: 880px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin: 0 0 16px 0;
+  }
+  .lead {
+    font-size: 22px;
+    line-height: 1.5;
+    max-width: 720px;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .home-hero, .home-intro { padding: 60px 20px; }
+    .hero-title { max-width: none; }
+  }
+</style>

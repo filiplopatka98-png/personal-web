@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../i18n';
+
+const lang = 'sk';
+---
+<BaseLayout lang={lang} canonicalPath="/ponuka/" altLangUrl="/en/brief/" title={`${t('nav.brief', lang)} — Filip Lopatka`}>
+  <section style="padding: 96px 56px; max-width: 880px; margin: 0 auto;">
+    <p style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 24px;">04 — {t('nav.brief', lang)}</p>
+    <h1 style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; margin: 0;">
+      Brief — <em>v príprave</em>.
+    </h1>
+    <p style="margin-top: 32px; font-size: 18px; opacity: 0.7; max-width: 600px;">
+      5-krokový brief wizard pripravujem v CD-3. Zatiaľ ma môžeš osloviť cez formulár v päte.
+    </p>
+  </section>
+</BaseLayout>
