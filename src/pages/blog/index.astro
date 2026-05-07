@@ -2,17 +2,19 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
-import ArticleCard from '../../components/ArticleCard.astro';
 import Reveal from '../../components/Reveal.astro';
 import { t } from '../../i18n';
 
 const lang = 'sk';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const articles = (await getCollection('articles'))
   .filter((a) => a.slug.startsWith('sk/'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const titleHtml = `${t('blog.title.before', lang)}<em>${t('blog.title.em', lang)}</em>${t('blog.title.after', lang)}`;
+
+const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' });
 ---
 <BaseLayout lang={lang} canonicalPath="/blog/" altLangUrl="/en/blog/" title={`${t('nav.blog', lang)} — Filip Lopatka`}>
   <PageHead
@@ -23,42 +25,167 @@ const titleHtml = `${t('blog.title.before', lang)}<em>${t('blog.title.em', lang)
   />
 
   <section class="blog-section">
-    <div class="blog-grid">
-      {articles.map((a, i) => (
-        <Reveal delay={(i % 3) * 0.08}>
-          <ArticleCard entry={a} lang={lang} />
-        </Reveal>
-      ))}
+    <div class="blog-list">
+      {articles.map((a, i) => {
+        const cleanSlug = a.slug.replace(/^sk\//, '');
+        const dateStr = fmt.format(a.data.date);
+        return (
+          <Reveal delay={i * 0.06}>
+            <a
+              href={`${baseUrl}/blog/${cleanSlug}/`}
+              class="blog-row"
+              data-cursor="hover"
+            >
+              <div class="blog-row-date mono">{dateStr}</div>
+              <div class="blog-row-main">
+                <h2 class="blog-row-title display">{a.data.title}</h2>
+                <p class="blog-row-excerpt">{a.data.excerpt}</p>
+                {a.data.tags.length > 0 && (
+                  <div class="blog-row-tags">
+                    {a.data.tags.map((tag) => (
+                      <span class="blog-row-tag mono">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div class="blog-row-aside">
+                <div class="blog-row-read mono">{a.data.read} min čítania</div>
+                <div class="blog-row-cta mono">{t('cta.read', lang)} →</div>
+              </div>
+            </a>
+          </Reveal>
+        );
+      })}
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  /* Editorial list — handoff pages.jsx 311-343:
+     padding 60px 56px, max-width 1100, rows 160px 1fr 200px gap 32. */
   .blog-section {
-    padding: 80px 56px;
+    padding: 60px 56px;
   }
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 48px;
-    max-width: 1200px;
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 1100px;
     margin: 0 auto;
   }
+
+  /* Each row is a Link with grid layout. Hover shifts padding-left 16px. */
+  .blog-row {
+    display: grid !important;
+    grid-template-columns: 160px 1fr 200px;
+    gap: 32px;
+    padding: 40px 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    color: var(--ink);
+    text-decoration: none;
+    align-items: baseline;
+    transition: padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .blog-row:hover {
+    padding-left: 16px;
+  }
+  .blog-row:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+  }
+
+  .blog-row-date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  .blog-row-title {
+    font-family: var(--font-display);
+    font-size: 42px;
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .blog-row-excerpt {
+    font-size: 16px;
+    opacity: 0.7;
+    line-height: 1.5;
+    margin: 12px 0 0;
+    max-width: 600px;
+  }
+  .blog-row-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .blog-row-tag {
+    border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  .blog-row-aside {
+    text-align: right;
+  }
+  .blog-row-read {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.5;
+  }
+  .blog-row-cta {
+    margin-top: 12px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  /* Tablet — drop the right column (read+cta) into the title col, tighter padding. */
   @media (max-width: 1024px) {
-    .blog-section { padding: 64px 32px; }
-    .blog-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
-  }
-  @media (max-width: 768px) {
-    .blog-section { padding: 56px 20px; }
-    .blog-grid {
-      grid-template-columns: 1fr;
+    .blog-section { padding: 48px 32px; }
+    .blog-row {
+      grid-template-columns: 110px 1fr 140px;
       gap: 24px;
+      padding: 28px 0;
+    }
+    .blog-row-title { font-size: 32px; }
+    .blog-row-excerpt { font-size: 15px; }
+  }
+
+  /* Mobile — collapse to single column with reordered cells (date eyebrow first,
+     tags after excerpt, read time small below). RESPONSIVE.md spec. */
+  @media (max-width: 768px) {
+    .blog-section { padding: 40px 20px; }
+    .blog-row {
+      grid-template-columns: 1fr !important;
+      gap: 8px;
+      padding: 24px 0;
+      align-items: stretch;
+    }
+    .blog-row:hover { padding-left: 0; }
+    .blog-row-date {
+      order: -1;
+      opacity: 0.55;
+    }
+    .blog-row-title { font-size: 26px; }
+    .blog-row-aside {
+      text-align: left;
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      margin-top: 8px;
+      order: 99;
+    }
+    .blog-row-read {
+      opacity: 0.55;
     }
   }
+
   @media (max-width: 480px) {
-    .blog-section { padding: 48px 16px; }
+    .blog-section { padding: 32px 16px; }
+    .blog-row-title { font-size: 22px; }
   }
 </style>
