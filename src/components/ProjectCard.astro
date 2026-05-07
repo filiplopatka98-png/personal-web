@@ -1,0 +1,146 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { type Lang } from '../i18n';
+
+export interface Props {
+  entry: CollectionEntry<'projects'>;
+  lang: Lang;
+  /** "home" — smaller card with floating "case study" badge. "work" — full card with year-pill + 3 metrics row. */
+  variant?: 'home' | 'work';
+}
+const { entry, lang, variant = 'home' } = Astro.props;
+const { data } = entry;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+// entry.slug is "sk/veverka" or "en/veverka" — strip locale prefix
+const cleanSlug = entry.slug.replace(/^(sk|en)\//, '');
+const detailHref = lang === 'sk'
+  ? `${baseUrl}/praca/${cleanSlug}/`
+  : `${baseUrl}/en/work/${cleanSlug}/`;
+const accentColor = `var(--${data.accent})`;
+---
+<a href={detailHref} class="proj" data-cursor="hover">
+  <div class="proj-cover" style={`background:${accentColor}`}>
+    <div class="proj-cover-label">/{cleanSlug}.png</div>
+    {variant === 'home' && (
+      <div class="proj-cover-badge float-y">case<br/>study</div>
+    )}
+    {variant === 'work' && (
+      <div class="proj-cover-pill">↗ {data.year}</div>
+    )}
+  </div>
+  <div class="proj-meta">
+    <div>
+      <div class="proj-name display">{data.name}</div>
+      <div class="proj-kind mono">{data.kind}{variant === 'work' ? ` · ${data.role}` : ''}</div>
+    </div>
+    {variant === 'home' && (
+      <div class="proj-year mono">{data.year}</div>
+    )}
+  </div>
+  {variant === 'work' && data.metrics.length > 0 && (
+    <div class="proj-metrics mono">
+      {data.metrics.slice(0, 3).map((m) => (
+        <div><span class="proj-metric-num display">{m.value}</span>{m.label}</div>
+      ))}
+    </div>
+  )}
+</a>
+
+<style>
+  .proj {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    padding-top: 20px;
+  }
+
+  .proj-cover {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-card);
+    position: relative;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 10%, transparent) 18px 19px);
+  }
+
+  .proj-cover-label {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    font-size: 11px;
+    color: var(--ink);
+    opacity: 0.7;
+    font-family: var(--font-mono);
+  }
+
+  .proj-cover-badge {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .proj-cover-pill {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .proj-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .proj-name {
+    font-size: 28px;
+    line-height: 1.05;
+    font-family: var(--font-display);
+  }
+
+  .proj-kind {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+  }
+
+  .proj-year {
+    font-size: 12px;
+    opacity: 0.6;
+    font-family: var(--font-mono);
+  }
+
+  .proj-metrics {
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.7;
+    flex-wrap: wrap;
+  }
+
+  .proj-metric-num {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin-right: 6px;
+  }
+</style>

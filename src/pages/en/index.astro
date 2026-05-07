@@ -1,75 +1,213 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
 import Marquee from '../../components/Marquee.astro';
-import Squiggle from '../../components/Squiggle.astro';
-import Blob from '../../components/Blob.astro';
+import HeroDefault from '../../components/HeroDefault.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import ExperienceList from '../../components/ExperienceList.astro';
+import TestimonialsBlock from '../../components/TestimonialsBlock.astro';
+import { t } from '../../i18n';
+import { getStaticRoute } from '../../i18n/routes';
 
 const lang = 'en';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.slug.startsWith('en/'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4);
+
+const articles = (await getCollection('articles'))
+  .filter((a) => a.slug.startsWith('en/'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 <BaseLayout lang={lang} canonicalPath="/en/" altLangUrl="/">
-  <Reveal>
-    <section class="home-hero">
-      <Blob color="var(--accent2)" size={300} position="top: -60px; right: -40px;" />
-      <Blob color="var(--accent)" size={220} position="top: 200px; right: 200px; opacity: 0.35;" delay={-3} />
-      <h1 class="hero-title display">
-        I build <em>fast</em>,<br/>
-        accessible websites<br/>
-        and <em>shops<Squiggle /></em> for small<br/>
-        and medium businesses.
-      </h1>
-    </section>
-  </Reveal>
+
+  <section class="home-hero">
+    <Reveal class="home-hero-toprow">
+      <div class="mono small">01 — {t('home.intro', lang)}</div>
+      <div class="mono small right">{t('home.locationCity', lang)}<br/>{t('home.locationTz', lang)}</div>
+    </Reveal>
+
+    <HeroDefault lang={lang} />
+
+    <Reveal delay={0.2} class="home-hero-bottom">
+      <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
+      <div class="home-hero-ctas">
+        <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} data-cursor="hover" class="btn-primary">{t('cta.schedule', lang)} →</a>
+        <a href="#" data-cursor="hover" class="btn-ghost">{t('cta.cv', lang)}</a>
+      </div>
+    </Reveal>
+  </section>
+
   <Marquee lang={lang} />
-  <Reveal>
-    <section class="home-intro">
-      <p class="eyebrow">01 — Intro</p>
-      <p class="lead">
-        I'm a freelance web developer based in Bratislava. I specialize in WordPress, Next.js, and modern frontend with a focus on performance and SEO. Full redesign with 4 hero variants, work, blog, and brief wizard coming in CD-2/CD-3.
-      </p>
-    </section>
-  </Reveal>
+
+  <section class="home-work">
+    <Reveal class="section-header">
+      <div>
+        <div class="mono small">02 — {t('home.workEyebrow', lang)}</div>
+        <h2 class="display">{t('home.workTitle', lang)}</h2>
+      </div>
+      <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="mono section-all" data-cursor="hover">{t('cta.allWork', lang)} →</a>
+    </Reveal>
+    <div class="work-grid">
+      {projects.map((p) => (
+        <Reveal>
+          <ProjectCard entry={p} lang={lang} variant="home" />
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-about">
+    <div class="about-grid">
+      <Reveal>
+        <div class="mono small">03 — {t('home.aboutEyebrow', lang)}</div>
+        <h2 class="display about-headline">
+          {t('home.aboutTitle.before', lang)} <em class="about-em">{t('home.aboutTitle.em', lang)}</em>{t('home.aboutTitle.after', lang)}
+        </h2>
+        <p class="about-lead">{t('home.aboutLead', lang)}</p>
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <div class="mono small mb-6">04 — {t('home.experienceEyebrow', lang)}</div>
+        <ExperienceList lang={lang} />
+      </Reveal>
+    </div>
+  </section>
+
+  <TestimonialsBlock lang={lang} />
+
+  <section class="home-blog">
+    <Reveal class="section-header">
+      <div>
+        <div class="mono small">06 — {t('home.journalEyebrow', lang)}</div>
+        <h2 class="display blog-h2">{t('home.journalTitle', lang)}</h2>
+      </div>
+      <a href={`${baseUrl}${getStaticRoute('blog', lang)}`} class="mono section-all" data-cursor="hover">{t('cta.allArticles', lang)} →</a>
+    </Reveal>
+    <div class="blog-grid">
+      {articles.map((a) => (
+        <Reveal>
+          <ArticleCard entry={a} lang={lang} />
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .home-hero {
-    padding: 96px 56px;
+  .home-hero { position: relative; padding: 80px 56px; min-height: 600px; overflow: hidden; }
+  .home-hero-toprow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
     position: relative;
-    overflow: hidden;
+    z-index: 2;
   }
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: var(--text-hero);
-    line-height: 0.92;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    margin: 0;
-    max-width: 14ch;
+  .home-hero-toprow .right { text-align: right; }
+  .small { font-size: 13px; opacity: 0.6; font-family: var(--font-mono); }
+  .home-hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 48px;
     position: relative;
+    z-index: 2;
+    gap: 32px;
+    flex-wrap: wrap;
   }
-  .hero-title em {
-    position: relative;
-  }
-  .home-intro {
-    padding: 96px 56px;
-    max-width: 880px;
-  }
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    opacity: 0.5;
-    margin: 0 0 16px 0;
-  }
-  .lead {
-    font-size: 22px;
+  .home-hero-lead {
+    max-width: 420px;
+    font-size: 17px;
     line-height: 1.5;
-    max-width: 720px;
+    opacity: 0.75;
     margin: 0;
   }
+  .home-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+  }
+
+  .home-work, .home-blog { padding: 96px 56px; }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 40px;
+    gap: 24px;
+  }
+  .section-header h2 { font-size: 64px; line-height: 1; margin: 8px 0 0; font-family: var(--font-display); }
+  .section-all { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .home-about {
+    padding: 96px 56px;
+    background: var(--bg2);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+  }
+  .about-headline {
+    font-size: 56px;
+    margin: 0 0 24px;
+    line-height: 1.05;
+    font-family: var(--font-display);
+  }
+  .about-em {
+    color: var(--accent);
+    font-style: italic;
+    padding-left: 0.06em;
+  }
+  .about-lead {
+    font-size: 17px;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 540px;
+  }
+  .mb-6 { margin-bottom: 24px; }
+
+  .home-blog { border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  .blog-h2 { font-size: 48px !important; }
+
   @media (max-width: 768px) {
-    .home-hero, .home-intro { padding: 60px 20px; }
-    .hero-title { max-width: none; }
+    .home-hero, .home-work, .home-about, .home-blog { padding: 60px 20px; }
+    .section-header h2 { font-size: 40px; }
+    .blog-h2 { font-size: 40px !important; }
+    .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
+    .about-headline { font-size: 40px; }
   }
 </style>

@@ -1,0 +1,66 @@
+---
+import Blob from './Blob.astro';
+import Squiggle from './Squiggle.astro';
+import Reveal from './Reveal.astro';
+import { type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+<Blob color="var(--accent)" size={340} position="top: 60px; right: 80px;" />
+<Blob color="var(--accent2)" size={240} position="top: 200px; right: 300px;" delay={-4} />
+
+<Reveal as="h1" class="hero-title display">
+  {lang === 'sk' ? (
+    <Fragment>
+      Budujem <em class="hero-em">rýchle</em>,<br/>
+      prístupné weby<br/>
+      a <span class="hero-squiggle-wrap">eshopy<Squiggle /></span> pre malé<br/>
+      a stredné firmy.
+    </Fragment>
+  ) : (
+    <Fragment>
+      I build <em class="hero-em">fast</em>,<br/>
+      accessible websites<br/>
+      and <span class="hero-squiggle-wrap">shops<Squiggle /></span> for small<br/>
+      and mid businesses.
+    </Fragment>
+  )}
+</Reveal>
+
+<style>
+  .hero-title {
+    font-size: var(--text-hero);
+    line-height: 0.92;
+    margin: 0;
+    max-width: 1100px;
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-em {
+    font-style: italic;
+    color: var(--accent);
+    padding-left: 0.08em;
+    padding-right: 0.06em;
+  }
+
+  .hero-squiggle-wrap {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.22em;
+  }
+
+  .hero-squiggle-wrap :global(svg) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 14px;
+  }
+</style>

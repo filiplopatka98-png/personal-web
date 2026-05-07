@@ -1,0 +1,48 @@
+---
+import { type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const experience = lang === 'sk' ? [
+  { years: '2024 — dnes', role: 'Freelance Web Developer', desc: 'Vlastná značka — eshopy a weby pre SK/CZ klientov.' },
+  { years: '2022 — 2024', role: 'Senior Developer · Studio Pixel', desc: 'Headless WP, Next.js, výkon a SEO.' },
+  { years: '2019 — 2022', role: 'Web Developer · Webhouse', desc: 'WooCommerce shopy, custom témy.' },
+  { years: '2017 — 2019', role: 'Junior Developer · Promiseo', desc: 'PHP, MySQL, WordPress.' },
+] : [
+  { years: '2024 — now', role: 'Freelance Web Developer', desc: 'Solo — e-shops and sites for SK/CZ clients.' },
+  { years: '2022 — 2024', role: 'Senior Developer · Studio Pixel', desc: 'Headless WP, Next.js, perf & SEO.' },
+  { years: '2019 — 2022', role: 'Web Developer · Webhouse', desc: 'WooCommerce, custom themes.' },
+  { years: '2017 — 2019', role: 'Junior Developer · Promiseo', desc: 'PHP, MySQL, WordPress.' },
+];
+---
+<div class="exp-list">
+  {experience.map((row) => (
+    <div class="exp-row">
+      <div class="exp-years mono">{row.years}</div>
+      <div>
+        <div class="exp-role">{row.role}</div>
+        <div class="exp-desc">{row.desc}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .exp-list { display: flex; flex-direction: column; }
+  .exp-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  .exp-years { font-size: 12px; opacity: 0.6; font-family: var(--font-mono); }
+  .exp-role { font-weight: 500; font-size: 17px; }
+  .exp-desc { font-size: 14px; opacity: 0.7; margin-top: 4px; }
+  @media (max-width: 768px) {
+    .exp-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
