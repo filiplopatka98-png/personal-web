@@ -1,0 +1,59 @@
+# ─────────────────────────────────────────────────────────────────────────
+# .htaccess — Apache config for WebSupport hosting
+# Activated AFTER F9 cutover (when site moves from GitHub Pages → WebSupport)
+# GitHub Pages ignores this file. Apache reads it on every request.
+# ─────────────────────────────────────────────────────────────────────────
+
+# ── Cache-Control — long cache for hashed assets (CSS/JS/fonts/images) ────
+<IfModule mod_headers.c>
+  # Hashed/versioned assets (Astro adds content hash to filenames) → 1 year, immutable.
+  # Lighthouse "Use efficient cache lifetimes" expects ≥30 days; we go max.
+  <FilesMatch "\.(woff2|woff|ttf|otf|eot|css|js|mjs|png|jpg|jpeg|gif|webp|avif|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML pages → short cache so content updates propagate quickly.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </FilesMatch>
+
+  # ── Security headers — F10 from launch-roadmap ───────────────────────────
+
+  # Prevent MIME-type sniffing
+  Header set X-Content-Type-Options "nosniff"
+
+  # No iframe embedding (anti-clickjacking)
+  Header set X-Frame-Options "DENY"
+
+  # Privacy-respecting referrer policy
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Disable powerful APIs we don't use
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # Content Security Policy — restrictive but allows Formspree (forms backend)
+  # + WhatsApp wa.me redirect target. Update connect-src if you add analytics.
+  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self';"
+
+  # HSTS — uncomment AFTER SSL is verified working on lopatka.sk for 24h+.
+  # Once enabled, browsers refuse HTTP and remember the rule for 1 year.
+  # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # ── Pre-launch: noindex via HTTP header (defense in depth) ───────────────
+  # BaseLayout already emits <meta name="robots" content="noindex, nofollow">
+  # when SITE_INDEXABLE=false. This X-Robots-Tag duplicates it at HTTP level
+  # so even crawlers that skip HTML parsing get the signal.
+  # REMOVE this line on launch day (F0.1) along with flipping SITE_INDEXABLE.
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+
+# ── Compression — enables gzip/brotli for text content ────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml image/svg+xml font/woff2
+</IfModule>
+
+# ── Pretty URLs — Astro generates /path/index.html, this serves them at /path/ ─
+DirectoryIndex index.html
+
+# ── Custom 404 (Astro generates /404/index.html) ──────────────────────────
+ErrorDocument 404 /404/index.html
