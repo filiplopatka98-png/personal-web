@@ -37,6 +37,9 @@ const testimonials = lang === 'sk' ? [
   .testimonials-section {
     padding: 96px 56px;
     position: relative;
+    /* Contain the decorative blob so it can't push body scrollWidth past
+       the viewport. Also matches .home-hero / .proj-body convention. */
+    overflow: hidden;
   }
   .testimonials-eyebrow {
     font-size: 13px;
@@ -68,8 +71,18 @@ const testimonials = lang === 'sk' ? [
     opacity: 0.7;
     font-family: var(--font-mono);
   }
+  @media (max-width: 1024px) {
+    .testimonials-section { padding: 72px 32px; }
+    .testimonials-grid { gap: 36px; }
+    .testimonial-quote { font-size: 22px; }
+  }
   @media (max-width: 768px) {
-    .testimonials-section { padding: 60px 20px; }
+    .testimonials-section { padding: 56px 20px; }
     .testimonials-grid { grid-template-columns: 1fr; gap: 32px; }
+    .testimonial-quote { font-size: 20px; }
+  }
+  @media (max-width: 480px) {
+    .testimonials-section { padding: 48px 16px; }
+    .testimonial-quote { font-size: 18px; }
   }
 </style>
