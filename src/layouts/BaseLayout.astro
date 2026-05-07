@@ -26,6 +26,49 @@ const canonicalUrl = `${siteUrl}${baseUrl}${canonicalPath}`;
 const altUrl = altLangUrl ? `${siteUrl}${baseUrl}${altLangUrl}` : null;
 const skUrl = lang === 'sk' ? canonicalUrl : altUrl;
 const enUrl = lang === 'en' ? canonicalUrl : altUrl;
+
+// JSON-LD: Person schema (always inline)
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Filip Lopatka',
+  url: `${siteUrl}${baseUrl}/`,
+  jobTitle: lang === 'sk' ? 'Web Developer' : 'Web Developer',
+  description: fullDesc,
+  email: 'mailto:ahoj@filiplopatka.sk',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bratislava',
+    addressCountry: 'SK',
+  },
+  sameAs: [
+    'https://github.com/filiplopatka',
+    'https://linkedin.com/in/filiplopatka',
+  ],
+  knowsAbout: ['WordPress', 'Next.js', 'React', 'Astro', 'WooCommerce', 'Performance', 'SEO'],
+};
+
+// JSON-LD: BreadcrumbList — built from canonicalPath segments (skip if root)
+function buildBreadcrumbs(): unknown | null {
+  const segments = canonicalPath.split('/').filter(Boolean);
+  if (segments.length === 0) return null;
+  const items: Array<Record<string, unknown>> = [
+    { '@type': 'ListItem', position: 1, name: lang === 'sk' ? 'Domov' : 'Home', item: `${siteUrl}${baseUrl}/` },
+  ];
+  let pathSoFar = lang === 'sk' ? '' : '/en';
+  segments.forEach((seg, i) => {
+    if (lang === 'en' && i === 0 && seg === 'en') return; // skip EN prefix
+    pathSoFar += `/${seg}`;
+    items.push({
+      '@type': 'ListItem',
+      position: items.length + 1,
+      name: decodeURIComponent(seg).replace(/-/g, ' '),
+      item: `${siteUrl}${baseUrl}${pathSoFar}/`,
+    });
+  });
+  return { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items };
+}
+const breadcrumbLd = buildBreadcrumbs();
 ---
 <!doctype html>
 <html lang={lang} data-theme="warm">
@@ -58,6 +101,12 @@ const enUrl = lang === 'en' ? canonicalUrl : altUrl;
     <link rel="preload" href={`${baseUrl}/fonts/geist-regular.woff2`} as="font" type="font/woff2" crossorigin />
 
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)}></script>
+    {breadcrumbLd && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)}></script>
+    )}
+    <slot name="head" />
 
     <ViewTransitions />
   </head>

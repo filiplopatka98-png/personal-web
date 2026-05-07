@@ -33,6 +33,28 @@ const nextSlug = next.slug.replace(/^sk\//, '');
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const accentColor = `var(--${data.accent})`;
+
+// JSON-LD: CreativeWork
+const projectUrlPath = `${baseUrl}/praca/${cleanSlug}/`;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const fullProjectUrl = `${siteUrl}${projectUrlPath}`;
+
+const projectLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: data.name,
+  description: data.brief,
+  creator: {
+    '@type': 'Person',
+    name: 'Filip Lopatka',
+    url: `${siteUrl}${baseUrl}/`,
+  },
+  dateCreated: data.year,
+  url: fullProjectUrl,
+  about: data.kind,
+  inLanguage: 'sk-SK',
+  ...(data.url && { sameAs: [`https://${data.url}`] }),
+};
 ---
 <BaseLayout
   lang={lang}
@@ -41,6 +63,7 @@ const accentColor = `var(--${data.accent})`;
   title={`${data.name} — Filip Lopatka`}
   description={data.brief}
 >
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(projectLd)}></script>
   <!-- Header -->
   <section class="proj-header">
     <Reveal>

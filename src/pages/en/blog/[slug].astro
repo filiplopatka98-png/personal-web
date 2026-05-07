@@ -30,6 +30,29 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 });
 const dateStr = fmt.format(data.date);
+
+// JSON-LD: BlogPosting
+const articleUrlPath = `${baseUrl}/en/blog/${cleanSlug}/`;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const fullArticleUrl = `${siteUrl}${articleUrlPath}`;
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  datePublished: data.date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Filip Lopatka',
+    url: `${siteUrl}${baseUrl}/`,
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': fullArticleUrl },
+  description: data.excerpt,
+  inLanguage: 'en-US',
+  keywords: data.tags.join(', '),
+  wordCount: entry.body.split(/\s+/).length,
+  timeRequired: `PT${data.read}M`,
+};
 ---
 <BaseLayout
   lang={lang}
@@ -38,6 +61,7 @@ const dateStr = fmt.format(data.date);
   title={`${data.title} — Filip Lopatka`}
   description={data.excerpt}
 >
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
   <article class="article-page">
     <!-- Back link -->
     <div class="article-nav">
