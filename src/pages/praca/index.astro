@@ -1,17 +1,120 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Reveal from '../../components/Reveal.astro';
 import { t } from '../../i18n';
 
 const lang = 'sk';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.slug.startsWith('sk/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const projectCount = projects.length;
+const titleHtml = `${t('work.title.before', lang)}<em>${t('work.title.em', lang)}</em>${t('work.title.after', lang)}`;
 ---
 <BaseLayout lang={lang} canonicalPath="/praca/" altLangUrl="/en/work/" title={`${t('nav.work', lang)} — Filip Lopatka`}>
-  <section style="padding: 96px 56px; max-width: 880px; margin: 0 auto;">
-    <p style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 24px;">01 — {t('nav.work', lang)}</p>
-    <h1 style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; margin: 0;">
-      Práca — <em>v príprave</em>.
-    </h1>
-    <p style="margin-top: 32px; font-size: 18px; opacity: 0.7; max-width: 600px;">
-      Plný portfólio s 6 case studies pripravujem. Zatiaľ si pozri brief alebo ma kontaktuj.
-    </p>
+  <PageHead
+    eyebrow={`${projectCount} ${t('work.eyebrow', lang)}`}
+    titleHtml={titleHtml}
+    lead={t('work.lead', lang)}
+  />
+
+  <section class="filter-section">
+    <Reveal class="filter-row">
+      <span class="mono filter-label">{t('work.filter', lang)}</span>
+      <button data-filter="all" class="chip is-active" data-cursor="hover">{t('work.filterAll', lang)}</button>
+      <button data-filter="e-shop" class="chip" data-cursor="hover">{t('work.filterEshop', lang)}</button>
+      <button data-filter="next.js" class="chip" data-cursor="hover">{t('work.filterNext', lang)}</button>
+      <button data-filter="wp" class="chip" data-cursor="hover">{t('work.filterWp', lang)}</button>
+      <button data-filter="astro" class="chip" data-cursor="hover">{t('work.filterAstro', lang)}</button>
+    </Reveal>
+  </section>
+
+  <section class="work-section">
+    <div class="work-grid">
+      {projects.map((p) => (
+        <Reveal as="div" class="project-wrap" data-project-card data-kind={p.data.kind.toLowerCase()}>
+          <ProjectCard entry={p} lang={lang} variant="work" />
+        </Reveal>
+      ))}
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .filter-section {
+    padding: 32px 56px;
+    border-bottom: var(--border-soft);
+    background: var(--bg2);
+  }
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 12px;
+    opacity: 0.5;
+    margin-right: 8px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .chip {
+    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    background: transparent;
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chip.is-active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .work-section { padding: 60px 56px; }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 768px) {
+    .filter-section, .work-section { padding: 32px 20px; }
+    .work-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+
+<script>
+  function initWorkFilter() {
+    const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+    const cards = document.querySelectorAll<HTMLElement>('[data-project-card]');
+    if (!chips.length || !cards.length) return;
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        const filter = chip.dataset.filter || 'all';
+        cards.forEach((card) => {
+          const kind = card.dataset.kind || '';
+          card.style.display = (filter === 'all' || kind.includes(filter)) ? '' : 'none';
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkFilter);
+  } else {
+    initWorkFilter();
+  }
+  document.addEventListener('astro:page-load', initWorkFilter);
+</script>

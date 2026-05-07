@@ -131,6 +131,18 @@
   "menu.github": "github.com/filiplopatka",
   "menu.linkedin": "linkedin.com/in/filiplopatka",
 
+  "work.eyebrow": "PROJECTS · 2023 — 2025",
+  "work.title.before": "Selected ",
+  "work.title.em": "work",
+  "work.title.after": ".",
+  "work.lead": "Recent work for SK/CZ clients. Click any project for the full case study.",
+  "work.filter": "Filter:",
+  "work.filterAll": "All",
+  "work.filterEshop": "E-shops",
+  "work.filterNext": "Next.js",
+  "work.filterWp": "WordPress",
+  "work.filterAstro": "Astro",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

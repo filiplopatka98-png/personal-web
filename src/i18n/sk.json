@@ -131,6 +131,18 @@
   "menu.github": "github.com/filiplopatka",
   "menu.linkedin": "linkedin.com/in/filiplopatka",
 
+  "work.eyebrow": "PROJEKTOV · 2023 — 2025",
+  "work.title.before": "Vybrané ",
+  "work.title.em": "práce",
+  "work.title.after": ".",
+  "work.lead": "Najnovšie projekty pre slovenských a českých klientov. Klikni na ktorýkoľvek pre case study.",
+  "work.filter": "Filter:",
+  "work.filterAll": "Všetko",
+  "work.filterEshop": "Eshopy",
+  "work.filterNext": "Next.js",
+  "work.filterWp": "WordPress",
+  "work.filterAstro": "Astro",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
