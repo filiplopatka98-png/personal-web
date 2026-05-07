@@ -18,7 +18,7 @@ const detailHref = lang === 'sk'
   : `${baseUrl}/en/work/${cleanSlug}/`;
 const accentColor = `var(--${data.accent})`;
 ---
-<a href={detailHref} class="proj" data-cursor="hover">
+<a href={detailHref} class:list={['proj', `is-${variant}`]} data-cursor="hover">
   <div class="proj-cover" style={`background:${accentColor}`}>
     <div class="proj-cover-label">/{cleanSlug}.png</div>
     {variant === 'home' && (
@@ -114,6 +114,20 @@ const accentColor = `var(--${data.accent})`;
     font-family: var(--font-display);
   }
 
+  /* Work variant — bigger card (handoff lines 57-69):
+     - paddingTop 20→24
+     - meta marginTop 18→24
+     - name 28→36 */
+  .proj.is-work {
+    padding-top: 24px;
+  }
+  .proj.is-work .proj-meta {
+    margin-top: 24px;
+  }
+  .proj.is-work .proj-name {
+    font-size: 36px;
+  }
+
   .proj-kind {
     font-size: 12px;
     opacity: 0.6;
@@ -142,5 +156,14 @@ const accentColor = `var(--${data.accent})`;
     font-family: var(--font-display);
     font-size: 18px;
     margin-right: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .proj.is-work .proj-name { font-size: 28px; }
+    .proj-metrics { gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    .proj-name { font-size: 24px; }
+    .proj.is-work .proj-name { font-size: 26px; }
   }
 </style>
