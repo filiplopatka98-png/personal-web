@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Reveal from '../../components/Reveal.astro';
+import Blob from '../../components/Blob.astro';
+import { t } from '../../i18n';
+import { getStaticRoute } from '../../i18n/routes';
+
+const lang = 'en';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<BaseLayout lang={lang} canonicalPath="/en/404/" title="404 — Filip Lopatka">
+  <div class="not-found">
+    <Blob color="var(--accent)" size={380} position="top: 30%; left: 30%; opacity: 0.4;" />
+    <Reveal class="not-found-content">
+      <div class="not-found-num display">404</div>
+      <h1 class="not-found-title display">
+        {t('notFound.title.before', lang)}<em>{t('notFound.title.em', lang)}</em>{t('notFound.title.after', lang)}
+      </h1>
+      <p class="not-found-lead">{t('notFound.lead', lang)}</p>
+      <div class="not-found-ctas">
+        <a href={`${baseUrl}/en/`} class="btn-primary" data-cursor="hover">← {t('notFound.backHome', lang)}</a>
+        <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="btn-ghost" data-cursor="hover">{t('notFound.seeWork', lang)}</a>
+      </div>
+    </Reveal>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: 120px 56px 100px;
+    text-align: center;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .not-found-content {
+    position: relative;
+    z-index: 2;
+  }
+  .not-found-num {
+    font-size: 280px;
+    line-height: 0.85;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+  }
+  .not-found-title {
+    font-size: 56px;
+    line-height: 1.05;
+    margin: 24px 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .not-found-title :global(em) {
+    color: var(--accent);
+    font-style: italic;
+    padding-left: 0.08em;
+    padding-right: 0.06em;
+  }
+  .not-found-lead {
+    font-size: 18px;
+    opacity: 0.7;
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+  .not-found-ctas {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border: 1px solid var(--ink);
+    text-decoration: none;
+  }
+  @media (max-width: 768px) {
+    .not-found {
+      padding: 60px 20px;
+    }
+    .not-found-num {
+      font-size: 160px;
+    }
+    .not-found-title {
+      font-size: 36px;
+    }
+  }
+</style>

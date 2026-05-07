@@ -201,6 +201,13 @@
   "brief.step.4": "Contact",
   "brief.step.5": "Done",
 
+  "notFound.title.before": "This page doesn't ",
+  "notFound.title.em": "exist",
+  "notFound.title.after": ".",
+  "notFound.lead": "You may have mistyped, or the link is old. Head back home.",
+  "notFound.backHome": "Back home",
+  "notFound.seeWork": "See work",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

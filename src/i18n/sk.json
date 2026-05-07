@@ -201,6 +201,13 @@
   "brief.step.4": "Kontakt",
   "brief.step.5": "Hotovo",
 
+  "notFound.title.before": "Táto stránka ",
+  "notFound.title.em": "neexistuje",
+  "notFound.title.after": ".",
+  "notFound.lead": "Možno ste sa preklikali, alebo je odkaz starý. Skúste sa vrátiť na úvod.",
+  "notFound.backHome": "Späť na úvod",
+  "notFound.seeWork": "Pozrieť práce",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
