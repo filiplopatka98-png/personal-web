@@ -30,8 +30,8 @@ const steps = processSteps[lang];
   <section class="services-section">
     <div class="services-grid">
       {services.map((s, i) => (
-        <Reveal delay={(i % 2) * 0.1}>
-          <ServiceCard entry={s} lang={lang} />
+        <Reveal delay={(i % 2) * 0.08}>
+          <ServiceCard entry={s} lang={lang} index={i + 1} />
         </Reveal>
       ))}
     </div>
@@ -47,8 +47,8 @@ const steps = processSteps[lang];
       {steps.map((step, i) => (
         <Reveal delay={i * 0.05}>
           <div class="process-step">
-            <div class="step-num display">{step.num}</div>
-            <div class="step-title">{step.title}</div>
+            <div class="step-num mono">{step.num}</div>
+            <div class="step-title display">{step.title}</div>
             <p class="step-desc">{step.desc}</p>
           </div>
         </Reveal>
@@ -56,19 +56,23 @@ const steps = processSteps[lang];
     </div>
   </section>
 
-  <section class="services-cta">
+  <section class="services-final-cta">
     <Reveal>
-      <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} class="services-cta-link" data-cursor="hover">
-        <span class="cta-arrow">→</span>
-        <span class="cta-text">{t('services.cta', lang)}</span>
+      <h2 class="final-cta-title display">
+        {t('services.finalCta.title.before', lang)}<em class="final-cta-em">{t('services.finalCta.title.em', lang)}</em>{t('services.finalCta.title.after', lang)}
+      </h2>
+      <p class="final-cta-lead">{t('services.finalCta.lead', lang)}</p>
+      <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} class="final-cta-btn mono" data-cursor="hover">
+        {t('cta.briefStart', lang)} →
       </a>
     </Reveal>
   </section>
 </BaseLayout>
 
 <style>
+  /* Services grid — handoff line 219: 60px 56px section, 1fr 1fr grid, gap 32. */
   .services-section {
-    padding: 80px 56px;
+    padding: 60px 56px;
   }
   .services-grid {
     display: grid;
@@ -76,13 +80,13 @@ const steps = processSteps[lang];
     gap: 32px;
     max-width: 1200px;
     margin: 0 auto;
+    align-items: stretch;
   }
 
+  /* Process — handoff line 268: 80px 56px, bg2 (NO top/bottom borders). */
   .process-section {
-    padding: 96px 56px;
+    padding: 80px 56px;
     background: var(--bg2);
-    border-top: var(--border-soft);
-    border-bottom: var(--border-soft);
     position: relative;
     overflow: hidden;
   }
@@ -94,8 +98,9 @@ const steps = processSteps[lang];
     letter-spacing: 0.06em;
     position: relative;
   }
+  /* Process h2 — handoff line 271: 64px (was 56). */
   .process-title {
-    font-size: 56px;
+    font-size: 64px;
     margin: 0 0 48px;
     font-family: var(--font-display);
     font-weight: 400;
@@ -108,90 +113,96 @@ const steps = processSteps[lang];
     gap: 32px;
     position: relative;
   }
+  /* Process step — handoff line 275: borderTop 2px solid accent, paddingTop 20. */
   .process-step {
-    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-top: 2px solid var(--accent);
     padding-top: 20px;
   }
+  /* Step num — handoff line 276: mono 11/0.5 (NOT display 36 in accent). */
   .step-num {
-    font-size: 36px;
-    color: var(--accent);
-    font-family: var(--font-display);
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-  .step-title {
-    font-size: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.5;
     margin-bottom: 8px;
-    font-weight: 500;
+  }
+  /* Step title — handoff line 277: display 28/1.1 (NOT 20). */
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.1;
+    margin-bottom: 12px;
   }
   .step-desc {
     font-size: 14px;
-    line-height: 1.6;
-    opacity: 0.8;
+    line-height: 1.55;
+    opacity: 0.75;
     margin: 0;
   }
 
-  .services-cta {
-    padding: 80px 56px;
+  /* Final CTA — handoff line 285: 100px 56px, text-align center, h2 80px. */
+  .services-final-cta {
+    padding: 100px 56px;
     text-align: center;
   }
-  .services-cta-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: var(--ink);
+  .final-cta-title {
+    font-size: 80px;
+    line-height: 1;
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .final-cta-em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .final-cta-lead {
+    font-size: 18px;
+    opacity: 0.7;
+    max-width: 520px;
+    margin: 0 auto 32px;
+    line-height: 1.5;
+  }
+  .final-cta-btn {
+    display: inline-block;
     background: var(--ink);
     color: var(--bg);
-    padding: 20px 32px;
+    padding: 16px 28px;
     border-radius: var(--radius-pill);
     font-family: var(--font-mono);
     font-size: 14px;
-    transition: background 0.2s;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
   }
-  .services-cta-link:hover {
+  .final-cta-btn:hover {
     background: var(--accent);
     color: var(--ink);
   }
-  .cta-arrow {
-    font-size: 18px;
-  }
 
   @media (max-width: 1024px) {
-    .services-section, .process-section, .services-cta {
-      padding-left: 32px;
-      padding-right: 32px;
-    }
-    .services-section, .process-section, .services-cta { padding-top: 64px; padding-bottom: 64px; }
+    .services-section { padding: 48px 32px; }
+    .process-section { padding: 64px 32px; }
+    .services-final-cta { padding: 80px 32px; }
     .services-grid { gap: 28px; }
     .process-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
-    .process-title { font-size: 48px; }
+    .process-title { font-size: 52px; }
+    .final-cta-title { font-size: 64px; }
   }
   @media (max-width: 768px) {
-    .services-section, .process-section, .services-cta {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-    .services-section, .process-section, .services-cta { padding-top: 56px; padding-bottom: 56px; }
-    .services-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .process-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .process-title {
-      font-size: 36px;
-    }
+    .services-section { padding: 40px 20px; }
+    .process-section { padding: 56px 20px; }
+    .services-final-cta { padding: 64px 20px; }
+    .services-grid { grid-template-columns: 1fr; gap: 24px; }
+    .process-grid { grid-template-columns: 1fr; gap: 24px; }
+    .process-title { font-size: 38px; }
+    .final-cta-title { font-size: 48px; }
+    .final-cta-lead { font-size: 16px; }
   }
   @media (max-width: 480px) {
-    .services-section, .process-section, .services-cta {
-      padding-left: 16px;
-      padding-right: 16px;
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-    .process-title { font-size: 30px; }
+    .services-section { padding: 32px 16px; }
+    .process-section { padding: 48px 16px; }
+    .services-final-cta { padding: 56px 16px; }
+    .process-title { font-size: 32px; }
+    .final-cta-title { font-size: 40px; }
   }
 </style>

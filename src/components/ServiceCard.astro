@@ -1,63 +1,74 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { t, type Lang } from '../i18n';
+import { getStaticRoute } from '../i18n/routes';
 
 export interface Props {
   entry: CollectionEntry<'services'>;
   lang: Lang;
+  /** 1-based index for the "0X · duration" eyebrow line. */
+  index: number;
 }
-const { entry, lang } = Astro.props;
+const { entry, lang, index } = Astro.props;
 const { data } = entry;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
+const num = String(index).padStart(2, '0');
 ---
 <article class:list={['service-card', data.featured && 'is-featured']}>
   {data.featured && (
     <div class="service-popular mono">{t('services.popular', lang)}</div>
   )}
-  <div class="service-name display">{data.name}</div>
-  <div class="service-price-row mono">
-    <span class="service-price">{data.price}</span>
-    <span class="service-dot">·</span>
-    <span class="service-duration">{data.duration}</span>
-  </div>
-  <p class="service-tagline display">{data.tagline}</p>
+  <div class="service-eyebrow mono">{num} · {data.duration}</div>
+  <h3 class="service-name display">{data.name}</h3>
+  <div class="service-price display">{data.price}</div>
+  <p class="service-tagline">{data.tagline}</p>
   <p class="service-desc">{data.desc}</p>
 
-  <div class="service-section">
+  <div class="service-includes-block">
     <div class="service-section-label mono">{t('services.includes', lang)}</div>
     <ul class="service-includes">
-      {data.includes.map((item) => <li>{item}</li>)}
+      {data.includes.map((item) => (
+        <li><span class="service-check" aria-hidden="true">✓</span>{item}</li>
+      ))}
     </ul>
   </div>
 
   {data.notFor && (
-    <div class="service-section">
-      <div class="service-section-label mono">{t('services.notFor', lang)}</div>
-      <p class="service-notfor">{data.notFor}</p>
+    <div class="service-notfor">
+      <strong class="mono">{t('services.notFor', lang)}:</strong> {data.notFor}
     </div>
   )}
+
+  <a href={briefHref} class="service-cta mono" data-cursor="hover">
+    {t('services.requestQuote', lang)} →
+  </a>
 </article>
 
 <style>
+  /* Card — handoff: bg2 regular, ink featured (dark inverted card). */
   .service-card {
-    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    border-radius: var(--radius-large);
-    padding: 32px;
-    background: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    border-radius: 18px;
+    padding: 36px 32px;
+    background: var(--bg2);
+    color: var(--ink);
     position: relative;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
   }
 
   .service-card.is-featured {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
   }
 
   .service-popular {
     position: absolute;
     top: -12px;
-    left: 32px;
+    right: 24px;
     background: var(--accent);
     color: var(--ink);
     padding: 4px 12px;
@@ -65,53 +76,56 @@ const { data } = entry;
     font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .service-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.6;
     letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .service-name {
-    font-size: 32px;
-    line-height: 1.05;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.02em;
     font-family: var(--font-display);
-    margin: 0;
+    font-weight: 400;
+    margin: 12px 0 8px;
   }
 
-  .service-price-row {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
+  /* Price — accent italic display, always accent regardless of featured. */
   .service-price {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-style: italic;
     color: var(--accent);
-    font-weight: 600;
   }
-
-  .service-dot { opacity: 0.4; }
-  .service-duration { opacity: 0.7; }
 
   .service-tagline {
-    font-size: 22px;
-    line-height: 1.3;
-    font-family: var(--font-display);
-    font-style: italic;
-    margin: 8px 0 0;
-    opacity: 0.9;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin: 16px 0 0;
   }
 
   .service-desc {
-    font-size: 15px;
-    line-height: 1.55;
-    margin: 0;
-    opacity: 0.8;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.7;
+    margin: 8px 0 0;
   }
 
-  .service-section {
-    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-    padding-top: 16px;
-    margin-top: 8px;
+  /* Includes — dashed top border per handoff. Color flips for featured card. */
+  .service-includes-block {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+  }
+  .service-card.is-featured .service-includes-block {
+    border-top-color: color-mix(in srgb, var(--bg) 20%, transparent);
   }
 
   .service-section-label {
@@ -123,30 +137,68 @@ const { data } = entry;
     margin-bottom: 12px;
   }
 
+  /* List with custom accent ✓ bullets, gap 8. */
   .service-includes {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    padding-left: 20px;
-    font-size: 14px;
-    line-height: 1.65;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-
   .service-includes li {
-    margin: 4px 0;
-  }
-
-  .service-notfor {
+    display: flex;
+    gap: 10px;
     font-size: 14px;
-    line-height: 1.55;
-    margin: 0;
-    opacity: 0.7;
-    font-style: italic;
+    line-height: 1.4;
+  }
+  .service-check {
+    color: var(--accent);
+    flex-shrink: 0;
   }
 
-  /* Mobile — tighter card padding, smaller price/name per RESPONSIVE.md. */
+  /* "Not for:" line — small, NOT a separate bordered section. */
+  .service-notfor {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+  .service-notfor strong {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* Per-card CTA — accent on featured, ink on regular. */
+  .service-cta {
+    display: inline-block;
+    margin-top: 24px;
+    align-self: flex-start;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 22px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .service-card.is-featured .service-cta {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .service-cta:hover { opacity: 0.85; }
+
+  /* Mobile — tighter card padding, smaller name/price per RESPONSIVE.md. */
   @media (max-width: 768px) {
     .service-card { padding: 28px 22px; }
-    .service-name { font-size: 26px; }
-    .service-price { font-size: 14px; }
-    .service-tagline { font-size: 18px; }
+    .service-name { font-size: 38px; }
+    .service-price { font-size: 22px; }
+  }
+  @media (max-width: 480px) {
+    .service-name { font-size: 32px; }
+    .service-price { font-size: 20px; }
   }
 </style>
