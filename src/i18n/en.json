@@ -165,6 +165,13 @@
   "project.previous": "Previous",
   "project.screens": "Screens",
 
+  "article.read": "min read",
+  "article.published": "Published",
+  "article.tags": "Tags",
+  "article.backToBlog": "Back to journal",
+  "article.about": "About the author",
+  "article.aboutText": "I'm Filip — I build sites for small and medium businesses. WordPress, Next.js, Astro. Performance + SEO + meaningful UI.",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

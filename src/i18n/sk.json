@@ -165,6 +165,13 @@
   "project.previous": "Predošlý",
   "project.screens": "Ukážky",
 
+  "article.read": "min čítania",
+  "article.published": "Publikované",
+  "article.tags": "Tagy",
+  "article.backToBlog": "Späť na blog",
+  "article.about": "O autorovi",
+  "article.aboutText": "Som Filip — staviam weby pre malé a stredné firmy. WordPress, Next.js, Astro. Performance + SEO + zmysluplné UI.",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
