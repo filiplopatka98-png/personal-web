@@ -39,11 +39,11 @@
   "footer.formSend": "ODOSLAŤ SPRÁVU →",
   "footer.briefStart": "Začnime brief →",
   "footer.copy": "© 2026 Filip Lopatka",
-  "footer.made": "Vytvorené v Bratislave · v3.2",
+  "footer.made": "Vytvorené vo Veľkých Kostoľanoch · v3.2",
   "footer.rotating": "DOSTUPNÝ NA NOVÝ PROJEKT · DOSTUPNÝ NA NOVÝ PROJEKT · ",
 
   "site.title": "Filip Lopatka — Web Developer",
-  "site.description": "Freelance web developer v Bratislave. Rýchle weby a eshopy pre malé a stredné firmy. WordPress, Next.js, headless CMS.",
+  "site.description": "Freelance web developer z Veľkých Kostolian. Rýchle weby a eshopy pre malé a stredné firmy. WordPress, Next.js, headless CMS.",
 
   "lang.switch.toEN": "English",
   "lang.switch.toSK": "Slovensky",
@@ -117,7 +117,7 @@
   "home.testimonialsEyebrow": "Referencie",
   "home.journalEyebrow": "Píšem",
   "home.journalTitle": "Blog & poznámky",
-  "home.locationCity": "Bratislava, SK",
+  "home.locationCity": "Veľké Kostoľany, SK",
   "home.locationTz": "UTC+1",
 
   "contact.title": "Kontakt",
@@ -141,8 +141,10 @@
 
   "menu.navigation": "Navigácia",
   "menu.contact": "Kontakt",
-  "menu.location": "Bratislava, SK · UTC+1",
-  "menu.email": "ahoj@filiplopatka.sk",
+  "menu.location": "Veľké Kostoľany, SK · UTC+1",
+  "menu.email": "filip@lopatka.sk",
+  "menu.whatsapp": "+421 904 902 736",
+  "menu.whatsappHref": "https://wa.me/421904902736",
   "menu.linkedin": "linkedin.com/in/filip-lopatka-wordpress-dev",
   "menu.facebook": "facebook.com/filip.lopatka98",
   "menu.instagram": "instagram.com/lopatkafilip",

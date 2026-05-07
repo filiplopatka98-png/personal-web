@@ -25,8 +25,8 @@
   <path d="M 217 408 Q 245 393 273 408 T 329 408 T 385 408 T 441 408" stroke="#D2693A" stroke-width="4" fill="none"/>
 
   <!-- Footer line (mono) -->
-  <text x="80" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1">Web developer · WordPress · Next.js · Bratislava</text>
+  <text x="80" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1">Web developer · WordPress · Next.js · SK</text>
 
   <!-- Right-aligned URL -->
-  <text x="1120" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1" text-anchor="end">filiplopatka.sk</text>
+  <text x="1120" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1" text-anchor="end">lopatka.sk</text>
 </svg>
