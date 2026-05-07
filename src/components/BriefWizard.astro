@@ -1,0 +1,583 @@
+---
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const types = lang === 'sk' ? [
+  { k: 'landing', name: 'Landing page', sub: '1.8k €+ · 2-3 týždne' },
+  { k: 'web', name: 'Firemný web', sub: '4.5k €+ · 4-6 týždňov' },
+  { k: 'eshop', name: 'Eshop', sub: '8k €+ · 8-12 týždňov' },
+  { k: 'audit', name: 'Audit / poradenstvo', sub: '600 €+ · 1 týždeň' },
+  { k: 'other', name: 'Niečo iné', sub: 'Povedzme si' },
+] : [
+  { k: 'landing', name: 'Landing page', sub: '€1.8k+ · 2-3 weeks' },
+  { k: 'web', name: 'Company site', sub: '€4.5k+ · 4-6 weeks' },
+  { k: 'eshop', name: 'E-shop', sub: '€8k+ · 8-12 weeks' },
+  { k: 'audit', name: 'Audit / consulting', sub: '€600+ · 1 week' },
+  { k: 'other', name: 'Something else', sub: "Let's talk" },
+];
+
+const budgets = lang === 'sk' ? [
+  { k: 'lt5k', label: 'Do 5 000 €' },
+  { k: '5-15k', label: '5 000 – 15 000 €' },
+  { k: '15-40k', label: '15 000 – 40 000 €' },
+  { k: 'gt40k', label: 'Nad 40 000 €' },
+  { k: 'unknown', label: 'Ešte neviem' },
+] : [
+  { k: 'lt5k', label: 'Under €5,000' },
+  { k: '5-15k', label: '€5,000–15,000' },
+  { k: '15-40k', label: '€15,000–40,000' },
+  { k: 'gt40k', label: 'Over €40,000' },
+  { k: 'unknown', label: 'Not sure yet' },
+];
+
+const timelines = lang === 'sk' ? [
+  { k: 'asap', label: 'Čím skôr' },
+  { k: '1-3m', label: '1–3 mesiace' },
+  { k: '3-6m', label: '3–6 mesiacov' },
+  { k: 'flex', label: 'Flexibilný' },
+] : [
+  { k: 'asap', label: 'ASAP' },
+  { k: '1-3m', label: '1–3 months' },
+  { k: '3-6m', label: '3–6 months' },
+  { k: 'flex', label: 'Flexible' },
+];
+
+const stepLabels = [
+  t('brief.step.0', lang),
+  t('brief.step.1', lang),
+  t('brief.step.2', lang),
+  t('brief.step.3', lang),
+  t('brief.step.4', lang),
+  t('brief.step.5', lang),
+];
+
+const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
+const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
+---
+<div class="brief-wizard" data-step="0">
+  <!-- Progress indicator -->
+  <div class="brief-progress">
+    {stepLabels.map((label, i) => (
+      <Fragment>
+        <div class="brief-progress-step" data-step-index={i}>
+          <div class="brief-progress-dot">{i + 1}</div>
+          <div class="brief-progress-label mono">{label}</div>
+        </div>
+        {i < stepLabels.length - 1 && <div class="brief-progress-line" data-line-index={i}></div>}
+      </Fragment>
+    ))}
+  </div>
+
+  <form action={formAction} method="POST" class="brief-form">
+    <input type="hidden" name="_subject" value="New brief from filiplopatka.sk" />
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+    <!-- Step 0: Type -->
+    <fieldset class="brief-step" data-step="0">
+      <h2 class="brief-q display">{t('brief.q.type', lang)}</h2>
+      <div class="brief-options">
+        {types.map((opt) => (
+          <label class="brief-radio">
+            <input type="radio" name="type" value={opt.k} required />
+            <div class="brief-radio-content">
+              <div class="brief-radio-name display">{opt.name}</div>
+              <div class="brief-radio-sub mono">{opt.sub}</div>
+            </div>
+            <div class="brief-radio-check">✓</div>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- Step 1: Budget -->
+    <fieldset class="brief-step" data-step="1" hidden>
+      <h2 class="brief-q display">{t('brief.q.budget', lang)}</h2>
+      <p class="brief-q-sub">{t('brief.q.budget.sub', lang)}</p>
+      <div class="brief-grid">
+        {budgets.map((opt) => (
+          <label class="brief-tile">
+            <input type="radio" name="budget" value={opt.k} required />
+            <div class="brief-tile-label display">{opt.label}</div>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- Step 2: Timeline -->
+    <fieldset class="brief-step" data-step="2" hidden>
+      <h2 class="brief-q display">{t('brief.q.timeline', lang)}</h2>
+      <div class="brief-grid">
+        {timelines.map((opt) => (
+          <label class="brief-tile">
+            <input type="radio" name="timeline" value={opt.k} required />
+            <div class="brief-tile-label display">{opt.label}</div>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- Step 3: Description -->
+    <fieldset class="brief-step" data-step="3" hidden>
+      <h2 class="brief-q display">{t('brief.q.desc', lang)}</h2>
+      <textarea
+        name="description"
+        rows="10"
+        required
+        minlength="10"
+        placeholder={t('brief.placeholder.desc', lang)}
+        class="brief-textarea"
+      ></textarea>
+      <div class="brief-char-count mono"><span data-char-count>0</span> {t('brief.label.chars', lang)} (min. 10)</div>
+    </fieldset>
+
+    <!-- Step 4: Contact -->
+    <fieldset class="brief-step" data-step="4" hidden>
+      <h2 class="brief-q display">{t('brief.q.contact', lang)}</h2>
+      <div class="brief-fields">
+        <div class="brief-field">
+          <label class="brief-field-label mono">{t('brief.label.name', lang)}</label>
+          <input type="text" name="name" required class="brief-input" />
+        </div>
+        <div class="brief-field">
+          <label class="brief-field-label mono">{t('brief.label.email', lang)}</label>
+          <input type="email" name="email" required class="brief-input" />
+        </div>
+        <div class="brief-field">
+          <label class="brief-field-label mono">{t('brief.label.company', lang)}</label>
+          <input type="text" name="company" class="brief-input" />
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Step 5: Done -->
+    <fieldset class="brief-step" data-step="5" hidden>
+      <div class="brief-done">
+        <div class="brief-done-icon">✦</div>
+        <h2 class="brief-done-title display">{t('brief.done.title', lang)}</h2>
+        <p class="brief-done-body">{t('brief.done.body', lang)}</p>
+        <a href={homeHref} class="brief-done-back mono" data-cursor="hover">← {t('brief.done.back', lang)}</a>
+      </div>
+    </fieldset>
+
+    <!-- Nav buttons -->
+    <div class="brief-nav" data-nav>
+      <button type="button" data-cursor="hover" data-back class="brief-btn-back" disabled>← {t('brief.btn.back', lang)}</button>
+      <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)} →</button>
+      <button type="submit" data-cursor="hover" data-submit class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .brief-wizard {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* Progress indicator */
+  .brief-progress {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .brief-progress-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+  }
+  .brief-progress-step[data-step-index="0"] { opacity: 1; }
+  .brief-progress-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+  .brief-progress-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .brief-progress-line {
+    flex: 1;
+    height: 1px;
+    background: color-mix(in srgb, var(--ink) 22%, transparent);
+    max-width: 40px;
+    transition: background 0.2s;
+  }
+
+  /* Form base */
+  .brief-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .brief-step {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .brief-q {
+    font-size: 48px;
+    margin: 0 0 32px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .brief-q-sub {
+    opacity: 0.7;
+    margin: -16px 0 24px;
+    font-size: 15px;
+  }
+
+  /* Step 0 — radio list */
+  .brief-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .brief-radio {
+    cursor: pointer;
+    padding: 20px 24px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    background: transparent;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .brief-radio input { position: absolute; opacity: 0; pointer-events: none; }
+  .brief-radio:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+  .brief-radio:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+  .brief-radio-name {
+    font-size: 24px;
+    font-family: var(--font-display);
+    line-height: 1.1;
+  }
+  .brief-radio-sub {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+  }
+  .brief-radio-check {
+    color: var(--accent);
+    font-size: 24px;
+    opacity: 0;
+  }
+  .brief-radio:has(input:checked) .brief-radio-check { opacity: 1; }
+
+  /* Step 1, 2 — tile grid */
+  .brief-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .brief-tile {
+    cursor: pointer;
+    padding: 24px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    background: transparent;
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+  .brief-tile input { position: absolute; opacity: 0; pointer-events: none; }
+  .brief-tile:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+  .brief-tile:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+  .brief-tile-label {
+    font-family: var(--font-display);
+    font-size: 22px;
+  }
+
+  /* Step 3 — textarea */
+  .brief-textarea {
+    width: 100%;
+    padding: 20px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    background: var(--bg2);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+  }
+  .brief-textarea:focus { border-color: var(--accent); }
+  .brief-char-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.5;
+    margin-top: 8px;
+  }
+
+  /* Step 4 — fields */
+  .brief-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .brief-field-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .brief-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    color: var(--ink);
+    padding: 10px 0;
+    font-family: var(--font-body);
+    font-size: 20px;
+    margin-top: 6px;
+    outline: none;
+  }
+  .brief-input:focus { border-bottom-color: var(--accent); }
+
+  /* Step 5 — done */
+  .brief-done {
+    text-align: center;
+    padding: 60px 0;
+  }
+  .brief-done-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+  .brief-done-title {
+    font-size: 64px;
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .brief-done-body {
+    font-size: 18px;
+    opacity: 0.7;
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+  .brief-done-back {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+  }
+
+  /* Nav buttons */
+  .brief-nav {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brief-btn-back {
+    padding: 14px 20px;
+    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    background: transparent;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .brief-btn-back:disabled { opacity: 0.3; cursor: default; }
+  .brief-btn-next, .brief-btn-submit {
+    padding: 14px 28px;
+    border: 0;
+    background: var(--accent);
+    color: var(--ink);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .brief-btn-next:disabled, .brief-btn-submit:disabled {
+    background: color-mix(in srgb, var(--ink) 22%, transparent);
+    color: var(--ink);
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  @media (max-width: 768px) {
+    .brief-q { font-size: 32px; }
+    .brief-progress { flex-wrap: wrap; }
+    .brief-progress-line { display: none; }
+    .brief-done-title { font-size: 40px; }
+  }
+</style>
+
+<script>
+  function initBriefWizard() {
+    const wizard = document.querySelector<HTMLElement>('.brief-wizard');
+    if (!wizard) return;
+    if ((wizard as any).__briefInitialized) return;
+    (wizard as any).__briefInitialized = true;
+
+    const form = wizard.querySelector('form') as HTMLFormElement;
+    const fieldsets = wizard.querySelectorAll<HTMLFieldSetElement>('.brief-step');
+    const progressSteps = wizard.querySelectorAll<HTMLElement>('.brief-progress-step');
+    const progressLines = wizard.querySelectorAll<HTMLElement>('.brief-progress-line');
+    const backBtn = wizard.querySelector<HTMLButtonElement>('[data-back]');
+    const nextBtn = wizard.querySelector<HTMLButtonElement>('[data-next]');
+    const submitBtn = wizard.querySelector<HTMLButtonElement>('[data-submit]');
+    const navWrap = wizard.querySelector<HTMLElement>('[data-nav]');
+    const charCounter = wizard.querySelector<HTMLElement>('[data-char-count]');
+    const textarea = wizard.querySelector<HTMLTextAreaElement>('textarea[name="description"]');
+
+    let step = 0;
+    const lastInputStep = 4; // step 4 is last input, 5 is done
+
+    function updateUI() {
+      wizard!.dataset.step = String(step);
+
+      fieldsets.forEach((fs) => {
+        const idx = parseInt(fs.dataset.step ?? '-1', 10);
+        if (idx === step) fs.removeAttribute('hidden');
+        else fs.setAttribute('hidden', '');
+      });
+
+      progressSteps.forEach((el, i) => {
+        el.style.opacity = i <= step ? '1' : '0.3';
+        const dot = el.querySelector<HTMLElement>('.brief-progress-dot');
+        if (!dot) return;
+        if (i < step) {
+          dot.style.background = 'var(--accent)';
+          dot.style.color = 'var(--bg)';
+          dot.style.borderColor = 'var(--accent)';
+          dot.textContent = '✓';
+        } else if (i === step) {
+          dot.style.background = 'var(--ink)';
+          dot.style.color = 'var(--bg)';
+          dot.style.borderColor = 'var(--ink)';
+          dot.textContent = String(i + 1);
+        } else {
+          dot.style.background = 'transparent';
+          dot.style.color = 'var(--ink)';
+          dot.style.borderColor = 'var(--ink)';
+          dot.textContent = String(i + 1);
+        }
+      });
+
+      progressLines.forEach((el, i) => {
+        el.style.background = i < step ? 'var(--accent)' : 'color-mix(in srgb, var(--ink) 22%, transparent)';
+      });
+
+      if (step > lastInputStep) {
+        if (navWrap) navWrap.style.display = 'none';
+      } else {
+        if (navWrap) navWrap.style.display = '';
+        if (backBtn) backBtn.disabled = step === 0;
+        if (step === lastInputStep) {
+          if (nextBtn) nextBtn.hidden = true;
+          if (submitBtn) submitBtn.hidden = false;
+        } else {
+          if (nextBtn) nextBtn.hidden = false;
+          if (submitBtn) submitBtn.hidden = true;
+        }
+      }
+    }
+
+    function canAdvance(): boolean {
+      const currentFieldset = wizard!.querySelector<HTMLFieldSetElement>(`.brief-step[data-step="${step}"]`);
+      if (!currentFieldset) return false;
+      const requiredInputs = currentFieldset.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]');
+      for (const input of requiredInputs) {
+        if (input instanceof HTMLInputElement && input.type === 'radio') {
+          const checked = currentFieldset.querySelector(`input[name="${input.name}"]:checked`);
+          if (!checked) return false;
+        } else {
+          const val = input.value.trim();
+          if (!val) return false;
+          const minLen = parseInt(input.getAttribute('minlength') ?? '0', 10);
+          if (minLen > 0 && val.length < minLen) return false;
+        }
+      }
+      return true;
+    }
+
+    nextBtn?.addEventListener('click', () => {
+      if (!canAdvance()) return;
+      if (step < lastInputStep) {
+        step++;
+        updateUI();
+      }
+    });
+
+    backBtn?.addEventListener('click', () => {
+      if (step > 0) {
+        step--;
+        updateUI();
+      }
+    });
+
+    form?.addEventListener('submit', (e) => {
+      if (step !== lastInputStep) {
+        e.preventDefault();
+        return;
+      }
+      if (!canAdvance()) {
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      })
+        .then(() => { step = lastInputStep + 1; updateUI(); })
+        .catch(() => { step = lastInputStep + 1; updateUI(); });
+    });
+
+    textarea?.addEventListener('input', () => {
+      if (charCounter) charCounter.textContent = String(textarea.value.length);
+    });
+
+    updateUI();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBriefWizard);
+  } else {
+    initBriefWizard();
+  }
+  document.addEventListener('astro:page-load', initBriefWizard);
+</script>

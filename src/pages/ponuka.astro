@@ -1,17 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import BriefWizard from '../components/BriefWizard.astro';
 import { t } from '../i18n';
 
 const lang = 'sk';
+const titleHtml = `${t('brief.title.before', lang)}<em>${t('brief.title.em', lang)}</em>${t('brief.title.after', lang)}`;
 ---
 <BaseLayout lang={lang} canonicalPath="/ponuka/" altLangUrl="/en/brief/" title={`${t('nav.brief', lang)} — Filip Lopatka`}>
-  <section style="padding: 96px 56px; max-width: 880px; margin: 0 auto;">
-    <p style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 24px;">04 — {t('nav.brief', lang)}</p>
-    <h1 style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; margin: 0;">
-      Brief — <em>v príprave</em>.
-    </h1>
-    <p style="margin-top: 32px; font-size: 18px; opacity: 0.7; max-width: 600px;">
-      5-krokový brief wizard pripravujem v CD-3. Zatiaľ ma môžeš osloviť cez formulár v päte.
-    </p>
+  <PageHead
+    eyebrow={t('brief.eyebrow', lang)}
+    titleHtml={titleHtml}
+    lead={t('brief.lead', lang)}
+    blobColor="var(--accent2)"
+  />
+  <section class="brief-wrap">
+    <BriefWizard lang={lang} />
   </section>
 </BaseLayout>
+
+<style>
+  .brief-wrap {
+    padding: 60px 56px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  @media (max-width: 768px) {
+    .brief-wrap { padding: 40px 20px; }
+  }
+</style>
