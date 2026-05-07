@@ -1,0 +1,55 @@
+---
+import { t, type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const itemsRaw = t('ticker.items', lang);
+const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
+---
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    {Array.from({ length: 2 }).map(() => (
+      <>
+        {items.map((item) => (
+          <>
+            <span>{item}</span>
+            <span class="marquee-sep">✦</span>
+          </>
+        ))}
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-wrap {
+    border-top: var(--border-soft);
+    border-bottom: var(--border-soft);
+    padding: 18px 0;
+    overflow: hidden;
+    background: var(--bg2);
+  }
+
+  .marquee-inner {
+    display: flex;
+    gap: 48px;
+    animation: scrollM var(--motion-marquee-duration) linear infinite;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .marquee-sep {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .marquee-inner {
+      font-size: 28px;
+    }
+  }
+</style>
