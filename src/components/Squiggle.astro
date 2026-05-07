@@ -1,0 +1,29 @@
+---
+export interface Props {
+  /** Stroke color (default var(--accent)). */
+  color?: string;
+  /** Width in px (default 200). */
+  width?: number;
+  /** Height in px (default 16). */
+  height?: number;
+}
+
+const { color = 'var(--accent)', width = 200, height = 16 } = Astro.props;
+---
+<svg
+  width={width}
+  height={height}
+  viewBox="0 0 200 16"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  style="display: inline-block; vertical-align: middle;"
+>
+  <path
+    d="M 2 8 Q 25 2, 50 8 T 100 8 T 150 8 T 198 8"
+    stroke={color}
+    stroke-width="3"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

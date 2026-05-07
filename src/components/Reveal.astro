@@ -1,0 +1,49 @@
+---
+export interface Props {
+  /** Animation delay in seconds (e.g. 0.1, 0.2 for stagger). */
+  delay?: number;
+  /** HTML tag to render (default 'div'). */
+  as?: string;
+  /** Extra classes to merge. */
+  class?: string;
+}
+
+const { delay = 0, as: Tag = 'div', class: className = '' } = Astro.props;
+const delayStyle = delay > 0 ? `transition-delay:${delay}s;` : '';
+---
+<Tag class:list={['reveal', className]} style={delayStyle} data-reveal>
+  <slot />
+</Tag>
+
+<script>
+  function initReveals() {
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.visible)');
+    if (!els.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('visible'));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -80px 0px' }
+    );
+
+    els.forEach((el) => io.observe(el));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReveals);
+  } else {
+    initReveals();
+  }
+  document.addEventListener('astro:page-load', initReveals);
+</script>

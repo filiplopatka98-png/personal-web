@@ -1,0 +1,33 @@
+---
+export interface Props {
+  /** File-name label shown top-left, e.g. "veverka-hero.png". */
+  label: string;
+  /** Background tint — CSS color, defaults to var(--bg2). */
+  color?: string;
+  /** Aspect ratio, e.g. "4/3" (default), "4/5", "16/9". */
+  ratio?: string;
+  /** Optional caption shown bottom-left. */
+  caption?: string;
+  /** Border radius in px (default 14). */
+  radius?: number;
+  /** Extra classes to merge. */
+  class?: string;
+}
+
+const {
+  label,
+  color = 'var(--bg2)',
+  ratio = '4/3',
+  caption,
+  radius = 14,
+  class: className = '',
+} = Astro.props;
+
+const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
+---
+<div class:list={['relative w-full overflow-hidden', className]} style={styleStr}>
+  <div class="absolute top-3.5 left-4 font-mono text-[11px] opacity-70" style="color: var(--ink);">▢ {label}</div>
+  {caption && (
+    <div class="absolute bottom-3.5 left-4 font-mono text-[10px] opacity-60" style="color: var(--ink);">{caption}</div>
+  )}
+</div>
