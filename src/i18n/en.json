@@ -91,26 +91,6 @@
   "contact.altMethods.linkedin": "LinkedIn",
   "contact.altMethods.github": "GitHub",
 
-  "stats.years": "years of experience",
-  "stats.projects": "projects",
-  "stats.clients": "happy clients",
-
-  "service.modal.label": "Service",
-  "service.modal.from": "From",
-  "service.modal.time": "Typical time",
-  "service.modal.included": "What you get",
-  "service.modal.notFor": "Who this isn't for",
-  "service.modal.cta": "I'm interested",
-  "service.modal.close": "Close",
-  "service.modal.pdf": "Download process sample (PDF)",
-
-  "featured.eyebrow": "Latest case study",
-  "featured.read": "Read the case study",
-  "inlineContact.subject": "What do you want to discuss? (1-3 sentences is fine)",
-  "inlineContact.lede": "Takes 30 seconds. I respond within 24 hours, usually faster.",
-  "inlineContact.title": "Got a project, or just an idea?",
-  "inlineContact.submit": "Send",
-
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

@@ -42,35 +42,4 @@
 
   /* Focus */
   --focus-ring: 0 0 0 2px var(--color-accent);
-
-  /* ============================================ */
-  /* REDESIGN ADDITIONS                            */
-  /* ============================================ */
-
-  /* Status colors */
-  --color-status-available: #22aa55;
-  --color-status-busy: #c84545;
-
-  /* Editorial accents */
-  --color-text-strong: #0a0a0a;
-  --color-divider-strong: #1a1a1a;
-
-  /* Type scale extensions */
-  --text-display: clamp(3rem, 6vw + 1rem, 4rem);
-  --text-display-line: 1.0;
-  --text-pull: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
-
-  /* Motion timing */
-  --reveal-distance: 8px;
-  --reveal-duration: 600ms;
-  --counter-duration: 1200ms;
-  --hover-duration: 150ms;
-  --modal-duration: 250ms;
-  --transition-page: 200ms;
-
-  /* Layout widths */
-  --content-narrow: 45rem;
-  --content-mid: 47.5rem;
-  --content-wide: 55rem;
-  --content-extra: 68.75rem;
 }
