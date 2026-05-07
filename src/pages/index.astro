@@ -101,8 +101,16 @@ const articles = (await getCollection('articles'))
 </BaseLayout>
 
 <style>
-  .home-hero { position: relative; padding: 80px 56px; min-height: 600px; overflow: hidden; }
-  .home-hero-toprow {
+  /*
+   * NOTE: Many layout classes below use :global() because <Reveal> renders the
+   * wrapper element, and Astro does NOT propagate this page's data-astro-cid
+   * scope marker to elements rendered by child components. Without :global(),
+   * these rules would compile to attribute selectors that never match the
+   * Reveal-rendered <div>/<h1>. Affected: .home-hero-toprow, .home-hero-bottom,
+   * .section-header (and its descendants used inside the Reveal slot).
+   */
+  .home-hero { position: relative; padding: 80px 56px 56px; min-height: 600px; overflow: hidden; }
+  :global(.home-hero-toprow) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -110,9 +118,9 @@ const articles = (await getCollection('articles'))
     position: relative;
     z-index: 2;
   }
-  .home-hero-toprow .right { text-align: right; }
+  :global(.home-hero-toprow .right) { text-align: right; }
   .small { font-size: 13px; opacity: 0.6; font-family: var(--font-mono); }
-  .home-hero-bottom {
+  :global(.home-hero-bottom) {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -150,16 +158,18 @@ const articles = (await getCollection('articles'))
     text-decoration: none;
   }
 
-  .home-work, .home-blog { padding: 96px 56px; }
-  .section-header {
+  .home-work, .home-blog { padding: 72px 56px; }
+  :global(.section-header) {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 40px;
     gap: 24px;
   }
-  .section-header h2 { font-size: 64px; line-height: 1; margin: 8px 0 0; font-family: var(--font-display); }
-  .section-all { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
+  /* Eyebrow above h2 inside section-header gets 8px gap (handoff inline style). */
+  :global(.section-header .mono.small) { margin-bottom: 8px; }
+  :global(.section-header h2) { font-size: 64px; line-height: 1; margin: 0; font-family: var(--font-display); }
+  :global(.section-header .section-all) { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
   .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -167,7 +177,7 @@ const articles = (await getCollection('articles'))
   }
 
   .home-about {
-    padding: 96px 56px;
+    padding: 72px 56px;
     background: var(--bg2);
     border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
   }
@@ -201,12 +211,13 @@ const articles = (await getCollection('articles'))
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
   }
-  .blog-h2 { font-size: 48px !important; }
+  :global(.section-header h2.blog-h2) { font-size: 48px; }
 
   @media (max-width: 768px) {
-    .home-hero, .home-work, .home-about, .home-blog { padding: 60px 20px; }
-    .section-header h2 { font-size: 40px; }
-    .blog-h2 { font-size: 40px !important; }
+    .home-hero { padding: 60px 20px; }
+    .home-work, .home-about, .home-blog { padding: 60px 20px; }
+    :global(.section-header h2) { font-size: 40px; }
+    :global(.section-header h2.blog-h2) { font-size: 40px; }
     .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
     .about-headline { font-size: 40px; }
   }

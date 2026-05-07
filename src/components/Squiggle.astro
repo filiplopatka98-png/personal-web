@@ -1,29 +1,31 @@
 ---
+/**
+ * Hand-drawn squiggle underline used in hero. Matches Claude Design handoff exactly.
+ * Designed to be placed inside an absolutely-positioned wrapper that controls size;
+ * SVG itself uses width:100% / height:14px and preserveAspectRatio="none" so it
+ * stretches to fill the wrap.
+ */
 export interface Props {
   /** Stroke color (default var(--accent)). */
   color?: string;
-  /** Width in px (default 200). */
-  width?: number;
-  /** Height in px (default 16). */
-  height?: number;
 }
 
-const { color = 'var(--accent)', width = 200, height = 16 } = Astro.props;
+const { color = 'var(--accent)' } = Astro.props;
 ---
 <svg
-  width={width}
-  height={height}
-  viewBox="0 0 200 16"
+  width="100%"
+  height="14"
+  viewBox="0 0 200 14"
+  preserveAspectRatio="none"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
-  style="display: inline-block; vertical-align: middle;"
+  style="position:absolute;left:0;bottom:0;pointer-events:none;overflow:visible;"
 >
   <path
-    d="M 2 8 Q 25 2, 50 8 T 100 8 T 150 8 T 198 8"
+    d="M2 8 Q 25 0 50 8 T 100 8 T 150 8 T 198 8"
     stroke={color}
     stroke-width="3"
-    stroke-linecap="round"
     fill="none"
   />
 </svg>

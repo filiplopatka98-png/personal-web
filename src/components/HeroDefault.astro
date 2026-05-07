@@ -31,7 +31,13 @@ const { lang } = Astro.props;
 </Reveal>
 
 <style>
-  .hero-title {
+  /*
+   * NOTE: All selectors here use :global() because <Reveal> renders the .hero-title
+   * h1, and Astro does NOT propagate this component's data-astro-cid scope marker
+   * to the Reveal-rendered element. Without :global(), these rules would compile
+   * to attribute selectors that never match. See also Squiggle wrap styling.
+   */
+  :global(.hero-title) {
     font-size: var(--text-hero);
     line-height: 0.92;
     margin: 0;
@@ -43,24 +49,16 @@ const { lang } = Astro.props;
     letter-spacing: -0.02em;
   }
 
-  .hero-em {
+  :global(.hero-em) {
     font-style: italic;
     color: var(--accent);
     padding-left: 0.08em;
     padding-right: 0.06em;
   }
 
-  .hero-squiggle-wrap {
+  :global(.hero-squiggle-wrap) {
     position: relative;
     display: inline-block;
     padding-bottom: 0.22em;
-  }
-
-  .hero-squiggle-wrap :global(svg) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 14px;
   }
 </style>
