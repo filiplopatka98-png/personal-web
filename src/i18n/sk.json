@@ -143,6 +143,19 @@
   "work.filterWp": "WordPress",
   "work.filterAstro": "Astro",
 
+  "project.caseStudy": "CASE STUDY",
+  "project.client": "Klient",
+  "project.role": "Rola",
+  "project.duration": "Trvanie",
+  "project.url": "URL",
+  "project.brief": "Brief",
+  "project.briefHeadline": "Čo sme riešili",
+  "project.process": "Proces",
+  "project.stack": "Stack",
+  "project.next": "Ďalší projekt",
+  "project.previous": "Predošlý",
+  "project.screens": "Ukážky",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }

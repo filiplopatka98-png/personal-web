@@ -143,6 +143,19 @@
   "work.filterWp": "WordPress",
   "work.filterAstro": "Astro",
 
+  "project.caseStudy": "CASE STUDY",
+  "project.client": "Client",
+  "project.role": "Role",
+  "project.duration": "Duration",
+  "project.url": "URL",
+  "project.brief": "Brief",
+  "project.briefHeadline": "What we solved",
+  "project.process": "Process",
+  "project.stack": "Stack",
+  "project.next": "Next project",
+  "project.previous": "Previous",
+  "project.screens": "Screens",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }
