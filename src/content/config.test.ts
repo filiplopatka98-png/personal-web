@@ -1,117 +1,99 @@
 import { describe, it, expect } from 'vitest';
-import { projectSchema, postSchema, serviceSchema, testimonialSchema } from './schemas';
+import { projectSchema, articleSchema, serviceSchema } from './schemas';
 
-describe('projects schema', () => {
-  it('accepts valid project frontmatter', () => {
+describe('projectSchema', () => {
+  it('accepts a valid project', () => {
     const valid = {
-      slugKey: 'tatra-textil',
-      slug: 'eshop-tatra-textil',
-      lang: 'sk',
-      title: 'E-shop Tatra Textil',
-      tags: ['wordpress'],
-      cover: { src: '/foo.jpg', width: 800, height: 600, format: 'jpg' },
-      excerpt: 'Redizajn e-shopu.',
+      name: 'Pekáreň Veverka',
+      kind: 'E-shop · WooCommerce',
+      year: '2025',
+      role: 'Lead developer',
+      duration: '3 mesiace',
+      client: 'Pekáreň Veverka, s.r.o.',
+      accent: 'accent',
+      brief: 'Prerobiť pomalý WooCommerce eshop.',
+      metrics: [{ value: '+38%', label: 'tržby Q1' }],
+      process: [{ title: 'Audit', duration: '2 týždne', desc: 'Lighthouse + WPT.' }],
+      stack: ['WordPress', 'WooCommerce'],
     };
     expect(() => projectSchema.parse(valid)).not.toThrow();
   });
 
-  it('rejects missing slugKey', () => {
+  it('rejects invalid accent', () => {
     const invalid = {
-      slug: 'foo',
-      lang: 'sk',
-      title: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-      excerpt: 'X',
+      name: 'X', kind: 'X', year: '2025', role: 'X', duration: 'X', client: 'X',
+      accent: 'wrongcolor', brief: 'long enough brief',
     };
     expect(() => projectSchema.parse(invalid)).toThrow();
   });
 
-  it('rejects invalid lang', () => {
-    const invalid = {
-      slugKey: 'a', slug: 'a', lang: 'de', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-    };
-    expect(() => projectSchema.parse(invalid)).toThrow();
-  });
-
-  it('rejects slug with non-URL-safe characters', () => {
-    const invalid = {
-      slugKey: 'a', slug: 'has spaces', lang: 'sk', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-    };
-    expect(() => projectSchema.parse(invalid)).toThrow();
-  });
-
-  it('rejects empty slugKey', () => {
-    const invalid = {
-      slugKey: '', slug: 'foo', lang: 'sk', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-    };
-    expect(() => projectSchema.parse(invalid)).toThrow();
-  });
-
-  it('rejects year before 2000', () => {
-    const invalid = {
-      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-      year: 1999,
-    };
-    expect(() => projectSchema.parse(invalid)).toThrow();
-  });
-
-  it('rejects invalid url', () => {
-    const invalid = {
-      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
-      url: 'not-a-url',
-    };
-    expect(() => projectSchema.parse(invalid)).toThrow();
-  });
-
-  it('applies defaults: featured=false, order=999, tags=[], gallery=[]', () => {
+  it('defaults featured to false', () => {
     const result = projectSchema.parse({
-      slugKey: 'a', slug: 'a', lang: 'sk', title: 'X', excerpt: 'X',
-      cover: { src: '/foo.jpg', width: 1, height: 1, format: 'jpg' },
+      name: 'X', kind: 'X', year: '2025', role: 'X', duration: 'X', client: 'X',
+      brief: 'long enough brief',
     });
     expect(result.featured).toBe(false);
-    expect(result.order).toBe(999);
-    expect(result.tags).toEqual([]);
-    expect(result.gallery).toEqual([]);
+  });
+
+  it('defaults accent to "accent"', () => {
+    const result = projectSchema.parse({
+      name: 'X', kind: 'X', year: '2025', role: 'X', duration: 'X', client: 'X',
+      brief: 'long enough brief',
+    });
+    expect(result.accent).toBe('accent');
   });
 });
 
-describe('posts schema', () => {
+describe('articleSchema', () => {
   it('coerces date string to Date', () => {
-    const result = postSchema.parse({
-      slugKey: 'a', slug: 'a', lang: 'sk',
-      title: 'Hello', excerpt: 'world',
-      date: '2026-05-01',
+    const result = articleSchema.parse({
+      title: 'Test article',
+      date: '2026-04-15',
+      excerpt: 'a long excerpt here',
     });
     expect(result.date).toBeInstanceOf(Date);
   });
 
-  it('defaults draft to false', () => {
-    const result = postSchema.parse({
-      slugKey: 'a', slug: 'a', lang: 'sk',
-      title: 'X', excerpt: 'Y',
-      date: '2026-05-01',
+  it('defaults read time to 5', () => {
+    const result = articleSchema.parse({
+      title: 'X',
+      date: '2026-04-15',
+      excerpt: 'long enough excerpt',
     });
-    expect(result.draft).toBe(false);
+    expect(result.read).toBe(5);
   });
-});
 
-describe('services schema', () => {
-  it('requires icon', () => {
-    expect(() => serviceSchema.parse({
-      slugKey: 'a', lang: 'sk', title: 'X', ctaLabel: 'Y',
+  it('rejects too-short excerpt', () => {
+    expect(() => articleSchema.parse({
+      title: 'X',
+      date: '2026-04-15',
+      excerpt: 'short',
     })).toThrow();
   });
 });
 
-describe('testimonials schema', () => {
-  it('rejects too-short quote', () => {
-    expect(() => testimonialSchema.parse({
-      quote: 'short', author: 'A', role: 'R', lang: 'sk',
-    })).toThrow();
+describe('serviceSchema', () => {
+  it('requires non-empty includes array', () => {
+    const invalid = {
+      name: 'X', price: 'X', duration: 'X', tagline: 'X',
+      desc: 'long enough description', includes: [],
+    };
+    expect(() => serviceSchema.parse(invalid)).toThrow();
+  });
+
+  it('accepts notFor as optional', () => {
+    const result = serviceSchema.parse({
+      name: 'X', price: 'X', duration: 'X', tagline: 'X',
+      desc: 'long enough description', includes: ['one item'],
+    });
+    expect(result.notFor).toBeUndefined();
+  });
+
+  it('defaults featured to false', () => {
+    const result = serviceSchema.parse({
+      name: 'X', price: 'X', duration: 'X', tagline: 'X',
+      desc: 'long enough description', includes: ['x'],
+    });
+    expect(result.featured).toBe(false);
   });
 });
