@@ -1,0 +1,138 @@
+---
+import Reveal from './Reveal.astro';
+import { type Lang } from '../i18n';
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const nowItems = lang === 'sk' ? [
+  ['Pracujem na', 'redesign eshopu Tatra Apartmány'],
+  ['Čítam', 'Refactoring UI · A. Wathan'],
+  ['Počúvam', 'Bonobo — Fragments'],
+  ['Učím sa', 'Astro 5 + view transitions'],
+  ['Voľný od', 'jún 2026'],
+] : [
+  ['Working on', 'Tatra Apartmány redesign'],
+  ['Reading', 'Refactoring UI · A. Wathan'],
+  ['Listening', 'Bonobo — Fragments'],
+  ['Learning', 'Astro 5 + view transitions'],
+  ['Free from', 'June 2026'],
+];
+---
+<div class="hero-now-grid">
+  <Reveal as="h1" class="hero-title display">
+    {lang === 'sk' ? (
+      <Fragment>
+        Filip Lopatka,<br/>
+        web developer<br/>
+        v&nbsp;<em class="hero-em">Bratislave</em>.
+      </Fragment>
+    ) : (
+      <Fragment>
+        Filip Lopatka,<br/>
+        web developer<br/>
+        in&nbsp;<em class="hero-em">Bratislava</em>.
+      </Fragment>
+    )}
+  </Reveal>
+
+  <Reveal delay={0.15}>
+    <div class="hero-now-card">
+      <div class="hero-now-header mono">
+        <span class="pulse-dot"></span>
+        {lang === 'sk' ? 'PRÁVE TERAZ' : 'RIGHT NOW'}
+      </div>
+      {nowItems.map(([k, v], i) => (
+        <div class={`hero-now-row ${i > 0 ? 'has-divider' : ''}`}>
+          <div class="hero-now-key mono">{k}</div>
+          <div class="hero-now-value">{v}</div>
+        </div>
+      ))}
+    </div>
+  </Reveal>
+</div>
+
+<style>
+  .hero-now-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: var(--text-hero);
+    line-height: 0.92;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-em {
+    font-style: italic;
+    color: var(--accent);
+    padding-left: 0.04em;
+  }
+
+  .hero-now-card {
+    background: var(--bg2);
+    border: var(--border-soft);
+    border-radius: var(--radius-card);
+    padding: 24px;
+  }
+
+  .hero-now-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 18px;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-now-header .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .hero-now-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  .hero-now-row.has-divider {
+    border-top: 1px dashed color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+
+  .hero-now-key {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.55;
+    padding-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .hero-now-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .hero-title {
+      font-size: 56px;
+    }
+  }
+</style>
