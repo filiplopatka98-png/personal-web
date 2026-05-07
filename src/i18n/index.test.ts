@@ -17,14 +17,15 @@ describe('t() — i18n helper', () => {
   });
 
   it('interpolates {placeholder} variables', () => {
+    // footer.copy no longer has placeholders — verify interpolation is a no-op on literal strings
     expect(t('footer.copy', 'sk', { year: '2026' })).toBe('© 2026 Filip Lopatka');
     expect(t('footer.copy', 'en', { year: '2026' })).toBe('© 2026 Filip Lopatka');
   });
 
   it('leaves unknown placeholders untouched', () => {
-    // when interpolating something other than {year}, leaves it alone
+    // when passing vars to a string with no placeholders, returns the literal value
     const result = t('footer.copy', 'sk', { wrong: 'X' });
-    expect(result).toBe('© {year} Filip Lopatka');
+    expect(result).toBe('© 2026 Filip Lopatka');
   });
 });
 

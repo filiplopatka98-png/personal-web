@@ -1,19 +1,256 @@
 ---
 import { t, type Lang } from '../i18n';
+import { getStaticRoute } from '../i18n/routes';
+import Reveal from './Reveal.astro';
 
 export interface Props {
   lang: Lang;
 }
-
 const { lang } = Astro.props;
-const year = new Date().getFullYear().toString();
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
+
+// Title with line break — handoff style: split on first space
+const titleStr = t('footer.title', lang);
+const spaceIdx = titleStr.indexOf(' ');
+const titleFirst = spaceIdx > 0 ? titleStr.slice(0, spaceIdx) : titleStr;
+const titleRest = spaceIdx > 0 ? titleStr.slice(spaceIdx + 1) : '';
+
+// TODO: replace FORMSPREE_FORM_ID after creating Formspree form
+const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
+const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
 ---
-<footer class="border-t border-border mt-24">
-  <div class="max-w-content mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-text-muted text-xs">
-    <p>{t('footer.copy', lang, { year })}</p>
-    <p>
-      {t('footer.builtWith', lang)}
-      <a href="https://astro.build" class="hover:text-accent-hover" target="_blank" rel="noopener noreferrer">Astro</a>
-    </p>
+<footer class="cd-footer">
+  <div class="rotating-text" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <defs>
+        <path id="footerCircle" d="M 100,100 m -75,0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
+      </defs>
+      <text fill="var(--accent)" font-family="var(--font-mono)" font-size="11" letter-spacing="2">
+        <textPath href="#footerCircle">{t('footer.rotating', lang)}</textPath>
+      </text>
+    </svg>
+  </div>
+
+  <div class="footer-grid">
+    <Reveal>
+      <div class="footer-eyebrow">{t('footer.eyebrow', lang)}</div>
+      <h2 class="footer-title display">
+        {titleFirst}{titleRest && <><br/>{titleRest}</>}
+      </h2>
+      <p class="footer-lead">{t('footer.lead', lang)}</p>
+      <div class="footer-links">
+        <a data-cursor="hover" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
+        <a data-cursor="hover" href={`https://${t('menu.github', lang)}`} target="_blank" rel="noopener noreferrer">{t('menu.github', lang)} →</a>
+        <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="noopener noreferrer">{t('menu.linkedin', lang)} →</a>
+      </div>
+      <div class="footer-cta">
+        <a href={briefHref} data-cursor="hover" class="footer-brief-btn">
+          {t('footer.briefStart', lang)}
+        </a>
+      </div>
+    </Reveal>
+
+    <Reveal delay={0.1} class="footer-form-wrap">
+      <form action={formAction} method="POST" class="footer-form">
+        <div class="form-field">
+          <label>{t('footer.formName', lang)}</label>
+          <input type="text" name="name" required />
+        </div>
+        <div class="form-field">
+          <label>{t('footer.formEmail', lang)}</label>
+          <input type="email" name="email" required />
+        </div>
+        <div class="form-field">
+          <label>{t('footer.formDesc', lang)}</label>
+          <textarea name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" data-cursor="hover" class="footer-submit">
+          {t('footer.formSend', lang)}
+        </button>
+      </form>
+    </Reveal>
+  </div>
+
+  <div class="footer-bottom">
+    <div>{t('footer.copy', lang)}</div>
+    <div>{t('footer.made', lang)}</div>
   </div>
 </footer>
+
+<style>
+  .cd-footer {
+    padding: 80px 56px;
+    background: var(--ink);
+    color: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rotating-text {
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 380px;
+    height: 380px;
+    animation: rotate-cd var(--motion-rotate-duration) linear infinite;
+    pointer-events: none;
+  }
+
+  .rotating-text svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    position: relative;
+  }
+
+  .footer-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+
+  .footer-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 10vw, 96px);
+    line-height: 0.9;
+    margin: 0 0 32px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-lead {
+    font-size: 18px;
+    opacity: 0.7;
+    max-width: 440px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .footer-links {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .footer-links a {
+    color: var(--bg);
+    text-decoration: none;
+  }
+
+  .footer-cta {
+    margin-top: 24px;
+  }
+
+  .footer-brief-btn {
+    background: var(--accent);
+    color: var(--ink);
+    border: 0;
+    padding: 14px 22px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-field label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--bg) 55%, transparent);
+    color: var(--bg);
+    padding: 8px 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+  .form-field textarea {
+    resize: none;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+  }
+
+  .footer-submit {
+    margin-top: 16px;
+    background: var(--accent);
+    color: var(--ink);
+    border: 0;
+    padding: 16px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.5;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .cd-footer {
+      padding: 60px 20px;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .rotating-text {
+      width: 240px;
+      height: 240px;
+      right: -60px;
+      top: -60px;
+    }
+    .footer-title {
+      font-size: 56px !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rotating-text {
+      animation: none;
+    }
+  }
+</style>
