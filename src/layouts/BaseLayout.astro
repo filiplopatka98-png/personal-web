@@ -7,6 +7,21 @@ import OverlayMenu from '../components/OverlayMenu.astro';
 import CustomCursor from '../components/CustomCursor.astro';
 import { t, type Lang } from '../i18n';
 
+/**
+ * 🔒 SITE-WIDE INDEXATION TOGGLE — pre-launch state.
+ *
+ * `false` → emits `<meta name="robots" content="noindex, nofollow">` on every
+ * page so Google/Bing won't index pre-release content. robots.txt stays
+ * permissive so crawlers can read the meta (without crawl access they'd
+ * index the URL anyway with no description).
+ *
+ * **BEFORE PUBLIC LAUNCH:** flip this to `true`, rebuild, deploy. Then
+ * submit sitemap in Search Console.
+ *
+ * Tracked in docs/superpowers/plans/2026-05-07-launch-roadmap.md → F0.
+ */
+const SITE_INDEXABLE = false as boolean;
+
 export interface Props {
   lang: Lang;
   title?: string;
@@ -85,6 +100,8 @@ const breadcrumbLd = buildBreadcrumbs();
 
     <title>{fullTitle}</title>
     <meta name="description" content={fullDesc} />
+
+    {!SITE_INDEXABLE && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="canonical" href={canonicalUrl} />
     {skUrl && <link rel="alternate" hreflang="sk" href={skUrl} />}

@@ -25,6 +25,12 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
   />
 
   <section class="blog-section">
+    {articles.length === 0 && (
+      <div class="blog-empty">
+        <p class="blog-empty-msg">{t('blog.empty', lang)}</p>
+        <a href={`${baseUrl}/`} class="blog-empty-link mono" data-cursor="hover">{t('cta.back', lang)} →</a>
+      </div>
+    )}
     <div class="blog-list">
       {articles.map((a, i) => {
         const cleanSlug = a.slug.replace(/^sk\//, '');
@@ -71,6 +77,26 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
     flex-direction: column;
     max-width: 1100px;
     margin: 0 auto;
+  }
+  .blog-empty {
+    text-align: center;
+    padding: 80px 0;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .blog-empty-msg {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.7;
+    margin: 0 0 24px;
+  }
+  .blog-empty-link {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
   }
 
   /* Each row is a Link with grid layout. Hover shifts padding-left 16px. */
