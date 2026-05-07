@@ -1,0 +1,124 @@
+---
+/**
+ * Custom cursor — fixed dot + lerp ring.
+ * Skips on touch / coarse pointer devices.
+ * Hover state triggered by closest a, button, [data-cursor='hover'].
+ *
+ * Per handoff layout.jsx CustomCursor component.
+ */
+---
+<div id="cd-cursor-ring" class="cd-cursor-ring" aria-hidden="true"></div>
+<div id="cd-cursor-dot" class="cd-cursor-dot" aria-hidden="true"></div>
+
+<style>
+  .cd-cursor-ring {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    background: transparent;
+    mix-blend-mode: difference;
+    transition: width 0.25s, height 0.25s, margin 0.25s, background 0.25s, mix-blend-mode 0.25s;
+    display: none;
+  }
+
+  .cd-cursor-ring.hover {
+    width: 56px;
+    height: 56px;
+    margin-left: -28px;
+    margin-top: -28px;
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    mix-blend-mode: normal;
+  }
+
+  .cd-cursor-dot {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+  }
+
+  html.has-cursor .cd-cursor-ring,
+  html.has-cursor .cd-cursor-dot {
+    display: block;
+  }
+
+  @media (pointer: coarse) {
+    html.has-cursor .cd-cursor-ring,
+    html.has-cursor .cd-cursor-dot {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initCustomCursor() {
+    if (typeof window === 'undefined') return;
+    if (!matchMedia('(pointer: fine)').matches) return;
+
+    const dot = document.getElementById('cd-cursor-dot');
+    const ring = document.getElementById('cd-cursor-ring');
+    if (!dot || !ring) return;
+
+    if ((window as any).__cdCursorInitialized) return;
+    (window as any).__cdCursorInitialized = true;
+
+    document.documentElement.classList.add('has-cursor');
+
+    let x = 0, y = 0, rx = 0, ry = 0;
+    let raf = 0;
+
+    function onMove(e: MouseEvent) {
+      x = e.clientX;
+      y = e.clientY;
+      dot!.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function tick() {
+      rx += (x - rx) * 0.18;
+      ry += (y - ry) * 0.18;
+      ring!.style.transform = `translate(${rx}px, ${ry}px)`;
+      raf = requestAnimationFrame(tick);
+    }
+
+    function onOver(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      const interactive = target.closest("a, button, [data-cursor='hover']");
+      ring!.classList.toggle('hover', !!interactive);
+    }
+
+    raf = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseover', onOver);
+
+    // Cleanup on Astro view transitions (component will re-init on next page)
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onOver);
+      (window as any).__cdCursorInitialized = false;
+    }, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCustomCursor);
+  } else {
+    initCustomCursor();
+  }
+  document.addEventListener('astro:page-load', initCustomCursor);
+</script>
