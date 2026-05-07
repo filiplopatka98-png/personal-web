@@ -99,6 +99,13 @@
   "nav.now": "now",
   "nav.nowItems": "Tatra Apartmány redesign,tuning WP cache,writing about ISR",
 
+  "menu.navigation": "Navigation",
+  "menu.contact": "Contact",
+  "menu.location": "Bratislava, SK · UTC+1",
+  "menu.email": "ahoj@filiplopatka.sk",
+  "menu.github": "github.com/filiplopatka",
+  "menu.linkedin": "linkedin.com/in/filiplopatka",
+
   "errors.pageNotFound": "Page not found",
   "errors.backHome": "Back to home"
 }

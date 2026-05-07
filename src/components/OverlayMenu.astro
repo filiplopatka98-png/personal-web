@@ -1,0 +1,300 @@
+---
+import { t, type Lang } from '../i18n';
+import { getStaticRoute, type StaticRouteKey } from '../i18n/routes';
+
+export interface Props {
+  lang: Lang;
+  /** URL of the equivalent page in the other language (full path including base). */
+  altLangUrl?: string;
+}
+
+const { lang, altLangUrl } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
+const altUrl = altLangUrl ? `${baseUrl}${altLangUrl}` : null;
+const otherLang = lang === 'sk' ? 'en' : 'sk';
+const otherLangLabel = otherLang === 'en' ? 'English' : 'Slovenčina';
+
+type NavItem = {
+  key: 'home' | StaticRouteKey;
+  tKey: 'nav.home' | 'nav.work' | 'nav.services' | 'nav.blog' | 'nav.brief';
+  href: string;
+};
+
+const navOrder: NavItem[] = [
+  { key: 'home',     tKey: 'nav.home',     href: homeHref },
+  { key: 'work',     tKey: 'nav.work',     href: `${baseUrl}${getStaticRoute('work', lang)}` },
+  { key: 'services', tKey: 'nav.services', href: `${baseUrl}${getStaticRoute('services', lang)}` },
+  { key: 'blog',     tKey: 'nav.blog',     href: `${baseUrl}${getStaticRoute('blog', lang)}` },
+  { key: 'brief',    tKey: 'nav.brief',    href: `${baseUrl}${getStaticRoute('brief', lang)}` },
+];
+---
+<div
+  id="overlay-menu"
+  class="overlay-menu"
+  aria-hidden="true"
+>
+  <div class="overlay-menu-header">
+    <div class="overlay-menu-brand">
+      <div class="overlay-menu-logo">fl</div>
+      filip lopatka
+    </div>
+    <button
+      type="button"
+      data-cursor="hover"
+      data-menu-close
+      aria-label={t('nav.closeMenu', lang)}
+      class="overlay-menu-close"
+    >
+      ✕ {t('nav.close', lang)}
+    </button>
+  </div>
+
+  <div class="menu-grid">
+    <div>
+      <div class="menu-section-label">{t('menu.navigation', lang)}</div>
+      {navOrder.map((item, i) => (
+        <a
+          href={item.href}
+          class="menu-link"
+          style={`--menu-link-delay: ${0.1 + i * 0.06}s;`}
+          data-cursor="hover"
+        >
+          <span class="menu-link-num">0{i + 1}</span>
+          {t(item.tKey, lang)}
+        </a>
+      ))}
+    </div>
+
+    <div class="menu-contact">
+      <div class="menu-section-label">{t('menu.contact', lang)}</div>
+      <div class="menu-links">
+        <a data-cursor="hover" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
+        <a data-cursor="hover" href={`https://${t('menu.github', lang)}`} target="_blank" rel="noopener noreferrer">{t('menu.github', lang)} →</a>
+        <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="noopener noreferrer">{t('menu.linkedin', lang)} →</a>
+      </div>
+
+      {altUrl && (
+        <div class="menu-lang">
+          <a href={altUrl} data-cursor="hover">
+            {otherLangLabel} →
+          </a>
+        </div>
+      )}
+
+      <div class="menu-location">
+        {t('menu.location', lang)}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .overlay-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: var(--ink);
+    color: var(--bg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .overlay-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .overlay-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 56px;
+    border-bottom: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+  }
+
+  .overlay-menu-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .overlay-menu-logo {
+    width: 28px;
+    height: 28px;
+    background: var(--bg);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .overlay-menu-close {
+    background: transparent;
+    color: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--bg) 44%, transparent);
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    padding: 60px 56px;
+    gap: 64px;
+  }
+
+  .menu-section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0.5;
+    margin-bottom: 24px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .menu-link {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 88px;
+    line-height: 1.1;
+    color: var(--bg);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    transition: color 0.2s, opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: 0s, var(--menu-link-delay), var(--menu-link-delay);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .overlay-menu.open .menu-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .menu-link:hover {
+    color: var(--accent);
+  }
+
+  .menu-link-num {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    opacity: 0.4;
+    margin-right: 24px;
+    vertical-align: middle;
+  }
+
+  .menu-contact {
+    border-left: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    padding-left: 48px;
+    align-self: end;
+  }
+
+  .menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .menu-links a {
+    color: var(--bg);
+    text-decoration: none;
+  }
+
+  .menu-lang {
+    margin-top: 32px;
+  }
+
+  .menu-lang a {
+    color: var(--bg);
+    text-decoration: underline;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .menu-location {
+    margin-top: 48px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .overlay-menu-header { padding: 16px 20px; }
+    .menu-grid { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
+    .menu-link { font-size: 56px; }
+    .menu-contact { border-left: 0; padding-left: 0; align-self: start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-link {
+      opacity: 1;
+      transform: none;
+      transition: color 0.2s;
+    }
+    .overlay-menu { transition: none; }
+  }
+</style>
+
+<script>
+  function initOverlayMenu() {
+    const menu = document.getElementById('overlay-menu');
+    if (!menu) return;
+    if ((menu as any).__overlayInitialized) return;
+    (menu as any).__overlayInitialized = true;
+
+    function open() {
+      menu!.classList.add('open');
+      menu!.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      menu!.classList.remove('open');
+      menu!.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-menu-open]').forEach((btn) => {
+      btn.addEventListener('click', open);
+    });
+
+    document.querySelectorAll('[data-menu-close]').forEach((btn) => {
+      btn.addEventListener('click', close);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu!.classList.contains('open')) close();
+    });
+
+    menu!.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => setTimeout(close, 0));
+    });
+
+    document.addEventListener('astro:before-swap', () => {
+      document.body.style.overflow = '';
+    }, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOverlayMenu);
+  } else {
+    initOverlayMenu();
+  }
+  document.addEventListener('astro:page-load', initOverlayMenu);
+</script>

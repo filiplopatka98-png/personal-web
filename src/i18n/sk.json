@@ -99,6 +99,13 @@
   "nav.now": "teraz",
   "nav.nowItems": "redesign Tatra Apartmány,tuning WP cache,písanie blogu o ISR",
 
+  "menu.navigation": "Navigácia",
+  "menu.contact": "Kontakt",
+  "menu.location": "Bratislava, SK · UTC+1",
+  "menu.email": "ahoj@filiplopatka.sk",
+  "menu.github": "github.com/filiplopatka",
+  "menu.linkedin": "linkedin.com/in/filiplopatka",
+
   "errors.pageNotFound": "Stránka neexistuje",
   "errors.backHome": "Späť na úvod"
 }
