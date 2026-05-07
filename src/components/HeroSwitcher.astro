@@ -57,6 +57,21 @@ const variants: Array<{ id: string; label: string }> =
   >×</button>
 </aside>
 
+{/* Tiny floating button shown when the switcher is collapsed. Click reopens. */}
+<button
+  type="button"
+  class="hero-switcher-reopen mono"
+  aria-label={lang === 'sk' ? 'Zobraziť prepínač hero variantov' : 'Show hero variant switcher'}
+  data-switcher-reopen
+  data-cursor="hover"
+  hidden
+>
+  <span class="hero-switcher-reopen-icon" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </span>
+  hero
+</button>
+
 <style>
   .hero-switcher {
     position: fixed;
@@ -143,6 +158,53 @@ const variants: Array<{ id: string; label: string }> =
     opacity: 1;
   }
 
+  /* ── Reopen pill (shown when panel is collapsed) ─────────────────────── */
+  .hero-switcher-reopen {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 12px;
+    appearance: none;
+    background: color-mix(in srgb, var(--ink) 92%, transparent);
+    color: var(--bg);
+    border: 0;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0.85;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .hero-switcher-reopen:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+  .hero-switcher-reopen[hidden] {
+    display: none;
+  }
+
+  /* 4 small bars suggesting "4 variants" inside the icon. */
+  .hero-switcher-reopen-icon {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    width: 12px;
+    height: 12px;
+  }
+  .hero-switcher-reopen-icon > span {
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
   @media (max-width: 640px) {
     .hero-switcher {
       left: 12px;
@@ -157,6 +219,10 @@ const variants: Array<{ id: string; label: string }> =
     .hero-switcher-chip {
       font-size: 10px;
       padding: 6px 10px;
+    }
+    .hero-switcher-reopen {
+      left: 12px;
+      bottom: 12px;
     }
   }
 </style>
@@ -207,24 +273,36 @@ const variants: Array<{ id: string; label: string }> =
     });
   }
 
+  function showPanel(panel: HTMLElement, reopen: HTMLButtonElement | null) {
+    panel.classList.remove('is-hidden');
+    requestAnimationFrame(() => panel.classList.add('is-ready'));
+    if (reopen) reopen.hidden = true;
+  }
+
+  function hidePanel(panel: HTMLElement, reopen: HTMLButtonElement | null) {
+    panel.classList.remove('is-ready');
+    panel.classList.add('is-hidden');
+    if (reopen) reopen.hidden = false;
+  }
+
   function initSwitcher() {
     const panel = document.querySelector<HTMLElement>('.hero-switcher');
+    const reopen = document.querySelector<HTMLButtonElement>('[data-switcher-reopen]');
     if (!panel) return;
 
-    // Honor previous "hide forever" choice.
+    // Always apply the stored variant to the page so the user's choice
+    // survives across reloads regardless of panel visibility.
+    applyVariant(readVariant());
+
+    // Honor previous "hide" choice — show only the small reopen pill.
     let hidden = false;
     try { hidden = localStorage.getItem(HIDDEN_KEY) === '1'; } catch { /* ignore */ }
     if (hidden) {
       panel.classList.add('is-hidden');
-      // Still apply stored variant so the page reflects the user's choice.
-      applyVariant(readVariant());
-      return;
+      if (reopen) reopen.hidden = false;
+    } else {
+      requestAnimationFrame(() => panel.classList.add('is-ready'));
     }
-
-    applyVariant(readVariant());
-    // Reveal the panel after first paint (avoids opacity-0 flash competing
-    // with the rest of the page mount).
-    requestAnimationFrame(() => panel.classList.add('is-ready'));
 
     panel.querySelectorAll<HTMLButtonElement>('.hero-switcher-chip').forEach((chip) => {
       chip.addEventListener('click', () => {
@@ -237,7 +315,12 @@ const variants: Array<{ id: string; label: string }> =
     const closeBtn = panel.querySelector<HTMLButtonElement>('[data-switcher-close]');
     closeBtn?.addEventListener('click', () => {
       try { localStorage.setItem(HIDDEN_KEY, '1'); } catch { /* ignore */ }
-      panel.classList.add('is-hidden');
+      hidePanel(panel, reopen);
+    });
+
+    reopen?.addEventListener('click', () => {
+      try { localStorage.removeItem(HIDDEN_KEY); } catch { /* ignore */ }
+      showPanel(panel, reopen);
     });
   }
 
