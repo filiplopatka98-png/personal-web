@@ -138,13 +138,28 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1; transform: none; }
-  .blob, .pulse-dot, .float-y { animation: none; }
+  /* Per RESPONSIVE.md: hide blobs entirely on reduced-motion (decorative only). */
+  .blob { display: none !important; }
+  .pulse-dot, .float-y { animation: none !important; }
+  /* Stop marquee scroll. .marquee-inner is the animated track in Marquee.astro. */
+  .marquee-inner { animation: none !important; }
+}
+
+/* Touch devices: 44px minimum hit target per WCAG 2.5.5 / RESPONSIVE.md. */
+@media (pointer: coarse) {
+  button,
+  a[role='button'],
+  [data-cursor='hover'],
+  .btn-primary,
+  .btn-ghost {
+    min-height: 44px;
+  }
 }
 
 ::view-transition-old(root) {

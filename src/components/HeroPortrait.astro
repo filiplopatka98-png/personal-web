@@ -82,6 +82,9 @@ const { lang } = Astro.props;
     transform: rotate(-3deg);
   }
 
+  @media (max-width: 1024px) {
+    .hero-title { font-size: 72px; line-height: 0.95; }
+  }
   @media (max-width: 768px) {
     .hero-portrait-grid {
       grid-template-columns: 1fr;
@@ -89,6 +92,10 @@ const { lang } = Astro.props;
     }
     .hero-title {
       font-size: 56px;
+      line-height: 0.96;
     }
+  }
+  @media (max-width: 480px) {
+    .hero-title { font-size: 44px; }
   }
 </style>

@@ -504,8 +504,28 @@ const projectLd = {
     font-family: var(--font-mono);
   }
 
+  /* Tablet — 32px gutter, screens grid 2-col, process row tightens. */
+  @media (max-width: 1024px) {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+    .proj-name { font-size: 72px; }
+    .proj-brief-title { font-size: 40px; }
+    .proj-section-title { font-size: 48px; }
+    .next-name { font-size: 64px; }
+    .screens-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    /* Per spec: process row 4-col → 4-col but tighter (40px / 1fr / 140px / 2fr).
+       Our current grid is 80px 1fr (no separate dates col), so we just tighten. */
+    .process-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 20px 0; }
+    :global(.proj-body-grid) { gap: 36px; }
+  }
+
+  /* Mobile — 1-col grids, 20px gutter, process collapses. */
   @media (max-width: 768px) {
-    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens, .proj-process, .proj-stack, .proj-live, .proj-next {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
       padding-left: 20px;
       padding-right: 20px;
     }
@@ -536,9 +556,36 @@ const projectLd = {
     .proj-meta-grid {
       grid-template-columns: 1fr 1fr;
     }
+    /* Process row collapses to single column; the date pill becomes a small
+       eyebrow above the description. */
     .process-row {
-      grid-template-columns: 60px 1fr;
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 18px 0;
     }
+    .process-num {
+      font-size: 11px;
+      opacity: 0.55;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    /* Stack pills stack vertically on tiny screens. */
+    .stack-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* Small phone — even tighter padding, smaller titles. */
+  @media (max-width: 480px) {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .proj-name { font-size: 44px; }
+    .proj-brief-title, .proj-section-title { font-size: 30px; }
+    .next-name { font-size: 36px; }
+    .proj-meta-grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -122,15 +122,38 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     background: var(--bg);
   }
 
+  /* Tablet: hide the noisy "TERAZ pracujem na…" indicator; keep status pill. */
+  @media (max-width: 1024px) {
+    .nav-bar {
+      padding: 18px 32px;
+    }
+    .nav-now {
+      display: none;
+    }
+  }
+
+  /* Mobile: hide both .nav-now and .nav-pill, drop "Menu" text label. */
   @media (max-width: 768px) {
     .nav-bar {
-      padding: 16px 20px;
+      padding: 14px 20px;
       flex-wrap: wrap;
       gap: 12px;
     }
     .nav-now,
     .nav-pill {
       display: none;
+    }
+    /* Drop the "Menu" word — keep only the icon — saves precious horizontal space. */
+    .nav-menu-btn {
+      padding: 10px 14px;
+      font-size: 0;
+      gap: 0;
+    }
+    .nav-menu-bars {
+      gap: 4px;
+    }
+    .nav-menu-bars span {
+      width: 18px;
     }
   }
 </style>

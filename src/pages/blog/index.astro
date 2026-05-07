@@ -45,18 +45,20 @@ const titleHtml = `${t('blog.title.before', lang)}<em>${t('blog.title.em', lang)
     margin: 0 auto;
   }
   @media (max-width: 1024px) {
+    .blog-section { padding: 64px 32px; }
     .blog-grid {
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 28px;
     }
   }
   @media (max-width: 768px) {
-    .blog-section {
-      padding: 60px 20px;
-    }
+    .blog-section { padding: 56px 20px; }
     .blog-grid {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 24px;
     }
+  }
+  @media (max-width: 480px) {
+    .blog-section { padding: 48px 16px; }
   }
 </style>

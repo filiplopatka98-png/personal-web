@@ -61,4 +61,15 @@ const { lang } = Astro.props;
     display: inline-block;
     padding-bottom: 0.22em;
   }
+
+  /* Responsive hero title sizes per RESPONSIVE.md. */
+  @media (max-width: 1024px) {
+    :global(.hero-title) { font-size: 84px; line-height: 0.95; }
+  }
+  @media (max-width: 768px) {
+    :global(.hero-title) { font-size: 56px; line-height: 0.96; }
+  }
+  @media (max-width: 480px) {
+    :global(.hero-title) { font-size: 44px; }
+  }
 </style>

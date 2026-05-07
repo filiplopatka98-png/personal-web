@@ -504,8 +504,24 @@ const projectLd = {
     font-family: var(--font-mono);
   }
 
+  @media (max-width: 1024px) {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+    .proj-name { font-size: 72px; }
+    .proj-brief-title { font-size: 40px; }
+    .proj-section-title { font-size: 48px; }
+    .next-name { font-size: 64px; }
+    .screens-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .process-row { grid-template-columns: 60px 1fr; gap: 20px; padding: 20px 0; }
+    :global(.proj-body-grid) { gap: 36px; }
+  }
+
   @media (max-width: 768px) {
-    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens, .proj-process, .proj-stack, .proj-live, .proj-next {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
       padding-left: 20px;
       padding-right: 20px;
     }
@@ -514,31 +530,30 @@ const projectLd = {
       grid-template-columns: 1fr;
       gap: 32px;
     }
-    .proj-name {
-      font-size: 56px;
+    .proj-name { font-size: 56px; }
+    .proj-brief-title, .proj-section-title { font-size: 36px; }
+    .next-name { font-size: 48px; }
+    .metrics-grid { grid-template-columns: 1fr; gap: 24px; }
+    .metric-value { font-size: 48px; }
+    .screens-grid { grid-template-columns: 1fr; }
+    .proj-meta-grid { grid-template-columns: 1fr 1fr; }
+    .process-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
+    .process-num {
+      font-size: 11px; opacity: 0.55;
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
-    .proj-brief-title, .proj-section-title {
-      font-size: 36px;
+    .stack-row { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .proj-header, .proj-hero, .proj-metrics, .proj-body, .proj-screens,
+    .proj-process, .proj-stack, .proj-live, .proj-next {
+      padding-left: 16px;
+      padding-right: 16px;
     }
-    .next-name {
-      font-size: 48px;
-    }
-    .metrics-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .metric-value {
-      font-size: 48px;
-    }
-    .screens-grid {
-      grid-template-columns: 1fr;
-    }
-    .proj-meta-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .process-row {
-      grid-template-columns: 60px 1fr;
-      gap: 16px;
-    }
+    .proj-name { font-size: 44px; }
+    .proj-brief-title, .proj-section-title { font-size: 30px; }
+    .next-name { font-size: 36px; }
+    .proj-meta-grid { grid-template-columns: 1fr; }
   }
 </style>

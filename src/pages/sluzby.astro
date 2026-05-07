@@ -157,12 +157,22 @@ const steps = processSteps[lang];
     font-size: 18px;
   }
 
+  @media (max-width: 1024px) {
+    .services-section, .process-section, .services-cta {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+    .services-section, .process-section, .services-cta { padding-top: 64px; padding-bottom: 64px; }
+    .services-grid { gap: 28px; }
+    .process-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .process-title { font-size: 48px; }
+  }
   @media (max-width: 768px) {
     .services-section, .process-section, .services-cta {
       padding-left: 20px;
       padding-right: 20px;
     }
-    .services-section, .process-section, .services-cta { padding-top: 60px; padding-bottom: 60px; }
+    .services-section, .process-section, .services-cta { padding-top: 56px; padding-bottom: 56px; }
     .services-grid {
       grid-template-columns: 1fr;
       gap: 24px;
@@ -174,5 +184,14 @@ const steps = processSteps[lang];
     .process-title {
       font-size: 36px;
     }
+  }
+  @media (max-width: 480px) {
+    .services-section, .process-section, .services-cta {
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .process-title { font-size: 30px; }
   }
 </style>

@@ -141,4 +141,12 @@ const { data } = entry;
     opacity: 0.7;
     font-style: italic;
   }
+
+  /* Mobile — tighter card padding, smaller price/name per RESPONSIVE.md. */
+  @media (max-width: 768px) {
+    .service-card { padding: 28px 22px; }
+    .service-name { font-size: 26px; }
+    .service-price { font-size: 14px; }
+    .service-tagline { font-size: 18px; }
+  }
 </style>

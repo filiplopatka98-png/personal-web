@@ -254,22 +254,50 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     opacity: 0.5;
   }
 
+  /* Tablet — dial 280×280 / -60px, padding tightens. */
+  @media (max-width: 1024px) {
+    .cd-footer {
+      padding: 64px 32px;
+    }
+    .rotating-text {
+      width: 280px;
+      height: 280px;
+      right: -60px;
+      top: -60px;
+    }
+    .footer-title {
+      font-size: 80px;
+    }
+  }
+
+  /* Mobile — 1-col grid, dial 200×200 with -80px offset and 0.5 opacity. */
   @media (max-width: 768px) {
     .cd-footer {
-      padding: 60px 20px;
+      padding: 56px 20px;
     }
     .footer-grid {
       grid-template-columns: 1fr;
       gap: 48px;
     }
     .rotating-text {
-      width: 240px;
-      height: 240px;
-      right: -60px;
-      top: -60px;
+      width: 200px;
+      height: 200px;
+      right: -80px;
+      top: -80px;
+      opacity: 0.5;
     }
     .footer-title {
       font-size: 56px !important;
+    }
+  }
+
+  /* Small phone — even tighter padding. */
+  @media (max-width: 480px) {
+    .cd-footer {
+      padding: 48px 16px;
+    }
+    .footer-title {
+      font-size: 44px !important;
     }
   }
 

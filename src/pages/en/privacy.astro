@@ -198,6 +198,9 @@ const lastUpdated = 'May 7, 2026';
     padding: 1px 6px;
     border-radius: 3px;
   }
+  @media (max-width: 1024px) {
+    .legal { padding: 56px 32px 100px; }
+  }
   @media (max-width: 768px) {
     .legal {
       padding: 40px 20px 80px;
@@ -206,5 +209,9 @@ const lastUpdated = 'May 7, 2026';
     .legal h2 {
       font-size: 22px;
     }
+  }
+  @media (max-width: 480px) {
+    .legal { padding: 32px 16px 64px; font-size: 15px; }
+    .legal h2 { font-size: 20px; }
   }
 </style>

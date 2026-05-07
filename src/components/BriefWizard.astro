@@ -435,11 +435,25 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     cursor: default;
   }
 
+  @media (max-width: 1024px) {
+    .brief-q { font-size: 40px; }
+    .brief-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  }
   @media (max-width: 768px) {
     .brief-q { font-size: 32px; }
     .brief-progress { flex-wrap: wrap; }
     .brief-progress-line { display: none; }
     .brief-done-title { font-size: 40px; }
+    /* Tile grid → 1-col on mobile so labels don't truncate. */
+    .brief-grid { grid-template-columns: 1fr; }
+    /* Tighter button spacing per RESPONSIVE.md. */
+    .brief-nav { gap: 8px; }
+  }
+  @media (max-width: 480px) {
+    .brief-q { font-size: 28px; }
+    .brief-done-title { font-size: 32px; }
+    .brief-tile { padding: 18px; }
+    .brief-tile-label { font-size: 18px; }
   }
 </style>
 

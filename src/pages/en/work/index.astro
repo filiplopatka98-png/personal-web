@@ -91,9 +91,17 @@ const titleHtml = `${t('work.title.before', lang)}<em>${t('work.title.em', lang)
     grid-template-columns: 1fr 1fr;
     gap: 48px;
   }
+  @media (max-width: 1024px) {
+    .filter-section { padding: 28px 32px; }
+    .work-section { padding: 56px 32px; }
+    .work-grid { gap: 36px; }
+  }
   @media (max-width: 768px) {
     .filter-section, .work-section { padding: 32px 20px; }
     .work-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 480px) {
+    .filter-section, .work-section { padding: 24px 16px; }
   }
 </style>
 

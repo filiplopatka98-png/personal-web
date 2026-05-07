@@ -239,11 +239,41 @@ const navOrder: NavItem[] = [
     text-transform: uppercase;
   }
 
+  /* Tablet — same 2-col but smaller type per RESPONSIVE.md. */
+  @media (max-width: 1024px) {
+    .overlay-menu-header { padding: 18px 32px; }
+    .menu-grid { padding: 40px 32px; gap: 40px; }
+    .menu-link { font-size: 64px; }
+  }
+
+  /* Mobile — 1-col stack, contact column gets a top border instead of left. */
   @media (max-width: 768px) {
-    .overlay-menu-header { padding: 16px 20px; }
-    .menu-grid { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
-    .menu-link { font-size: 56px; }
-    .menu-contact { border-left: 0; padding-left: 0; align-self: start; }
+    .overlay-menu-header { padding: 14px 20px; }
+    .menu-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 24px 20px;
+    }
+    .menu-link {
+      font-size: 48px;
+      line-height: 1.05;
+    }
+    .menu-link-num {
+      font-size: 11px;
+      margin-right: 12px;
+    }
+    .menu-contact {
+      border-left: 0;
+      padding-left: 0;
+      padding-top: 24px;
+      border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+      align-self: start;
+    }
+  }
+
+  /* Small phone — even smaller menu items. */
+  @media (max-width: 480px) {
+    .menu-link { font-size: 38px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -371,6 +371,10 @@ const articleLd = {
     color: var(--bg);
   }
 
+  @media (max-width: 1024px) {
+    .article-page { padding: 56px 32px 80px; }
+    .article-title { font-size: 48px; }
+  }
   @media (max-width: 768px) {
     .article-page {
       padding: 40px 20px 60px;
@@ -397,5 +401,10 @@ const articleLd = {
       height: 48px;
       font-size: 16px;
     }
+  }
+  @media (max-width: 480px) {
+    .article-page { padding: 32px 16px 48px; }
+    .article-title { font-size: 30px; }
+    .article-prose :global(h2) { font-size: 24px; }
   }
 </style>

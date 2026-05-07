@@ -223,12 +223,40 @@ const articles = (await getCollection('articles'))
   }
   :global(.section-header h2.blog-h2) { font-size: 48px; }
 
+  /* Tablet — 32px section padding, 2-col grids stay 2-col with tighter gap. */
+  @media (max-width: 1024px) {
+    .home-hero { padding: 80px 32px 32px; }
+    .home-work, .home-about, .home-blog { padding: 64px 32px; }
+    :global(.section-header h2) { font-size: 52px; }
+    :global(.section-header h2.blog-h2) { font-size: 44px; }
+    .about-headline { font-size: 48px; }
+    .blog-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .about-grid { gap: 36px; }
+    .work-grid { gap: 28px; }
+    .home-hero-bottom { gap: 24px; }
+  }
+
+  /* Mobile — single-column everything, 20px padding, hero bottom stacks. */
   @media (max-width: 768px) {
-    .home-hero { padding: 60px 20px; }
-    .home-work, .home-about, .home-blog { padding: 60px 20px; }
-    :global(.section-header h2) { font-size: 40px; }
-    :global(.section-header h2.blog-h2) { font-size: 40px; }
+    .home-hero { padding: 56px 20px 32px; }
+    .home-work, .home-about, .home-blog { padding: 56px 20px; }
+    :global(.section-header h2) { font-size: 38px; }
+    :global(.section-header h2.blog-h2) { font-size: 38px; }
     .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
     .about-headline { font-size: 40px; }
+    :global(.home-hero-bottom) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+  }
+
+  /* Small phone — tighten padding and headlines further. */
+  @media (max-width: 480px) {
+    .home-hero { padding: 48px 16px 28px; }
+    .home-work, .home-about, .home-blog { padding: 48px 16px; }
+    :global(.section-header h2) { font-size: 32px; }
+    :global(.section-header h2.blog-h2) { font-size: 32px; }
+    .about-headline { font-size: 36px; }
   }
 </style>

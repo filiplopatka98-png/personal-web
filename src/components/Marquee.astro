@@ -47,9 +47,22 @@ const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
     color: var(--accent);
   }
 
+  @media (max-width: 1024px) {
+    .marquee-inner {
+      font-size: 36px;
+      gap: 36px;
+    }
+  }
   @media (max-width: 768px) {
     .marquee-inner {
       font-size: 28px;
+      gap: 28px;
+    }
+  }
+  @media (max-width: 480px) {
+    .marquee-inner {
+      font-size: 22px;
+      gap: 22px;
     }
   }
 </style>

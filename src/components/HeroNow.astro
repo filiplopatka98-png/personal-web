@@ -126,6 +126,9 @@ const nowItems = lang === 'sk' ? [
     letter-spacing: 0.05em;
   }
 
+  @media (max-width: 1024px) {
+    .hero-title { font-size: 84px; line-height: 0.95; }
+  }
   @media (max-width: 768px) {
     .hero-now-grid {
       grid-template-columns: 1fr;
@@ -133,6 +136,10 @@ const nowItems = lang === 'sk' ? [
     }
     .hero-title {
       font-size: 56px;
+      line-height: 0.96;
     }
+  }
+  @media (max-width: 480px) {
+    .hero-title { font-size: 44px; }
   }
 </style>
