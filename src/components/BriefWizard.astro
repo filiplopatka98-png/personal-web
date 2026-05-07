@@ -1,10 +1,12 @@
 ---
 import { t, type Lang } from '../i18n';
+import Reveal from './Reveal.astro';
 
 export interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
+const titleHtml = `${t('brief.title.before', lang)}<em class="brief-h1-em">${t('brief.title.em', lang)}</em>${t('brief.title.after', lang)}`;
 
 const types = lang === 'sk' ? [
   { k: 'landing', name: 'Landing page', sub: '1.8k €+ · 2-3 týždne' },
@@ -61,20 +63,31 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 ---
 <div class="brief-wizard" data-step="0">
-  <!-- Progress indicator -->
-  <div class="brief-progress">
-    {stepLabels.map((label, i) => (
-      <Fragment>
-        <div class="brief-progress-step" data-step-index={i}>
-          <div class="brief-progress-dot">{i + 1}</div>
-          <div class="brief-progress-label mono">{label}</div>
-        </div>
-        {i < stepLabels.length - 1 && <div class="brief-progress-line" data-line-index={i}></div>}
-      </Fragment>
-    ))}
-  </div>
+  {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
+  <section class="brief-header">
+    <Reveal>
+      <div class="brief-eyebrow mono">{t('brief.eyebrow', lang)}</div>
+      <h1 class="brief-h1 display" set:html={titleHtml}></h1>
+      <p class="brief-lead">{t('brief.lead', lang)}</p>
+    </Reveal>
 
-  <form action={formAction} method="POST" class="brief-form">
+    {/* Progress indicator — handoff line 451: marginTop 48, gap 8, in header section */}
+    <div class="brief-progress">
+      {stepLabels.map((label, i) => (
+        <Fragment>
+          <div class="brief-progress-step" data-step-index={i}>
+            <div class="brief-progress-dot">{i + 1}</div>
+            <div class="brief-progress-label mono">{label}</div>
+          </div>
+          {i < stepLabels.length - 1 && <div class="brief-progress-line" data-line-index={i}></div>}
+        </Fragment>
+      ))}
+    </div>
+  </section>
+
+  {/* Body — handoff line 464: 60/56, minHeight 500, max-width 760 inner */}
+  <section class="brief-body">
+    <form action={formAction} method="POST" class="brief-form">
     <input type="hidden" name="_subject" value="New brief from filiplopatka.sk" />
     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
@@ -171,22 +184,70 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)} →</button>
       <button type="submit" data-cursor="hover" data-submit class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
     </div>
-  </form>
+    </form>
+  </section>
 </div>
 
 <style>
   .brief-wizard {
     display: flex;
     flex-direction: column;
-    gap: 48px;
   }
 
-  /* Progress indicator */
+  /* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */
+  .brief-header {
+    padding: 60px 56px 32px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+  .brief-eyebrow {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+  }
+  /* h1 — handoff line 445: 80px display, lineHeight 0.95, maxWidth 900 */
+  .brief-h1 {
+    font-size: 80px;
+    line-height: 0.95;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+  }
+  .brief-h1 :global(.brief-h1-em) {
+    color: var(--accent);
+    font-style: italic;
+  }
+  /* Lead — handoff line 447: 18 1.45 0.7 max 560 marginTop 24 */
+  .brief-lead {
+    font-size: 18px;
+    line-height: 1.45;
+    opacity: 0.7;
+    max-width: 560px;
+    margin-top: 24px;
+  }
+
+  /* Body — handoff line 464: 60/56, minHeight 500, max-width 760 inner */
+  .brief-body {
+    padding: 60px 56px;
+    min-height: 500px;
+  }
+  .brief-form {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* Progress indicator — handoff line 451: marginTop 48, gap 8, in header */
   .brief-progress {
     display: flex;
     gap: 8px;
     align-items: center;
-    margin-bottom: 8px;
+    margin-top: 48px;
   }
   .brief-progress-step {
     display: flex;
@@ -221,13 +282,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     background: color-mix(in srgb, var(--ink) 22%, transparent);
     max-width: 40px;
     transition: background 0.2s;
-  }
-
-  /* Form base */
-  .brief-form {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
   }
 
   .brief-step {
@@ -436,12 +490,20 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
 
   @media (max-width: 1024px) {
+    .brief-header { padding: 48px 32px 32px; }
+    .brief-body { padding: 48px 32px; }
+    .brief-h1 { font-size: 64px; }
     .brief-q { font-size: 40px; }
     .brief-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
   }
   @media (max-width: 768px) {
+    .brief-header { padding: 40px 20px 24px; }
+    .brief-body { padding: 40px 20px; }
+    .brief-h1 { font-size: 44px; line-height: 0.98; }
+    .brief-lead { font-size: 16px; }
     .brief-q { font-size: 32px; }
-    .brief-progress { flex-wrap: wrap; }
+    /* Progress wraps + lines hidden so dots stack cleanly. */
+    .brief-progress { flex-wrap: wrap; row-gap: 16px; margin-top: 32px; }
     .brief-progress-line { display: none; }
     .brief-done-title { font-size: 40px; }
     /* Tile grid → 1-col on mobile so labels don't truncate. */
@@ -450,6 +512,9 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     .brief-nav { gap: 8px; }
   }
   @media (max-width: 480px) {
+    .brief-header { padding: 32px 16px 24px; }
+    .brief-body { padding: 32px 16px; }
+    .brief-h1 { font-size: 36px; }
     .brief-q { font-size: 28px; }
     .brief-done-title { font-size: 32px; }
     .brief-tile { padding: 18px; }
