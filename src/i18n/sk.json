@@ -92,12 +92,11 @@
   "projects.viewAll": "Všetky projekty",
 
   "blog.title": "Blog",
-  "blog.eyebrow": "Myšlienky a poznámky",
-  "blog.intro": "Občas píšem o tom, ako buduje weby v 2026. Témy: WordPress, AI vo vývoji, frontend rýchlosť.",
-  "blog.publishedOn": "Publikované",
-  "blog.updatedOn": "Aktualizované",
-  "blog.viewAll": "Všetky články",
-  "blog.relatedTags": "Tagy",
+  "blog.eyebrow": "BLOG · 2026",
+  "blog.title.before": "Píšem o ",
+  "blog.title.em": "performance",
+  "blog.title.after": ", architektúre, AI.",
+  "blog.lead": "Krátke poznámky z denného vývoja. Zameranie: WordPress výkon, headless setupy, AI nástroje, Core Web Vitals.",
 
   "home.intro": "Úvod",
   "home.intro.lead": "Web developer so zameraním na výkon, SEO a zmysluplné rozhrania. WordPress, Next.js, React — od landing page po veľké eshopy.",

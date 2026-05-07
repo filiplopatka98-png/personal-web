@@ -1,17 +1,62 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import Reveal from '../../../components/Reveal.astro';
 import { t } from '../../../i18n';
 
 const lang = 'en';
+
+const articles = (await getCollection('articles'))
+  .filter((a) => a.slug.startsWith('en/'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const titleHtml = `${t('blog.title.before', lang)}<em>${t('blog.title.em', lang)}</em>${t('blog.title.after', lang)}`;
 ---
 <BaseLayout lang={lang} canonicalPath="/en/blog/" altLangUrl="/blog/" title={`${t('nav.blog', lang)} — Filip Lopatka`}>
-  <section style="padding: 96px 56px; max-width: 880px; margin: 0 auto;">
-    <p style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 24px;">03 — {t('nav.blog', lang)}</p>
-    <h1 style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; margin: 0;">
-      Journal — <em>coming soon</em>.
-    </h1>
-    <p style="margin-top: 32px; font-size: 18px; opacity: 0.7; max-width: 600px;">
-      Three articles from handoff data.jsx — coming in CD-2.
-    </p>
+  <PageHead
+    eyebrow={t('blog.eyebrow', lang)}
+    titleHtml={titleHtml}
+    lead={t('blog.lead', lang)}
+    blobColor="var(--accent3)"
+  />
+
+  <section class="blog-section">
+    <div class="blog-grid">
+      {articles.map((a, i) => (
+        <Reveal delay={(i % 3) * 0.08}>
+          <ArticleCard entry={a} lang={lang} />
+        </Reveal>
+      ))}
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .blog-section {
+    padding: 80px 56px;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1024px) {
+    .blog-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+  }
+  @media (max-width: 768px) {
+    .blog-section {
+      padding: 60px 20px;
+    }
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

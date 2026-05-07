@@ -92,12 +92,11 @@
   "projects.viewAll": "All projects",
 
   "blog.title": "Blog",
-  "blog.eyebrow": "Thoughts and notes",
-  "blog.intro": "I write occasionally about how I build websites in 2026. Topics: WordPress, AI in development, frontend speed.",
-  "blog.publishedOn": "Published",
-  "blog.updatedOn": "Updated",
-  "blog.viewAll": "All posts",
-  "blog.relatedTags": "Tags",
+  "blog.eyebrow": "JOURNAL · 2026",
+  "blog.title.before": "I write about ",
+  "blog.title.em": "performance",
+  "blog.title.after": ", architecture, AI.",
+  "blog.lead": "Short notes from daily development. Focus: WordPress performance, headless setups, AI tools, Core Web Vitals.",
 
   "home.intro": "Intro",
   "home.intro.lead": "Web developer focused on performance, SEO and meaningful interfaces. WordPress, Next.js, React — from landing pages to large e-shops.",
