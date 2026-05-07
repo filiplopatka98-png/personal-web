@@ -96,10 +96,10 @@ Každý článok má real human autora s profile page:
     "name": "Filip Lopatka",
     "url": "https://example.sk/autor/filip-lopatka/",
     "sameAs": [
-      "https://www.linkedin.com/in/filiplopatka",
-      "https://github.com/filiplopatka"
+      "https://www.linkedin.com/in/filip-lopatka-wordpress-dev/",
+      "https://www.facebook.com/filip.lopatka98"
     ],
-    "jobTitle": "Senior WordPress developer",
+    "jobTitle": "WordPress developer",
     "knowsAbout": ["WordPress", "WooCommerce", "Performance"]
   }
 }
