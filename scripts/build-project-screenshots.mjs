@@ -174,18 +174,24 @@ async function captureWebsite(browser, url, mode) {
 
 // ── Laptop mockup composition ───────────────────────────────────────────
 // `angled` rotates the laptop in 3D space (perspective + rotateY) so the
-// final PNG looks like a slightly-side-on product shot. The drop-shadow
-// filter is applied AFTER the transform so it falls correctly under the
-// rotated body.
+// final PNG looks like a slightly-side-on product shot.
+//
+// IMPORTANT: CSS `filter` (incl. `drop-shadow`) flattens its element's
+// 3D context per spec, which silently nullifies any sibling/descendant
+// transform. To keep both the rotation AND the drop-shadow, we split:
+//   .laptop-rotator  → applies the 3D transform, no filter
+//   .laptop          → applies the drop-shadow, no transform
+// This gives a properly rotated laptop with a shadow that follows the
+// new silhouette.
 function laptopMockupHtml(dataUrl, opts = {}) {
   const { angled = false } = opts;
-  const transformCss = angled
-    ? 'transform: perspective(2800px) rotateY(-14deg) rotateX(2deg) rotateZ(-1deg);'
+  const rotatorTransform = angled
+    ? 'transform: rotateY(-18deg) rotateX(3deg) rotateZ(-1.5deg);'
     : '';
   // When angled, the right side recedes and we have spare horizontal room
   // on that side; nudge the laptop a bit left so the visual centre matches
   // the canvas centre.
-  const wrapperPadding = angled ? '60px 60px 80px 100px' : '60px 80px 80px';
+  const wrapperPadding = angled ? '60px 60px 80px 120px' : '60px 80px 80px';
   return `<!DOCTYPE html>
 <html><head><style>
   html, body { margin: 0; padding: 0; background: transparent; }
@@ -197,13 +203,17 @@ function laptopMockupHtml(dataUrl, opts = {}) {
     justify-content: center;
     padding: ${wrapperPadding};
     box-sizing: border-box;
-    perspective: 2800px;
+    perspective: 2400px;
+    perspective-origin: 50% 50%;
+  }
+  .laptop-rotator {
+    width: 100%;
+    transform-style: preserve-3d;
+    ${rotatorTransform}
   }
   .laptop {
     position: relative;
     width: 100%;
-    transform-style: preserve-3d;
-    ${transformCss}
     filter: drop-shadow(0 36px 50px rgba(20, 20, 20, 0.32))
             drop-shadow(0 8px 14px rgba(0, 0, 0, 0.18));
   }
@@ -262,12 +272,14 @@ function laptopMockupHtml(dataUrl, opts = {}) {
     border-radius: 0 0 8px 8px;
   }
 </style></head><body>
-<div class="laptop">
-  <div class="laptop-screen">
-    <div class="laptop-camera"></div>
-    <img class="laptop-screenshot" src="${dataUrl}" />
+<div class="laptop-rotator">
+  <div class="laptop">
+    <div class="laptop-screen">
+      <div class="laptop-camera"></div>
+      <img class="laptop-screenshot" src="${dataUrl}" />
+    </div>
+    <div class="laptop-base"></div>
   </div>
-  <div class="laptop-base"></div>
 </div>
 </body></html>`;
 }
