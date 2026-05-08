@@ -44,21 +44,25 @@ const OUT_DIR = join(root, 'public/projects');
 // drop-shadow filter has room to fade fully WITHIN the canvas (otherwise
 // the shadow gets clipped at the canvas edge and the PNG looks like the
 // shadow was cut off when displayed on the live site).
-const DESKTOP_CANVAS_W = 1600;
+//
+// Side padding sizing: drop-shadow blur is Gaussian, so visible alpha at
+// distance d from the device edge ≈ 0.32 * exp(-d² / 5000). For perceived
+// "fully faded" (alpha < ~1%), we need d ≥ ~130px. We use 150px on both
+// sides for a comfortable margin.
+const DESKTOP_CANVAS_W = 1740;
 const DESKTOP_CANVAS_H = 1200;
-const DESKTOP_DPR = 1.5; // 2400×1800 final
+const DESKTOP_DPR = 1.5; // 2610×1800 final
 
 // Captured viewport (this is what's visible in the laptop screen)
 const DESKTOP_VIEWPORT_W = 1440;
 const DESKTOP_VIEWPORT_H = 900;
 
 // ── Mobile / phone ───────────────────────────────────────────────────────
-// Same reasoning as above — the phone's drop-shadow is asymmetric (32px y
-// offset + 50px blur = 82px below the frame), so the canvas needs extra
-// bottom padding to avoid clipping.
-const MOBILE_CANVAS_W = 600;
+// Same shadow-fade reasoning as above. Phone has the same 50px blur on
+// the bigger drop-shadow, so it also needs ~150px side clearance.
+const MOBILE_CANVAS_W = 760;
 const MOBILE_CANVAS_H = 1250;
-const MOBILE_DPR = 1.5; // 900×1875 final
+const MOBILE_DPR = 1.5; // 1140×1875 final
 
 // iPhone 14 Pro logical viewport (390×844), but capture extra height so
 // content fills the screen area in mockup (object-fit cover crops top)
@@ -175,7 +179,7 @@ async function captureWebsite(browser, url, mode) {
 // fully within the canvas:
 //   shadow extents: -14px (top) → +86px (bottom) → ±50px (sides) from the
 //                   .laptop element edges
-//   padding 100/90/110: gives ~120/120/130 clearance — plenty.
+//   padding 100/150/120: gives ~120/150/140 clearance — fully faded.
 function laptopMockupHtml(dataUrl) {
   return `<!DOCTYPE html>
 <html><head><style>
@@ -186,7 +190,7 @@ function laptopMockupHtml(dataUrl) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 90px 110px;
+    padding: 100px 150px 120px;
     box-sizing: border-box;
   }
   .laptop {
@@ -263,7 +267,7 @@ function laptopMockupHtml(dataUrl) {
 // ── Phone mockup composition (iPhone 14 Pro-ish) ────────────────────────
 // Asymmetric padding: more on the bottom because drop-shadow is
 //   drop-shadow(0 32px 50px ...) → 82px below the phone, only ~18px above.
-// 90/70/130 gives ~120/120/160 clearance — well clear of the canvas edge.
+// 90/150/130 gives ~120/150/160 clearance — well clear of the canvas edge.
 function phoneMockupHtml(dataUrl) {
   return `<!DOCTYPE html>
 <html><head><style>
@@ -274,7 +278,7 @@ function phoneMockupHtml(dataUrl) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 90px 70px 130px;
+    padding: 90px 150px 130px;
     box-sizing: border-box;
   }
   .phone {
