@@ -1,17 +1,33 @@
 ---
+/**
+ * Plate — placeholder visual block for project screenshots.
+ *
+ * Two modes:
+ * 1. **CSS placeholder** (default): coloured box with diagonal stripes,
+ *    file-name label top-left, optional caption bottom-left. Used when a
+ *    real screenshot/mockup hasn't been generated for the project yet.
+ * 2. **Real image** (when `imageSrc` provided): renders the image with
+ *    no extra framing — assumes the image already has its own frame
+ *    (e.g. a laptop mockup PNG from `npm run shots`). Caption shown
+ *    below as a small mono line.
+ */
 export interface Props {
-  /** File-name label shown top-left, e.g. "veverka-hero.png". */
+  /** File-name label shown top-left in placeholder mode, e.g. "veverka-hero.png". */
   label: string;
   /** Background tint — CSS color, defaults to var(--bg2). */
   color?: string;
-  /** Aspect ratio, e.g. "4/3" (default), "4/5", "16/9". */
+  /** Aspect ratio, e.g. "4/3" (default), "4/5", "16/9". Ignored when `imageSrc` is set. */
   ratio?: string;
-  /** Optional caption shown bottom-left. */
+  /** Optional caption shown bottom-left (placeholder) / below (image). */
   caption?: string;
-  /** Border radius in px (default 14). */
+  /** Border radius in px (default 14). Used only in placeholder mode. */
   radius?: number;
   /** Extra classes to merge. */
   class?: string;
+  /** When provided, render this image instead of the CSS placeholder. */
+  imageSrc?: string;
+  /** Alt text for the image. Falls back to `label` when omitted. */
+  imageAlt?: string;
 }
 
 const {
@@ -21,13 +37,50 @@ const {
   caption,
   radius = 14,
   class: className = '',
+  imageSrc,
+  imageAlt,
 } = Astro.props;
 
 const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
 ---
-<div class:list={['relative w-full overflow-hidden', className]} style={styleStr} aria-hidden="true">
-  <div class="absolute top-3.5 left-4 font-mono text-[11px] opacity-70" style="color: var(--ink);">▢ {label}</div>
-  {caption && (
-    <div class="absolute bottom-3.5 left-4 font-mono text-[10px] opacity-60" style="color: var(--ink);">{caption}</div>
-  )}
-</div>
+{imageSrc ? (
+  <figure class:list={['plate-image-wrap', className]}>
+    <img
+      src={imageSrc}
+      alt={imageAlt ?? label}
+      class="plate-image"
+      loading="lazy"
+      decoding="async"
+    />
+    {caption && (
+      <figcaption class="plate-image-caption mono">{caption}</figcaption>
+    )}
+  </figure>
+) : (
+  <div class:list={['relative w-full overflow-hidden', className]} style={styleStr} aria-hidden="true">
+    <div class="absolute top-3.5 left-4 font-mono text-[11px] opacity-70" style="color: var(--ink);">▢ {label}</div>
+    {caption && (
+      <div class="absolute bottom-3.5 left-4 font-mono text-[10px] opacity-60" style="color: var(--ink);">{caption}</div>
+    )}
+  </div>
+)}
+
+<style>
+  .plate-image-wrap {
+    margin: 0;
+    display: block;
+  }
+  .plate-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Mockup PNGs from `npm run shots` are pre-shadowed; no extra effect needed. */
+  }
+  .plate-image-caption {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+</style>
