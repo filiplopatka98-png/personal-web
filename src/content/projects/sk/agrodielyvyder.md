@@ -17,13 +17,34 @@ metrics:
     label: "produktových filtrov"
   - value: "<0.5s"
     label: "load time s cache"
-process: []
+process:
+  - title: "Analýza"
+    duration: "1 týždeň"
+    desc: "Audit pôvodného OpenCart eshopu, mapping taxonómie podľa typu stroja, definícia 100+ filtrov, requirementy pre slovenské platobné brány."
+  - title: "Design"
+    duration: "1,5 týždňa"
+    desc: "UX pre product listing s rozsiahlou filtráciou, mobile-first checkout flow, vizuálna prezentácia dielov a strojov."
+  - title: "Build"
+    duration: "2 týždne"
+    desc: "Custom WordPress theme + WooCommerce, vlastná taxonómia produktov, lazy-loaded galérie, integrácia SK platobných brán (CardPay, Tatra Pay, ČSOB)."
+  - title: "Migrácia dát z OpenCart"
+    duration: "2 týždne"
+    desc: "Export skript pre 17 000+ produktov z OpenCart, mapping atribútov a kategórií, upload mediálnej knižnice, 301 redirecty zo starých URL."
+  - title: "Launch"
+    duration: "2 dni"
+    desc: "Produkčné nasadenie, GDPR consent, Google Merchant Center feed, sitemap + Search Console."
+  - title: "Optimalizácia rýchlosti"
+    duration: "1 týždeň"
+    desc: "Object cache, query optimization pre 17 000 SKU, image lazy-loading — výsledok pod 0,5s load time s cache."
 stack:
   - "WordPress"
   - "WooCommerce"
   - "ACF"
   - "Custom theme"
   - "SK platobné brány"
+heroCaption: "homepage · katalóg s vyhľadávaním"
+mobileCaption: "produktový detail na mobile"
+secondaryCaption: "obchod · 17 000+ produktov so 100+ filtrami"
 ---
 
 WooCommerce eshop pre B2B/B2C predaj náhradných dielov k poľnohospodárskej technike. Custom kategorizácia produktov podľa typu stroja, integrácia s domácimi platobnými bránami, lazy-loaded produktové galérie a optimalizácia pre rýchlosť pri tisíckach SKU.

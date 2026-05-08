@@ -17,13 +17,34 @@ metrics:
     label: "parishes"
   - value: "5"
     label: "custom integrations"
-process: []
+process:
+  - title: "Analysis"
+    duration: "1 week"
+    desc: "Audit of the legacy site, mapping content needs (parishes, schematism, calendar), gathering API specs for livestreams and dobrodinec.online."
+  - title: "Design"
+    duration: "2 weeks"
+    desc: "Visual concept for the institutional site, hero with livestream feed + dobrodinec.online integration, editorial templates for news and events."
+  - title: "Build"
+    duration: "3 weeks"
+    desc: "Custom WordPress theme, ACF Pro for priests and parishes, integration of 3 APIs (livestream, external calendar, dobrodinec.online)."
+  - title: "Custom admin layer"
+    duration: "1 week"
+    desc: "Custom UI for managing 3,000+ priests and 400+ parishes, 2 export scripts for the archeparchy's internal reports."
+  - title: "Launch"
+    duration: "2 days"
+    desc: "Content migration from the old site, URL redirects, GDPR consent, production rollout."
+  - title: "Speed optimisation"
+    duration: "4 days"
+    desc: "Page caching, image lazy-loading, CDN for static assets, DB query optimisation in the admin panel."
 stack:
   - "WordPress"
   - "ACF Pro"
   - "Custom theme"
   - "YouTube API"
   - "GDPR consent"
+heroCaption: "homepage · livestream + dobrodinec.online"
+mobileCaption: "liturgical calendar on mobile"
+secondaryCaption: "schematism · 3,000+ priests in the database"
 ---
 
 Redesign of the official Greek Catholic Archeparchy of Prešov website. It serves as a communication channel for the faithful, clergy and anyone interested in the archeparchy's activities — parish news, liturgical calendar, video evangeliary and livestreamed services.

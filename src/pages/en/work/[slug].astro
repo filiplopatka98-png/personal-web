@@ -47,8 +47,10 @@ const accentColor = `var(--${data.accent})`;
 
 const heroMockupRel = mockupPath(cleanSlug, 'hero');
 const mobileMockupRel = mockupPath(cleanSlug, 'mobile');
+const secondaryMockupRel = mockupPath(`${cleanSlug}-screen2`, 'hero');
 const heroMockupSrc = heroMockupRel ? `${baseUrl}${heroMockupRel}` : null;
 const mobileMockupSrc = mobileMockupRel ? `${baseUrl}${mobileMockupRel}` : null;
+const secondaryMockupSrc = secondaryMockupRel ? `${baseUrl}${secondaryMockupRel}` : null;
 
 const projectUrlPath = `${baseUrl}/en/work/${cleanSlug}/`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
@@ -119,7 +121,7 @@ const projectLd = {
         label={`${data.name} · hero`}
         color={accentColor}
         ratio="16/9"
-        caption={heroMockupSrc ? data.url : 'screen-01.png'}
+        caption={heroMockupSrc ? (data.heroCaption ?? data.url) : 'screen-01.png'}
         radius={20}
         imageSrc={heroMockupSrc ?? undefined}
         imageAlt={`${data.name} — desktop preview`}
@@ -177,13 +179,20 @@ const projectLd = {
           label="mobile"
           color={accentColor}
           ratio={mobileMockupSrc ? '600/1100' : '4/3'}
-          caption={mobileMockupSrc ? 'mobile view' : 'checkout flow'}
+          caption={mobileMockupSrc ? (data.mobileCaption ?? 'mobile view') : 'checkout flow'}
           imageSrc={mobileMockupSrc ?? undefined}
           imageAlt={`${data.name} — mobile preview`}
         />
       </Reveal>
       <Reveal delay={0.08}>
-        <Plate label="screen-03" color="var(--accent2)" ratio="4/3" caption="product detail" />
+        <Plate
+          label={secondaryMockupSrc ? `${data.name} · secondary view` : 'screen-03'}
+          color={secondaryMockupSrc ? accentColor : 'var(--accent2)'}
+          ratio={secondaryMockupSrc ? '16/9' : '4/3'}
+          caption={secondaryMockupSrc ? (data.secondaryCaption ?? '—') : 'product detail'}
+          imageSrc={secondaryMockupSrc ?? undefined}
+          imageAlt={`${data.name} — secondary preview`}
+        />
       </Reveal>
     </div>
   </section>

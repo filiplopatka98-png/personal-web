@@ -17,13 +17,34 @@ metrics:
     label: "product filters"
   - value: "<0.5s"
     label: "load time (cached)"
-process: []
+process:
+  - title: "Analysis"
+    duration: "1 week"
+    desc: "Audit of the legacy OpenCart shop, mapping taxonomy by machine type, defining 100+ filters, requirements for Slovak payment gateways."
+  - title: "Design"
+    duration: "1.5 weeks"
+    desc: "UX for the heavily-filtered product listing, mobile-first checkout flow, visual presentation of parts and machinery."
+  - title: "Build"
+    duration: "2 weeks"
+    desc: "Custom WordPress theme + WooCommerce, custom product taxonomy, lazy-loaded galleries, Slovak payment gateway integration (CardPay, Tatra Pay, ČSOB)."
+  - title: "OpenCart data migration"
+    duration: "2 weeks"
+    desc: "Export script for 17,000+ products from OpenCart, attribute and category mapping, media library upload, 301 redirects from old URLs."
+  - title: "Launch"
+    duration: "2 days"
+    desc: "Production deployment, GDPR consent, Google Merchant Center feed, sitemap + Search Console."
+  - title: "Speed optimisation"
+    duration: "1 week"
+    desc: "Object cache, query optimisation for 17,000 SKUs, image lazy-loading — sub-0.5s load time with cache."
 stack:
   - "WordPress"
   - "WooCommerce"
   - "ACF"
   - "Custom theme"
   - "SK payment gateways"
+heroCaption: "homepage · catalog with search"
+mobileCaption: "product detail on mobile"
+secondaryCaption: "shop · 17,000+ products with 100+ filters"
 ---
 
 WooCommerce e-shop for B2B/B2C sales of agricultural machinery replacement parts. Custom product taxonomy by machine type, integration with local Slovak payment gateways, lazy-loaded product galleries and performance tuning for thousands of SKUs.

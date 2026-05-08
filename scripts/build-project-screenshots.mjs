@@ -2,24 +2,33 @@
  * Generate device-mockup project screenshots.
  *
  * Usage:
- *   npm run shots <url1> [url2] [url3] ...
- *   npm run shots https://www.grkatpo.sk/ https://agrodielyvyder.sk/
+ *   npm run shots <arg1> [arg2] ...
  *
- * Output: public/projects/<slug>-hero.png (laptop-mockup framed screenshot,
- * 1600×1100 at 1.5× DPR ≈ 2400×1650).
+ * Each <arg> is one of:
+ *   URL                        → slug from hostname, both desktop + mobile
+ *   SLUG=URL                   → custom slug, both desktop + mobile
+ *   SLUG=URL::desktop          → custom slug, desktop only
+ *   SLUG=URL::mobile           → custom slug, mobile only
  *
- * Workflow per URL:
- *   1. Headless Chrome navigates to URL at 1440×900 viewport
+ * Examples:
+ *   npm run shots https://www.grkatpo.sk/
+ *   npm run shots profihouse-screen2=https://profihouse.sk/realizacie/::desktop
+ *
+ * Output:
+ *   public/projects/<slug>-hero.png    (laptop mockup, 1600×1100 @ 1.5× DPR)
+ *   public/projects/<slug>-mobile.png  (iPhone-ish mockup, 600×1100 @ 1.5× DPR)
+ *
+ * Workflow per (slug, url, mode):
+ *   1. Headless Chrome navigates to URL at desktop or mobile viewport
  *   2. Tries to dismiss SK/EN cookie banners via known selectors + text match
- *   3. Waits 1.5s for animations + lazy images
+ *   3. Waits 1.8s for animations + lazy images
  *   4. Captures viewport screenshot as PNG
- *   5. Composites that screenshot into a laptop-mockup HTML template
- *      (CSS-drawn MacBook-ish frame with hinge, camera, drop shadow)
+ *   5. Composites into HTML mockup template (laptop or phone frame)
  *   6. Re-screenshots the composition at retina DPR
- *   7. Writes final PNG to public/projects/<slug>-hero.png
+ *   7. Writes final PNG to public/projects/<slug>-{hero,mobile}.png
  *
- * Slug: derived from hostname (www.grkatpo.sk → "grkatpo"). Override later
- * when integrating with project frontmatter `screenshotSlug` field.
+ * Slug derivation: when not given via SLUG=, hostname is used
+ * (www.grkatpo.sk → "grkatpo").
  */
 import puppeteer from 'puppeteer';
 import { writeFile, mkdir } from 'node:fs/promises';
@@ -338,13 +347,44 @@ function slugFromUrl(url) {
   return u.hostname.replace(/^www\./, '').split('.')[0];
 }
 
+// ── Argument parsing ────────────────────────────────────────────────────
+// Each arg form: URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile
+function parseJob(arg) {
+  let payload = arg;
+  let modes = ['desktop', 'mobile'];
+
+  // Mode suffix detection — uses `::` to avoid clashing with `https://`.
+  if (payload.endsWith('::desktop')) {
+    payload = payload.slice(0, -'::desktop'.length);
+    modes = ['desktop'];
+  } else if (payload.endsWith('::mobile')) {
+    payload = payload.slice(0, -'::mobile'.length);
+    modes = ['mobile'];
+  }
+
+  // Slug override: split on FIRST `=` only (URL may not contain `=`).
+  const eq = payload.indexOf('=');
+  let slug, url;
+  if (eq !== -1 && !/^https?:\/\//i.test(payload)) {
+    slug = payload.slice(0, eq);
+    url = payload.slice(eq + 1);
+  } else {
+    url = payload;
+    slug = slugFromUrl(payload);
+  }
+  return { slug, url, modes };
+}
+
 // ── Main ────────────────────────────────────────────────────────────────
 async function main() {
-  const urls = process.argv.slice(2);
-  if (urls.length === 0) {
-    console.error('Usage: node scripts/build-project-screenshots.mjs <url1> [url2] ...');
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.error('Usage: node scripts/build-project-screenshots.mjs <arg1> [arg2] ...');
+    console.error('  arg = URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile');
     process.exit(1);
   }
+
+  const jobs = args.map(parseJob);
 
   await mkdir(OUT_DIR, { recursive: true });
 
@@ -353,11 +393,10 @@ async function main() {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
-  for (const url of urls) {
-    const slug = slugFromUrl(url);
-    console.log(`📸 ${slug} ← ${url}`);
+  for (const { slug, url, modes } of jobs) {
+    console.log(`📸 ${slug} ← ${url} [${modes.join(', ')}]`);
 
-    for (const mode of ['desktop', 'mobile']) {
+    for (const mode of modes) {
       try {
         const screenshot = await captureWebsite(browser, url, mode);
         const final = await composeMockup(browser, screenshot, mode);

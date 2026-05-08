@@ -25,6 +25,12 @@ export const projectSchema = z.object({
     desc: z.string().min(1),
   })).default([]),
   stack: z.array(z.string()).default([]),
+  // Per-language captions for the 3 mockup slots in the project page.
+  // When omitted, the template falls back to generic strings (data.url for hero,
+  // localized "mobile view" for mobile, "—" for secondary).
+  heroCaption: z.string().optional(),
+  mobileCaption: z.string().optional(),
+  secondaryCaption: z.string().optional(),
 });
 
 // Article schema per CONTENT_SCHEMA.md
