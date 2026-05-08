@@ -6,14 +6,13 @@ import { dirname, join, resolve } from 'node:path';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Reveal from '../../../components/Reveal.astro';
 import Plate from '../../../components/Plate.astro';
-import ScrollPhone from '../../../components/ScrollPhone.astro';
 import { t } from '../../../i18n';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const projectRoot = resolve(__dirname, '../../../..');
 
-function mockupPath(slug: string, type: 'hero' | 'mobile' | 'mobile-tall'): string | null {
+function mockupPath(slug: string, type: 'hero' | 'mobile'): string | null {
   const rel = `/projects/${slug}-${type}.png`;
   const abs = join(projectRoot, 'public', rel);
   return existsSync(abs) ? rel : null;
@@ -48,13 +47,10 @@ const accentColor = `var(--${data.accent})`;
 
 const heroMockupRel = mockupPath(cleanSlug, 'hero');
 const mobileMockupRel = mockupPath(cleanSlug, 'mobile');
-const mobileTallRel = mockupPath(cleanSlug, 'mobile-tall');
 const secondaryMockupRel = mockupPath(`${cleanSlug}-screen2`, 'hero');
 const heroMockupSrc = heroMockupRel ? `${baseUrl}${heroMockupRel}` : null;
 const mobileMockupSrc = mobileMockupRel ? `${baseUrl}${mobileMockupRel}` : null;
-const mobileTallSrc = mobileTallRel ? `${baseUrl}${mobileTallRel}` : null;
 const secondaryMockupSrc = secondaryMockupRel ? `${baseUrl}${secondaryMockupRel}` : null;
-const hasPhoneVisual = !!(mobileMockupSrc || mobileTallSrc);
 
 const projectUrlPath = `${baseUrl}/en/work/${cleanSlug}/`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
@@ -176,25 +172,17 @@ const projectLd = {
     </section>
   )}
 
-  <section class:list={['proj-screens', hasPhoneVisual && 'has-mobile-mockup']}>
+  <section class:list={['proj-screens', mobileMockupSrc && 'has-mobile-mockup']}>
     <div class="screens-grid">
       <Reveal>
-        {mobileTallSrc ? (
-          <ScrollPhone
-            imageSrc={mobileTallSrc}
-            imageAlt={`${data.name} — scrollable mobile preview`}
-            caption={data.mobileCaption ?? 'mobile view — scroll inside the frame'}
-          />
-        ) : (
-          <Plate
-            label="mobile"
-            color={accentColor}
-            ratio={mobileMockupSrc ? '600/1100' : '4/3'}
-            caption={mobileMockupSrc ? (data.mobileCaption ?? 'mobile view') : 'checkout flow'}
-            imageSrc={mobileMockupSrc ?? undefined}
-            imageAlt={`${data.name} — mobile preview`}
-          />
-        )}
+        <Plate
+          label="mobile"
+          color={accentColor}
+          ratio={mobileMockupSrc ? '600/1100' : '4/3'}
+          caption={mobileMockupSrc ? (data.mobileCaption ?? 'mobile view') : 'checkout flow'}
+          imageSrc={mobileMockupSrc ?? undefined}
+          imageAlt={`${data.name} — mobile preview`}
+        />
       </Reveal>
       <Reveal delay={0.08}>
         <Plate

@@ -7,24 +7,16 @@
  * Each <arg> is one of:
  *   URL                        → slug from hostname, both desktop + mobile
  *   SLUG=URL                   → custom slug, both desktop + mobile
- *   SLUG=URL::desktop          → straight laptop frame
- *   SLUG=URL::desktop-angled   → 3D-rotated laptop (perspective + rotateY)
- *   SLUG=URL::mobile           → static phone frame
- *   SLUG=URL::mobile-scroll    → bare full-page screenshot for in-page
- *                                scrollable phone frame on the live site
+ *   SLUG=URL::desktop          → custom slug, desktop only
+ *   SLUG=URL::mobile           → custom slug, mobile only
  *
  * Examples:
  *   npm run shots https://www.grkatpo.sk/
  *   npm run shots profihouse-screen2=https://profihouse.sk/realizacie/::desktop
- *   npm run shots profihouse=https://profihouse.sk/::desktop-angled
- *   npm run shots profihouse=https://profihouse.sk/::mobile-scroll
  *
  * Output:
- *   public/projects/<slug>-hero.png         laptop mockup (1600×1100 @ 1.5× DPR)
- *   public/projects/<slug>-mobile.png       static phone mockup (600×1100 @ 1.5× DPR)
- *   public/projects/<slug>-mobile-tall.png  bare full-page mobile capture
- *                                           (390×N @ 2× DPR — wrapped at runtime
- *                                            in HTML/CSS phone frame with overflow:auto)
+ *   public/projects/<slug>-hero.png    (laptop mockup, 1600×1100 @ 1.5× DPR)
+ *   public/projects/<slug>-mobile.png  (iPhone-ish mockup, 600×1100 @ 1.5× DPR)
  *
  * Workflow per (slug, url, mode):
  *   1. Headless Chrome navigates to URL at desktop or mobile viewport
@@ -173,25 +165,7 @@ async function captureWebsite(browser, url, mode) {
 }
 
 // ── Laptop mockup composition ───────────────────────────────────────────
-// `angled` rotates the laptop in 3D space (perspective + rotateY) so the
-// final PNG looks like a slightly-side-on product shot.
-//
-// IMPORTANT: CSS `filter` (incl. `drop-shadow`) flattens its element's
-// 3D context per spec, which silently nullifies any sibling/descendant
-// transform. To keep both the rotation AND the drop-shadow, we split:
-//   .laptop-rotator  → applies the 3D transform, no filter
-//   .laptop          → applies the drop-shadow, no transform
-// This gives a properly rotated laptop with a shadow that follows the
-// new silhouette.
-function laptopMockupHtml(dataUrl, opts = {}) {
-  const { angled = false } = opts;
-  const rotatorTransform = angled
-    ? 'transform: rotateY(-18deg) rotateX(3deg) rotateZ(-1.5deg);'
-    : '';
-  // When angled, the right side recedes and we have spare horizontal room
-  // on that side; nudge the laptop a bit left so the visual centre matches
-  // the canvas centre.
-  const wrapperPadding = angled ? '60px 60px 80px 120px' : '60px 80px 80px';
+function laptopMockupHtml(dataUrl) {
   return `<!DOCTYPE html>
 <html><head><style>
   html, body { margin: 0; padding: 0; background: transparent; }
@@ -201,15 +175,8 @@ function laptopMockupHtml(dataUrl, opts = {}) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: ${wrapperPadding};
+    padding: 60px 80px 80px;
     box-sizing: border-box;
-    perspective: 2400px;
-    perspective-origin: 50% 50%;
-  }
-  .laptop-rotator {
-    width: 100%;
-    transform-style: preserve-3d;
-    ${rotatorTransform}
   }
   .laptop {
     position: relative;
@@ -272,14 +239,12 @@ function laptopMockupHtml(dataUrl, opts = {}) {
     border-radius: 0 0 8px 8px;
   }
 </style></head><body>
-<div class="laptop-rotator">
-  <div class="laptop">
-    <div class="laptop-screen">
-      <div class="laptop-camera"></div>
-      <img class="laptop-screenshot" src="${dataUrl}" />
-    </div>
-    <div class="laptop-base"></div>
+<div class="laptop">
+  <div class="laptop-screen">
+    <div class="laptop-camera"></div>
+    <img class="laptop-screenshot" src="${dataUrl}" />
   </div>
+  <div class="laptop-base"></div>
 </div>
 </body></html>`;
 }
@@ -350,7 +315,7 @@ function phoneMockupHtml(dataUrl) {
 </body></html>`;
 }
 
-async function composeMockup(browser, screenshotBuffer, mode, opts = {}) {
+async function composeMockup(browser, screenshotBuffer, mode) {
   const isMobile = mode === 'mobile';
   const W = isMobile ? MOBILE_CANVAS_W : DESKTOP_CANVAS_W;
   const H = isMobile ? MOBILE_CANVAS_H : DESKTOP_CANVAS_H;
@@ -364,9 +329,7 @@ async function composeMockup(browser, screenshotBuffer, mode, opts = {}) {
   });
 
   const dataUrl = `data:image/png;base64,${screenshotBuffer.toString('base64')}`;
-  const html = isMobile
-    ? phoneMockupHtml(dataUrl)
-    : laptopMockupHtml(dataUrl, { angled: opts.angled === true });
+  const html = isMobile ? phoneMockupHtml(dataUrl) : laptopMockupHtml(dataUrl);
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
   const final = await page.screenshot({
@@ -378,56 +341,6 @@ async function composeMockup(browser, screenshotBuffer, mode, opts = {}) {
   return final;
 }
 
-// Capture a full-page mobile screenshot (no mockup composition). Used for
-// the scrollable-phone variant: the live Astro template wraps this PNG in
-// an HTML/CSS phone frame with overflow:auto so visitors can scroll.
-async function captureFullPageMobile(browser, url) {
-  const page = await browser.newPage();
-  await page.setViewport({
-    width: MOBILE_VIEWPORT_W,
-    height: MOBILE_VIEWPORT_H,
-    deviceScaleFactor: 2,
-    isMobile: true,
-    hasTouch: true,
-  });
-  await page.setUserAgent(MOBILE_UA);
-
-  try {
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-  } catch (e) {
-    console.warn(`  ⚠ slow load (mobile-scroll): ${e.message.split('\n')[0]}`);
-  }
-
-  const dismissed = await dismissCookies(page);
-  if (dismissed) console.log(`  → cookies dismissed [mobile-scroll] (${dismissed})`);
-
-  await new Promise((r) => setTimeout(r, 1500));
-
-  // Trigger lazy-loaded images by scrolling top→bottom→top.
-  await page.evaluate(async () => {
-    await new Promise((resolve) => {
-      let total = 0;
-      const interval = setInterval(() => {
-        const scrollHeight = document.documentElement.scrollHeight;
-        window.scrollBy(0, 400);
-        total += 400;
-        if (total >= scrollHeight + 800) {
-          clearInterval(interval);
-          window.scrollTo(0, 0);
-          setTimeout(resolve, 800);
-        }
-      }, 120);
-    });
-  });
-
-  // Extra settle time for images that loaded during scroll.
-  await new Promise((r) => setTimeout(r, 1200));
-
-  const buffer = await page.screenshot({ type: 'png', fullPage: true });
-  await page.close();
-  return buffer;
-}
-
 // ── Slug helper ─────────────────────────────────────────────────────────
 function slugFromUrl(url) {
   const u = new URL(url);
@@ -435,29 +348,18 @@ function slugFromUrl(url) {
 }
 
 // ── Argument parsing ────────────────────────────────────────────────────
-// Each arg form:
-//   URL                         → both `desktop` and `mobile` modes
-//   SLUG=URL                    → both, custom slug
-//   SLUG=URL::<mode>            → single mode, where <mode> is one of:
-//     desktop          straight laptop frame, output <slug>-hero.png
-//     desktop-angled   3D-rotated laptop frame, output <slug>-hero.png
-//     mobile           static phone frame, output <slug>-mobile.png
-//     mobile-scroll    bare full-page screenshot for scrollable in-page
-//                      phone frame, output <slug>-mobile-tall.png
-const MODE_NAMES = ['desktop-angled', 'desktop', 'mobile-scroll', 'mobile'];
-
+// Each arg form: URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile
 function parseJob(arg) {
   let payload = arg;
-  let modes = ['desktop', 'mobile']; // default both straight modes
+  let modes = ['desktop', 'mobile'];
 
   // Mode suffix detection — uses `::` to avoid clashing with `https://`.
-  for (const m of MODE_NAMES) {
-    const suffix = `::${m}`;
-    if (payload.endsWith(suffix)) {
-      payload = payload.slice(0, -suffix.length);
-      modes = [m];
-      break;
-    }
+  if (payload.endsWith('::desktop')) {
+    payload = payload.slice(0, -'::desktop'.length);
+    modes = ['desktop'];
+  } else if (payload.endsWith('::mobile')) {
+    payload = payload.slice(0, -'::mobile'.length);
+    modes = ['mobile'];
   }
 
   // Slug override: split on FIRST `=` only (URL may not contain `=`).
@@ -473,37 +375,12 @@ function parseJob(arg) {
   return { slug, url, modes };
 }
 
-// Per-mode dispatcher: capture + (optionally) compose + write.
-// Returns { outPath, bytes } so the caller can log a friendly KB count.
-async function runMode(browser, slug, url, mode) {
-  let buffer, outPath;
-  if (mode === 'desktop' || mode === 'desktop-angled') {
-    const shot = await captureWebsite(browser, url, 'desktop');
-    buffer = await composeMockup(browser, shot, 'desktop', {
-      angled: mode === 'desktop-angled',
-    });
-    outPath = join(OUT_DIR, `${slug}-hero.png`);
-  } else if (mode === 'mobile') {
-    const shot = await captureWebsite(browser, url, 'mobile');
-    buffer = await composeMockup(browser, shot, 'mobile');
-    outPath = join(OUT_DIR, `${slug}-mobile.png`);
-  } else if (mode === 'mobile-scroll') {
-    buffer = await captureFullPageMobile(browser, url);
-    outPath = join(OUT_DIR, `${slug}-mobile-tall.png`);
-  } else {
-    throw new Error(`unknown mode: ${mode}`);
-  }
-  await writeFile(outPath, buffer);
-  return { outPath, bytes: buffer.length };
-}
-
 // ── Main ────────────────────────────────────────────────────────────────
 async function main() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
     console.error('Usage: node scripts/build-project-screenshots.mjs <arg1> [arg2] ...');
-    console.error('  arg = URL | SLUG=URL | SLUG=URL::<mode>');
-    console.error(`  modes: ${MODE_NAMES.join(', ')}`);
+    console.error('  arg = URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile');
     process.exit(1);
   }
 
@@ -521,8 +398,13 @@ async function main() {
 
     for (const mode of modes) {
       try {
-        const { outPath, bytes } = await runMode(browser, slug, url, mode);
-        console.log(`  ✓ ${outPath} (${Math.round(bytes / 1024)} KB)`);
+        const screenshot = await captureWebsite(browser, url, mode);
+        const final = await composeMockup(browser, screenshot, mode);
+        const suffix = mode === 'desktop' ? 'hero' : 'mobile';
+        const outPath = join(OUT_DIR, `${slug}-${suffix}.png`);
+        await writeFile(outPath, final);
+        const kb = Math.round(final.length / 1024);
+        console.log(`  ✓ ${outPath} (${kb} KB)`);
       } catch (e) {
         console.error(`  ✗ ${slug} ${mode}: ${e.message}`);
       }
