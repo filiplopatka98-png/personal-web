@@ -10,7 +10,13 @@ accent: accent
 order: 2
 featured: false
 brief: "Web stavebnej spoločnosti pre lead generation — služby, portfólio realizácií a kontaktné formuláre pre dopyty."
-metrics: []
+metrics:
+  - value: "8 000+"
+    label: "návštev/mes"
+  - value: "2.4%"
+    label: "konverzia na lead"
+  - value: "35+"
+    label: "leadov/mes"
 process: []
 stack:
   - "WordPress"

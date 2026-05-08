@@ -10,7 +10,13 @@ accent: accent2
 order: 1
 featured: true
 brief: "B2B/B2C e-shop with replacement parts for tractors, front loaders, sprayers and tillage machinery."
-metrics: []
+metrics:
+  - value: "17,000+"
+    label: "products in catalog"
+  - value: "100+"
+    label: "product filters"
+  - value: "<0.5s"
+    label: "load time (cached)"
 process: []
 stack:
   - "WordPress"

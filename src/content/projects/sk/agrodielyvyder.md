@@ -10,7 +10,13 @@ accent: accent2
 order: 1
 featured: true
 brief: "B2B/B2C eshop s náhradnými dielmi pre traktory, čelné nakladače, postrekovače a stroje na prípravu pôdy."
-metrics: []
+metrics:
+  - value: "17 000+"
+    label: "produktov v katalógu"
+  - value: "100+"
+    label: "produktových filtrov"
+  - value: "<0.5s"
+    label: "load time s cache"
 process: []
 stack:
   - "WordPress"

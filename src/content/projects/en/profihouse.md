@@ -10,7 +10,13 @@ accent: accent
 order: 2
 featured: false
 brief: "Construction company website for lead generation — services, project portfolio and inquiry contact forms."
-metrics: []
+metrics:
+  - value: "8,000+"
+    label: "visits/month"
+  - value: "2.4%"
+    label: "lead conversion"
+  - value: "35+"
+    label: "leads/month"
 process: []
 stack:
   - "WordPress"
