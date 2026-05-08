@@ -3,7 +3,7 @@ name: "Archeparchy of Prešov"
 kind: "Institutional website · WordPress"
 year: "2024"
 role: "WordPress Developer"
-duration: "—"
+duration: "2 months"
 client: "Greek Catholic Archeparchy of Prešov"
 url: "grkatpo.sk"
 accent: accent3

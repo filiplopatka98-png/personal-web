@@ -3,7 +3,7 @@ name: "Arcibiskupstvo Prešov"
 kind: "Inštitucionálny web · WordPress"
 year: "2024"
 role: "WordPress Developer"
-duration: "—"
+duration: "2 mesiace"
 client: "Gréckokatolícke arcibiskupstvo Prešov"
 url: "grkatpo.sk"
 accent: accent3

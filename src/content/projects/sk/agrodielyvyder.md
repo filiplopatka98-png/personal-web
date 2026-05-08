@@ -1,9 +1,9 @@
 ---
 name: "Agrodiely Vyder"
 kind: "E-shop · WooCommerce"
-year: "2024"
+year: "2026"
 role: "WordPress + WooCommerce Developer"
-duration: "—"
+duration: "2 mesiace"
 client: "Vyder"
 url: "agrodielyvyder.sk"
 accent: accent2
