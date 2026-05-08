@@ -127,7 +127,13 @@ const articles = (await getCollection('articles'))
     z-index: 2;
   }
   :global(.home-hero-toprow .right) { text-align: right; }
-  .small { font-size: 13px; opacity: 0.6; font-family: var(--font-mono); }
+  /* Solid muted color (not opacity) — keeps WCAG contrast deterministic
+     even when text sits visually over a decorative blob. */
+  .small {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+  }
   :global(.home-hero-bottom) {
     display: flex;
     justify-content: space-between;
@@ -201,7 +207,7 @@ const articles = (await getCollection('articles'))
     font-family: var(--font-display);
   }
   .about-em {
-    color: var(--accent);
+    color: var(--accent-text);
     font-style: italic;
     padding-left: 0.06em;
   }

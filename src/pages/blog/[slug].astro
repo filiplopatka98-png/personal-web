@@ -195,7 +195,7 @@ const articleLd = {
   }
   .meta-sep { opacity: 0.65; }
   .article-tag-inline {
-    color: var(--accent);
+    color: var(--accent-text);
     font-family: var(--font-mono);
   }
   /* h1 — handoff line 367: 72px display 1.02 -0.02em (was 56) */
@@ -283,7 +283,7 @@ const articleLd = {
   }
   :global(.article-prose li) { margin: 8px 0; }
   :global(.article-prose a) {
-    color: var(--accent);
+    color: var(--accent-text);
     text-decoration: underline;
     text-underline-offset: 4px;
   }
@@ -311,7 +311,8 @@ const articleLd = {
   }
   .share-links a,
   .share-copy-btn {
-    color: var(--accent);
+    /* Darker accent variant for AA contrast on small mono share links. */
+    color: var(--accent-text);
     text-decoration: none;
     transition: opacity 0.15s ease;
   }

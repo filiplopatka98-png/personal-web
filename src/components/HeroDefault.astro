@@ -51,7 +51,10 @@ const { lang } = Astro.props;
 
   :global(.hero-em) {
     font-style: italic;
-    color: var(--accent);
+    /* --accent-text is darker variant for AA compliance even when text
+       overlaps decorative blobs. Visual identity preserved (terracotta
+       italic) but contrast comfortably passes WCAG. */
+    color: var(--accent-text);
     padding-left: 0.08em;
     padding-right: 0.06em;
   }

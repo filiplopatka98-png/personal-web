@@ -92,6 +92,34 @@
   --italic-pad-r: 0.06em;
 }
 
+/*
+ * Per-theme derived text colors — same visual feel as `var(--ink)` at 0.6
+ * opacity, but rendered as a SOLID pixel value (no transparency).
+ * Lighthouse / axe-core can compute deterministic contrast vs the parent's
+ * declared background instead of sampling pixels through transparent text.
+ *
+ * Use these for muted text instead of `opacity: <0.7>`. Especially important
+ * for any text that visually overlaps decorative blobs (hero, sluzby, blog
+ * heads) — opacity bleeds the blob color through glyphs and tanks contrast.
+ *
+ * --accent-text: darker variant of --accent for use as text color. The bare
+ * --accent (#D2693A on warm) only hits ~3.4:1 on the cream bg — fine for
+ * 120px hero text (WCAG Large), borderline for 14-18px body. The text
+ * variant blends 80% accent + 20% ink → ~4.5:1, passes AA Normal.
+ */
+:root[data-theme='warm'] {
+  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
+  --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
+  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
+}
+:root[data-theme='clay'],
+:root[data-theme='cream'],
+:root[data-theme='forest'] {
+  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
+  --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
+  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
+}
+
 html {
   background: var(--bg);
   color: var(--ink);
