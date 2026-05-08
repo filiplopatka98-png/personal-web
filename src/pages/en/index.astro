@@ -44,7 +44,6 @@ const articles = (await getCollection('articles'))
       <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
       <div class="home-hero-ctas">
         <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} data-cursor="hover" class="btn-primary">{t('cta.schedule', lang)} →</a>
-        <a href="#" data-cursor="hover" class="btn-ghost">{t('cta.cv', lang)}</a>
       </div>
     </Reveal>
   </section>
