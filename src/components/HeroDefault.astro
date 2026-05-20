@@ -1,5 +1,4 @@
 ---
-import Blob from './Blob.astro';
 import Squiggle from './Squiggle.astro';
 import Reveal from './Reveal.astro';
 import { type Lang } from '../i18n';
@@ -9,9 +8,6 @@ export interface Props {
 }
 const { lang } = Astro.props;
 ---
-<Blob color="var(--accent)" size={340} position="top: 60px; right: 80px;" />
-<Blob color="var(--accent2)" size={240} position="top: 200px; right: 300px;" delay={-4} />
-
 <Reveal as="h1" class="hero-title display">
   {lang === 'sk' ? (
     <Fragment>
@@ -51,10 +47,7 @@ const { lang } = Astro.props;
 
   :global(.hero-em) {
     font-style: italic;
-    /* --accent-text is darker variant for AA compliance even when text
-       overlaps decorative blobs. Visual identity preserved (terracotta
-       italic) but contrast comfortably passes WCAG. */
-    color: var(--accent-text);
+    color: var(--accent);
     padding-left: 0.08em;
     padding-right: 0.06em;
   }

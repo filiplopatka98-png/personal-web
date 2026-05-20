@@ -62,7 +62,8 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 ---
-<div class="brief-wizard" data-step="0">
+<div class="brief-wizard-wrap">
+  <div class="brief-wizard glass" data-step="0">
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
   <section class="brief-header">
     <Reveal>
@@ -138,16 +139,18 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     <!-- Step 3: Description -->
     <fieldset class="brief-step" data-step="3" hidden>
       <h2 class="brief-q display" id="brief-desc-label">{t('brief.q.desc', lang)}</h2>
-      <textarea
-        name="description"
-        id="brief-desc"
-        aria-labelledby="brief-desc-label"
-        rows="10"
-        required
-        minlength="10"
-        placeholder={t('brief.placeholder.desc', lang)}
-        class="brief-textarea"
-      ></textarea>
+      <div class="glass-flat brief-textarea-wrap">
+        <textarea
+          name="description"
+          id="brief-desc"
+          aria-labelledby="brief-desc-label"
+          rows="10"
+          required
+          minlength="10"
+          placeholder={t('brief.placeholder.desc', lang)}
+          class="brief-textarea"
+        ></textarea>
+      </div>
       <div class="brief-char-count mono"><span data-char-count>0</span> {t('brief.label.chars', lang)} (min. 10)</div>
     </fieldset>
 
@@ -188,27 +191,33 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     </div>
     </form>
   </section>
+  </div>
 </div>
 
 <style>
+  .brief-wizard-wrap {
+    padding: 32px 24px;
+  }
+
   .brief-wizard {
+    border-radius: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
   }
 
-  /* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */
   .brief-header {
-    padding: 60px 56px 32px;
-    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padding: 56px 56px 32px;
   }
   .brief-eyebrow {
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 14px;
     font-family: var(--font-mono);
     letter-spacing: 0.06em;
   }
-  /* h1 — handoff line 445: 80px display, lineHeight 0.95, maxWidth 900 */
   .brief-h1 {
     font-size: 80px;
     line-height: 0.95;
@@ -217,23 +226,22 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     font-weight: 400;
     letter-spacing: -0.02em;
     max-width: 900px;
+    color: var(--ink);
   }
   .brief-h1 :global(.brief-h1-em) {
-    color: var(--accent-text);
+    color: var(--accent);
     font-style: italic;
   }
-  /* Lead — handoff line 447: 18 1.45 0.7 max 560 marginTop 24 */
   .brief-lead {
     font-size: 18px;
     line-height: 1.45;
-    opacity: 0.7;
+    color: var(--ink-soft);
     max-width: 560px;
     margin-top: 24px;
   }
 
-  /* Body — handoff line 464: 60/56, minHeight 500, max-width 760 inner */
   .brief-body {
-    padding: 60px 56px;
+    padding: 32px 56px 56px;
     min-height: 500px;
   }
   .brief-form {
@@ -244,7 +252,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     gap: 32px;
   }
 
-  /* Progress indicator — handoff line 451: marginTop 48, gap 8, in header */
   .brief-progress {
     display: flex;
     gap: 8px;
@@ -263,9 +270,11 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    color: var(--bg);
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
     display: grid;
     place-items: center;
     font-family: var(--font-mono);
@@ -277,11 +286,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    color: var(--ink);
   }
   .brief-progress-line {
     flex: 1;
     height: 1px;
-    background: color-mix(in srgb, var(--ink) 22%, transparent);
+    background: var(--divider);
     max-width: 40px;
     transition: background 0.2s;
   }
@@ -298,14 +308,14 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .brief-q-sub {
-    opacity: 0.7;
+    color: var(--ink-soft);
     margin: -16px 0 24px;
     font-size: 15px;
   }
 
-  /* Step 0 — radio list */
   .brief-options {
     display: flex;
     flex-direction: column;
@@ -314,20 +324,23 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-radio {
     cursor: pointer;
     padding: 20px 24px;
-    border-radius: var(--radius-card);
-    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    background: transparent;
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
     color: var(--ink);
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.2s;
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
   .brief-radio input { position: absolute; opacity: 0; pointer-events: none; }
-  .brief-radio:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+  .brief-radio:hover { border-color: var(--glass-border); }
   .brief-radio:has(input:checked) {
     border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    background: color-mix(in oklab, var(--accent) 20%, transparent);
   }
   .brief-radio-name {
     font-size: 24px;
@@ -336,7 +349,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
   .brief-radio-sub {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-top: 4px;
     font-family: var(--font-mono);
   }
@@ -347,7 +360,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
   .brief-radio:has(input:checked) .brief-radio-check { opacity: 1; }
 
-  /* Step 1, 2 — tile grid */
   .brief-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -356,30 +368,35 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-tile {
     cursor: pointer;
     padding: 24px;
-    border-radius: var(--radius-card);
-    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    background: transparent;
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
     color: var(--ink);
     transition: all 0.2s;
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
   .brief-tile input { position: absolute; opacity: 0; pointer-events: none; }
-  .brief-tile:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+  .brief-tile:hover { border-color: var(--glass-border); }
   .brief-tile:has(input:checked) {
     border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    background: color-mix(in oklab, var(--accent) 20%, transparent);
   }
   .brief-tile-label {
     font-family: var(--font-display);
     font-size: 22px;
   }
 
-  /* Step 3 — textarea */
+  .brief-textarea-wrap {
+    border-radius: 18px;
+    padding: 16px 20px;
+  }
   .brief-textarea {
     width: 100%;
-    padding: 20px;
-    border-radius: var(--radius-card);
-    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
-    background: var(--bg2);
+    padding: 0;
+    background: transparent;
+    border: 0;
     color: var(--ink);
     font-family: var(--font-body);
     font-size: 17px;
@@ -387,15 +404,13 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     resize: vertical;
     outline: none;
   }
-  .brief-textarea:focus { border-color: var(--accent); }
   .brief-char-count {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     margin-top: 8px;
   }
 
-  /* Step 4 — fields */
   .brief-fields {
     display: flex;
     flex-direction: column;
@@ -404,7 +419,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-field-label {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
@@ -412,7 +427,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1.5px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    border-bottom: 1.5px solid var(--divider);
     color: var(--ink);
     padding: 10px 0;
     font-family: var(--font-body);
@@ -422,13 +437,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
   .brief-input:focus { border-bottom-color: var(--accent); }
 
-  /* Step 5 — done */
   .brief-done {
     text-align: center;
     padding: 60px 0;
   }
   .brief-done-icon {
-    font-size: 80px;
+    font-size: 96px;
     margin-bottom: 24px;
     color: var(--accent);
   }
@@ -438,25 +452,26 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .brief-done-body {
     font-size: 18px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     max-width: 480px;
     margin: 0 auto 32px;
   }
   .brief-done-back {
     display: inline-block;
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--glass-fill-flat);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
     padding: 14px 24px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
   }
 
-  /* Nav buttons */
   .brief-nav {
     margin-top: 16px;
     display: flex;
@@ -465,9 +480,9 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
   .brief-btn-back {
     padding: 14px 20px;
-    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
-    background: transparent;
-    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill-flat);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     color: var(--ink);
@@ -476,46 +491,51 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .brief-btn-back:disabled { opacity: 0.5; cursor: default; }
   .brief-btn-next, .brief-btn-submit {
     padding: 14px 28px;
-    border: 0;
-    background: var(--accent);
-    color: var(--ink);
-    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in oklab, var(--accent) 60%, white 40%);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    color: var(--ink-on-accent);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     cursor: pointer;
+    box-shadow:
+      0 18px 36px -14px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .brief-btn-next:disabled, .brief-btn-submit:disabled {
-    background: color-mix(in srgb, var(--ink) 22%, transparent);
-    color: var(--ink);
-    opacity: 0.65;
+    background: var(--glass-fill-flat);
+    color: var(--ink-soft);
+    border-color: var(--glass-border);
+    box-shadow: none;
     cursor: default;
   }
 
   @media (max-width: 1024px) {
-    .brief-header { padding: 48px 32px 32px; }
-    .brief-body { padding: 48px 32px; }
+    .brief-header { padding: 48px 40px 32px; }
+    .brief-body { padding: 32px 40px 40px; }
     .brief-h1 { font-size: 64px; }
     .brief-q { font-size: 40px; }
     .brief-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
   }
   @media (max-width: 768px) {
-    .brief-header { padding: 40px 20px 24px; }
-    .brief-body { padding: 40px 20px; }
+    .brief-wizard-wrap { padding: 24px 16px; }
+    .brief-wizard { border-radius: 24px; }
+    .brief-header { padding: 36px 24px 20px; }
+    .brief-body { padding: 24px 24px 32px; }
     .brief-h1 { font-size: 44px; line-height: 0.98; }
     .brief-lead { font-size: 16px; }
     .brief-q { font-size: 32px; }
-    /* Progress wraps + lines hidden so dots stack cleanly. */
     .brief-progress { flex-wrap: wrap; row-gap: 16px; margin-top: 32px; }
     .brief-progress-line { display: none; }
     .brief-done-title { font-size: 40px; }
-    /* Tile grid → 1-col on mobile so labels don't truncate. */
     .brief-grid { grid-template-columns: 1fr; }
-    /* Tighter button spacing per RESPONSIVE.md. */
     .brief-nav { gap: 8px; }
   }
   @media (max-width: 480px) {
-    .brief-header { padding: 32px 16px 24px; }
-    .brief-body { padding: 32px 16px; }
+    .brief-header { padding: 28px 16px 16px; }
+    .brief-body { padding: 20px 16px 28px; }
     .brief-h1 { font-size: 36px; }
     .brief-q { font-size: 28px; }
     .brief-done-title { font-size: 32px; }
@@ -558,26 +578,21 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
         el.style.opacity = i <= step ? '1' : '0.3';
         const dot = el.querySelector<HTMLElement>('.brief-progress-dot');
         if (!dot) return;
-        if (i < step) {
-          dot.style.background = 'var(--accent)';
-          dot.style.color = 'var(--bg)';
-          dot.style.borderColor = 'var(--accent)';
-          dot.textContent = '✓';
-        } else if (i === step) {
-          dot.style.background = 'var(--ink)';
-          dot.style.color = 'var(--bg)';
-          dot.style.borderColor = 'var(--ink)';
-          dot.textContent = String(i + 1);
+        if (i <= step) {
+          dot.style.background = 'linear-gradient(135deg, color-mix(in oklab, var(--accent) 78%, white) 0%, color-mix(in oklab, var(--accent) 92%, transparent) 100%)';
+          dot.style.color = 'var(--ink-on-accent)';
+          dot.style.borderColor = 'color-mix(in oklab, var(--accent) 60%, white 40%)';
+          dot.textContent = i < step ? '✓' : String(i + 1);
         } else {
-          dot.style.background = 'transparent';
+          dot.style.background = 'var(--glass-fill-flat)';
           dot.style.color = 'var(--ink)';
-          dot.style.borderColor = 'var(--ink)';
+          dot.style.borderColor = 'var(--glass-border)';
           dot.textContent = String(i + 1);
         }
       });
 
       progressLines.forEach((el, i) => {
-        el.style.background = i < step ? 'var(--accent)' : 'color-mix(in srgb, var(--ink) 22%, transparent)';
+        el.style.background = i < step ? 'var(--accent)' : 'var(--divider)';
       });
 
       if (step > lastInputStep) {
