@@ -1,8 +1,35 @@
 /*
- * Self-hosted fonts for Claude Design redesign.
- * Instrument Serif (display) + Geist (body) + Geist Mono (mono labels).
+ * Self-hosted fonts for Liquid Glass redesign.
+ * Active typePair: grotesk-mono — Space Grotesk (display) + Inter (body) + Geist Mono (mono).
+ * Google Fonts CDN serves Space Grotesk + Inter with auto-subsetting; latin-ext
+ * covers SK diacritics. Older Geist / Instrument Serif faces are kept self-hosted
+ * for any legacy callers and as additional fallbacks.
  */
 
+/* Space Grotesk — display (headings, hero) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* Inter — body, UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Geist Mono — kept for mono labels / numbers / technical */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/personal-web/fonts/geist-mono-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/personal-web/fonts/geist-mono-medium.woff2') format('woff2');
+}
+
+/* Legacy faces — retained as deep fallback; not referenced by tokens.css anymore. */
 @font-face {
   font-family: 'Instrument Serif';
   font-style: normal;
@@ -33,20 +60,4 @@
   font-weight: 600;
   font-display: swap;
   src: url('/personal-web/fonts/geist-semibold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Geist Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/personal-web/fonts/geist-mono-regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Geist Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/personal-web/fonts/geist-mono-medium.woff2') format('woff2');
 }

@@ -19,14 +19,14 @@
   /* Mid stop of --bg-base, used wherever a SOLID color is needed (e.g. ::selection). */
   --bg-solid: #161420;
 
-  /* Aurora orbs — desaturated, near-monochromatic */
-  --orb-a: #3A2A2A;
-  --orb-b: #2A2E3A;
-  --orb-c: #3A2A2A;
-  --orb-d: #2A2E3A;
-  --orb-opacity: 0.7;
+  /* Aurora orbs — warm coral + cool indigo for visible aurora glow */
+  --orb-a: #FF6A3D;  /* warm coral (matches accent) */
+  --orb-b: #4A5FBA;  /* cool indigo */
+  --orb-c: #FF6A3D;
+  --orb-d: #4A5FBA;
+  --orb-opacity: 0.55;
   --orb-blend: screen;
-  --noise-opacity: 0.09;
+  --noise-opacity: 0.06;
 
   /* Glass material */
   --glass-fill: linear-gradient(135deg, rgba(255,250,240,0.08) 0%, rgba(255,250,240,0.03) 100%);
@@ -41,9 +41,9 @@
   /* Dividers, borders */
   --divider: rgba(242, 237, 230, 0.12);
 
-  /* Typography */
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+  /* Typography — grotesk-mono pair (Space Grotesk display + Inter body) */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
   /* Type scale (unchanged from prior design) */

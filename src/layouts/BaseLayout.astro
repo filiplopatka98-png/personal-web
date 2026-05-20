@@ -128,8 +128,9 @@ const breadcrumbLd = buildBreadcrumbs();
     <meta name="twitter:description" content={fullDesc} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <link rel="preload" href={`${baseUrl}/fonts/instrument-serif.woff2`} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={`${baseUrl}/fonts/geist-regular.woff2`} as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href={`${baseUrl}/fonts/geist-mono-regular.woff2`} as="font" type="font/woff2" crossorigin />
 
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
 
