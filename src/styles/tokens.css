@@ -1,11 +1,6 @@
 /*
  * Design tokens — Liquid Glass / Obsidian.
  * Single dark palette. No theme switching, no data-theme attribute.
- *
- * Legacy --bg, --bg2, --accent2, --accent3 are kept as aliases to --accent /
- * --bg-base so individual component refactors can happen incrementally without
- * breaking the build between commits. Final cleanup removes the unused aliases
- * once every component has been migrated.
  */
 
 :root {
@@ -18,27 +13,11 @@
 
   /* Single accent — warm coral */
   --accent: #FF6A3D;
-  --accent2: var(--accent);  /* alias — legacy refs */
-  --accent3: var(--accent);  /* alias — legacy refs */
 
   /* Background gradient (applied on body in global.css) */
   --bg-base: linear-gradient(180deg, #0E0D12 0%, #161420 50%, #0E0D14 100%);
   /* Mid stop of --bg-base, used wherever a SOLID color is needed (e.g. ::selection). */
   --bg-solid: #161420;
-
-  /* Legacy aliases — point to dark surface so cards that still reference them
-     don't render bright before their refactor lands. */
-  --bg: var(--bg-solid);
-  --bg2: var(--bg-solid);
-
-  /* Derived ink helpers (replace warm --ink-muted/--ink-faint/--accent-text).
-     All three now resolve to the same dark-mode soft ink so legacy components
-     still read on the dark aurora background. --accent-text is intentionally
-     the warm accent itself — on dark bg the coral hits 6.1:1 (AAA Large /
-     AA Normal per THEMES.md), no need for a darkened blend. */
-  --ink-muted: var(--ink-soft);
-  --ink-faint: rgba(242, 237, 230, 0.45);
-  --accent-text: var(--accent);
 
   /* Aurora orbs — desaturated, near-monochromatic */
   --orb-a: #3A2A2A;

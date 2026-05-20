@@ -7,12 +7,6 @@ export default {
         ink: 'var(--ink)',
         'ink-soft': 'var(--ink-soft)',
         accent: 'var(--accent)',
-        /* Legacy keys — all resolve to dark surface / coral accent.
-           Removed in Phase 6 cleanup once no Tailwind class still references them. */
-        bg: 'var(--bg-solid)',
-        bg2: 'var(--bg-solid)',
-        accent2: 'var(--accent)',
-        accent3: 'var(--accent)',
       },
       fontFamily: {
         display: 'var(--font-display)',

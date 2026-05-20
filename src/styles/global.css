@@ -265,6 +265,11 @@
     -webkit-backdrop-filter: none;
     background: rgba(255, 250, 240, 0.06);
   }
+  .overlay-menu {
+    background: rgba(8, 4, 24, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* Mobile — drop two orbs and slim the blur to save GPU. */
