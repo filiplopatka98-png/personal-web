@@ -4,12 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: 'var(--bg)',
-        bg2: 'var(--bg2)',
         ink: 'var(--ink)',
+        'ink-soft': 'var(--ink-soft)',
         accent: 'var(--accent)',
-        accent2: 'var(--accent2)',
-        accent3: 'var(--accent3)',
+        /* Legacy keys — all resolve to dark surface / coral accent.
+           Removed in Phase 6 cleanup once no Tailwind class still references them. */
+        bg: 'var(--bg-solid)',
+        bg2: 'var(--bg-solid)',
+        accent2: 'var(--accent)',
+        accent3: 'var(--accent)',
       },
       fontFamily: {
         display: 'var(--font-display)',
@@ -17,7 +20,7 @@ export default {
         mono: 'var(--font-mono)',
       },
       maxWidth: {
-        content: '1200px',
+        content: '1320px',
         prose: '720px',
         narrow: '720px',
         wide: '880px',

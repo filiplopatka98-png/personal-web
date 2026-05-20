@@ -95,7 +95,7 @@ function buildBreadcrumbs(): unknown | null {
 const breadcrumbLd = buildBreadcrumbs();
 ---
 <!doctype html>
-<html lang={lang} data-theme="warm">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -142,6 +142,13 @@ const breadcrumbLd = buildBreadcrumbs();
     <ViewTransitions />
   </head>
   <body>
+    <div class="aurora" aria-hidden="true">
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="noise"></div>
+    </div>
     <a class="skip-link" href="#main">{t('common.skipToContent', lang)}</a>
     <CustomCursor />
     <Nav lang={lang} />

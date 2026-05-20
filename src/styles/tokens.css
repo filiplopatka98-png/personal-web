@@ -1,52 +1,73 @@
 /*
- * Design tokens — Claude Design redesign.
- * 4 palettes selectable via [data-theme] on the html element.
- * Default theme is 'warm' (set by BaseLayout).
+ * Design tokens — Liquid Glass / Obsidian.
+ * Single dark palette. No theme switching, no data-theme attribute.
+ *
+ * Legacy --bg, --bg2, --accent2, --accent3 are kept as aliases to --accent /
+ * --bg-base so individual component refactors can happen incrementally without
+ * breaking the build between commits. Final cleanup removes the unused aliases
+ * once every component has been migrated.
  */
 
-:root[data-theme='warm'] {
-  --bg: #F4ECE0;
-  --bg2: #EADFCD;
-  --ink: #1F1813;
-  --accent: #D2693A;
-  --accent2: #E8A33D;
-  --accent3: #7B4B2A;
-}
-
-:root[data-theme='clay'] {
-  --bg: #EFE6DA;
-  --bg2: #E2D4BF;
-  --ink: #2A1B12;
-  --accent: #B8462C;
-  --accent2: #D88A3A;
-  --accent3: #3F6B57;
-}
-
-:root[data-theme='cream'] {
-  --bg: #F7F2E8;
-  --bg2: #EFE5D2;
-  --ink: #1A1A1A;
-  --accent: #FF6B35;
-  --accent2: #FFC857;
-  --accent3: #274060;
-}
-
-:root[data-theme='forest'] {
-  --bg: #EFEAD8;
-  --bg2: #E1DBC4;
-  --ink: #1F2A1A;
-  --accent: #D9572C;
-  --accent2: #C9A227;
-  --accent3: #3D5C3A;
-}
-
 :root {
+  --mode: dark;
+
+  /* Text */
+  --ink: #F2EDE6;
+  --ink-soft: rgba(242, 237, 230, 0.62);
+  --ink-on-accent: #1A1410;
+
+  /* Single accent — warm coral */
+  --accent: #FF6A3D;
+  --accent2: var(--accent);  /* alias — legacy refs */
+  --accent3: var(--accent);  /* alias — legacy refs */
+
+  /* Background gradient (applied on body in global.css) */
+  --bg-base: linear-gradient(180deg, #0E0D12 0%, #161420 50%, #0E0D14 100%);
+  /* Mid stop of --bg-base, used wherever a SOLID color is needed (e.g. ::selection). */
+  --bg-solid: #161420;
+
+  /* Legacy aliases — point to dark surface so cards that still reference them
+     don't render bright before their refactor lands. */
+  --bg: var(--bg-solid);
+  --bg2: var(--bg-solid);
+
+  /* Derived ink helpers (replace warm --ink-muted/--ink-faint/--accent-text).
+     All three now resolve to the same dark-mode soft ink so legacy components
+     still read on the dark aurora background. --accent-text is intentionally
+     the warm accent itself — on dark bg the coral hits 6.1:1 (AAA Large /
+     AA Normal per THEMES.md), no need for a darkened blend. */
+  --ink-muted: var(--ink-soft);
+  --ink-faint: rgba(242, 237, 230, 0.45);
+  --accent-text: var(--accent);
+
+  /* Aurora orbs — desaturated, near-monochromatic */
+  --orb-a: #3A2A2A;
+  --orb-b: #2A2E3A;
+  --orb-c: #3A2A2A;
+  --orb-d: #2A2E3A;
+  --orb-opacity: 0.7;
+  --orb-blend: screen;
+  --noise-opacity: 0.09;
+
+  /* Glass material */
+  --glass-fill: linear-gradient(135deg, rgba(255,250,240,0.08) 0%, rgba(255,250,240,0.03) 100%);
+  --glass-fill-flat: rgba(255,250,240,0.06);
+  --glass-border: rgba(255,250,240,0.16);
+  --glass-highlight: rgba(255,250,240,0.28);
+  --glass-undershadow: rgba(0,0,0,0.3);
+  --glass-sheen: rgba(255,250,240,0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  --glass-blur: 28px;
+
+  /* Dividers, borders */
+  --divider: rgba(242, 237, 230, 0.12);
+
   /* Typography */
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-body: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Type scale */
+  /* Type scale (unchanged from prior design) */
   --text-hero: clamp(56px, 12vw + 8px, 120px);
   --text-h1: clamp(56px, 10vw + 8px, 108px);
   --text-h2-big: clamp(40px, 6vw + 8px, 64px);
@@ -59,22 +80,22 @@
   --text-mono: 13px;
   --text-mono-sm: 11px;
 
-  /* Layout / spacing */
+  /* Layout / spacing (largely unchanged; per-component padding gets bumped) */
   --section-pad-y: 80px;
   --section-pad-x: 56px;
   --section-pad-y-tight: 32px;
   --section-pad-y-loose: 96px;
 
-  /* Radii */
-  --radius-card: 14px;
-  --radius-large: 18px;
+  /* Radii — bumped per Liquid Glass spec */
+  --radius-card: 24px;
+  --radius-large: 32px;
   --radius-pill: 999px;
 
-  /* Borders */
-  --border-soft: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-  --border-softer: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  /* Borders (kept for legacy refs; new code uses --divider) */
+  --border-soft: 1px solid var(--divider);
+  --border-softer: 1px solid rgba(242, 237, 230, 0.08);
 
-  /* Motion */
+  /* Motion (unchanged) */
   --motion-reveal-distance: 28px;
   --motion-reveal-duration: 900ms;
   --motion-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -92,35 +113,7 @@
   --italic-pad-r: 0.06em;
 }
 
-/*
- * Per-theme derived text colors — same visual feel as `var(--ink)` at 0.6
- * opacity, but rendered as a SOLID pixel value (no transparency).
- * Lighthouse / axe-core can compute deterministic contrast vs the parent's
- * declared background instead of sampling pixels through transparent text.
- *
- * Use these for muted text instead of `opacity: <0.7>`. Especially important
- * for any text that visually overlaps decorative blobs (hero, sluzby, blog
- * heads) — opacity bleeds the blob color through glyphs and tanks contrast.
- *
- * --accent-text: darker variant of --accent for use as text color. The bare
- * --accent (#D2693A on warm) only hits ~3.4:1 on the cream bg — fine for
- * 120px hero text (WCAG Large), borderline for 14-18px body. The text
- * variant blends 80% accent + 20% ink → ~4.5:1, passes AA Normal.
- */
-:root[data-theme='warm'] {
-  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
-  --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
-  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
-}
-:root[data-theme='clay'],
-:root[data-theme='cream'],
-:root[data-theme='forest'] {
-  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
-  --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
-  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
-}
-
 html {
-  background: var(--bg);
+  background: var(--bg-base);
   color: var(--ink);
 }
