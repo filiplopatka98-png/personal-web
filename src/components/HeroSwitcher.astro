@@ -132,8 +132,13 @@ const variants: Array<{ id: string; label: string }> =
     background: rgba(255, 250, 240, 0.12);
   }
   .hero-switcher-chip.is-active {
-    background: var(--accent);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
     color: var(--ink-on-accent);
+    box-shadow:
+      0 4px 12px -4px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
   .hero-switcher-close {
