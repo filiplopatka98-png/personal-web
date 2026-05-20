@@ -22,10 +22,10 @@ const accentColor = `var(--${data.accent})`;
   <div class="proj-cover" style={`background:${accentColor}`}>
     <div class="proj-cover-label">/{cleanSlug}.png</div>
     {variant === 'home' && (
-      <div class="proj-cover-badge float-y">case<br/>study</div>
+      <div class="proj-cover-badge glass-flat float-y">case<br/>study</div>
     )}
     {variant === 'work' && (
-      <div class="proj-cover-pill">↗ {data.year}</div>
+      <div class="proj-cover-pill glass-flat">↗ {data.year}</div>
     )}
   </div>
   <div class="proj-meta">
@@ -80,10 +80,6 @@ const accentColor = `var(--${data.accent})`;
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: var(--glass-fill-flat);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid var(--glass-border);
     color: var(--ink);
     display: grid;
     place-items: center;
@@ -98,11 +94,6 @@ const accentColor = `var(--${data.accent})`;
     right: 18px;
     top: 18px;
     padding: 6px 12px;
-    border-radius: 999px;
-    background: var(--glass-fill-flat);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid var(--glass-border);
     color: var(--ink);
     font-family: var(--font-mono);
     font-size: 11px;

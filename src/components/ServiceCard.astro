@@ -65,7 +65,7 @@ const num = String(index).padStart(2, '0');
     top: -12px;
     right: 24px;
     background: rgba(255, 255, 255, 0.95);
-    color: #1A1410;
+    color: var(--ink-on-accent);
     padding: 4px 12px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 1);
@@ -170,8 +170,8 @@ const num = String(index).padStart(2, '0');
     font-weight: 500;
   }
 
-  /* Per-card CTA: featured = light glass on tinted parent;
-     unfeatured = tinted glass on neutral parent. */
+  /* Per-card CTA: unfeatured = accent-tinted glass on neutral parent;
+     featured = light glass on tinted parent. Per COMPONENTS_DELTA.md. */
   .service-cta {
     display: inline-block;
     margin-top: 24px;
@@ -182,19 +182,24 @@ const num = String(index).padStart(2, '0');
     font-size: 13px;
     text-decoration: none;
     transition: opacity 0.15s ease;
-    background: var(--glass-fill-flat);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid var(--glass-border);
-    color: var(--ink);
-    box-shadow: inset 0 1px 0 var(--glass-highlight);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    border: 1px solid color-mix(in oklab, var(--accent) 60%, white 40%);
+    color: var(--ink-on-accent);
+    box-shadow:
+      0 18px 36px -14px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .service-card.is-featured .service-cta {
     background: rgba(255, 255, 255, 0.92);
     border-color: rgba(255, 255, 255, 0.6);
-    color: #1A1410;
+    color: var(--ink-on-accent);
+    box-shadow:
+      0 8px 20px -8px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
   }
-  .service-cta:hover { opacity: 0.85; }
+  .service-cta:hover { opacity: 0.88; }
 
   @media (max-width: 768px) {
     .service-card { padding: 28px 22px; }

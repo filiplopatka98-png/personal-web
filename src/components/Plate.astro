@@ -41,7 +41,7 @@ const {
   imageAlt,
 } = Astro.props;
 
-const styleStr = `aspect-ratio:${ratio};background:linear-gradient(135deg, color-mix(in oklab, ${color} 80%, transparent) 0%, color-mix(in oklab, ${color} 40%, transparent) 100%), linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 100%);background-image:repeating-linear-gradient(135deg, transparent 0 20px, rgba(255,255,255,0.18) 20px 21px);border-radius:${radius}px;`;
+const styleStr = `aspect-ratio:${ratio};background:repeating-linear-gradient(135deg, transparent 0 20px, rgba(255,255,255,0.18) 20px 21px), linear-gradient(135deg, color-mix(in oklab, ${color} 80%, transparent) 0%, color-mix(in oklab, ${color} 40%, transparent) 100%), linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 100%);border-radius:${radius}px;`;
 ---
 {imageSrc ? (
   <figure class:list={['plate-image-wrap', className]}>
