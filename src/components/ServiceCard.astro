@@ -15,7 +15,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
 const num = String(index).padStart(2, '0');
 ---
-<article class:list={['service-card', data.featured && 'is-featured']}>
+<article class:list={['service-card', 'glass', data.featured && 'glass-tint', data.featured && 'is-featured']}>
   {data.featured && (
     <div class="service-popular mono">{t('services.popular', lang)}</div>
   )}
@@ -46,12 +46,9 @@ const num = String(index).padStart(2, '0');
 </article>
 
 <style>
-  /* Card — handoff: bg2 regular, ink featured (dark inverted card). */
   .service-card {
-    border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
-    border-radius: 18px;
     padding: 36px 32px;
-    background: var(--bg2);
+    border-radius: 28px;
     color: var(--ink);
     position: relative;
     height: 100%;
@@ -60,29 +57,29 @@ const num = String(index).padStart(2, '0');
   }
 
   .service-card.is-featured {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
+    color: var(--ink-on-accent);
   }
 
   .service-popular {
     position: absolute;
     top: -12px;
     right: 24px;
-    background: var(--accent);
-    color: var(--ink);
+    background: rgba(255, 255, 255, 0.95);
+    color: #1A1410;
     padding: 4px 12px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 1);
     font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    z-index: 2;
   }
 
   .service-eyebrow {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.6;
+    opacity: 0.75;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
@@ -96,48 +93,48 @@ const num = String(index).padStart(2, '0');
     margin: 12px 0 8px;
   }
 
-  /* Price — accent italic display, always accent regardless of featured. */
   .service-price {
     font-family: var(--font-display);
     font-size: 24px;
     font-style: italic;
     color: var(--accent);
   }
+  .service-card.is-featured .service-price {
+    color: var(--ink-on-accent);
+  }
 
   .service-tagline {
     font-size: 15px;
     line-height: 1.5;
-    opacity: 0.85;
+    opacity: 0.9;
     margin: 16px 0 0;
   }
 
   .service-desc {
     font-size: 14px;
     line-height: 1.5;
-    opacity: 0.7;
+    opacity: 0.78;
     margin: 8px 0 0;
   }
 
-  /* Includes — dashed top border per handoff. Color flips for featured card. */
   .service-includes-block {
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+    border-top: 1px dashed var(--divider);
   }
   .service-card.is-featured .service-includes-block {
-    border-top-color: color-mix(in srgb, var(--bg) 20%, transparent);
+    border-top-color: rgba(26, 20, 16, 0.25);
   }
 
   .service-section-label {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.6;
+    opacity: 0.75;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-bottom: 12px;
   }
 
-  /* List with custom accent ✓ bullets, gap 8. */
   .service-includes {
     list-style: none;
     padding: 0;
@@ -156,12 +153,14 @@ const num = String(index).padStart(2, '0');
     color: var(--accent);
     flex-shrink: 0;
   }
+  .service-card.is-featured .service-check {
+    color: var(--ink-on-accent);
+  }
 
-  /* "Not for:" line — small, NOT a separate bordered section. */
   .service-notfor {
     margin-top: 20px;
     font-size: 12px;
-    opacity: 0.6;
+    opacity: 0.75;
   }
   .service-notfor strong {
     font-family: var(--font-mono);
@@ -171,27 +170,32 @@ const num = String(index).padStart(2, '0');
     font-weight: 500;
   }
 
-  /* Per-card CTA — accent on featured, ink on regular. */
+  /* Per-card CTA: featured = light glass on tinted parent;
+     unfeatured = tinted glass on neutral parent. */
   .service-cta {
     display: inline-block;
     margin-top: 24px;
     align-self: flex-start;
-    background: var(--ink);
-    color: var(--bg);
     padding: 12px 22px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
     transition: opacity 0.15s ease;
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
   .service-card.is-featured .service-cta {
-    background: var(--accent);
-    color: var(--ink);
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #1A1410;
   }
   .service-cta:hover { opacity: 0.85; }
 
-  /* Mobile — tighter card padding, smaller name/price per RESPONSIVE.md. */
   @media (max-width: 768px) {
     .service-card { padding: 28px 22px; }
     .service-name { font-size: 38px; }

@@ -1,6 +1,5 @@
 ---
 import Reveal from './Reveal.astro';
-import Blob from './Blob.astro';
 import { t, type Lang } from '../i18n';
 
 export interface Props {
@@ -17,14 +16,13 @@ const testimonials = lang === 'sk' ? [
 ];
 ---
 <section class="testimonials-section">
-  <Blob color="var(--accent3)" size={300} position="bottom: 40px; left: 120px;" />
   <Reveal>
     <div class="testimonials-eyebrow mono">05 — {t('home.testimonialsEyebrow', lang)}</div>
   </Reveal>
   <div class="testimonials-grid">
     {testimonials.map((tst, i) => (
       <Reveal delay={i * 0.1}>
-        <div class="testimonial">
+        <div class="glass testimonial">
           <p class="testimonial-quote display">„{tst.q}"</p>
           <div class="testimonial-author mono">— {tst.a}</div>
         </div>
@@ -35,28 +33,25 @@ const testimonials = lang === 'sk' ? [
 
 <style>
   .testimonials-section {
-    padding: 96px 56px;
+    padding: 96px 32px;
     position: relative;
-    /* Contain the decorative blob so it can't push body scrollWidth past
-       the viewport. Also matches .home-hero / .proj-body convention. */
-    overflow: hidden;
   }
   .testimonials-eyebrow {
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 24px;
-    position: relative;
     font-family: var(--font-mono);
   }
   .testimonials-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    position: relative;
+    gap: 24px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   .testimonial {
-    border-left: 2px solid var(--accent);
-    padding-left: 24px;
+    padding: 36px 32px;
+    border-radius: 26px;
   }
   .testimonial-quote {
     font-size: 26px;
@@ -64,25 +59,27 @@ const testimonials = lang === 'sk' ? [
     font-style: italic;
     margin: 0;
     font-family: var(--font-display);
+    color: var(--ink);
   }
   .testimonial-author {
     font-size: 12px;
     margin-top: 16px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     font-family: var(--font-mono);
   }
   @media (max-width: 1024px) {
-    .testimonials-section { padding: 72px 32px; }
-    .testimonials-grid { gap: 36px; }
+    .testimonials-section { padding: 72px 24px; }
+    .testimonials-grid { gap: 20px; }
     .testimonial-quote { font-size: 22px; }
   }
   @media (max-width: 768px) {
-    .testimonials-section { padding: 56px 20px; }
-    .testimonials-grid { grid-template-columns: 1fr; gap: 32px; }
+    .testimonials-section { padding: 56px 16px; }
+    .testimonials-grid { grid-template-columns: 1fr; gap: 16px; }
+    .testimonial { padding: 28px 24px; }
     .testimonial-quote { font-size: 20px; }
   }
   @media (max-width: 480px) {
-    .testimonials-section { padding: 48px 16px; }
+    .testimonials-section { padding: 48px 12px; }
     .testimonial-quote { font-size: 18px; }
   }
 </style>

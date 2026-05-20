@@ -59,11 +59,11 @@ const experience = lang === 'sk' ? [
     grid-template-columns: 140px 1fr;
     gap: 24px;
     padding: 20px 0;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-top: 1px solid var(--divider);
   }
-  .exp-years { font-size: 12px; opacity: 0.6; font-family: var(--font-mono); }
+  .exp-years { font-size: 12px; color: var(--ink-soft); font-family: var(--font-mono); }
   .exp-role { font-weight: 500; font-size: 17px; }
-  .exp-desc { font-size: 14px; opacity: 0.7; margin-top: 4px; }
+  .exp-desc { font-size: 14px; color: var(--ink-soft); margin-top: 4px; }
   @media (max-width: 768px) {
     .exp-row { grid-template-columns: 1fr; gap: 4px; }
   }

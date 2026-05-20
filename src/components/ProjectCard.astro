@@ -18,7 +18,7 @@ const detailHref = lang === 'sk'
   : `${baseUrl}/en/work/${cleanSlug}/`;
 const accentColor = `var(--${data.accent})`;
 ---
-<a href={detailHref} class:list={['proj', `is-${variant}`]} data-cursor="hover">
+<a href={detailHref} class:list={['proj', 'glass', `is-${variant}`]} data-cursor="hover">
   <div class="proj-cover" style={`background:${accentColor}`}>
     <div class="proj-cover-label">/{cleanSlug}.png</div>
     {variant === 'home' && (
@@ -51,36 +51,40 @@ const accentColor = `var(--${data.accent})`;
     display: block;
     text-decoration: none;
     color: var(--ink);
-    border-top: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
-    padding-top: 20px;
+    padding: 18px;
+    border-radius: 24px;
   }
 
   .proj-cover {
     aspect-ratio: 4 / 3;
-    border-radius: var(--radius-card);
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
-    background-image: repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 10%, transparent) 18px 19px);
+    background-image: repeating-linear-gradient(135deg, transparent 0 18px, rgba(255,255,255,0.18) 18px 19px);
   }
 
   .proj-cover-label {
     position: absolute;
-    left: 18px;
-    bottom: 18px;
+    left: 16px;
+    bottom: 14px;
     font-size: 11px;
     color: var(--ink);
-    opacity: 0.7;
+    opacity: 0.85;
     font-family: var(--font-mono);
   }
 
   .proj-cover-badge {
     position: absolute;
-    right: 24px;
-    top: 24px;
+    right: 18px;
+    top: 18px;
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: var(--bg);
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
     display: grid;
     place-items: center;
     font-family: var(--font-mono);
@@ -91,11 +95,15 @@ const accentColor = `var(--${data.accent})`;
 
   .proj-cover-pill {
     position: absolute;
-    right: 24px;
-    top: 24px;
+    right: 18px;
+    top: 18px;
     padding: 6px 12px;
-    border-radius: var(--radius-pill);
-    background: var(--bg);
+    border-radius: 999px;
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
     font-family: var(--font-mono);
     font-size: 11px;
   }
@@ -114,12 +122,8 @@ const accentColor = `var(--${data.accent})`;
     font-family: var(--font-display);
   }
 
-  /* Work variant — bigger card (handoff lines 57-69):
-     - paddingTop 20→24
-     - meta marginTop 18→24
-     - name 28→36 */
   .proj.is-work {
-    padding-top: 24px;
+    padding: 24px;
   }
   .proj.is-work .proj-meta {
     margin-top: 24px;
@@ -130,14 +134,14 @@ const accentColor = `var(--${data.accent})`;
 
   .proj-kind {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-top: 8px;
     font-family: var(--font-mono);
   }
 
   .proj-year {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     font-family: var(--font-mono);
   }
 
@@ -147,12 +151,12 @@ const accentColor = `var(--${data.accent})`;
     gap: 24px;
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     flex-wrap: wrap;
   }
 
   .proj-metric-num {
-    color: var(--accent-text);
+    color: var(--accent);
     font-family: var(--font-display);
     font-size: 18px;
     margin-right: 6px;
