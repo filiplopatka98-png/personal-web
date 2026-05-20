@@ -8,28 +8,34 @@ const { lang } = Astro.props;
 const itemsRaw = t('ticker.items', lang);
 const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
 ---
-<div class="marquee-wrap">
-  <div class="marquee-inner">
-    {Array.from({ length: 2 }).map(() => (
-      <>
-        {items.map((item) => (
-          <>
-            <span>{item}</span>
-            <span class="marquee-sep">✦</span>
-          </>
-        ))}
-      </>
-    ))}
+<div class="marquee-outer">
+  <div class="marquee-wrap glass">
+    <div class="marquee-inner">
+      {Array.from({ length: 2 }).map(() => (
+        <>
+          {items.map((item) => (
+            <>
+              <span>{item}</span>
+              <span class="marquee-sep">✦</span>
+            </>
+          ))}
+        </>
+      ))}
+    </div>
   </div>
 </div>
 
 <style>
+  .marquee-outer {
+    padding: 0 24px;
+  }
+
   .marquee-wrap {
-    border-top: var(--border-soft);
-    border-bottom: var(--border-soft);
     padding: 18px 0;
     overflow: hidden;
-    background: var(--bg2);
+    border-radius: 28px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
 
   .marquee-inner {
@@ -54,6 +60,8 @@ const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
     }
   }
   @media (max-width: 768px) {
+    .marquee-outer { padding: 0 16px; }
+    .marquee-wrap { border-radius: 22px; }
     .marquee-inner {
       font-size: 28px;
       gap: 28px;

@@ -6,16 +6,14 @@ export interface Props {
 }
 const { lang } = Astro.props;
 ---
-<div class="availability-pill">
+<div class="glass-flat availability-pill">
   <span class="pulse-dot"></span>
   {t('nav.nowPill', lang)}
 </div>
 
 <style>
   .availability-pill {
-    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
     padding: 6px 14px;
-    border-radius: var(--radius-pill);
     font-size: 12px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -31,6 +29,7 @@ const { lang } = Astro.props;
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
     display: inline-block;
     flex-shrink: 0;
   }

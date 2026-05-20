@@ -50,7 +50,7 @@ const navOrder: NavItem[] = [
       data-cursor="hover"
       data-menu-close
       aria-label={t('nav.closeMenu', lang)}
-      class="overlay-menu-close"
+      class="glass glass-flat overlay-menu-close"
     >
       ✕ {t('nav.close', lang)}
     </button>
@@ -72,7 +72,7 @@ const navOrder: NavItem[] = [
       ))}
     </div>
 
-    <div class="menu-contact">
+    <div class="menu-contact glass">
       <div class="menu-section-label">{t('menu.contact', lang)}</div>
       <div class="menu-links">
         <a data-cursor="hover" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
@@ -102,8 +102,10 @@ const navOrder: NavItem[] = [
     position: fixed;
     inset: 0;
     z-index: 9000;
-    background: var(--ink);
-    color: var(--bg);
+    background: rgba(8, 4, 24, 0.55);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    color: var(--ink);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.35s ease;
@@ -118,8 +120,7 @@ const navOrder: NavItem[] = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 56px;
-    border-bottom: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    padding: 20px 32px;
   }
 
   .overlay-menu-brand {
@@ -133,39 +134,37 @@ const navOrder: NavItem[] = [
   .overlay-menu-logo {
     width: 28px;
     height: 28px;
-    background: var(--bg);
+    background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 60%, white));
     border-radius: 8px;
     display: grid;
     place-items: center;
-    color: var(--ink);
+    color: var(--ink-on-accent);
     font-weight: 600;
   }
 
   .overlay-menu-close {
-    background: transparent;
-    color: var(--bg);
-    border: 1px solid color-mix(in srgb, var(--bg) 44%, transparent);
     padding: 10px 20px;
-    border-radius: var(--radius-pill);
+    border: 0;
     font-family: var(--font-mono);
     font-size: 13px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--ink);
   }
 
   .menu-grid {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    padding: 60px 56px;
-    gap: 64px;
+    padding: 40px 32px 56px;
+    gap: 56px;
   }
 
   .menu-section-label {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     margin-bottom: 24px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -174,9 +173,9 @@ const navOrder: NavItem[] = [
   .menu-link {
     display: block;
     font-family: var(--font-display);
-    font-size: 88px;
-    line-height: 1.1;
-    color: var(--bg);
+    font-size: 96px;
+    line-height: 1.05;
+    color: var(--ink);
     text-decoration: none;
     letter-spacing: -0.02em;
     transition: color 0.2s, opacity 0.5s ease, transform 0.5s ease;
@@ -197,15 +196,15 @@ const navOrder: NavItem[] = [
   .menu-link-num {
     font-family: var(--font-mono);
     font-size: 14px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-right: 24px;
     vertical-align: middle;
   }
 
   .menu-contact {
-    border-left: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
-    padding-left: 48px;
-    align-self: end;
+    padding: 28px 32px;
+    border-radius: 28px;
+    align-self: start;
   }
 
   .menu-links {
@@ -217,7 +216,7 @@ const navOrder: NavItem[] = [
   }
 
   .menu-links a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: none;
   }
 
@@ -226,30 +225,27 @@ const navOrder: NavItem[] = [
   }
 
   .menu-lang a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: underline;
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.7;
   }
 
   .menu-location {
     margin-top: 48px;
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  /* Tablet — same 2-col but smaller type per RESPONSIVE.md. */
   @media (max-width: 1024px) {
-    .overlay-menu-header { padding: 18px 32px; }
-    .menu-grid { padding: 40px 32px; gap: 40px; }
-    .menu-link { font-size: 64px; }
+    .overlay-menu-header { padding: 18px 24px; }
+    .menu-grid { padding: 32px 24px; gap: 32px; }
+    .menu-link { font-size: 72px; }
   }
 
-  /* Mobile — 1-col stack, contact column gets a top border instead of left. */
   @media (max-width: 768px) {
     .overlay-menu-header { padding: 14px 20px; }
     .menu-grid {
@@ -258,7 +254,7 @@ const navOrder: NavItem[] = [
       padding: 24px 20px;
     }
     .menu-link {
-      font-size: 48px;
+      font-size: 52px;
       line-height: 1.05;
     }
     .menu-link-num {
@@ -266,17 +262,12 @@ const navOrder: NavItem[] = [
       margin-right: 12px;
     }
     .menu-contact {
-      border-left: 0;
-      padding-left: 0;
-      padding-top: 24px;
-      border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
-      align-self: start;
+      padding: 24px;
     }
   }
 
-  /* Small phone — even smaller menu items. */
   @media (max-width: 480px) {
-    .menu-link { font-size: 38px; }
+    .menu-link { font-size: 40px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

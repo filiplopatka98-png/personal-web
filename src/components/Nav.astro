@@ -10,52 +10,59 @@ const { lang } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 ---
-<nav
-  class="nav-bar"
-  aria-label="Primary"
->
-  <a href={homeHref} class="nav-logo" aria-label="Filip Lopatka — homepage">
-    <div class="nav-logo-box">fl</div>
-    <span class="nav-logo-text">filip lopatka</span>
-  </a>
+<div class="nav-wrapper">
+  <nav class="glass nav-pill" aria-label="Primary">
+    <a href={homeHref} class="nav-logo" aria-label="Filip Lopatka — homepage">
+      <div class="nav-logo-box">fl</div>
+      <span class="nav-logo-text">filip lopatka</span>
+    </a>
 
-  <div class="nav-now">
-    <NowPlaying lang={lang} />
-  </div>
-
-  <div class="nav-right">
-    <div class="nav-pill">
-      <AvailabilityPill lang={lang} />
+    <div class="nav-now">
+      <NowPlaying lang={lang} />
     </div>
-    <button
-      type="button"
-      data-cursor="hover"
-      data-menu-open
-      aria-label={t('nav.openMenu', lang)}
-      class="nav-menu-btn"
-    >
-      <span class="nav-menu-bars" aria-hidden="true">
-        <span></span>
-        <span></span>
-      </span>
-      {t('nav.menu', lang)}
-    </button>
-  </div>
-</nav>
+
+    <div class="nav-right">
+      <div class="nav-pill-availability">
+        <AvailabilityPill lang={lang} />
+      </div>
+      <button
+        type="button"
+        data-cursor="hover"
+        data-menu-open
+        aria-label={t('nav.openMenu', lang)}
+        class="glass glass-tint nav-menu-btn"
+      >
+        <span class="nav-menu-bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+        {t('nav.menu', lang)}
+      </button>
+    </div>
+  </nav>
+</div>
 
 <style>
-  .nav-bar {
+  .nav-wrapper {
+    position: sticky;
+    top: 18px;
+    z-index: 50;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .nav-pill {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 1320px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 56px;
-    border-bottom: var(--border-soft);
-    position: sticky;
-    top: 0;
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 50;
+    padding: 12px 16px 12px 22px;
+    border-radius: 999px;
+    gap: 16px;
   }
 
   .nav-logo {
@@ -69,11 +76,11 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .nav-logo-box {
     width: 28px;
     height: 28px;
-    background: var(--ink);
+    background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 60%, white));
     border-radius: 8px;
     display: grid;
     place-items: center;
-    color: var(--bg);
+    color: var(--ink-on-accent);
     font-family: var(--font-mono);
     font-size: 13px;
     font-weight: 600;
@@ -93,21 +100,20 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .nav-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
   }
 
   .nav-menu-btn {
-    background: var(--ink);
-    color: var(--bg);
     border: 0;
     padding: 10px 18px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: var(--ink-on-accent);
   }
 
   .nav-menu-bars {
@@ -119,31 +125,18 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   .nav-menu-bars span {
     width: 14px;
     height: 1.5px;
-    background: var(--bg);
+    background: var(--ink-on-accent);
   }
 
-  /* Tablet: hide the noisy "TERAZ pracujem na…" indicator; keep status pill. */
   @media (max-width: 1024px) {
-    .nav-bar {
-      padding: 18px 32px;
-    }
-    .nav-now {
-      display: none;
-    }
+    .nav-wrapper { top: 14px; padding: 0 16px; }
+    .nav-now { display: none; }
   }
 
-  /* Mobile: hide both .nav-now and .nav-pill, drop "Menu" text label. */
   @media (max-width: 768px) {
-    .nav-bar {
-      padding: 14px 20px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .nav-now,
-    .nav-pill {
-      display: none;
-    }
-    /* Drop the "Menu" word — keep only the icon — saves precious horizontal space. */
+    .nav-wrapper { top: 10px; padding: 0 12px; }
+    .nav-pill { padding: 8px 10px 8px 16px; }
+    .nav-now, .nav-pill-availability { display: none; }
     .nav-menu-btn {
       padding: 10px 14px;
       font-size: 0;

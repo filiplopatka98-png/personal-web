@@ -22,7 +22,8 @@ const titleRest = spaceIdx > 0 ? titleStr.slice(spaceIdx + 1) : '';
 const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
 const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
 ---
-<footer class="cd-footer">
+<footer class="cd-footer-wrap">
+  <div class="cd-footer glass">
   <div class="rotating-text" aria-hidden="true">
     <svg viewBox="0 0 200 200">
       <defs>
@@ -49,7 +50,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
         <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="noopener noreferrer">Instagram →</a>
       </div>
       <div class="footer-cta">
-        <a href={briefHref} data-cursor="hover" class="footer-brief-btn">
+        <a href={briefHref} data-cursor="hover" class="glass glass-tint footer-brief-btn">
           {t('footer.briefStart', lang)}
         </a>
       </div>
@@ -59,17 +60,23 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
       <form action={formAction} method="POST" class="footer-form">
         <div class="form-field">
           <label for="footer-form-name">{t('footer.formName', lang)}</label>
-          <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
+          <div class="glass-flat form-input-wrap">
+            <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
+          </div>
         </div>
         <div class="form-field">
           <label for="footer-form-email">{t('footer.formEmail', lang)}</label>
-          <input type="email" name="email" id="footer-form-email" required autocomplete="email" />
+          <div class="glass-flat form-input-wrap">
+            <input type="email" name="email" id="footer-form-email" required autocomplete="email" />
+          </div>
         </div>
         <div class="form-field">
           <label for="footer-form-message">{t('footer.formDesc', lang)}</label>
-          <textarea name="message" id="footer-form-message" rows="4" required></textarea>
+          <div class="glass-flat form-input-wrap form-input-wrap--textarea">
+            <textarea name="message" id="footer-form-message" rows="4" required></textarea>
+          </div>
         </div>
-        <button type="submit" data-cursor="hover" class="footer-submit">
+        <button type="submit" data-cursor="hover" class="glass glass-tint footer-submit">
           {t('footer.formSend', lang)}
         </button>
       </form>
@@ -85,15 +92,22 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     </nav>
     <div>{t('footer.made', lang)}</div>
   </div>
+  </div>
 </footer>
 
 <style>
+  .cd-footer-wrap {
+    padding: 0 24px 24px;
+  }
+
   .cd-footer {
-    padding: 80px 56px;
-    background: var(--ink);
-    color: var(--bg);
+    padding: 60px 56px;
+    color: var(--ink);
     position: relative;
     overflow: hidden;
+    border-radius: 32px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
 
   .rotating-text {
@@ -121,7 +135,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
   .footer-eyebrow {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     margin-bottom: 8px;
   }
 
@@ -136,7 +150,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
 
   .footer-lead {
     font-size: 18px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     max-width: 440px;
     line-height: 1.5;
     margin: 0;
@@ -152,7 +166,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
   }
 
   .footer-links a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: none;
   }
 
@@ -161,15 +175,14 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
   }
 
   .footer-brief-btn {
-    background: var(--accent);
-    color: var(--ink);
     border: 0;
     padding: 14px 22px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
     display: inline-block;
+    color: var(--ink-on-accent);
   }
 
   .footer-form {
@@ -181,10 +194,20 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
   .form-field label {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     display: block;
+    margin-bottom: 6px;
+  }
+
+  .form-input-wrap {
+    border-radius: 14px;
+    padding: 12px 16px;
+  }
+
+  .form-input-wrap--textarea {
+    border-radius: 18px;
   }
 
   .form-field input,
@@ -192,47 +215,39 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--bg) 55%, transparent);
-    color: var(--bg);
-    padding: 8px 0;
+    color: var(--ink);
+    padding: 0;
     font-family: var(--font-body);
     font-size: 16px;
-    margin-top: 6px;
+    outline: none;
   }
 
   .form-field textarea {
     resize: none;
   }
 
-  .form-field input:focus,
-  .form-field textarea:focus {
-    outline: none;
-    border-bottom-color: var(--accent);
-  }
-
   .footer-submit {
     margin-top: 16px;
-    background: var(--accent);
-    color: var(--ink);
     border: 0;
     padding: 16px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.04em;
     cursor: pointer;
+    color: var(--ink-on-accent);
   }
 
   .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 80px;
+    margin-top: 64px;
     padding-top: 24px;
-    border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    border-top: 1px solid var(--divider);
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     position: relative;
     flex-wrap: wrap;
     gap: 12px;
@@ -243,7 +258,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     gap: 10px;
   }
   .footer-legal a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: none;
     transition: opacity 0.15s ease;
   }
@@ -252,14 +267,10 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .footer-legal span {
-    opacity: 0.65;
-  }
 
-  /* Tablet — dial 280×280 / -60px, padding tightens. */
   @media (max-width: 1024px) {
     .cd-footer {
-      padding: 64px 32px;
+      padding: 48px 40px;
     }
     .rotating-text {
       width: 280px;
@@ -272,14 +283,15 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     }
   }
 
-  /* Mobile — 1-col grid, dial 200×200 with -80px offset and 0.5 opacity. */
   @media (max-width: 768px) {
+    .cd-footer-wrap { padding: 0 16px 16px; }
     .cd-footer {
-      padding: 56px 20px;
+      padding: 40px 28px;
+      border-radius: 24px;
     }
     .footer-grid {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 40px;
     }
     .rotating-text {
       width: 200px;
@@ -293,10 +305,9 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     }
   }
 
-  /* Small phone — even tighter padding. */
   @media (max-width: 480px) {
     .cd-footer {
-      padding: 48px 16px;
+      padding: 32px 20px;
     }
     .footer-title {
       font-size: 44px !important;

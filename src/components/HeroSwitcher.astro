@@ -77,15 +77,16 @@ const variants: Array<{ id: string; label: string }> =
     align-items: center;
     gap: 12px;
     padding: 10px 14px 10px 16px;
-    background: color-mix(in srgb, var(--ink) 92%, transparent);
-    color: var(--bg);
-    border-radius: var(--radius-pill);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--glass-fill-flat);
+    color: var(--ink);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 var(--glass-highlight);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
     font-family: var(--font-mono);
-    /* Hidden by default; revealed by JS once localStorage hydration runs to
-       avoid a flash on first paint. */
     opacity: 0;
     transform: translateY(8px);
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -109,8 +110,8 @@ const variants: Array<{ id: string; label: string }> =
   .hero-switcher-chips {
     display: flex;
     gap: 4px;
-    background: color-mix(in srgb, var(--bg) 12%, transparent);
-    border-radius: var(--radius-pill);
+    background: rgba(255, 250, 240, 0.08);
+    border-radius: 999px;
     padding: 3px;
   }
 
@@ -132,7 +133,7 @@ const variants: Array<{ id: string; label: string }> =
   }
   .hero-switcher-chip.is-active {
     background: var(--accent);
-    color: var(--ink);
+    color: var(--ink-on-accent);
   }
 
   .hero-switcher-close {
@@ -164,19 +165,21 @@ const variants: Array<{ id: string; label: string }> =
     gap: 8px;
     padding: 8px 14px 8px 12px;
     appearance: none;
-    background: color-mix(in srgb, var(--ink) 92%, transparent);
-    color: var(--bg);
-    border: 0;
-    border-radius: var(--radius-pill);
+    background: var(--glass-fill-flat);
+    color: var(--ink);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: lowercase;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    opacity: 0.85;
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 var(--glass-highlight);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    opacity: 0.95;
     transition: opacity 0.15s ease, transform 0.15s ease;
   }
   .hero-switcher-reopen:hover {
