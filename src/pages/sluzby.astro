@@ -4,7 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import Reveal from '../components/Reveal.astro';
-import Blob from '../components/Blob.astro';
 import { t } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
 import { processSteps } from '../data/process';
@@ -37,7 +36,6 @@ const steps = processSteps[lang];
   </section>
 
   <section class="process-section">
-    <Blob color="var(--accent3)" size={280} position="bottom: 40px; right: 80px; opacity: 0.5;" />
     <Reveal>
       <div class="process-eyebrow mono">{t('services.processEyebrow', lang)}</div>
       <h2 class="process-title display">{t('services.processTitle', lang)}</h2>
@@ -69,79 +67,88 @@ const steps = processSteps[lang];
 </BaseLayout>
 
 <style>
-  /* Services grid — handoff line 219: 60px 56px section, 1fr 1fr grid, gap 32. */
   .services-section {
-    padding: 60px 56px;
+    padding: 56px 32px;
   }
   .services-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    max-width: 1200px;
+    gap: 24px;
+    max-width: 1320px;
     margin: 0 auto;
     align-items: stretch;
   }
 
-  /* Process — handoff line 268: 80px 56px, bg2 (NO top/bottom borders). */
   .process-section {
-    padding: 80px 56px;
-    background: var(--bg2);
+    padding: 80px 32px;
     position: relative;
-    overflow: hidden;
   }
   .process-eyebrow {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 14px;
     letter-spacing: 0.06em;
-    position: relative;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  /* Process h2 — handoff line 271: 64px (was 56). */
   .process-title {
     font-size: 64px;
     margin: 0 0 48px;
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
-    position: relative;
+    color: var(--ink);
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .process-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 32px;
-    position: relative;
+    gap: 24px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
-  /* Process step — handoff line 275: borderTop 2px solid accent, paddingTop 20. */
   .process-step {
-    border-top: 2px solid var(--accent);
-    padding-top: 20px;
+    padding: 28px;
+    border-radius: 24px;
+    background: var(--glass-fill);
+    backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 30px 60px -24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
   }
-  /* Step num — handoff line 276: mono 11/0.5 (NOT display 36 in accent). */
   .step-num {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.65;
+    color: var(--accent);
     margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
-  /* Step title — handoff line 277: display 28/1.1 (NOT 20). */
   .step-title {
     font-family: var(--font-display);
     font-size: 28px;
     line-height: 1.1;
     margin-bottom: 12px;
+    color: var(--ink);
   }
   .step-desc {
     font-size: 14px;
     line-height: 1.55;
-    opacity: 0.75;
+    color: var(--ink-soft);
     margin: 0;
   }
 
-  /* Final CTA — handoff line 285: 100px 56px, text-align center, h2 80px. */
   .services-final-cta {
-    padding: 100px 56px;
+    padding: 100px 32px;
     text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
   }
   .final-cta-title {
     font-size: 80px;
@@ -150,57 +157,59 @@ const steps = processSteps[lang];
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .final-cta-em {
-    color: var(--accent-text);
+    color: var(--accent);
     font-style: italic;
   }
   .final-cta-lead {
     font-size: 18px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     max-width: 520px;
     margin: 0 auto 32px;
     line-height: 1.5;
   }
   .final-cta-btn {
     display: inline-block;
-    background: var(--ink);
-    color: var(--bg);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    color: var(--ink-on-accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 60%, white 40%);
     padding: 16px 28px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 14px;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-  .final-cta-btn:hover {
-    background: var(--accent);
-    color: var(--ink);
+    box-shadow:
+      0 18px 36px -14px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
   @media (max-width: 1024px) {
-    .services-section { padding: 48px 32px; }
-    .process-section { padding: 64px 32px; }
-    .services-final-cta { padding: 80px 32px; }
-    .services-grid { gap: 28px; }
-    .process-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .services-section { padding: 48px 24px; }
+    .process-section { padding: 64px 24px; }
+    .services-final-cta { padding: 80px 24px; }
+    .services-grid { gap: 20px; }
+    .process-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
     .process-title { font-size: 52px; }
     .final-cta-title { font-size: 64px; }
   }
   @media (max-width: 768px) {
-    .services-section { padding: 40px 20px; }
-    .process-section { padding: 56px 20px; }
-    .services-final-cta { padding: 64px 20px; }
-    .services-grid { grid-template-columns: 1fr; gap: 24px; }
-    .process-grid { grid-template-columns: 1fr; gap: 24px; }
+    .services-section { padding: 40px 16px; }
+    .process-section { padding: 56px 16px; }
+    .services-final-cta { padding: 64px 16px; }
+    .services-grid { grid-template-columns: 1fr; gap: 16px; }
+    .process-grid { grid-template-columns: 1fr; gap: 16px; }
     .process-title { font-size: 38px; }
     .final-cta-title { font-size: 48px; }
     .final-cta-lead { font-size: 16px; }
   }
   @media (max-width: 480px) {
-    .services-section { padding: 32px 16px; }
-    .process-section { padding: 48px 16px; }
-    .services-final-cta { padding: 56px 16px; }
+    .services-section { padding: 32px 12px; }
+    .process-section { padding: 48px 12px; }
+    .services-final-cta { padding: 56px 12px; }
     .process-title { font-size: 32px; }
     .final-cta-title { font-size: 40px; }
   }

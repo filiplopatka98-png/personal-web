@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
-import Blob from '../../components/Blob.astro';
 import { t } from '../../i18n';
 import { getStaticRoute } from '../../i18n/routes';
 
@@ -10,7 +9,6 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <BaseLayout lang={lang} canonicalPath="/en/404/" title="404 — Filip Lopatka">
   <div class="not-found">
-    <Blob color="var(--accent)" size={380} position="top: 30%; left: 30%; opacity: 0.6;" />
     <Reveal class="not-found-content">
       <div class="not-found-num display">404</div>
       <h1 class="not-found-title display">
@@ -27,7 +25,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <style>
   .not-found {
-    padding: 120px 56px 100px;
+    padding: 160px 32px 100px;
     text-align: center;
     min-height: 60vh;
     display: flex;
@@ -35,13 +33,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     justify-content: center;
     align-items: center;
     position: relative;
-    overflow: hidden;
   }
-  /*
-   * .not-found-content is on a <Reveal> wrapper; Astro doesn't propagate the
-   * page's scope marker to elements rendered by child components, so this
-   * rule must be :global() to match the rendered <div>.
-   */
   :global(.not-found-content) {
     position: relative;
     z-index: 2;
@@ -53,6 +45,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-weight: 400;
     letter-spacing: -0.04em;
     color: var(--accent);
+    text-shadow: 0 0 80px color-mix(in oklab, var(--accent) 50%, transparent);
   }
   .not-found-title {
     font-size: 56px;
@@ -61,16 +54,17 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .not-found-title :global(em) {
-    color: var(--accent-text);
+    color: var(--accent);
     font-style: italic;
     padding-left: 0.08em;
     padding-right: 0.06em;
   }
   .not-found-lead {
     font-size: 18px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     max-width: 480px;
     margin: 0 auto 32px;
   }
@@ -81,32 +75,41 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     flex-wrap: wrap;
   }
   .btn-primary {
-    background: var(--ink);
-    color: var(--bg);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    color: var(--ink-on-accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 60%, white 40%);
     padding: 14px 24px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
+    box-shadow:
+      0 18px 36px -14px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .btn-ghost {
-    background: transparent;
+    background: var(--glass-fill-flat);
     color: var(--ink);
+    border: 1px solid var(--glass-border);
     padding: 14px 24px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
-    border: 1px solid var(--ink);
     text-decoration: none;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
   @media (max-width: 1024px) {
-    .not-found { padding: 80px 32px; }
+    .not-found { padding: 120px 24px 80px; }
     .not-found-num { font-size: 200px; }
     .not-found-title { font-size: 48px; }
   }
   @media (max-width: 768px) {
     .not-found {
-      padding: 56px 20px;
+      padding: 90px 16px 56px;
     }
     .not-found-num {
       font-size: 160px;
@@ -116,7 +119,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
   }
   @media (max-width: 480px) {
-    .not-found { padding: 48px 16px; }
+    .not-found { padding: 80px 12px 48px; }
     .not-found-num { font-size: 120px; }
     .not-found-title { font-size: 28px; }
   }

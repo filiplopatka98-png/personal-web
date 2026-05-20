@@ -228,11 +228,14 @@ const projectLd = {
 </BaseLayout>
 
 <style>
-  .proj-header { padding: 60px 56px 40px; }
+  .proj-header {
+    padding: 120px 32px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
   .back-link {
     font-size: 13px;
-    color: var(--ink);
-    opacity: 0.6;
+    color: var(--ink-soft);
     font-family: var(--font-mono);
     text-decoration: none;
   }
@@ -246,7 +249,7 @@ const projectLd = {
   }
   .proj-eyebrow {
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 14px;
     font-family: var(--font-mono);
   }
@@ -257,11 +260,12 @@ const projectLd = {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   .proj-kind {
     font-size: 14px;
     margin-top: 16px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     font-family: var(--font-mono);
   }
   .proj-meta-grid {
@@ -273,29 +277,46 @@ const projectLd = {
     margin: 0;
   }
   .proj-meta-cell {
-    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    border-top: 1px solid var(--divider);
     padding-top: 10px;
   }
   .proj-meta-cell dt {
-    opacity: 0.65;
+    color: var(--ink-soft);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .proj-meta-cell dd { margin: 4px 0 0; }
+  .proj-meta-cell dd {
+    margin: 4px 0 0;
+    color: var(--ink);
+  }
 
-  .proj-hero { padding: 0 56px 32px; }
+  .proj-hero {
+    padding: 16px 32px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
 
   .proj-metrics {
-    padding: 40px 56px;
-    background: var(--bg2);
-    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padding: 40px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 16px;
+  }
+  :global(.metrics-grid > *) {
+    background: var(--glass-fill);
+    backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow:
+      0 30px 60px -24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
   }
   .metric-value {
     font-size: 80px;
@@ -305,22 +326,26 @@ const projectLd = {
   }
   .metric-label {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-top: 12px;
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .proj-body { padding: 80px 56px; }
+  .proj-body {
+    padding: 64px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
   :global(.proj-body-grid) {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 64px;
+    gap: 56px;
   }
   .proj-section-eyebrow {
     font-size: 11px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 12px;
     font-family: var(--font-mono);
     letter-spacing: 0.06em;
@@ -332,62 +357,86 @@ const projectLd = {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
+    color: var(--ink);
   }
   :global(.proj-body-prose) {
     font-size: 18px;
     line-height: 1.65;
+    color: var(--ink);
   }
-  :global(.proj-body-prose p) { margin: 0; }
-  :global(.proj-body-prose p + p) { margin-top: 20px; }
+  :global(.proj-body-prose p) {
+    margin: 0;
+  }
+  :global(.proj-body-prose p + p) {
+    margin-top: 20px;
+  }
 
   .proj-process {
-    padding: 60px 56px;
-    background: var(--bg2);
+    padding: 56px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   .proj-process-eyebrow {
     font-size: 13px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     text-transform: none;
     letter-spacing: 0;
+    color: var(--ink-soft);
   }
-  .process-list { display: flex; flex-direction: column; }
+  .process-list {
+    background: var(--glass-fill);
+    backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 12px 32px;
+    box-shadow:
+      0 30px 60px -24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+  }
   :global(.process-row) {
     display: grid !important;
     grid-template-columns: 60px 1fr 200px 2fr;
     gap: 32px;
-    padding: 24px 0;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    padding: 20px 0;
+    border-top: 1px solid var(--divider);
+  }
+  :global(.process-list > .process-row:first-child) {
+    border-top: 0;
   }
   .process-num {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--accent);
   }
   .process-title {
     font-size: 24px;
     font-family: var(--font-display);
     line-height: 1.1;
+    color: var(--ink);
   }
   .process-duration {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--ink-soft);
   }
   .process-desc {
     font-size: 15px;
     line-height: 1.5;
-    opacity: 0.8;
+    color: var(--ink-soft);
   }
 
-  .proj-screens { padding: 60px 56px; }
+  .proj-screens {
+    padding: 56px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
   .screens-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     align-items: start;
   }
-  /* Phone canvas 760/1250 = 0.608 vs laptop canvas 1740/1200 ≈ 1.45.
-     col2/col1 = 1.45 / 0.608 ≈ 2.385 → equal visual height. */
   .proj-screens.has-mobile-mockup .screens-grid {
     grid-template-columns: 1fr 2.385fr;
     gap: 32px;
@@ -395,19 +444,28 @@ const projectLd = {
   }
 
   .proj-stack-live {
-    padding: 40px 56px;
-    background: var(--ink);
-    color: var(--bg);
+    padding: 32px;
+    max-width: 1320px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 24px;
+    background: var(--glass-fill);
+    backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow:
+      0 30px 60px -24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+    color: var(--ink);
   }
   .stack-eyebrow {
     font-family: var(--font-mono);
     font-size: 11px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     margin-bottom: 8px;
     letter-spacing: 0.06em;
   }
@@ -418,9 +476,12 @@ const projectLd = {
     flex-wrap: wrap;
     gap: 4px 16px;
   }
-  .stack-sep { opacity: 0.5; margin-left: 16px; }
+  .stack-sep {
+    color: var(--ink-soft);
+    margin-left: 16px;
+  }
   .live-link {
-    color: var(--accent-text);
+    color: var(--accent);
     font-family: var(--font-mono);
     font-size: 14px;
     text-decoration: none;
@@ -431,13 +492,14 @@ const projectLd = {
   }
 
   .proj-next {
-    padding: 80px 56px;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padding: 80px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   .next-eyebrow {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-bottom: 16px;
   }
   .next-link {
@@ -452,22 +514,24 @@ const projectLd = {
     font-weight: 400;
     letter-spacing: -0.02em;
   }
-  .next-arrow { color: var(--accent); }
+  .next-arrow {
+    color: var(--accent);
+  }
   .next-kind {
     font-family: var(--font-mono);
     font-size: 13px;
-    opacity: 0.6;
+    color: var(--ink-soft);
     margin-top: 12px;
   }
 
   @media (max-width: 1024px) {
     .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
-      padding-left: 32px;
-      padding-right: 32px;
+      padding-left: 24px;
+      padding-right: 24px;
     }
-    .proj-hero { padding: 0 32px 24px; }
-    .proj-metrics { padding: 32px; }
-    .proj-stack-live { padding: 32px; }
+    .proj-hero { padding: 12px 24px 24px; }
+    .proj-metrics { padding: 32px 24px; }
+    .proj-stack-live { padding: 24px; }
     .proj-name { font-size: 72px; }
     .proj-brief-title { font-size: 28px; }
     .next-name { font-size: 72px; }
@@ -476,26 +540,33 @@ const projectLd = {
       grid-template-columns: 40px 1fr 140px 2fr;
       gap: 20px;
     }
-    :global(.proj-body-grid) { gap: 36px; }
+    :global(.proj-body-grid) { gap: 32px; }
   }
 
   @media (max-width: 768px) {
     .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
-    .proj-hero { padding: 0 20px 20px; }
-    .proj-metrics { padding: 32px 20px; }
-    .proj-stack-live { padding: 32px 20px; }
+    .proj-header { padding-top: 100px; }
+    .proj-hero { padding: 8px 16px 16px; }
+    .proj-metrics { padding: 24px 16px; }
+    .proj-stack-live { padding: 24px 20px; }
 
-    :global(.proj-header-grid) { grid-template-columns: 1fr; gap: 32px; }
-    :global(.proj-body-grid) { grid-template-columns: 1fr; gap: 32px; }
+    :global(.proj-header-grid) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    :global(.proj-body-grid) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
 
     .proj-name { font-size: 56px; }
-    .proj-brief-title { font-size: 26px; }
+    .proj-brief-title { font-size: 24px; }
     .next-name { font-size: 48px; }
 
-    .metrics-grid { grid-template-columns: 1fr; gap: 24px; }
+    .metrics-grid { grid-template-columns: 1fr; gap: 12px; }
     .metric-value { font-size: 56px; }
 
     .screens-grid,
@@ -511,19 +582,24 @@ const projectLd = {
     }
     .process-num {
       font-size: 11px;
-      opacity: 0.55;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
-    .process-duration { order: -1; margin-bottom: 4px; }
+    .process-duration {
+      order: -1;
+      margin-bottom: 4px;
+    }
 
-    .proj-stack-live { flex-direction: column; align-items: flex-start; }
+    .proj-stack-live {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   @media (max-width: 480px) {
     .proj-header, .proj-body, .proj-process, .proj-screens, .proj-next {
-      padding-left: 16px;
-      padding-right: 16px;
+      padding-left: 12px;
+      padding-right: 12px;
     }
     .proj-name { font-size: 44px; }
     .proj-brief-title { font-size: 22px; }

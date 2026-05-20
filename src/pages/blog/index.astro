@@ -66,16 +66,15 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
 </BaseLayout>
 
 <style>
-  /* Editorial list — handoff pages.jsx 311-343:
-     padding 60px 56px, max-width 1100, rows 160px 1fr 200px gap 32. */
   .blog-section {
-    padding: 60px 56px;
+    padding: 48px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
   }
   .blog-list {
     display: flex;
     flex-direction: column;
-    max-width: 1100px;
-    margin: 0 auto;
+    gap: 16px;
   }
   .blog-empty {
     text-align: center;
@@ -88,39 +87,42 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
     font-size: 24px;
     font-style: italic;
     line-height: 1.4;
-    opacity: 0.7;
+    color: var(--ink-soft);
     margin: 0 0 24px;
   }
   .blog-empty-link {
-    color: var(--accent-text);
+    color: var(--accent);
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
   }
 
-  /* Each row is a Link with grid layout. Hover shifts padding-left 16px. */
   .blog-row {
     display: grid !important;
     grid-template-columns: 160px 1fr 200px;
     gap: 32px;
-    padding: 40px 0;
-    border-top: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    padding: 28px 32px;
+    border-radius: 24px;
+    background: var(--glass-fill);
+    backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 28px)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 30px 60px -24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
     color: var(--ink);
     text-decoration: none;
     align-items: baseline;
-    transition: padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .blog-row:hover {
-    padding-left: 16px;
-  }
-  .blog-row:last-child {
-    border-bottom: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    transform: translateY(-4px);
   }
 
   .blog-row-date {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.65;
+    color: var(--ink-soft);
   }
 
   .blog-row-title {
@@ -130,10 +132,11 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
     font-weight: 400;
     letter-spacing: -0.02em;
     margin: 0;
+    color: var(--ink);
   }
   .blog-row-excerpt {
     font-size: 16px;
-    opacity: 0.7;
+    color: var(--ink-soft);
     line-height: 1.5;
     margin: 12px 0 0;
     max-width: 600px;
@@ -145,12 +148,12 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
     flex-wrap: wrap;
   }
   .blog-row-tag {
-    border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    border: 1px solid var(--glass-border);
     padding: 3px 10px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-size: 11px;
     font-family: var(--font-mono);
-    opacity: 0.7;
+    color: var(--ink-soft);
   }
 
   .blog-row-aside {
@@ -159,41 +162,37 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
   .blog-row-read {
     font-family: var(--font-mono);
     font-size: 12px;
-    opacity: 0.65;
+    color: var(--ink-soft);
   }
   .blog-row-cta {
     margin-top: 12px;
-    color: var(--accent-text);
+    color: var(--accent);
     font-family: var(--font-mono);
     font-size: 13px;
   }
 
-  /* Tablet — drop the right column (read+cta) into the title col, tighter padding. */
   @media (max-width: 1024px) {
-    .blog-section { padding: 48px 32px; }
+    .blog-section { padding: 40px 24px; }
     .blog-row {
       grid-template-columns: 110px 1fr 140px;
       gap: 24px;
-      padding: 28px 0;
+      padding: 24px 28px;
     }
     .blog-row-title { font-size: 32px; }
     .blog-row-excerpt { font-size: 15px; }
   }
 
-  /* Mobile — collapse to single column with reordered cells (date eyebrow first,
-     tags after excerpt, read time small below). RESPONSIVE.md spec. */
   @media (max-width: 768px) {
-    .blog-section { padding: 40px 20px; }
+    .blog-section { padding: 32px 16px; }
     .blog-row {
       grid-template-columns: 1fr !important;
       gap: 8px;
-      padding: 24px 0;
+      padding: 24px;
+      border-radius: 20px;
       align-items: stretch;
     }
-    .blog-row:hover { padding-left: 0; }
     .blog-row-date {
       order: -1;
-      opacity: 0.55;
     }
     .blog-row-title { font-size: 26px; }
     .blog-row-aside {
@@ -204,13 +203,10 @@ const fmt = new Intl.DateTimeFormat('sk-SK', { month: 'short', year: 'numeric' }
       margin-top: 8px;
       order: 99;
     }
-    .blog-row-read {
-      opacity: 0.55;
-    }
   }
 
   @media (max-width: 480px) {
-    .blog-section { padding: 32px 16px; }
+    .blog-section { padding: 24px 12px; }
     .blog-row-title { font-size: 22px; }
   }
 </style>

@@ -46,62 +46,66 @@ const titleHtml = `${t('work.title.before', lang)}<em>${t('work.title.em', lang)
 
 <style>
   .filter-section {
-    padding: 32px 56px;
-    border-bottom: var(--border-soft);
-    background: var(--bg2);
+    padding: 24px 32px 0;
   }
-  /*
-   * .filter-row is on a <Reveal> wrapper; Astro doesn't propagate the page's
-   * data-astro-cid scope marker to elements rendered by child components, so
-   * the rule must be :global() to match the rendered <div>.
-   */
   :global(.filter-row) {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     align-items: center;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   :global(.filter-row .filter-label) {
     font-size: 12px;
-    opacity: 0.65;
+    color: var(--ink-soft);
     margin-right: 8px;
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
   :global(.filter-row .chip) {
-    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
-    background: transparent;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill-flat);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
     color: var(--ink);
     padding: 8px 16px;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
   :global(.filter-row .chip.is-active) {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: var(--bg);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    border-color: color-mix(in oklab, var(--accent) 60%, white 40%);
+    color: var(--ink-on-accent);
   }
-  .work-section { padding: 60px 56px; }
+  .work-section { padding: 56px 32px; }
   .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 24px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   @media (max-width: 1024px) {
-    .filter-section { padding: 28px 32px; }
-    .work-section { padding: 56px 32px; }
-    .work-grid { gap: 36px; }
+    .filter-section { padding: 20px 24px 0; }
+    .work-section { padding: 48px 24px; }
+    .work-grid { gap: 20px; }
   }
   @media (max-width: 768px) {
-    .filter-section, .work-section { padding: 32px 20px; }
-    .work-grid { grid-template-columns: 1fr; gap: 32px; }
+    .filter-section { padding: 16px 16px 0; }
+    .work-section { padding: 32px 16px; }
+    .work-grid { grid-template-columns: 1fr; gap: 20px; }
   }
   @media (max-width: 480px) {
-    .filter-section, .work-section { padding: 24px 16px; }
+    .filter-section { padding: 12px 12px 0; }
+    .work-section { padding: 24px 12px; }
   }
 </style>
 

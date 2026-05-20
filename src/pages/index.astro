@@ -108,29 +108,20 @@ const articles = (await getCollection('articles'))
 </BaseLayout>
 
 <style>
-  /*
-   * NOTE: Many layout classes below use :global() because <Reveal> renders the
-   * wrapper element, and Astro does NOT propagate this page's data-astro-cid
-   * scope marker to elements rendered by child components. Without :global(),
-   * these rules would compile to attribute selectors that never match the
-   * Reveal-rendered <div>/<h1>. Affected: .home-hero-toprow, .home-hero-bottom,
-   * .section-header (and its descendants used inside the Reveal slot).
-   */
-  .home-hero { position: relative; padding: 80px 56px 56px; min-height: 600px; overflow: hidden; }
+  .home-hero { position: relative; padding: 120px 32px 56px; min-height: 600px; }
   :global(.home-hero-toprow) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 40px;
-    position: relative;
-    z-index: 2;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
   }
   :global(.home-hero-toprow .right) { text-align: right; }
-  /* Solid muted color (not opacity) — keeps WCAG contrast deterministic
-     even when text sits visually over a decorative blob. */
   .small {
     font-size: 13px;
-    color: var(--ink-muted);
+    color: var(--ink-soft);
     font-family: var(--font-mono);
   }
   :global(.home-hero-bottom) {
@@ -138,116 +129,130 @@ const articles = (await getCollection('articles'))
     justify-content: space-between;
     align-items: flex-end;
     margin-top: 48px;
-    position: relative;
-    z-index: 2;
     gap: 32px;
     flex-wrap: wrap;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .home-hero-lead {
     max-width: 420px;
     font-size: 17px;
     line-height: 1.5;
-    opacity: 0.75;
+    color: var(--ink-soft);
     margin: 0;
   }
   .home-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-primary {
-    background: var(--ink);
-    color: var(--bg);
-    padding: 14px 24px;
-    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 78%, white) 0%,
+      color-mix(in oklab, var(--accent) 92%, transparent) 100%);
+    color: var(--ink-on-accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 60%, white 40%);
+    padding: 13px 24px;
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
+    box-shadow:
+      0 18px 36px -14px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .btn-ghost {
-    background: transparent;
+    background: var(--glass-fill-flat);
     color: var(--ink);
-    border: 1px solid var(--ink);
-    padding: 14px 24px;
-    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    padding: 13px 24px;
+    border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
 
-  .home-work, .home-blog { padding: 72px 56px; }
+  .home-work, .home-blog { padding: 64px 32px; }
   :global(.section-header) {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 40px;
     gap: 24px;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  /* Eyebrow above h2 inside section-header gets 8px gap (handoff inline style). */
   :global(.section-header .mono.small) { margin-bottom: 8px; }
-  :global(.section-header h2) { font-size: 64px; line-height: 1; margin: 0; font-family: var(--font-display); }
+  :global(.section-header h2) { font-size: 64px; line-height: 1; margin: 0; font-family: var(--font-display); color: var(--ink); }
   :global(.section-header .section-all) { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
   .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 24px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
 
   .home-about {
-    padding: 72px 56px;
-    background: var(--bg2);
-    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padding: 64px 32px;
   }
   .about-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 64px;
+    gap: 56px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   .about-headline {
     font-size: 56px;
     margin: 0 0 24px;
     line-height: 1.05;
     font-family: var(--font-display);
+    color: var(--ink);
   }
   .about-em {
-    color: var(--accent-text);
+    color: var(--accent);
     font-style: italic;
     padding-left: 0.06em;
   }
   .about-lead {
     font-size: 17px;
     line-height: 1.6;
-    opacity: 0.8;
+    color: var(--ink-soft);
     max-width: 540px;
   }
   .mb-6 { margin-bottom: 24px; }
 
-  .home-blog { border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+  .home-blog {}
   .blog-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
+    max-width: 1320px;
+    margin: 0 auto;
   }
   :global(.section-header h2.blog-h2) { font-size: 48px; }
 
-  /* Tablet — 32px section padding, 2-col grids stay 2-col with tighter gap. */
   @media (max-width: 1024px) {
-    .home-hero { padding: 80px 32px 32px; }
-    .home-work, .home-about, .home-blog { padding: 64px 32px; }
+    .home-hero { padding: 100px 24px 32px; }
+    .home-work, .home-about, .home-blog { padding: 56px 24px; }
     :global(.section-header h2) { font-size: 52px; }
     :global(.section-header h2.blog-h2) { font-size: 44px; }
     .about-headline { font-size: 48px; }
-    .blog-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .blog-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
     .about-grid { gap: 36px; }
-    .work-grid { gap: 28px; }
+    .work-grid { gap: 20px; }
     .home-hero-bottom { gap: 24px; }
   }
 
-  /* Mobile — single-column everything, 20px padding, hero bottom stacks. */
   @media (max-width: 768px) {
-    .home-hero { padding: 56px 20px 32px; }
-    .home-work, .home-about, .home-blog { padding: 56px 20px; }
+    .home-hero { padding: 90px 16px 24px; }
+    .home-work, .home-about, .home-blog { padding: 48px 16px; }
     :global(.section-header h2) { font-size: 38px; }
     :global(.section-header h2.blog-h2) { font-size: 38px; }
-    .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
+    .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 24px; }
     .about-headline { font-size: 40px; }
-    /* Hero bottom: switch from row to column with left-aligned content. */
     :global(.home-hero-bottom) {
       flex-direction: column;
       align-items: flex-start;
@@ -255,10 +260,9 @@ const articles = (await getCollection('articles'))
     }
   }
 
-  /* Small phone — tighten padding and headlines further. */
   @media (max-width: 480px) {
-    .home-hero { padding: 48px 16px 28px; }
-    .home-work, .home-about, .home-blog { padding: 48px 16px; }
+    .home-hero { padding: 80px 12px 20px; }
+    .home-work, .home-about, .home-blog { padding: 40px 12px; }
     :global(.section-header h2) { font-size: 32px; }
     :global(.section-header h2.blog-h2) { font-size: 32px; }
     .about-headline { font-size: 36px; }
