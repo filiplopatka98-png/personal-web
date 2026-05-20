@@ -6,7 +6,7 @@ role: "WordPress Developer"
 duration: "2 mesiace"
 client: "Gréckokatolícke arcibiskupstvo Prešov"
 url: "grkatpo.sk"
-accent: accent3
+accent: accent
 order: 3
 featured: false
 brief: "Oficiálny web Gréckokatolíckeho arcibiskupstva Prešov — informácie o farnostiach, liturgický kalendár, livestreamy a darcovský portál dobrodinec.online."

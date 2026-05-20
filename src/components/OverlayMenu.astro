@@ -278,6 +278,14 @@ const navOrder: NavItem[] = [
     }
     .overlay-menu { transition: none; }
   }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .overlay-menu {
+      background: rgba(8, 4, 24, 0.92);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
 </style>
 
 <script>

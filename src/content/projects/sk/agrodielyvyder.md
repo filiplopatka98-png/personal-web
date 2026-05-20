@@ -6,7 +6,7 @@ role: "WordPress + WooCommerce Developer"
 duration: "2 mesiace"
 client: "Vyder"
 url: "agrodielyvyder.sk"
-accent: accent2
+accent: accent
 order: 1
 featured: true
 brief: "B2B/B2C eshop s náhradnými dielmi pre traktory, čelné nakladače, postrekovače a stroje na prípravu pôdy."

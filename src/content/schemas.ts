@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const accentEnum = z.enum(['accent', 'accent2', 'accent3']);
+const accentEnum = z.enum(['accent']);
 
 // Project schema per CONTENT_SCHEMA.md
 export const projectSchema = z.object({
