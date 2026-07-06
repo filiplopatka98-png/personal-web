@@ -109,14 +109,14 @@
  * passes AA Normal.
  */
 :root[data-theme='warm'] {
-  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
+  --ink-muted: color-mix(in srgb, var(--ink) 72%, var(--bg));
   --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
   --accent-text: color-mix(in srgb, var(--accent) 65%, var(--ink));
 }
 :root[data-theme='clay'],
 :root[data-theme='cream'],
 :root[data-theme='forest'] {
-  --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
+  --ink-muted: color-mix(in srgb, var(--ink) 72%, var(--bg));
   --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
   --accent-text: color-mix(in srgb, var(--accent) 65%, var(--ink));
 }

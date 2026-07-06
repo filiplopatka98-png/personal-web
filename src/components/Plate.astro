@@ -77,9 +77,9 @@ const widths = image
   </figure>
 ) : (
   <div class:list={['relative w-full overflow-hidden', className]} style={styleStr} aria-hidden="true">
-    <div class="absolute top-3.5 left-4 font-mono text-[11px] opacity-70" style="color: var(--ink);">▢ {label}</div>
+    <div class="absolute top-3.5 left-4 font-mono text-[12px] opacity-70" style="color: var(--ink);">▢ {label}</div>
     {caption && (
-      <div class="absolute bottom-3.5 left-4 font-mono text-[10px] opacity-60" style="color: var(--ink);">{caption}</div>
+      <div class="absolute bottom-3.5 left-4 font-mono text-[12px] opacity-60" style="color: var(--ink);">{caption}</div>
     )}
   </div>
 )}
@@ -98,7 +98,7 @@ const widths = image
   .plate-image-caption {
     margin-top: 12px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--ink-muted);
     letter-spacing: 0.04em;
   }
