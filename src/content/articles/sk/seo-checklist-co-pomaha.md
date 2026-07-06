@@ -34,7 +34,7 @@ V roku 2026 sú CWV potvrdený ranking signál pre mobil. Cieľ:
 
 Search Console → Core Web Vitals report ti ukáže field data. **Nie lab data z Lighthouse** — field data sú od reálnych používateľov. (Pozn.: prahy platia na 75. percentile, čiže „dobré" skóre musíš dosiahnuť pre 75 % návštev.)
 
-Pre WordPress eshop, ktorý sme tento rok ladili: LCP 4,2 s → 1,6 s, organic traffic +28 % za 6 týždňov. Korelácia, nie kauzalita, ale vzorec vidíme stále.
+Pre WordPress eshop, ktorý sme tento rok ladili: LCP 4,2 s → 1,6 s, organic traffic +28 % za 6 týždňov. Korelácia, nie kauzalita, ale vzorec vidíme stále. Ak sa rozhoduješ, ktoré stránky riešiť ako prvé, [prioritizuj podľa toho, ktoré stránky eshopu naozaj zarábajú](/blog/cwv-eshop-priorita/), nie honbou za každou URL.
 
 ### 3. Štruktúrované dáta — Product, BreadcrumbList, Organization
 
@@ -44,7 +44,7 @@ JSON-LD schema pre eshop = rich results v SERP-e = vyšší CTR. Minimum:
 - `BreadcrumbList` (na všetkých stránkach okrem homepage)
 - `Organization` (homepage)
 
-Validácia: `validator.schema.org` + Google Rich Results Test. Search Console → Enhancements ti ukáže, či to Google parsuje.
+Validácia: `validator.schema.org` + Google Rich Results Test. Search Console → Enhancements ti ukáže, či to Google parsuje. Ak to nechceš písať ručne, [tieto hotové JSON-LD šablóny](/blog/schema-org-eshop-templates/) pokryjú bežné prípady eshopu.
 
 ### 4. Kanonické URL
 
@@ -69,13 +69,13 @@ Pravidlá:
 
 ### 6. Interné prelinkovanie
 
-Linkuj v tele textu (nielen v menu) na súvisiace stránky. Anchor text je signál. Pre eshop: z blogového článku linkuj na produktové kategórie. Pre service business: z homepage linkuj na všetky kľúčové service pages.
+Linkuj v tele textu (nielen v menu) na súvisiace stránky. Anchor text je signál. Pre eshop: z blogového článku linkuj na produktové kategórie. Pre service business: z homepage linkuj na všetky kľúčové service pages. Najčistejšie to zvládneš vo väčšom [usporiadaním interných odkazov do topic clusterov](/blog/internal-linking-topic-clusters/) namiesto ad-hoc linkovania.
 
 Audit: Screaming Frog → Internal links report. Stránky s 0 – 1 internými odkazmi sú „orphan" — Google ich možno necrawluje často.
 
 ### 7. Alt a názov súboru obrázka
 
-Atribút `alt` je signál pre prístupnosť aj SEO. Názov súboru `IMG_4521.jpg` je horší než `cervena-kosela-pansky-bavlnena.jpg`. Pre eshop s tisíckami obrázkov [pozri článok o AI alt textoch](/sk/blog/ai-alt-text-seo).
+Atribút `alt` je signál pre prístupnosť aj SEO. Názov súboru `IMG_4521.jpg` je horší než `cervena-kosela-pansky-bavlnena.jpg`. Pre eshop s tisíckami obrázkov [pozri článok o AI alt textoch](/blog/ai-alt-text-seo/).
 
 ### 8. Hierarchia nadpisov
 

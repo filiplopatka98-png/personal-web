@@ -77,7 +77,7 @@ stripe trigger payment_intent.succeeded
 **Priebeh refundov:**
 Bezchybný. Čiastočný aj plný refund priamo z Woo adminu, Stripe ho spracuje promptne. Spory a chargebacky sú v Stripe dashboarde vidieť s kompletnou históriou.
 
-**Kedy Stripe vyhráva:** moderný stack, tím zvyknutý na vývojárske nástroje, potreba rýchlych výplat, zákazníci aj z EÚ mimo SR/ČR. Stripe je moja predvolená voľba.
+**Kedy Stripe vyhráva:** moderný stack, tím zvyknutý na vývojárske nástroje, potreba rýchlych výplat, zákazníci aj z EÚ mimo SR/ČR. Stripe je moja predvolená voľba. Ak riešiš aj to, koľko si za takú integráciu vôbec pýtať, pozri [cenotvorbu pre malé eshopy](/blog/cenotvorba-eshop-models/).
 
 ## Tatra banka CardPay
 
@@ -162,3 +162,5 @@ Priamo z Woo adminu, bez problémov. Refund prebehne vzorovo do 24 hodín.
 ## TL;DR
 
 Ako predvolenú voľbu ber Stripe (rýchle výplaty, priateľský k vývojárom, globálny). Pre podporu po slovensky/česky GoPay alebo ComGate (ComGate má rýchlejšiu výplatu). CardPay len pri eshope s vysokým obratom a existujúcim vzťahom s Tatra bankou. Vyhni sa porovnávaniam podľa marketingových stránok — otestuj sandbox jeden deň a zistíš oveľa viac.
+
+**Súvisiace:** [WooCommerce checkout, ktorý konvertuje](/blog/checkout-konvertuje-9-uprav/) · [WooCommerce + Pohoda + MoneyS3: sklad a doprava](/blog/doprava-sklad-pohoda/)

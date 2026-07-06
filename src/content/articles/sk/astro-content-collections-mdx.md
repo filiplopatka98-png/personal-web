@@ -11,6 +11,8 @@ V starom Astre si MDX súbory čítal cez `Astro.glob()` a `frontmatter.title` b
 
 Toto je nastavenie, ktoré používam na všetkých blogových projektoch od Astra 4. V Astre 5 je konfigurácia už v `src/content.config.ts` namiesto `src/content/config.ts` — staré umiestnenie ešte funguje cez spätnú kompatibilitu, ale je označené za zastarané, takže novú konfiguráciu píš rovno do `src/content.config.ts`.
 
+Ak ešte len zvažuješ, či je Astro pre daný projekt vôbec správna voľba, na to som spísal [rozhodovaciu tabuľku Astro vs. Next.js](/blog/astro-vs-nextjs-tabulka/).
+
 ## Setup
 
 ```bash
@@ -171,7 +173,7 @@ const entry = await getEntry("articles", slug);
 )}
 ```
 
-`<Image />` vygeneruje štandardne WebP variant a k nemu správny `srcset` pre zadané šírky. Ak potrebuješ aj AVIF s fallbackom, siahni po komponente `<Picture />` — ten vie vyrobiť viac formátov naraz (predvolene AVIF aj WebP). Ak obrázok na disku neexistuje, build padne — žiadne rozbité obrázky na produkcii.
+`<Image />` vygeneruje štandardne WebP variant a k nemu správny `srcset` pre zadané šírky. Ak potrebuješ aj AVIF s fallbackom, siahni po komponente `<Picture />` — ten vie vyrobiť viac formátov naraz (predvolene AVIF aj WebP). Ak obrázok na disku neexistuje, build padne — žiadne rozbité obrázky na produkcii. To `loading="lazy"` tu robí reálnu robotu; ak chceš vedieť, kedy dôverovať natívnemu atribútu a kedy siahnuť po vlastnom riešení, tomu som sa venoval v [natívny vs. vlastný lazy-loading](/blog/image-lazy-loading-native-vs-custom/) samostatne.
 
 ## getStaticPaths pre dynamické cesty
 
@@ -207,3 +209,5 @@ Pre 50 článkov s optimalizáciou obrázkov (3 šírky na každý) build trvá 
 ## TL;DR
 
 `defineCollection` + Zod schéma = validácia frontmatteru pri builde. `getCollection()` = typovo bezpečné dotazy. `render(entry)` + `<Content components={...} />` = MDX s vlastnými komponentmi. `image()` schema helper = automaticky optimalizované obrázky s poistkou proti rozbitým odkazom. Typovo bezpečné end-to-end od MDX súboru po finálne HTML, žiadny `any` po ceste.
+
+Súvisiace: [Astro 5 + view transitions na e-commerce: čo už funguje](/blog/astro-view-transitions-eshop/) · [Astro vs. Next.js: rozhodovacia tabuľka](/blog/astro-vs-nextjs-tabulka/)

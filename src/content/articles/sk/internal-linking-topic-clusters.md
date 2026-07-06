@@ -91,6 +91,10 @@ Po 3 mesiacoch: **~2100 organic návštev**, pillar pages sa dostali na pozície
 
 Žiadny SEO plugin za 99 EUR/rok. Naozaj.
 
+Ak riešiš aj technickú stránku SEO, mám k tomu [checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/) — architektúra interných linkov je len jeden z jeho bodov.
+
 ## TL;DR
 
 Pri 50–200 stránkach je manuálny topic cluster mapping (pillar + 5–10 cluster článkov) presnejší než akýkoľvek plugin. 2 hodiny audit, 4 hodiny reorganizácia, kvartálny review. Variácia anchor textu 30/50/20. Plugin si nechaj na weby s 5000+ stránkami, kde sa už neoplatí robiť to ručne.
+
+**Súvisiace:** [ktoré Core Web Vitals stránky riešiť ako prvé](/blog/cwv-eshop-priorita/) · [7 najčastejších príčin LCP nad 2,5 s](/blog/lcp-nad-2-5s-pricin/).

@@ -29,6 +29,8 @@ Toto je 10 opráv, ktoré pokryjú **80 % nálezov** z bežného axe-core auditu
 
 Kritické: dekoratívne obrázky (pozadia, oddeľovače) MAJÚ mať `alt=""`, nie chýbajúci alt. Prázdny alt znamená „ignoruj ma“, chýbajúci alt necháva čítačku obrazovky prečítať názov súboru.
 
+Generuješ alt text vo veľkom? Pozri môj pohľad na [image alt text z AI](/blog/ai-alt-text-seo/) — ušetrí hodiny, ale má SEO riziká.
+
 ## 2. Labely formulárov prepojené s inputmi
 
 ```html
@@ -111,6 +113,8 @@ Poradie Tabu = poradie v DOM. Ak používaš `position: absolute` na vizuálne p
 Skús: na akejkoľvek stránke stlač Tab a sleduj focus ring. Ak skáče zhora-zdola-naspäť-bokom, máš problém. Riešenie: opraviť poradie v DOM alebo (v krajnom prípade) preusporiadať cez `tabindex`.
 
 Nikdy nepoužívaj `tabindex` väčší ako 0. To preusporiada celú stránku a vznikne chaos. `tabindex="0"` (zaradiť do poradia Tabu) a `tabindex="-1"` (vyňať z poradia Tabu) sú jediné dve hodnoty, ktoré v praxi potrebuješ.
+
+Presne toto ťa dobehne vo vlastných widgetoch — viac o tom v [focus management v custom dialógoch](/blog/focus-management-dialog/).
 
 ## 7. Skip-link „preskočiť na obsah“
 
@@ -223,3 +227,5 @@ Tým si pokryl 80 % problémov. Zvyšných 20 % (vlastné widgety, zložité tab
 ## TL;DR
 
 10 opráv, jeden pracovný deň, 80 % nálezov z auditu vyriešené. Alt text + labely formulárov + hierarchia nadpisov + kontrast 4,5:1 + viditeľný fokus + poradie Tabu + skip-link + `lang` + klikacia plocha (24×24 AA, ideálne 44×44) + reduced motion. Otestuj cez axe DevTools, dotiahni cez Lighthouse na 95+.
+
+Súvisiace: [keyboard-only test za 10 minút](/blog/keyboard-only-test/) a [technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/).

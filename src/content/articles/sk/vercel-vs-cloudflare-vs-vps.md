@@ -11,7 +11,7 @@ Klient sa pýtal: „Kam mám nasadiť Next.js portfólio? Vercel pozná každý
 
 ## Setup testu
 
-Aplikácia: portfólio + blog + 3 jednoduché formuláre (Server Actions). Žiadny SQL, dáta z headless WordPressu cez REST API. ISR `revalidate: 3600` na blog feed.
+Aplikácia: portfólio + blog + 3 jednoduché formuláre (Server Actions). Žiadny SQL, dáta z headless WordPressu cez REST API. [ISR](/blog/isr-namiesto-cron/) `revalidate: 3600` na blog feed.
 
 Testovacia prevádzka: simulácia 100 000 MAU = ~3300 requestov denne, peak 15 req/s. Púšťal som syntetický load 7 dní a sledoval som:
 
@@ -140,3 +140,5 @@ Plán: **Hetzner CX22** za 3,79 €/mes (2 vCPU, 4 GB RAM, 40 GB SSD, lokalita H
 ## TL;DR
 
 Najlacnejší výkonný hosting Next.js v roku 2026 je **Cloudflare Pages free**, ak ti neprekáža non-Node runtime. Najlepšie DX má stále **Vercel** za 20 €/mes. Najlacnejší pri scale je **VPS Hetzner + Coolify** za necelé 4 €/mes, ale platíš to časom stráveným na údržbe. Žiadna univerzálna odpoveď — záleží od projektu, tímu a od toho, či chceš mať voľný víkend.
+
+**Súvisiace:** [realistické čísla o výkone SK hostingov](/blog/hostingy-sk-vykon/), [server response time pod 200ms](/blog/server-response-200ms/) a [kedy vybrať Astro namiesto Next.js](/blog/astro-vs-nextjs-tabulka/).

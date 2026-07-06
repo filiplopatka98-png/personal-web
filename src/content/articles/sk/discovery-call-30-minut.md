@@ -144,3 +144,5 @@ Lepšie je odmietnuť hneď cez „toto pre mňa nie je dobrý fit, odporúčam 
 ## TL;DR
 
 8 otázok, 30 minút, žiadny technický pitch, žiadny cenový záväzok. Cieľová metrika, súčasný setup, publikum, riziká, rozpočet, rozhodovanie, brand, deal-breakery. 24-hodinový follow-up s ponukou v cenovom rozpätí. Odmietni, keď je cieľ vágny alebo rozpočet nesedí.
+
+**Súvisiace:** [brief, ktorý ušetrí 3 týždne nedorozumení](/blog/brief-3-tyzdne/) · [cenotvorba pre malé eshopy: hodinovka vs fix vs hybrid](/blog/cenotvorba-eshop-models/)

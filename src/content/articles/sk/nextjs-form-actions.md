@@ -11,7 +11,7 @@ Pred dvoma rokmi som pre kontaktný formulár písal route handler `/api/contact
 
 ## Čo je Server Action
 
-Funkcia označená `"use server"`, ktorá beží na serveri, ale dá sa zavolať priamo z React komponentu (ako event handler). Next.js zariadi serializáciu, prenos aj ošetrenie chýb. Ty napíšeš logiku, on vyrieši inštalatérčinu okolo.
+Funkcia označená `"use server"`, ktorá beží na serveri, ale dá sa zavolať priamo z React komponentu (ako event handler). Next.js zariadi serializáciu, prenos aj ošetrenie chýb. Ty napíšeš logiku, on vyrieši inštalatérčinu okolo. Ide o tú istú serverovú mentalitu ako pri [React Server Components](/blog/server-components-5-veci/) — dáta aj logika ostávajú na serveri a klientovi posielaš čo najmenej.
 
 ```tsx
 // app/contact/actions.ts
@@ -86,6 +86,8 @@ A to je **celý funkčný kontaktný formulár** — validácia, ošetrenie chý
 
 (Pozn.: pôvodný `useFormState` z `react-dom` je od Reactu 19 nahradený hookom `useActionState` z `react` — tu už používam ten novší.)
 
+Celé to predpokladá App Router — Server Actions v Pages Routeri nemáš. Ak ešte len rozmýšľaš, na ktorom routeri postaviť projekt, pozri [App Router vs Pages Router v 2026](/blog/nextjs-app-vs-pages-router/).
+
 ## Progressive enhancement zadarmo
 
 Toto je **killer feature**, ktorá sa nedoceňuje. Server Actions fungujú aj **bez JavaScriptu**.
@@ -145,7 +147,7 @@ export async function sendForm(formData: FormData) {
 }
 ```
 
-`redirect()` musí byť **mimo try/catch** — interne vyhadzuje špeciálnu chybu (`NEXT_REDIRECT`), ktorú Next zachytáva, a `catch` by ju pohltil. Klasická pasca pre nováčikov.
+`redirect()` musí byť **mimo try/catch** — interne vyhadzuje špeciálnu chybu (`NEXT_REDIRECT`), ktorú Next zachytáva, a `catch` by ju pohltil. Klasická pasca pre nováčikov. Ak po úspešnom submite potrebuješ ešte prekresliť dáta, hodí sa vedieť [kedy siahnuť po revalidate, tag alebo path](/blog/nextjs-cache-revalidate/).
 
 ## TL;DR
 

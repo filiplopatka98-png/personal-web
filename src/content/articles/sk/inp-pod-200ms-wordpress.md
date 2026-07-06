@@ -9,7 +9,7 @@ featured: false
 
 INP (Interaction to Next Paint) nahradil FID 12. marca 2024 a pre WordPress eshopy je to brutálne odhalenie. FID meralo iba prvý klik. INP meria každú interakciu počas celej návštevy — a vyberie tú najhoršiu. Lacné to nie je.
 
-Klient z módneho segmentu, WooCommerce 8.5, 14 000 SKU, ~80-tisíc MAU. Pred auditom vyzeral CrUX takto: **INP 480 ms na 75. percentile**, čo Google klasifikuje ako „Needs Improvement“ (dobré je ≤ 200 ms, zlé až nad 500 ms). Po štyroch týždňoch práce: **165 ms na 75. percentile**, kategória „Good“. Žiadny rebuild, žiadny headless. Tu je presný rozpis, čo pomohlo a o koľko.
+Klient z módneho segmentu, WooCommerce 8.5, 14 000 SKU, ~80-tisíc MAU. Pred auditom vyzeral CrUX takto: **INP 480 ms na 75. percentile**, čo Google klasifikuje ako „Needs Improvement“ (dobré je ≤ 200 ms, zlé až nad 500 ms). Po štyroch týždňoch práce: **165 ms na 75. percentile**, kategória „Good“. Žiadny rebuild, žiadny headless. Tu je presný rozpis, čo pomohlo a o koľko. INP je len jedno z troch Core Web Vitals — ak riešiš celý eshop, pozri aj [ktoré stránky na eshope riešiť ako prvé](/blog/cwv-eshop-priorita/).
 
 ## 1. Blokujúce event listenery v admin-ajax pluginoch
 
@@ -53,7 +53,7 @@ if ('requestIdleCallback' in window) {
 );
 ```
 
-Zlepšenie INP: **-90 ms p75**. Bonus: TBT klesol o 40 %.
+Zlepšenie INP: **-90 ms p75**. Bonus: TBT klesol o 40 %. Ak ťa trápi aj to, ako rýchlo server vôbec odpovie, mám samostatný rozpis, ako sa dostať [so server response time pod 200 ms cez cache, edge a prefetch](/blog/server-response-200ms/).
 
 ## 3. requestIdleCallback pre analytické trackovanie
 
@@ -103,7 +103,7 @@ Plugin diéta nie je jednorazová akcia — je to mesačný rituál. Pri každom
 - Existuje natívna alternatíva v core, v téme alebo v 30 riadkoch vo `functions.php`?
 - Aktualizuje autor plugin aktívne (za posledných 6 mesiacov)?
 
-Ak sú odpovede zlé, plugin letí. Detailnejšie som to rozobral v článku [Plugin diéta: z 28 na 9](/sk/articles/plugin-dieta-z-28-na-9).
+Ak sú odpovede zlé, plugin letí. Detailnejšie som to rozobral v článku [Plugin diéta: z 28 na 9](/blog/plugin-dieta-z-28-na-9/).
 
 ## TL;DR — pred/po
 
@@ -115,3 +115,5 @@ Ak sú odpovede zlé, plugin letí. Detailnejšie som to rozobral v článku [Pl
 | Aktívnych pluginov | 31 | 12 |
 
 Najväčší problém pre INP nie je framework ani téma. Sú to pluginy, ktoré registrujú `click` listenery na `document` a robia v nich synchrónnu prácu. Pozri si DevTools → Performance → záznam interakcie a hľadaj dlhé Tasks pri vstupe používateľa. Potom hľadaj pôvod scriptu vo waterfall paneli. Často to bude plugin, o ktorom si nevedel, že na frontende vôbec niečo robí.
+
+**Súvisiace:** [7 najčastejších príčin LCP nad 2.5 s](/blog/lcp-nad-2-5s-pricin/) · [Core Web Vitals na eshope: čo riešiť ako prvé](/blog/cwv-eshop-priorita/)

@@ -7,7 +7,7 @@ excerpt: "Test troch vision modelov na 200 produktových fotkách: GPT-4o, Claud
 featured: false
 ---
 
-Klient (módny eshop, ~3500 produktov) prišiel s problémom: 60 % obrázkov má prázdny `alt` atribút, zvyšok typu `IMG_4521.jpg`. Manuálne písanie alt textov pre všetky = ~50 hodín práce. AI vision modely to spravia za víkend a $35.
+Klient (módny eshop, ~3500 produktov) prišiel s problémom: 60 % obrázkov má prázdny `alt` atribút, zvyšok typu `IMG_4521.jpg`. Alt text je jedna z tých vecí, kde sa [prístupnosť a SEO prekrývajú](/blog/wcag-aa-80-20/) — dobrý popis pomáha aj čítaču obrazovky, aj vyhľadávaču. Manuálne písanie alt textov pre všetky = ~50 hodín práce. AI vision modely to spravia za víkend a $35.
 
 Spustil som testovacie kolo na 200 reprezentatívnych fotkách (oblečenie, obuv, doplnky, lifestylové zábery) a porovnal tri modely. Tu sú výsledky a praktické závery — vrátane SEO rizík, ktoré nesmieš ignorovať.
 
@@ -93,6 +93,7 @@ Tu je miesto, kde to môže ublížiť. AI alt text **nikdy nepublikuj automatic
 **Riziko 3: Generický popis = žiadny SEO prínos**
 - „Black shoe" je z hľadiska prístupnosti OK, ale pre SEO bezcenné
 - „Bežecká pánska obuv s tlmením" má kľúčové slová relevantné pre produkt aj kontext pre prístupnosť
+- alt text je len jeden riadok v širšom obraze — pozri [technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/)
 
 **Riziko 4: Duplicitné alt texty na podobných produktoch**
 - 5 farebných variantov toho istého trička → 5× rovnaký alt text
@@ -159,3 +160,5 @@ Spolu: ~6 hodín ľudského času oproti 50 hodinám ručného písania. Cena: ~
 ## TL;DR
 
 Claude 3.5 Sonnet je pre mňa v roku 2026 najlepší vision model na generovanie alt textov — presnosť, stručnosť a žiadne halucinácie značiek. GPT-4o je rýchlejší, ale občas si vymýšľa. Gemini 2.0 Flash je 6× lacnejší pri ~80 % kvalite — dobrý na dávky s následným review. **Nikdy nepublikuj automaticky.** Vždy označ podozrivé výstupy a rob namátkové kontroly.
+
+Súvisiace: [AI content vs Google E-E-A-T: čo ide a čo nie](/blog/ai-content-eeat/) · [WCAG AA na malom webe: 80 % efekt za 20 % práce](/blog/wcag-aa-80-20/) · [Technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/)

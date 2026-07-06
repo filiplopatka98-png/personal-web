@@ -35,7 +35,7 @@ Oprava je často robota na jeden deň:
 <img src="/wp-content/uploads/hero.avif" fetchpriority="high" decoding="async" alt="...">
 ```
 
-Reálny prípad: jeden klient mal LCP 4,1 s na homepage, po prednačítaní a konverzii do AVIF **1,2 s**. Bez ďalších zmien.
+Reálny prípad: jeden klient mal LCP 4,1 s na homepage, po prednačítaní a konverzii do AVIF **1,2 s**. Bez ďalších zmien. Ak máš LCP vysoké, ale príčina nie je hero, oplatí sa prejsť [najčastejšie príčiny LCP nad 2,5 s](/blog/lcp-nad-2-5s-pricin/) skôr, než začneš hádať.
 
 ## 2) PLP (výpis produktov) — najťažší boj
 
@@ -75,7 +75,7 @@ Tu LCP nikoho nezaujíma. Košík a pokladňa majú nízku návštevnosť, ale *
 - **INP** — klik na „Pridať" či „Použiť kupón" musí odpovedať do 200 ms.
 - **TBT** — pri prvom načítaní pokladne, kde sa hydratuje stripe.js + Google Pay + 3D Secure.
 
-Praktická rada: na stránke pokladne **vyhoď všetky sledovacie pixely**, ktoré tam nemajú čo robiť. Hotjar, Clarity, FB Pixel — daj ich len na stránku poďakovania. Zbavíš sa 400 ms TBT.
+Praktická rada: na stránke pokladne **vyhoď všetky sledovacie pixely**, ktoré tam nemajú čo robiť. Hotjar, Clarity, FB Pixel — daj ich len na stránku poďakovania. Zbavíš sa 400 ms TBT. Keď už si v pokladni, oplatí sa to spojiť s konverznou revíziou — inde rozpisujem [deväť mikro-úprav, ktoré rozbehnú WooCommerce checkout](/blog/checkout-konvertuje-9-uprav/).
 
 ## Rozhodovací strom v jednej tabuľke
 

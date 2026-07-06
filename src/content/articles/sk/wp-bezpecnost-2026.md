@@ -26,7 +26,7 @@ Pre **pluginy** — cez rozhranie (Plugins → klik na „Enable auto-updates" p
 add_filter('auto_update_plugin', '__return_true');
 ```
 
-**Háčik:** automatická aktualizácia pluginov môže občas niečo zlomiť. Riešenie: **staging prostredie** + **denná záloha**. WebSupport má staging na jeden klik, VPS pod správou CloudPanela tiež. Ak ti niečo padne, jednoducho sa vrátiš zo zálohy. Stratiť 30 minút raz za pol roka je menšie zlo ako otvorená XSS diera na živej stránke 4 mesiace.
+**Háčik:** automatická aktualizácia pluginov môže občas niečo zlomiť. Riešenie: **staging prostredie** + **denná záloha**. WebSupport má staging na jeden klik, VPS pod správou CloudPanela tiež. Ak ti niečo padne, jednoducho sa vrátiš zo zálohy. Rovnaký prístup so stagingom používam aj pri [migrácii WordPressu z lokálu na produkciu bez výpadku](/blog/wp-migracia-bez-vypadku/). Stratiť 30 minút raz za pol roka je menšie zlo ako otvorená XSS diera na živej stránke 4 mesiace.
 
 ## 2. wp-config.php mimo public_html alebo chmod 600
 
@@ -159,7 +159,7 @@ Háčik: spomalí ti stránku (50 – 150 ms TTFB navyše) a generuje veľa data
 
 **Solid Security (predtým iThemes Security)** je ľahší, zameraný na hardening (kontrola integrity súborov, zmena prefixu DB, zmena prihlasovacej URL). Nemá WAF, ale spotrebúva výrazne menej zdrojov.
 
-**Môj prístup:** ani jeden. Šesť vecí vyššie + dobrý hosting (so serverovým WAF, napr. Cloudflare Free + page cache) pokryje 95 % útokov bez ďalšieho pluginu. Wordfence reálne zapínam len vtedy, keď bol klient nedávno napadnutý a treba forenznú analýzu a zvýšený monitoring.
+**Môj prístup:** ani jeden. Šesť vecí vyššie + dobrý hosting (so serverovým WAF, napr. Cloudflare Free + page cache) pokryje 95 % útokov bez ďalšieho pluginu. Ako si vybrať taký hosting rozoberám v článku o [hostingoch v SK z pohľadu výkonu](/blog/hostingy-sk-vykon/). Aj samotné bezpečnostné pluginy sa navyše rátajú do celkovej záťaže — menej pluginov znamená rýchlejší web, čo som ukázal v [plugin diéte z 28 na 9](/blog/plugin-dieta-z-28-na-9/). Wordfence reálne zapínam len vtedy, keď bol klient nedávno napadnutý a treba forenznú analýzu a zvýšený monitoring.
 
 ## Reálny útok: brute-force cez XML-RPC
 

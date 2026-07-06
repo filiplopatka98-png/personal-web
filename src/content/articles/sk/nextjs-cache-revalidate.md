@@ -45,7 +45,7 @@ Kde sa hodí:
 - **Stavová stránka** — obnova každú minútu.
 - **Kurzy mien** — obnova raz za hodinu.
 
-Kde sa NEHODÍ: keď pri publikovaní potrebuješ okamžité premietnutie zmeny. Vtedy treba kombináciu s revalidáciou na požiadanie (on-demand).
+Kde sa NEHODÍ: keď pri publikovaní potrebuješ okamžité premietnutie zmeny. Vtedy treba kombináciu s revalidáciou na požiadanie (on-demand). Mimochodom, presne tento `revalidate` mechanizmus sa dá zneužiť aj na to, aby [ISR nahradilo cron](/blog/isr-namiesto-cron/) na malých weboch.
 
 ## 2) `revalidatePath()` — invalidácia jednej stránky
 
@@ -151,7 +151,7 @@ Tagový prístup je flexibilnejší, ale vyžaduje disciplínu pridávať tagy k
 
 ## Časté chyby, ktoré som videl
 
-1. **Zabudnuté volanie revalidate** — `await db.update(...)` bez následného `revalidatePath/Tag`. Používateľ odošle formulár, vidí starú stránku a nadáva.
+1. **Zabudnuté volanie revalidate** — `await db.update(...)` bez následného `revalidatePath/Tag`. Používateľ odošle formulár, vidí starú stránku a nadáva. Toto je najčastejší chyták, keď píšeš [Next.js form actions namiesto API endpointov](/blog/nextjs-form-actions/) — mutácia prebehne, ale zabudneš cache poslať preč.
 2. **Nesprávna cesta** — voláš `revalidatePath('/products/123')`, ale stránka je `/products/[slug]` so slugom `auto-123`. Pri konkrétnej ceste musíš zadať **finálnu URL** (`/products/auto-123`), nie route pattern. Ak chceš zasiahnuť všetky stránky podľa vzoru, použi pattern spolu s druhým parametrom: `revalidatePath('/products/[slug]', 'page')`.
 3. **Nezhoda tagu** — fetch má tag `'products'` (množné číslo), revalidate volá `revalidateTag('product')` (jednotné). Tichá chyba, žiadne vyhodenie výnimky, len cache nefunguje.
 4. **Spoliehanie sa na cache fetchu v Server Action** — od Next.js 15 `fetch()` už **nie je cachovaný predvolene** (defaultne `no-store`). Ak si zvyknutý z Next.js 14, kde bol default `force-cache`, pozor: v Server Action ti neanotovaný `fetch()` už nič neukladá do cache. Ak naopak *chceš* cachovať, musíš explicitne pridať `cache: 'force-cache'` alebo `next: { revalidate }` — inak ide o čerstvé dáta pri každom volaní.
@@ -176,3 +176,5 @@ V termináli `next dev` vidíš, kedy sa volá revalidate oproti tomu, kedy reá
 ## Zhrnutie
 
 Tri mechanizmy, tri situácie. `revalidate = 3600` na automatickú obnovu. `revalidatePath('/url')` na cielenú jednu stránku. `revalidateTag('group')` na koordinovanú invalidáciu skupiny fetchov. Pravidlo: vieš URL → path. Nevieš URL, ale máš tag → tag. Nechce sa ti nad tým rozmýšľať → revalidate číslom, ale priprav sa na staré dáta.
+
+Súvisiace: [ISR namiesto cron-u na malých weboch](/blog/isr-namiesto-cron/) a [server response time pod 200 ms cez cache, edge a prefetch](/blog/server-response-200ms/).

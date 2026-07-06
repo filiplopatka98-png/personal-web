@@ -40,10 +40,10 @@ Konkrétny rozpis jedného môjho eshopu (11 500 EUR fix):
 
 | Časť | Hodiny | Hodinovka | Cena |
 |---|---|---|---|
-| Discovery + brief + design system | 12 h | 70 EUR | 840 EUR |
+| [Discovery](/blog/discovery-call-30-minut/) + brief + design system | 12 h | 70 EUR | 840 EUR |
 | WooCommerce setup + custom téma | 28 h | 70 EUR | 1 960 EUR |
 | Import 80 produktov + obsah | 16 h | 60 EUR | 960 EUR |
-| Checkout + platby (Stripe + GoPay) | 18 h | 80 EUR | 1 440 EUR |
+| Checkout + [platby (Stripe + GoPay)](/blog/sk-platobne-brany-2026/) | 18 h | 80 EUR | 1 440 EUR |
 | E-mailový flow (Klaviyo) | 14 h | 70 EUR | 980 EUR |
 | SEO + analytics + GTM | 10 h | 70 EUR | 700 EUR |
 | QA + oprava chýb | 12 h | 60 EUR | 720 EUR |
@@ -55,7 +55,7 @@ Konkrétny rozpis jedného môjho eshopu (11 500 EUR fix):
 Plus 15 % biznis buffer (prekročenia, klientove zmeny mimo scope) = 11 569 EUR → zaokrúhlené na **11 500 EUR fix**.
 
 **Vhodné, keď:**
-- Scope je jasný (5+ strán briefov, mockupy)
+- Scope je jasný ([5+ strán briefov](/blog/brief-3-tyzdne/), mockupy)
 - Klient chce predvídateľnú cenu
 - Podobný projekt si robil už aspoň 3× (vieš odhadnúť)
 
@@ -179,3 +179,5 @@ Ak chceš zarobiť 40 EUR/h čistého, fakturuj minimálne 70 EUR/h. Pre s.r.o. 
 ## TL;DR
 
 Tri modely: hodinovka (nejasný scope, priateľská k devovi), fix (jasný scope, komfort klienta, riziko devovi), hybrid (80 % projektov, win-win). Pravidlo: <30 % scope drift = fix, 30 – 60 % = hybrid, >60 % = hodinovka. Vždy 15 – 20 % buffer. Pre malý eshop je najlepšia voľba hybrid s fixným základom 8 – 12 tis. EUR + hodinovkou 70 EUR/h. Za predvídateľnosť klient platí ~25 % prémiu — to je férové.
+
+**Súvisiace:** [WooCommerce vs Shopify pre malý SK eshop](/blog/woocommerce-vs-shopify/)

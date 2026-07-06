@@ -181,3 +181,5 @@ grep -r "staging.firma.sk" wp-content/themes/ wp-content/plugins/ wp-content/mu-
 ## TL;DR
 
 Migrácia bez výpadku v 6 krokoch: TTL zníž týždeň vopred, DB export cez `wp-cli`, `wp search-replace` (NIKDY `sed`), médiá cez `rsync` postupne plus delta v cutoveri, prepnutie DNS, vyprázdnenie cache. Po nasadení skontroluj webhooky, OAuth a Search Console. Cutover okno býva 5 – 10 minút. Najčastejší dôvod havárie: zabudnutý webhook URL u platobnej brány.
+
+Súvisiace: [bezpečnosť WP v 2026 — minimálny set, ktorý ozaj chráni](/blog/wp-bezpecnost-2026/), [plugin diéta z 28 na 9 a web zrýchlel o 60 %](/blog/plugin-dieta-z-28-na-9/) a [hostingy v SK z pohľadu výkonu](/blog/hostingy-sk-vykon/).

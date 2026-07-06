@@ -80,7 +80,7 @@ add_action('wp_head', function() {
 // (alebo klasický meta_box, ak nemáš ACF)
 ```
 
-Sitemapa: WP core má vstavaný `wp-sitemap.xml` od verzie 5.5. Žiadny plugin netreba. 30 riadkov + natívna sitemapa = ekvivalent Yoast SEO Free pre 95 % prípadov.
+Sitemapa: WP core má vstavaný `wp-sitemap.xml` od verzie 5.5. Žiadny plugin netreba. 30 riadkov + natívna sitemapa = ekvivalent Yoast SEO Free pre 95 % prípadov. Ak chceš ísť v SEO hlbšie, pozri môj [technický SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/).
 
 ### Náhrada Smush (kompresia obrázkov)
 
@@ -173,7 +173,7 @@ Po audite ostalo 9 pluginov:
 8. Limit Login Attempts Reloaded (bezpečnosť).
 9. Vlastný plugin (klientská business logika).
 
-Všetko reálne kritické pre fungovanie. Žiadny „nice to have“, žiadny duplikát.
+Všetko reálne kritické pre fungovanie. Žiadny „nice to have“, žiadny duplikát. Posledné dva sú súčasťou minimálneho setu, ktorý držím na každej inštalácii — viac v článku [bezpečnosť WP: minimálny set, ktorý ozaj chráni v 2026](/blog/wp-bezpecnost-2026/).
 
 ## Metriky pred a po
 
@@ -190,7 +190,7 @@ Identický server, identický obsah, zmenila sa len sada pluginov:
 | MySQL queries / stránka | 124 | 38 |
 | Načítanie WP adminu | 4,8 s | 1,6 s |
 
-Web zrýchlil o **60 % podľa PageSpeed skóre**, ale praktickejšie metriky (LCP, TTFB) sa zlepšili tiež — o 55 až 60 %. Konverzia v eshope stúpla v ďalšom mesiaci o **18 %** (z 1,4 % na 1,65 %) — merateľný nárast tržieb.
+Web zrýchlil o **60 % podľa PageSpeed skóre**, ale praktickejšie metriky (LCP, TTFB) sa zlepšili tiež — o 55 až 60 %. Ak ti LCP po takejto diéte stále straší, väčšinou za tým stojí zopár tých istých vinníkov — pozri [LCP nad 2.5s? 7 najčastejších príčin v praxi](/blog/lcp-nad-2-5s-pricin/). Konverzia v eshope stúpla v ďalšom mesiaci o **18 %** (z 1,4 % na 1,65 %) — merateľný nárast tržieb.
 
 ## Plugin diéta ako mesačný rituál
 
@@ -205,3 +205,5 @@ Mesačná kontrola cez Pluginy → Nainštalované, triedenie podľa „Last upd
 ## TL;DR
 
 Plugin diéta nie je o minimalizme za každú cenu. Je o tom, že za každý plugin platíš trikrát: za inštaláciu, za frontend bajty a za réžiu updatov. Ak môžeš funkcionalitu nahradiť 30 riadkami v `functions.php`, urob to. Reálny dopad na produkčný WP shop: **PageSpeed 32 → 78, JS payload −68 %, konverzia +18 %**. Najlepší plugin je ten, ktorý si nenainštaloval.
+
+Súvisiace: [INP pod 200ms na WordPresse — čo skutočne pomohlo](/blog/inp-pod-200ms-wordpress/).

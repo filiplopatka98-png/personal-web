@@ -101,7 +101,7 @@ Slovenský zdieľaný hosting, LiteSpeed, PHP 8.2, NVMe. Marketing tvrdí „až
 WebSupport Standard, Hostimul. Kľúčové je mať LiteSpeed (kvôli zabudovanej page cache). Vyhni sa Forpsi a iným zdieľaným hostingom len na Apache — zvládanie špičky je problém aj pri malých weboch.
 
 **Eshop alebo obsahový web (5k – 50k MAU):**
-WebSupport Cloud (25 EUR/mes). Vyhradené zdroje eliminujú efekt hlučného suseda, Redis cez podporu. Pri Core Web Vitals rozhoduje konzistentné TTFB.
+WebSupport Cloud (25 EUR/mes). Vyhradené zdroje eliminujú efekt hlučného suseda, Redis cez podporu. Pri [Core Web Vitals rozhoduje konzistentné TTFB](/blog/cwv-eshop-priorita/) — a TTFB sa dá stlačiť aj [cez cache, edge a prefetch](/blog/server-response-200ms/), nielen výberom drahšieho hostingu.
 
 **Eshop s vysokou návštevnosťou (50k+ MAU) alebo špecifický stack:**
 VPS — Hetzner CX22 (5,83 EUR/mes, 2 vCPU, 4 GB RAM, Falkenstein) alebo Linode 4 GB (20 EUR/mes, viacero lokácií). Self-managed, ale máš kontrolu nad nginxom, ladením PHP-FPM, konfiguráciou MySQL a Redisom. TTFB pod 30 ms, zvládanie špičky 1000+ req/s. Nie je to pre začiatočníka vo WordPresse — treba zručnosti v správe servera alebo managed službu.
@@ -131,3 +131,5 @@ Celková cena: **~10 EUR/mes** (server + úložisko). Výkon ďaleko nad WebSupp
 - **WebSupport Cloud** (25 EUR) — eshop, obsahový web, stredná návštevnosť. Rozhoduje zvládanie špičky.
 - **Hetzner VPS + CloudPanel** (10 EUR self-managed alebo 40 EUR managed) — vysoká návštevnosť, špecifické požiadavky, plná kontrola.
 - **Forpsi a podobné zdieľané Apache hostingy za 4 EUR** — vyhni sa, ekonomika nesedí. 4 EUR ušetríš, 40 EUR stratíš na konverzii.
+
+Súvisiace: [Vercel vs Cloudflare Pages vs vlastný node](/blog/vercel-vs-cloudflare-vs-vps/) · [Server response time pod 200 ms](/blog/server-response-200ms/) · [Core Web Vitals na eshope](/blog/cwv-eshop-priorita/)

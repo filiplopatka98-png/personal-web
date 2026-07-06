@@ -9,7 +9,7 @@ featured: false
 
 Chceš WordPress ako CMS, ale frontend musí byť rýchly, typovo bezpečný a moderný. Klasická headless kombinácia: WP backend + Next.js App Router. V tomto návode prejdem 4 kroky, ktoré ma prvýkrát stáli najviac času — a ukážem, ako to spraviť tak, aby si sa tomu vyhol.
 
-Predpoklady: WP 6.4+, Next.js 15.2+, ACF Pro (alebo Meta Box).
+Predpoklady: WP 6.4+, Next.js 15.2+, ACF Pro (alebo Meta Box). Ak ešte len zvažuješ, či sa headless vôbec oplatí, mrkni na [kedy sa headless Woo + Next.js vyplatí (a kedy nie)](/blog/headless-woo-nextjs-kedy/).
 
 ## Krok 1: Auth — Application Passwords vs JWT
 
@@ -86,7 +86,7 @@ add_action('rest_api_init', function() {
 
 ## Krok 3: ACF v REST — `show_in_rest`
 
-Predvolene ACF polia v `/wp-json/wp/v2/posts` **nevidíš**. Treba to zapnúť per field group v ACF UI: Custom Fields → Edit Field Group → prepni „Show in REST API“ na „Yes“.
+Predvolene ACF polia v `/wp-json/wp/v2/posts` **nevidíš**. Treba to zapnúť per field group v ACF UI: Custom Fields → Edit Field Group → prepni „Show in REST API“ na „Yes“. (Ak ešte vyberáš, čím vôbec spravovať polia, porovnal som [ACF Pro vs Meta Box vs Custom Fields](/blog/acf-vs-metabox-vs-cf/).)
 
 Po tomto sa polia objavia pod kľúčom `acf`:
 
@@ -180,7 +180,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
 ## Bonus: Webhook + revalidatePath po publikovaní
 
-Predvolené `next: { revalidate: 3600 }` znamená až hodinové oneskorenie. Pri produktových zmenách je to nedostatočné. WP po publikovaní môže zavolať Next.js API endpoint, ktorý revaliduje konkrétne cesty.
+Predvolené `next: { revalidate: 3600 }` znamená až hodinové oneskorenie. Pri produktových zmenách je to nedostatočné. WP po publikovaní môže zavolať Next.js API endpoint, ktorý revaliduje konkrétne cesty. Rozdiely medzi `revalidate`, `tag` a `path` som rozpísal v článku o [Next.js cache: revalidate, tag, path](/blog/nextjs-cache-revalidate/).
 
 Vzor pluginu (MU plugin):
 

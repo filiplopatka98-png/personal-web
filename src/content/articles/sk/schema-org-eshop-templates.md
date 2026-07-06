@@ -9,7 +9,7 @@ featured: false
 
 Štruktúrované dáta pre eshop = rich results v SERPe = vyšší CTR. V roku 2026 by žiadny eshop, ktorý to myslí vážne, nemal byť bez týchto piatich schema blokov. Tu sú hotové šablóny, ktoré si môžeš skopírovať a doladiť pod svoj projekt.
 
-Všetko je vo formáte JSON-LD (ktorý Google preferuje) a vkladá sa do `<head>` cez `<script type="application/ld+json">`. Vo WordPresse cez hook `wp_head` alebo cez Yoast SEO Premium / Rank Math. V Astre či Next.js priamo do `<head>`.
+Všetko je vo formáte JSON-LD (ktorý Google preferuje) a vkladá sa do `<head>` cez `<script type="application/ld+json">`. Vo WordPresse cez hook `wp_head` alebo cez Yoast SEO Premium / Rank Math. V Astre či Next.js priamo do `<head>`. Ak chceš väčší obraz, kam štruktúrované dáta zapadajú, sú jednou položkou v mojom [technickom SEO checkliste, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/).
 
 ## 1. Product (na detail produktu)
 
@@ -220,7 +220,7 @@ Toto Google používa pre **sitelinks searchbox** — vyhľadávacie pole priamo
 }
 ```
 
-`@type` zvoľ čo najšpecifickejší z použiteľných — `ClothingStore`, `BookStore`, `ElectronicsStore`. Ak nič nesedí, siahni po `Store` alebo `LocalBusiness`.
+`@type` zvoľ čo najšpecifickejší z použiteľných — `ClothingStore`, `BookStore`, `ElectronicsStore`. Ak nič nesedí, siahni po `Store` alebo `LocalBusiness`. Ak máš kamennú predajňu, tento blok prirodzene ladí s prácou na Google Business Profile — viac o tom rozpisujem v článku o [local SEO pre Bratislavu a čo robí rozdiel v 2026](/blog/local-seo-bratislava/).
 
 ## Validation
 
@@ -270,3 +270,5 @@ Flag `JSON_UNESCAPED_SLASHES` je dôležitý — bez neho dostaneš escapované 
 ## TL;DR
 
 Päť schema typov pokrýva 95 % potrieb eshopu: Product, BreadcrumbList, Organization, WebSite, LocalBusiness. Hotové JSON-LD šablóny vyššie sú pripravené na produkciu. Kľúčové chyby, na ktoré si dať pozor: kód meny podľa ISO, enum pre `availability`, `priceValidUntil` pri akcii a žiadne vymyslené recenzie. Pred nasadením validuj cez schema.org + Google Rich Results Test.
+
+Súvisiace: [technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/) · [Core Web Vitals na eshope: ktoré stránky riešiť ako prvé](/blog/cwv-eshop-priorita/)

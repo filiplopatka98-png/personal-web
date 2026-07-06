@@ -11,6 +11,8 @@ Marketingová manažérka eshopu mi minulý mesiac napísala: „Filip, môžeme
 
 Tu je presný setup, ktorý funguje. Tím predtým nevedel HTML, dnes si stavia kompletné kampaňové landing pages bez môjho dotyku.
 
+Výber nástroja na custom polia tu rozhoduje — tú voľbu som rozobral zvlášť v [ACF Pro vs Meta Box vs Custom Fields](/blog/acf-vs-metabox-vs-cf/). Pre tento build je chrbticou ACF Blocks.
+
 ## Cieľ — čo má vedieť non-tech marketér
 
 Realisticky:
@@ -173,7 +175,7 @@ function firma_disable_unused_blocks($allowed_blocks, $editor_context) {
 add_filter('allowed_block_types_all', 'firma_disable_unused_blocks', 10, 2);
 ```
 
-Z desiatok blokov sa výber zredukuje na 12. Sústredenejšie UI, menej omylov.
+Z desiatok blokov sa výber zredukuje na 12. Sústredenejšie UI, menej omylov. Je to ten istý inštinkt ako pri dobrej [plugin diéte](/blog/plugin-dieta-z-28-na-9/) — menej plochy, menej vecí, čo sa môže pokaziť.
 
 ## 6. Tréning tímu
 
@@ -206,3 +208,5 @@ Návratnosť investície po prvom kampaňovom cykle.
 ## TL;DR
 
 ACF Blocks na vlastné bloky, Block Patterns na hotové sekcie, Block Locking na nepohnuteľné prvky, Synced Patterns na globálne CTA, obmedzenie typov blokov pre čisté UI. Plus hodinový video tréning. Marketingový tím získava autonómiu, ty získavaš čas. Brand ostáva konzistentný, lebo ti to systém vynúti.
+
+**Súvisiace:** [Ako vybrať WordPress theme bez ľútosti — 6 kritérií](/blog/wp-theme-vyber-6-kriterii/) · [Plugin diéta: z 28 na 9](/blog/plugin-dieta-z-28-na-9/)

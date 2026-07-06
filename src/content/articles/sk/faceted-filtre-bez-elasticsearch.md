@@ -142,3 +142,7 @@ Kedy by som po Elasticsearchi siahol napriek tomu:
 3. **Viacjazyčné vyhľadávanie** s morfológiou (skloňovanie v slovenčine je peklo).
 
 Pod 50 000 produktov si so štyrmi krokmi vyššie pohodlne vystačíš. Elasticsearch si nechaj na chvíľu, keď budeš mať na to dôvod — nie len pocit, že „to tak treba“.
+
+---
+
+**Súvisiace:** [INP pod 200ms na WordPresse](/blog/inp-pod-200ms-wordpress/) · [Core Web Vitals na eshope: ktoré stránky riešiť ako prvé](/blog/cwv-eshop-priorita/) · [Plugin diéta: z 28 na 9 a web zrýchlel o 60 %](/blog/plugin-dieta-z-28-na-9/)

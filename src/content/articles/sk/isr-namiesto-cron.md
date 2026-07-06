@@ -18,6 +18,8 @@ Dva spôsoby, ako to spustiť:
 1. **Časové (time-based)** — `export const revalidate = 3600` na úrovni stránky.
 2. **Na požiadanie (on-demand)** — `revalidatePath('/blog')` alebo `revalidateTag('posts')` z route handlera (webhook).
 
+Ak chceš kompletný prehľad, kedy siahnuť po ktorom, napísal som samostatný článok o [Next.js cache: revalidate, tag, path](/blog/nextjs-cache-revalidate/).
+
 ## Časové ISR namiesto cronu
 
 Klasický scenár: blogový feed, ktorý načíta dáta z externého API a chceme ich raz za hodinu osviežiť. Bez ISR by si si zriaďoval cron, ktorý by volal API a niekam ukladal cache. S ISR:
@@ -72,7 +74,7 @@ add_action('publish_post', function($post_id) {
 });
 ```
 
-Po publikovaní vo WordPresse sa `/blog` na produkcii osvieži do 2 sekúnd. **Bez cronu, bez pollingu, bez vlastnej infraštruktúry navyše.**
+Po publikovaní vo WordPresse sa `/blog` na produkcii osvieži do 2 sekúnd. **Bez cronu, bez pollingu, bez vlastnej infraštruktúry navyše.** Ak takto spájaš WordPress s Next.js, zvyšok inštalatérčiny rozoberám v článku [WP REST API ako backend pre Next.js](/blog/wp-rest-api-nextjs/).
 
 ## Kedy ISR ako náhrada cronu nestačí
 
@@ -104,7 +106,7 @@ Setup, ktorý mám na 4 klientskych projektoch:
    - úprave menu (revaliduje `/`),
    - zmene náhľadového obrázka (revaliduje konkrétnu stránku).
 
-Klient publikne článok → o 2 sekundy je live. Žiadny cron, žiadny polling. **Hosting navyše: 0 EUR.** Pozor ale: Vercel Hobby plán je len na osobné, nekomerčné projekty — akonáhle ide o platený klientsky web, si podľa podmienok Vercelu na Pro pláne (20 USD/mesiac za používateľa). Pri malých weboch to preto väčšinou hostujem inde, alebo klientovi rovno počítam Pro.
+Klient publikne článok → o 2 sekundy je live. Žiadny cron, žiadny polling. **Hosting navyše: 0 EUR.** Pozor ale: Vercel Hobby plán je len na osobné, nekomerčné projekty — akonáhle ide o platený klientsky web, si podľa podmienok Vercelu na Pro pláne (20 USD/mesiac za používateľa). Pri malých weboch to preto väčšinou hostujem inde, alebo klientovi rovno počítam Pro. Ak riešiš, kde to spustiť, porovnal som [Vercel vs Cloudflare Pages vs vlastný node](/blog/vercel-vs-cloudflare-vs-vps/) na cenu aj výkon.
 
 ## TL;DR
 

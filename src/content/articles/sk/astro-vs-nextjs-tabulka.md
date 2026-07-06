@@ -42,7 +42,7 @@ Statický web, občas plný obrázkov. Astro `<Image />` s automatickým WebP/AV
 Používateľ je prihlásený, vidí svoje dáta, počas jednej relácie preklikáva 30 obrazoviek. Autentifikácia na strane servera (Auth.js / Clerk), API routes, aktualizácie v reálnom čase (websockety alebo Server-Sent Events). Astro toto **vie**, ale Next je na to stavaný natívne a nástrojov je 5× viac.
 
 **Eshop s prihlásením, košíkom a pokladňou.**
-Headless frontend nad WooCommerce, no zákazník má účet, históriu, wishlist a stav skladu v reálnom čase. ISR pre produktové stránky, dynamická pokladňa. Next.js App Router + React Server Components + streamovanie cez Suspense.
+Headless frontend nad WooCommerce, no zákazník má účet, históriu, wishlist a stav skladu v reálnom čase. ISR pre produktové stránky, dynamická pokladňa. Next.js App Router + React Server Components + streamovanie cez Suspense. (Kedy sa [headless Woo + Next.js oplatí a kedy nie](/blog/headless-woo-nextjs-kedy) som rozobral samostatne.)
 
 **Multi-tenant platforma.**
 Subdoména na klienta, dynamický routing, autentifikácia na edge. `middleware.ts` v Nexte je na to ako stvorený.
@@ -81,7 +81,7 @@ Pre 10-tisíc mesačných používateľov (MAU):
 | Next.js + Vercel Pro | 240 € | v cene | 120 € (Neon, Supabase) | ~420 € |
 | Next.js + vlastný VPS | 120 € | 0 € (Cloudflare proxy) | 60 € | ~240 € |
 
-Pre malú firmu cez Cloudflare Pages s Astrom = prakticky zadarmo. Za Next.js s Vercel Pro a databázou zaplatíš minimálne 420 € ročne. Nie je to obrovská suma, ale za 5 rokov pri jednoduchom marketingovom webe je to 2 100 € zbytočne.
+Pre malú firmu cez Cloudflare Pages s Astrom = prakticky zadarmo. Za Next.js s Vercel Pro a databázou zaplatíš minimálne 420 € ročne. Nie je to obrovská suma, ale za 5 rokov pri jednoduchom marketingovom webe je to 2 100 € zbytočne. (Celé porovnanie [Vercel vs Cloudflare Pages vs vlastný node](/blog/vercel-vs-cloudflare-vs-vps) s reálnymi číslami mám samostatne.)
 
 ## Čo nie je dôvod na rozhodnutie
 

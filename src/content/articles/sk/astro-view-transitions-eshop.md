@@ -7,7 +7,7 @@ excerpt: "Astro 5 má stabilné view transitions API. SPA pocit bez React shellu
 featured: false
 ---
 
-Astro 5 má view transitions API stabilné (stabilné je od Astro 3.0, vo verzii 5.0 sa router `<ViewTransitions />` premenoval na `<ClientRouter />`). Pre e-commerce to znamená, že môžeš mať SPA dojem (žiadny full reload, žiadne biele bliknutie) bez toho, aby si musel bootstrapovať celý React shell. V praxi: rovnaká rýchlosť ako čisté Astro, ale UX ako z Next.js.
+Astro 5 má view transitions API stabilné (stabilné je od Astro 3.0, vo verzii 5.0 sa router `<ViewTransitions />` premenoval na `<ClientRouter />`). Pre e-commerce to znamená, že môžeš mať SPA dojem (žiadny full reload, žiadne biele bliknutie) bez toho, aby si musel bootstrapovať celý React shell. V praxi: rovnaká rýchlosť ako čisté Astro, ale UX ako z Next.js. (Ak práve rozmýšľaš medzi týmito dvomi, mám k tomu [rozhodovaciu tabuľku Astro vs Next.js](/blog/astro-vs-nextjs-tabulka/).)
 
 Tu je to, čo som zistil po nasadení na 3 menších eshopoch.
 
@@ -152,7 +152,7 @@ document.addEventListener("astro:before-swap", (e) => {
 Eshop, ktorý som migroval z Astro 4 (bez transitions) na Astro 5 + ClientRouter:
 
 - LCP nezmenené (transitions LCP neovplyvňujú, prvé načítanie stránky funguje rovnako)
-- **INP sa zlepšilo z 240 ms na 110 ms** — žiadny full reload, prehliadač pri kliku na odkaz nič nedebouncuje
+- **INP sa zlepšilo z 240 ms na 110 ms** — žiadny full reload, prehliadač pri kliku na odkaz nič nedebouncuje (na WordPresse sa INP ladí inak — o tom mám [samostatný článok o INP pod 200 ms](/blog/inp-pod-200ms-wordpress/))
 - Bounce rate na produktovom katalógu **−14 %** (subjektívne: ľudia listujú viac, lebo „veď sa nič nenačítava“)
 - Konverzia +8 % (ťažko pripísať len transitions, ale svoje k tomu prispeli)
 
@@ -161,3 +161,5 @@ Eshop, ktorý som migroval z Astro 4 (bez transitions) na Astro 5 + ClientRouter
 `<ClientRouter />` + `transition:persist` na header/košík + `astro:page-load` namiesto `DOMContentLoaded` + inicializačná stráž na `window` pri third-party skriptoch. Tri nástrahy (stav formulára, blikanie widgetov, inicializácia JS), všetky majú jednoriadkovú opravu. Firefox a ostatné prehliadače bez natívneho API spadnú do simulovaného fallbacku — nič sa nepokazí.
 
 Stojí to za to. Obzvlášť ak prechádzaš z čistého Astra a nechceš pridávať React shell.
+
+**Súvisiace:** [Core Web Vitals na eshope: ktoré stránky riešiť ako prvé](/blog/cwv-eshop-priorita/)

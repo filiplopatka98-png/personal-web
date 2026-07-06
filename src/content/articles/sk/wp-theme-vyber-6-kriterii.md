@@ -30,7 +30,7 @@ Toto je trap. Theme píše „WooCommerce compatible" v marketingu, ale changelo
 - Test cart/checkout/account na demo — funguje to vôbec?
 - Custom Woo templates v theme — `woocommerce/single-product.php` a podobne. Ak ich má, prepíšu defaultné a pri updatoch Woo môžu pukať.
 
-Čistá theme bez Woo override-ov sa správa lepšie. Woo totiž aktualizuje templates často a theme občas zaspí.
+Čistá theme bez Woo override-ov sa správa lepšie. Woo totiž aktualizuje templates často a theme občas zaspí. (Ak ideš touto cestou, oplatí sa poznať [pár mikro-úprav WooCommerce checkoutu](/blog/checkout-konvertuje-9-uprav/) ešte predtým, než sa upíšeš konkrétnej theme.)
 
 ## 3. Child theme support out of the box
 
@@ -63,6 +63,8 @@ Otvor demo a v Site Health (alebo cez `wp plugin list`, ak máš prístup) pozri
 wp plugin list --status=active --field=name
 ```
 
+Ak zdedíš web už zavalený pluginmi, spísal som, ako som jeden dostal [z 28 pluginov na 9 a zrýchlil ho o 60 %](/blog/plugin-dieta-z-28-na-9/).
+
 ## 6. Translation-ready (.po/.mo alebo Loco)
 
 Pri slovenskom/českom webe kritické. Hľadám:
@@ -92,3 +94,5 @@ Všetky tri prejdú PageSpeed nad 90 na mobile na holej inštalácii. Žiadne re
 ## TL;DR
 
 Pred kúpou theme: PageSpeed na mobile > 80, aktuálna Woo verzia v changelogu za posledných 6 mesiacov, child theme v balíku, > 6 releasov za rok, žiadny Slider Revolution/WPBakery, `.pot` súbor v `languages/`. Ak čokoľvek z toho zlyhá, hľadaj ďalej. Ušetríš si peniaze na neskorší refactor.
+
+Súvisiace: [7 najčastejších príčin LCP nad 2,5 s](/blog/lcp-nad-2-5s-pricin/) · [plugin diéta: z 28 na 9](/blog/plugin-dieta-z-28-na-9/)

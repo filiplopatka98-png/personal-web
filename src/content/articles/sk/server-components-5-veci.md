@@ -155,7 +155,7 @@ const data = await fetch("https://api.example.com/products");
 
 ...sa **uloží do cache navždy** (až do nasledujúceho deployu). Ak voláš API, ktoré vracia dynamické dáta, dostávaš zastarané dáta a nevieš prečo. V Next.js 15 to zmenili — predvolená hodnota je teraz `no-store` — ale staršie projekty sú stále chytené.
 
-Explicitné voľby, ktoré si treba pamätať:
+Explicitné voľby, ktoré si treba pamätať (detailnejšie som to rozobral v [Next.js cache: revalidate, tag, path — kde čo použiť](/blog/nextjs-cache-revalidate/)):
 
 ```tsx
 // no cache — vždy fresh
@@ -188,3 +188,5 @@ Server Components fungujú, ale majú vlastný mentálny model. **Pravidlá, kto
 5. Explicitná stratégia cache, nikdy sa nespoliehaj na predvolené hodnoty.
 
 Po roku môžem povedať, že produkčne to funguje fajn a dev velocity je vyššia ako pri Pages Routeri. Ale prvé dva až tri týždne sú learning curve, na ktorú musíš tím psychicky pripraviť vopred.
+
+**Súvisiace:** [Next.js App Router vs Pages Router v 2026: čo zostáva relevantné](/blog/nextjs-app-vs-pages-router/) · [Migrácia React 18 → 19: čo skutočne pokazí build](/blog/react-19-migracia/)

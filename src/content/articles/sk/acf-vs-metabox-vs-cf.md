@@ -76,7 +76,7 @@ Meta Box má najtenšiu réžiu, lebo komunikuje priamo s `wp_postmeta` rovnako 
 
 ## Sprístupnenie cez REST API
 
-Toto ma kedysi pálilo pri prvom headless projekte.
+Toto ma kedysi pálilo pri prvom headless projekte. Ak práve staviaš [WP REST API ako backend pre Next.js](/blog/wp-rest-api-nextjs/), voľba nástroja na polia ti výrazne ovplyvní, koľko transformácií budeš musieť písať na frontende.
 
 ### ACF Pro
 
@@ -110,7 +110,7 @@ Tu sa trojica rozchádza výrazne.
 
 ### ACF Blocks
 
-Blok definuješ čisto v PHP, vykresľovacia šablóna je klasická WP šablóna. Úpravy v Gutenbergu cez ACF formuláre. Pre PHP vývojárov aj pre klientov je to ideál — nemusíš sa učiť React. Pozn.: v ukážke nižšie používam staršiu funkciu `acf_register_block_type()`; od ACF 6.0 je odporúčaný spôsob registrácia cez `block.json` (a natívne `register_block_type()`), pričom staré bloky fungujú ďalej.
+Blok definuješ čisto v PHP, vykresľovacia šablóna je klasická WP šablóna. Úpravy v Gutenbergu cez ACF formuláre. Pre PHP vývojárov aj pre klientov je to ideál — nemusíš sa učiť React. Presne tento prístup využívam, keď staviam [custom Gutenberg bloky pre marketérov](/blog/gutenberg-blocks-marketeri/), ktorí nepoznajú HTML. Pozn.: v ukážke nižšie používam staršiu funkciu `acf_register_block_type()`; od ACF 6.0 je odporúčaný spôsob registrácia cez `block.json` (a natívne `register_block_type()`), pričom staré bloky fungujú ďalej.
 
 ```php
 acf_register_block_type([
@@ -156,7 +156,7 @@ Meta Box vyhráva cenu licencie o míľu.
 ## Čo používam ja
 
 - **Klient s netechnickým tímom + výhradne admin rozhranie:** ACF Pro. Komfort pre marketingový tím a moja produktivita.
-- **Headless projekt s Next.js frontendom:** Meta Box. Natívne sprístupnenie cez REST, výkon, nízka réžia.
+- **Headless projekt s Next.js frontendom:** Meta Box. Natívne sprístupnenie cez REST, výkon, nízka réžia. (Či sa ti headless vôbec oplatí, rozoberám v [Headless Woo + Next.js: kedy sa to oplatí](/blog/headless-woo-nextjs-kedy/).)
 - **Interný nástroj, 2 – 3 polia, jeden vývojár:** natívne + `register_post_meta`. Žiadne závislosti na pluginoch.
 
 ## TL;DR

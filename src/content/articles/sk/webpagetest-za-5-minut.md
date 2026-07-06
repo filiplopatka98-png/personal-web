@@ -34,11 +34,11 @@ Ak sú prvé 2 sekundy úplne biele, máš **render-blocking** problém. JS aleb
 
 ### 2. Kedy sa vykreslí hero (LCP element)?
 
-Hero obrázok by sa mal objaviť do 2,5 s. Ak nie, ideš do sekcie „LCP“ v reporte — tam dostaneš presný identifikátor elementu (CSS selektor + snímku s vyznačeným obrysom).
+Hero obrázok by sa mal objaviť do 2,5 s. Ak nie, ideš do sekcie „LCP“ v reporte — tam dostaneš presný identifikátor elementu (CSS selektor + snímku s vyznačeným obrysom). Ak sa LCP opakovane drží nad 2,5 s, prejdi si [najčastejšie príčiny pomalého LCP v praxi](/blog/lcp-nad-2-5s-pricin/).
 
 ### 3. Hýbe sa layout počas načítania?
 
-Vizuálne na filmstripe vidíš, ako obsah skáče — to je CLS. Ak je na snímke v `0,5 s` banner hore a na snímke v `1,0 s` je banner dole, máš shift. Klikni do „Visual Comparison“ pre porovnanie vedľa seba.
+Vizuálne na filmstripe vidíš, ako obsah skáče — to je CLS. Ak je na snímke v `0,5 s` banner hore a na snímke v `1,0 s` je banner dole, máš shift. Klikni do „Visual Comparison“ pre porovnanie vedľa seba. Presne toto trápi väčšinu mobilných webov — pozri, [prečo dynamické bannery ničia layout na mobiloch](/blog/cls-mobil-banner/).
 
 Filmstrip ti za 30 sekúnd povie, či máš problém s **vykresľovaním**, alebo s **layoutom**. To rozhoduje, kam ideš ďalej.
 
@@ -84,7 +84,7 @@ Fix: konsoliduj. Cloudflare Zaraz robí proxy pre tracking skripty (Google Analy
 
 ### Idle time na hlavnom spojení
 
-Ak má tvoja primárna doména v Connection View dlhý idle time medzi requestmi, znamená to, že server odpovedá pomaly (vysoké TTFB) alebo prehliadač čaká na vyriešenie stromu závislostí. Toto poukazuje na problém na serveri, nie na frontende.
+Ak má tvoja primárna doména v Connection View dlhý idle time medzi requestmi, znamená to, že server odpovedá pomaly (vysoké TTFB) alebo prehliadač čaká na vyriešenie stromu závislostí. Toto poukazuje na problém na serveri, nie na frontende — ako [dostať server response pod 200 ms cez cache, edge a prefetch](/blog/server-response-200ms/).
 
 ## Repeat View — vplyv cache
 

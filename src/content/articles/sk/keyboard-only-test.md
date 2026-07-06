@@ -7,7 +7,7 @@ excerpt: "10-minútový rýchly test pred spustením. Tab, Enter, Escape, Space 
 featured: false
 ---
 
-Pred každým spustením strávim 10 minút testovaním webu len cez klávesnicu. Žiadny čítač obrazovky, žiadny axe DevTools, len Tab, Shift+Tab, Enter, Space, Escape a šípky. Odhalí to približne 70 % problémov s prístupnosťou a stojí ťa to menej kávy, ako trvá plný audit.
+Pred každým spustením strávim 10 minút testovaním webu len cez klávesnicu. Žiadny čítač obrazovky, žiadny axe DevTools, len Tab, Shift+Tab, Enter, Space, Escape a šípky. Odhalí to približne 70 % problémov s prístupnosťou a stojí ťa to menej kávy, ako trvá plný audit. Berem to ako prvý krok pravidla [WCAG AA na malom webe: 80 % efektu za 20 % práce](/blog/wcag-aa-80-20/).
 
 Toto je checklist, na ktorý zabudneš, ak ho nemáš pred očami.
 
@@ -112,7 +112,7 @@ Pred vypnutím skús:
 - VO+A — prečítať stránku od začiatku
 - VO+šípka doprava — ďalší prvok
 
-Ak ti VoiceOver číta nezmysly („graphic, image-cropped-2.jpg“) namiesto popisných alt textov, máš problém s atribútmi `alt`.
+Ak ti VoiceOver číta nezmysly („graphic, image-cropped-2.jpg“) namiesto popisných alt textov, máš problém s atribútmi `alt` (o generovaní [alt textov cez AI a ich SEO rizikách](/blog/ai-alt-text-seo/) som písal samostatne).
 
 ## Cookie banner anti-pattern
 

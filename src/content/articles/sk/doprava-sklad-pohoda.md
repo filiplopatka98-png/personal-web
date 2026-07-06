@@ -284,3 +284,5 @@ add_action('woocommerce_order_refunded', function($order_id, $refund_id) {
 ## Zhrnutie
 
 Pre eshopy s Pohodou: XML rozhranie mServera + systémový cron + WP REST endpoint, posielanie objednávok každú hodinu, sťahovanie stavu skladu 2× denne. Pre Money S3: hotový konektor pre 90 % prípadov, zákazková integrácia cez API len pre B2B a viac-menové okrajové prípady. Najčastejšie chyby: nespárované SKU, kurzové rozdiely, nepripravený tok refundácií. Naplánuj si logiku opakovaných pokusov pri zámkoch databázy v Pohode — nie je to voliteľné.
+
+Súvisiace: [slovenské platobné brány v 2026](/blog/sk-platobne-brany-2026/) a [Next.js ISR ako náhrada cron-u](/blog/isr-namiesto-cron/) ak prehodnocuješ plánované synchronizácie. Ak ti objednávky uniká už samotný checkout, pozri [9 mikro-úprav, ktoré rozbehli konverziu WooCommerce checkoutu](/blog/checkout-konvertuje-9-uprav/).

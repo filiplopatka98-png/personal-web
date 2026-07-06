@@ -24,7 +24,7 @@ wp plugin install relevanssi --activate
 wp relevanssi index
 ```
 
-Po tomto kroku má 80 % WordPress webov „AI search" lepší než predtým. Bez API kľúčov, bez mesačných nákladov, bez vendor lock-inu.
+Po tomto kroku má 80 % WordPress webov „AI search" lepší než predtým. Bez API kľúčov, bez mesačných nákladov, bez vendor lock-inu. Keď už si v tom, je to aj dobrá chvíľa pozrieť sa, koľko pluginov vlečieš — pozri [plugin diétu z 28 na 9](/blog/plugin-dieta-z-28-na-9/).
 
 ## 2. Algolia (~30–100 €/mesiac)
 
@@ -53,7 +53,7 @@ services:
       --enable-cors
 ```
 
-Index zaplníš cez API, klient cez `typesense-instantsearch-adapter` dostane UX v štýle Algolie. Pre stredné firmy s technickým človekom in-house (alebo dev partnerom) je toto sweet spot — kontrola, cena aj výkon.
+Index zaplníš cez API, klient cez `typesense-instantsearch-adapter` dostane UX v štýle Algolie. Pre stredné firmy s technickým človekom in-house (alebo dev partnerom) je toto sweet spot — kontrola, cena aj výkon. Presne toto poháňa aj [faceted filtre, ktoré nelagnú — bez ElasticSearch](/blog/faceted-filtre-bez-elasticsearch/).
 
 ## 4. LLM RAG (Claude API + pgvector, 50–500 €/mesiac)
 
@@ -91,3 +91,5 @@ Cena pri 3000 unikátnych dopytoch za mesiac: ~5 $ embeddingy + ~30 $ LLM comple
 ## TL;DR
 
 Skôr než zaplatíš €4500 za „AI search", vyskúšaj Relevanssi za pár desiatok eur. V 7 z 10 prípadov ti to stačí. Ak nestačí, skoč rovno na Typesense — má lepší pomer cena/výkon než Algolia pre väčšinu SK projektov. RAG odkladaj, kým nemáš jasný use case nad 500 dokumentmi a používateľov, ktorí sa pýtajú celými vetami, nie kľúčovými slovami.
+
+Súvisiace: [WooCommerce vs Shopify pre malý SK eshop](/blog/woocommerce-vs-shopify/), [faceted filtre bez ElasticSearch](/blog/faceted-filtre-bez-elasticsearch/).

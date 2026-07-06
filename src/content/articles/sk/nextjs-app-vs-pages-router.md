@@ -16,6 +16,8 @@ App Router vyšiel v Next.js 13 (október 2022, stabilný od 13.4 v máji 2023).
 
 Inými slovami: nový projekt → App Router. Existujúci stabilný Pages projekt bez nových požiadaviek → ostať a netrhať.
 
+Ten posun v mentálnom modeli je vlastne ten istý, na ktorý narazíš pri [React Server Components](/blog/server-components-5-veci/) — celý príbeh App Routera stojí na nich.
+
 ## Porovnanie funkcií
 
 | Funkcia | Pages Router | App Router |
@@ -60,7 +62,7 @@ A ESLint plugin upozorní na zastarané API:
 npm i -D @next/eslint-plugin-next
 ```
 
-Codemody nepokryjú všetko. Štruktúru smerovania a dátovú vrstvu si stále treba premyslieť ručne.
+Codemody nepokryjú všetko. Štruktúru smerovania a dátovú vrstvu si stále treba premyslieť ručne. Ak už tú migráciu robíš, je to dobrý moment naplánovať si aj [prechod z React 18 na 19](/blog/react-19-migracia/), keďže App Router sa opiera o moderný React.
 
 ## Rozhodnutie v 4 otázkach
 
@@ -103,3 +105,5 @@ Toto je **najlepšia stratégia migrácie** pre veľký projekt: postupne, route
 ## TL;DR
 
 Nový Next.js projekt → App Router, nemáš čo riešiť. Existujúci Pages projekt → migruj iba vtedy, ak potrebuješ Server Components, Server Actions alebo PPR. Inak ostaň. Cena migrácie na 50-stránkovom projekte je 3 – 5 dní plus riziko regresií. Ten čas radšej daj do Core Web Vitals alebo novej funkcie, ktorá prinesie biznisovú hodnotu.
+
+Súvisiace: [React Server Components: 5 vecí, ktoré ma prekvapili](/blog/server-components-5-veci/) · [Next.js cache: revalidate, tag, path](/blog/nextjs-cache-revalidate/) · [Kedy vybrať Astro namiesto Next.js](/blog/astro-vs-nextjs-tabulka/)

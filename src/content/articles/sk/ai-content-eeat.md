@@ -40,7 +40,7 @@ Vygenerovať 5 variantov title tagu na A/B test. Vygenerovať 280-znakový excer
 
 ### 4. AI na alt text (s ľudskou kontrolou)
 
-Detail v [samostatnom článku](/sk/blog/ai-alt-text-seo). Zhrnutie: áno, ale dávku pred nasadením skontroluj.
+Detail v [samostatnom článku o AI alt texte](/blog/ai-alt-text-seo/). Zhrnutie: áno, ale dávku pred nasadením skontroluj.
 
 ### 5. AI ako outline a brainstorm
 
@@ -71,7 +71,7 @@ Web, ktorý publikuje 50 článkov denne, všetko AI generované, hocijaká tém
 - Pomer rýchlosti publikovania k počtu autorov
 - Chýbajúcu `Author` schému
 - Generické stock fotky ako featured images
-- Absenciu vzorcov interného prelinkovania typických pre ľudskú kuráciu
+- Absenciu vzorcov [interného prelinkovania a topic clusterov](/blog/internal-linking-topic-clusters/) typických pre ľudskú kuráciu
 
 Google v roku 2024 explicitne povedal, že jeho algoritmy cielia na „scaled content abuse". Definícia: „generovanie mnohých stránok primárne na manipuláciu poradia vo vyhľadávaní, s malým alebo žiadnym prínosom pre používateľa".
 
@@ -143,7 +143,7 @@ Google sa otvorene nepriznáva ku konkrétnym detekčným metódam, ale verejné
 - Kvalitatívne signály zo správania používateľa (pogo-sticking, return-to-SERP rate)
 - Sledovanie autora ako entity cez Knowledge Graph
 
-Implikácia: stránka s nízkym E-E-A-T na doméne s nízkym E-E-A-T = dvojitá penalizácia. Naopak autor s vysokým E-E-A-T na etablovanej doméne = základná dôvera aj pri novom článku.
+Implikácia: stránka s nízkym E-E-A-T na doméne s nízkym E-E-A-T = dvojitá penalizácia. Naopak autor s vysokým E-E-A-T na etablovanej doméne = základná dôvera aj pri novom článku. Technická stránka toho, čo Google reálne meria, je v [SEO checkliste, ktorý merateľne pomáha](/blog/seo-checklist-co-pomaha/).
 
 ## TL;DR
 

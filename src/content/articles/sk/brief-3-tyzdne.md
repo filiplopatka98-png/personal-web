@@ -25,7 +25,7 @@ Príklad:
 - „Zlepšiť SEO“ — pre aké kľúčové slová? Čo z toho tečie?
 - „Mať novú stránku“ — to je akcia, nie cieľ
 
-Ak klient nevie sformulovať cieľ jednou vetou, projekt nie je pripravený. Pošli ho späť na discovery, alebo si dohodnite stretnutie, kde to poskladáte spolu.
+Ak klient nevie sformulovať cieľ jednou vetou, projekt nie je pripravený. Pošli ho späť na [discovery call](/blog/discovery-call-30-minut/), alebo si dohodnite stretnutie, kde to poskladáte spolu.
 
 ## Sekcia 2: Publikum
 
@@ -147,7 +147,7 @@ Predchádzajúce 3 projekty bez briefu:
 - **Implementačná fáza:** 5 – 10 týždňov, 8 – 12 zmien rozsahu (nezhody na tom, čo sa dohodlo)
 - **Spory:** v 2 z 3 projektov
 
-Pre 1 priemerný projekt: brief ušetrí ~3 týždne kalendárneho času a zabráni ~5 hádkam o rozsahu. Klient platí menej (lebo žiadne prerábky), ja zarobím rovnako (rovnaké hodiny, ale na prácu s pridanou hodnotou, nie na vyjasňovacie hovory).
+Pre 1 priemerný projekt: brief ušetrí ~3 týždne kalendárneho času a zabráni ~5 hádkam o rozsahu. Klient platí menej (lebo žiadne prerábky), ja zarobím rovnako (rovnaké hodiny, ale na prácu s pridanou hodnotou, nie na vyjasňovacie hovory). Toto priamo súvisí s tým, ako [nastavíš cenu](/blog/cenotvorba-eshop-models/) — pevný rozsah je to, čo umožňuje bezpečne dať fixnú cenu.
 
 ## Šablóna briefu (skrátená verzia na copy-paste)
 

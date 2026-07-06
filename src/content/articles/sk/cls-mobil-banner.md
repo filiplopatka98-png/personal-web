@@ -7,7 +7,7 @@ excerpt: "Tri najčastejšie zdroje CLS na mobile a ako pre každý rezervovať 
 featured: false
 ---
 
-CLS (Cumulative Layout Shift) je jediná metrika z Core Web Vitals, ktorá nemeria rýchlosť, ale stabilitu. Používateľ klikne na CTA, banner sa pohne nadol a on namiesto toho klikne na reklamu. Frustrácia, odchod. Google to vidí cez `LayoutShift` API a počíta — čokoľvek od 0,1 na mobile je „Needs Improvement“, nad 0,25 je „Poor“.
+CLS (Cumulative Layout Shift) je jediná metrika z [Core Web Vitals](/blog/cwv-eshop-priorita/), ktorá nemeria rýchlosť, ale stabilitu. Používateľ klikne na CTA, banner sa pohne nadol a on namiesto toho klikne na reklamu. Frustrácia, odchod. Google to vidí cez `LayoutShift` API a počíta — čokoľvek od 0,1 na mobile je „Needs Improvement“, nad 0,25 je „Poor“.
 
 Za posledný rok som identifikoval tri opakujúce sa zdroje CLS, ktoré pokrývajú odhadom 80 % prípadov: cookie consent banner, lazy-loaded iframe (YouTube/Vimeo) a ad/widget sloty. Tu je podrobný rozbor s riešeniami.
 
@@ -69,7 +69,7 @@ CLS spadne z 0,32 na 0,02 cez noc.
 
 `aspect-ratio` je [podporované](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio) vo všetkých moderných prehliadačoch (Safari 15+, Chrome 88+, Firefox 89+). Pre staršie prehliadače použi fallback cez padding-bottom hack.
 
-**Fix 2 — facade pattern:** lite-youtube-embed alebo lite-vimeo. Ako bonus získaš približne 500 KB úspory pri initial loade. Zobrazujú statický náhľad a play tlačidlo, iframe sa nahrá až po kliku.
+**Fix 2 — facade pattern:** lite-youtube-embed alebo lite-vimeo. Ako bonus získaš približne 500 KB úspory pri initial loade. Zobrazujú statický náhľad a play tlačidlo, iframe sa nahrá až po kliku. Podobná logika platí aj pri obrázkoch — pozri [kedy siahnuť po native lazy-loadingu a kedy po custom riešení](/blog/image-lazy-loading-native-vs-custom/).
 
 ## 3. Ad sloty, nutrition box, "Mohlo by ťa zaujímať"
 
@@ -144,3 +144,5 @@ CLS pod 0,1 nie je žiadna mágia. Tri pravidlá:
 - Cookie banner je `position: fixed`, nevkladá sa do toku DOM.
 
 Začni cookie bannerom — najväčší ROI na mobile, často stačí jeden prepínač v konfigurácii a CLS klesne pod 0,05.
+
+**Súvisiace:** [LCP nad 2.5s? 7 najčastejších príčin v praxi](/blog/lcp-nad-2-5s-pricin/) · [Core Web Vitals na eshope: ktoré stránky riešiť ako prvé](/blog/cwv-eshop-priorita/)

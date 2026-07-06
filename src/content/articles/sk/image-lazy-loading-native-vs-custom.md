@@ -26,7 +26,7 @@ Funguje skoro všade. [Chrome 77+, Firefox 75+, Safari 15.4+](https://developer.
 
 **Kľúčové pravidlá:**
 
-- `width` a `height` musia byť uvedené, inak dostaneš CLS.
+- `width` a `height` musia byť uvedené, inak dostaneš [CLS](/blog/cls-mobil-banner/).
 - `loading="lazy"` na hero obrázku je **chyba** — tam naopak chceš `loading="eager"` a `fetchpriority="high"`.
 - `decoding="async"` neblokuje hlavné vlákno pri dekódovaní obrázka.
 
@@ -171,4 +171,6 @@ Next optimalizuje za behu cez Sharp na serveri (alebo cez Vercel Image Optimizat
 
 Predvolená voľba je `<img loading="lazy" width="..." height="..." decoding="async">`. Ak chceš responzívny `srcset` a vyjednávanie formátu, použi `<Image>` z frameworku. Vlastný observer si necháš na blur-up, vlastný rootMargin alebo sledovanie impresií — nikdy nie ako predvolené riešenie.
 
-Najčastejšia chyba, ktorú vidím pri auditoch: hero obrázok má `loading="lazy"`. To je streľba do vlastnej nohy. Hero patrí `eager` a `fetchpriority="high"`, lazy je pre obrázky pod foldom.
+Najčastejšia chyba, ktorú vidím pri auditoch: hero obrázok má `loading="lazy"`. To je streľba do vlastnej nohy. Hero patrí `eager` a `fetchpriority="high"`, lazy je pre obrázky pod foldom — presne tá istá pasca, ktorá sa objavuje vo väčšine [prípadov LCP nad 2,5 s](/blog/lcp-nad-2-5s-pricin/), ktoré rozoberám.
+
+Súvisiace: [Core Web Vitals na eshope: ktoré stránky riešiť ako prvé](/blog/cwv-eshop-priorita/).

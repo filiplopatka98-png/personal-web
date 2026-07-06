@@ -9,7 +9,7 @@ featured: false
 
 Klient (malá ramen reštaurácia v centre BA) bol v lete na pozícii #15 pre „ramen Bratislava“. Štyri mesiace systematickej lokálnej SEO práce a teraz drží #3, občas #2. Žiadne reklamy, žiadny agentúrny SEO rozpočet 1500 EUR mesačne — len zopár vecí robených dôsledne.
 
-Lokálne SEO v Bratislave (alebo v Košiciach, v Nitre…) má svoj rytmus. Tu je to, čo skutočne hýbe rebríčkom v roku 2026.
+Lokálne SEO v Bratislave (alebo v Košiciach, v Nitre…) má svoj rytmus. Tu je to, čo skutočne hýbe rebríčkom v roku 2026. Ak hľadáš širší technický základ, mrkni aj na môj [technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/).
 
 ## 1. Kompletný Google Business Profile
 
@@ -129,7 +129,7 @@ JSON-LD na hlavnej stránke + kontaktnej stránke:
 }
 ```
 
-Validuj cez [validator.schema.org](https://validator.schema.org). `@type` voľ podľa typu firmy: `Restaurant`, `Dentist`, `LegalService`, `HairSalon`, `AutomotiveBusiness`…
+Validuj cez [validator.schema.org](https://validator.schema.org). `@type` voľ podľa typu firmy: `Restaurant`, `Dentist`, `LegalService`, `HairSalon`, `AutomotiveBusiness`… Ak potrebuješ štruktúrované dáta aj pre eshop, pozri [hotové JSON-LD šablóny pre malý eshop](/blog/schema-org-eshop-templates/).
 
 ## Čo Google ignoruje
 
@@ -141,3 +141,5 @@ Validuj cez [validator.schema.org](https://validator.schema.org). `@type` voľ p
 ## TL;DR
 
 Lokálne SEO pre Bratislavu = kompletný Google Business Profile + konzistentný NAP + 1 lokálny spätný odkaz mesačne + organický tok recenzií + LocalBusiness schema. Žiadne agentúrne triky, len mesiac za mesiacom systematicky. Realistický časový horizont pre top 3 v Map Packu: 3 – 6 mesiacov pri menej saturovanom kľúčovom slove („ramen Bratislava“), 9 – 12 mesiacov pri vysoko konkurenčnom („kaviareň Bratislava centrum“).
+
+**Súvisiace:** [internal linking cez topic clusters bez plugin-u](/blog/internal-linking-topic-clusters/) · [technické SEO checklist, ktorý ozaj merateľne pomáha](/blog/seo-checklist-co-pomaha/)

@@ -94,7 +94,7 @@ Toto je oblasť, **kde Shopify v našom regióne reálne pokuľháva**.
 - Slovenský preklad WordPressu + Woo: 100 %, dlhodobo udržiavaný.
 - Viacjazyčnosť: WPML alebo Polylang. Stabilné, dobre integrované s Woo.
 - DPH: pluginy ako [Kybernaut IČO DIČ](https://wordpress.org/plugins/woolab-ic-dic/) priamo riešia IČO/IČ DPH/DIČ na faktúre a overujú ich cez ARES/VIES, formát faktúr podľa SK štandardu.
-- Účtovné napojenia: priame integrácie s Pohoda mServer, pluginy pre MoneyS3.
+- Účtovné napojenia: priame integrácie s Pohoda mServer, pluginy pre MoneyS3. Ako to celé nastaviť vrátane skladu a dopravy rozpisujem v článku [WooCommerce + Pohoda + MoneyS3](/blog/doprava-sklad-pohoda/).
 
 **Verdikt lokalizácie:** WooCommerce vyhráva výrazne pre SK/CZ trh.
 
@@ -112,7 +112,7 @@ Prakticky: musíš platiť +2 % poplatku navrch na všetko.
 
 ### WooCommerce
 
-GoPay, ComGate, Tatra eCard, Stripe, PayPal — všetko **oficiálne pluginy**, kvalita rôzna, ale funkčné. Žiadne poplatky navrch. Setup zvyčajne 30 minút.
+GoPay, ComGate, Tatra eCard, Stripe, PayPal — všetko **oficiálne pluginy**, kvalita rôzna, ale funkčné. Žiadne poplatky navrch. Setup zvyčajne 30 minút. Podrobné porovnanie brán nájdeš v [slovenských platobných bránach v 2026](/blog/sk-platobne-brany-2026/).
 
 ```bash
 # napr. oficiálny GoPay plugin
@@ -162,3 +162,5 @@ Za posledné 2 roky som nasadil ~14 SK eshopov. **WooCommerce 11×, Shopify 3×.
 ## TL;DR
 
 Pre malý SK eshop s rozpočtom Woo vyhráva 3-ročné TCO o ~10 tis. EUR, plus lokalizáciu SK/CZ, platobné brány a exit cost. Shopify vyhráva rýchlosťou setupu, uhladeným UX a údržbou. Odporúčaj Shopify len vtedy, ak founder explicitne nemá dev support a chce si priplatiť za pohodlie. Inak Woo.
+
+Súvisiace: [WooCommerce checkout, ktorý konvertuje](/blog/checkout-konvertuje-9-uprav/).

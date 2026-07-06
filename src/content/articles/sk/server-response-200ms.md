@@ -7,7 +7,7 @@ excerpt: "Vrstvené cachovanie pre WordPress — page cache, object cache, CDN e
 featured: false
 ---
 
-TTFB (Time to First Byte) je strop tvojho LCP. Ak server odpovedá 800 ms, žiadnym frontendovým trikom nedostaneš LCP pod 2,5 s na pomalom mobile. WooCommerce shop s 50k MAU by mal mať TTFB pod 200 ms — a dá sa to aj na hostingu za 15 EUR/mesiac. Treba len správne vrstviť cache.
+TTFB (Time to First Byte) je strop tvojho LCP. Ak server odpovedá 800 ms, žiadnym frontendovým trikom nedostaneš [LCP pod 2,5 s](/blog/lcp-nad-2-5s-pricin/) na pomalom mobile. WooCommerce shop s 50k MAU by mal mať TTFB pod 200 ms — a dá sa to aj na hostingu za 15 EUR/mesiac. Treba len správne vrstviť cache.
 
 Tu je stratégia vrstveného cachovania, ktorá reálne funguje na produkčnom WordPresse s WooCommerce.
 
@@ -166,6 +166,8 @@ Pre detail [developer.chrome.com/docs/web-platform/prerender-pages](https://deve
 - Studený výpadok cache (cache miss): 320 ms
 
 LCP na produkčnom shope klesol z 3,4 s na 1,6 s. PageSpeed mobile 42 → 89.
+
+Keď máš server response vyriešený, ďalší strop je interaktivita na klientovi — pozri [INP pod 200 ms na WordPresse](/blog/inp-pod-200ms-wordpress/). A ak riešiš, ktoré stránky eshopu optimalizovať ako prvé, mrkni na [prioritizáciu Core Web Vitals na eshope](/blog/cwv-eshop-priorita/).
 
 ## TL;DR
 

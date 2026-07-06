@@ -219,6 +219,12 @@ document.querySelector("main").inert = false;
 
 Atribút `inert` znemožní zameranie prvkov a screen reader ich ignoruje. Ušetrí ti starosti s `aria-hidden`.
 
+## Súvisiace
+
+- [Keyboard-only test za 10 minút](/blog/keyboard-only-test/) — najrýchlejší spôsob, ako odhalíš pokazený focus trap.
+- [WCAG AA na malom webe: 80 % efekt za 20 % práce](/blog/wcag-aa-80-20/).
+- Migruješ z Reactu 18 na 19? Pozri [čo skutočne pokazí build](/blog/react-19-migracia/) predtým, než budeš refaktorovať hooky ako tento.
+
 ## Externé linky
 
 - [MDN: `<dialog>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)

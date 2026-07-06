@@ -147,7 +147,7 @@ const Chart = dynamic(() => import('@/components/Chart'), {
 });
 ```
 
-V Astro je to ešte agresívnejšie. Štandardne 0 KB JS na route. Komponenty sa hydratujú, len ak majú direktívu `client:*`. Pravidlo: použi `client:visible` namiesto `client:load` všade, kde sa dá — komponent sa hydratuje až vtedy, keď je vo viewporte.
+V Astro je to ešte agresívnejšie (ak práve zvažuješ, ktorý framework vôbec zvoliť, mám na to [rozhodovaciu tabuľku Astro vs Next.js](/blog/astro-vs-nextjs-tabulka/)). Štandardne 0 KB JS na route. Komponenty sa hydratujú, len ak majú direktívu `client:*`. Pravidlo: použi `client:visible` namiesto `client:load` všade, kde sa dá — komponent sa hydratuje až vtedy, keď je vo viewporte.
 
 ```astro
 <HeavyChart client:visible data={data} />
@@ -183,3 +183,5 @@ Konkrétne čo padlo:
 ## TL;DR
 
 Bundle audit nie je raketová veda. 80 % zlepšenia dosiahneš zmazaním štyroch vecí: moment.js, celý import lodash, zbytočné polyfilly a viac icon knižníc naraz. Ďalších 15 % cez code splitting (`dynamic()` v Next, `client:visible` v Astro). Posledných 5 % sú boutique optimalizácie, ktoré skoro nikto nepotrebuje. Začni analyzerom, identifikuj veľké bloky a postupuj zhora.
+
+**Súvisiace:** [LCP nad 2.5s? 7 najčastejších príčin v praxi](/blog/lcp-nad-2-5s-pricin/) · [Ako čítať WebPageTest report za 5 minút](/blog/webpagetest-za-5-minut/)
