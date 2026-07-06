@@ -272,6 +272,33 @@ const articleLd = {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
+  /* Tables — comparison/data tables in articles. Table element itself is the
+     horizontal-scroll container (no wrapper markup from markdown) so wide
+     tables scroll instead of overflowing the page on mobile. */
+  :global(.article-prose table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  :global(.article-prose thead tr) {
+    border-bottom: 2px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  :global(.article-prose th) {
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 14px;
+    white-space: nowrap;
+  }
+  :global(.article-prose td) {
+    padding: 10px 14px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    vertical-align: top;
+  }
+  :global(.article-prose tbody tr:last-child td) { border-bottom: none; }
 
   .article-share {
     margin-top: 64px;

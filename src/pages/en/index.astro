@@ -4,8 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
 import Marquee from '../../components/Marquee.astro';
 import HeroDefault from '../../components/HeroDefault.astro';
-import HeroMini from '../../components/HeroMini.astro';
-import HeroSwitcher from '../../components/HeroSwitcher.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import ExperienceList from '../../components/ExperienceList.astro';
@@ -35,11 +33,7 @@ const articles = visibleArticles((await getCollection('articles'))
       <div class="mono small right">{t('home.locationCity', lang)}<br/>{t('home.locationTz', lang)}</div>
     </Reveal>
 
-    {/* Two hero variants — switcher (HeroSwitcher, bottom-left) toggles between
-        "Default" (generic intro) and "Live preview" (recent project showcase).
-        Both render server-side; client JS hides the inactive one. */}
-    <div data-hero-variant="default" class="hero-variant"><HeroDefault lang={lang} /></div>
-    <div data-hero-variant="mini" class="hero-variant" style="display:none"><HeroMini lang={lang} /></div>
+    <HeroDefault lang={lang} />
 
     <Reveal delay={0.2} class="home-hero-bottom">
       <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
@@ -103,8 +97,6 @@ const articles = visibleArticles((await getCollection('articles'))
       ))}
     </div>
   </section>
-
-  <HeroSwitcher lang={lang} />
 
 </BaseLayout>
 

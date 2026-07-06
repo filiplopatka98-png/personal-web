@@ -40,7 +40,7 @@ stack:
   - "Galéria realizácií"
 heroCaption: "domovská stránka · služby a telefón v hero sekcii"
 mobileCaption: "služby a kontakt na mobile"
-secondaryCaption: "portfólio realizácií"
+secondaryCaption: "detail realizácie · výkop a stavba bazéna"
 ---
 
 Firemný web pre živnostníka v zemných a výkopových prácach v okolí Piešťan. Cieľ je jednoduchý — keď niekto v regióne hľadá výkopy, prípojky alebo terénne úpravy, nájde Ľuba a má hneď nadosah telefón.

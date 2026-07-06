@@ -40,7 +40,7 @@ stack:
   - "Jobs gallery"
 heroCaption: "homepage · services and phone in the hero"
 mobileCaption: "services and contact on mobile"
-secondaryCaption: "portfolio of completed jobs"
+secondaryCaption: "project detail · pool excavation & build"
 ---
 
 A company website for a sole trader in earthworks and excavation around Piešťany. The goal is simple — when someone in the region searches for excavation, utility connections or ground works, they find Ľubo and have his phone number within reach right away.

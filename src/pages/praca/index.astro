@@ -14,6 +14,20 @@ const projects = (await getCollection('projects'))
 
 const projectCount = projects.length;
 const titleHtml = `${t('work.title.before', lang)}<em>${t('work.title.em', lang)}</em>${t('work.title.after', lang)}`;
+
+// Derive filter chips from the tech in each project's kind ("… · WordPress"),
+// so only filters that actually match a project are shown — no dead options.
+const FILTER_LABELS: Record<string, string> = { woocommerce: 'E-shop' };
+const filters: { value: string; label: string }[] = [];
+const seenFilters = new Set<string>();
+for (const p of projects) {
+  const tech = p.data.kind.split('·').pop()?.trim() ?? '';
+  const value = tech.toLowerCase();
+  if (tech && !seenFilters.has(value)) {
+    seenFilters.add(value);
+    filters.push({ value, label: FILTER_LABELS[value] ?? tech });
+  }
+}
 ---
 <BaseLayout lang={lang} canonicalPath="/praca/" altLangUrl="/en/work/" title={`${t('nav.work', lang)} — Filip Lopatka`}>
   <PageHead
@@ -26,10 +40,9 @@ const titleHtml = `${t('work.title.before', lang)}<em>${t('work.title.em', lang)
     <Reveal class="filter-row">
       <span class="mono filter-label">{t('work.filter', lang)}</span>
       <button data-filter="all" class="chip is-active" data-cursor="hover">{t('work.filterAll', lang)}</button>
-      <button data-filter="e-shop" class="chip" data-cursor="hover">{t('work.filterEshop', lang)}</button>
-      <button data-filter="next.js" class="chip" data-cursor="hover">{t('work.filterNext', lang)}</button>
-      <button data-filter="wp" class="chip" data-cursor="hover">{t('work.filterWp', lang)}</button>
-      <button data-filter="astro" class="chip" data-cursor="hover">{t('work.filterAstro', lang)}</button>
+      {filters.map((f) => (
+        <button data-filter={f.value} class="chip" data-cursor="hover">{f.label}</button>
+      ))}
     </Reveal>
   </section>
 
