@@ -3,17 +3,17 @@ title: "Image lazy-loading: kedy native, kedy custom"
 date: 2025-12-04
 read: 6
 tags: ["Performance", "Core Web Vitals"]
-excerpt: "Decision tree pre tri scenáre lazy-loadingu obrázkov — natívny atribút, IntersectionObserver a framework Image komponenty. Code samples + reálne limity."
+excerpt: "Rozhodovací strom pre tri scenáre lazy-loadingu obrázkov — natívny atribút, IntersectionObserver a Image komponenty vo frameworkoch. Ukážky kódu a reálne limity."
 featured: false
 ---
 
-Lazy-loading obrázkov v 2026 nie je sci-fi. `<img loading="lazy">` má 95%+ browser support a väčšine projektov stačí. Ale v 5 % prípadov potrebuješ niečo iné — buď IntersectionObserver pre custom správanie, alebo framework `<Image>` komponentu pre responsive a format negotiation.
+Lazy-loading obrázkov v roku 2026 nie je žiadna raketová veda. `<img loading="lazy">` má vyše 93 % podporu v prehliadačoch a väčšine projektov stačí. Ale v tých zvyšných percentách prípadov potrebuješ niečo iné — buď IntersectionObserver pre vlastné správanie, alebo `<Image>` komponent z frameworku pre responzívnosť a vyjednávanie formátu.
 
-Decision tree, ktorý reálne používam pri auditoch.
+Toto je rozhodovací strom, ktorý reálne používam pri auditoch.
 
-## 1. Native loading="lazy" — default voľba
+## 1. Natívne loading="lazy" — predvolená voľba
 
-Funguje skoro všade. [Chrome 77+, Firefox 75+, Safari 15.4+](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading) — celkový support nad 96 %.
+Funguje skoro všade. [Chrome 77+, Firefox 75+, Safari 15.4+](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading) — celková podpora je vyše 93 %.
 
 ```html
 <img src="/products/sku-1234.webp"
@@ -26,25 +26,25 @@ Funguje skoro všade. [Chrome 77+, Firefox 75+, Safari 15.4+](https://developer.
 
 **Kľúčové pravidlá:**
 
-- `width` + `height` musí byť uvedené, inak CLS.
-- `loading="lazy"` na hero obrázku je **chyba** — naopak chceš `loading="eager"` + `fetchpriority="high"`.
-- `decoding="async"` neblokuje main thread pri dekódovaní obrázka.
+- `width` a `height` musia byť uvedené, inak dostaneš CLS.
+- `loading="lazy"` na hero obrázku je **chyba** — tam naopak chceš `loading="eager"` a `fetchpriority="high"`.
+- `decoding="async"` neblokuje hlavné vlákno pri dekódovaní obrázka.
 
-**Limity, ktoré zistíš až keď ťa štípu:**
+**Limity, ktoré zistíš, až keď ťa začnú štípať:**
 
-- Chrome `rootMargin` je 1250px na mobile, ~2500px na desktope. Browser začne sťahovať obrázok keď je 1.25 viewportu pred ním. Nemôžeš to zmeniť.
-- Žiadny placeholder. Browser proste vykreslí prázdny box a potom obrázok. Pre blur-up alebo dominant color musíš mať custom riešenie.
-- Žiadny callback "obrázok je teraz vidno". Ak chceš trackovať impresions, native nestačí.
+- Prahová vzdialenosť v Chrome je 1250 px na rýchlom pripojení (4G) a 2500 px na pomalšom (3G a nižšie) — riadi sa teda typom pripojenia, nie tým, či ide o mobil alebo desktop. Prehliadač začne sťahovať obrázok, keď je približne 1,25 viewportu pred ním. Zmeniť to nemôžeš.
+- Žiadny placeholder. Prehliadač jednoducho vykreslí prázdny box a potom obrázok. Pre blur-up alebo dominantnú farbu musíš mať vlastné riešenie.
+- Žiadny callback „obrázok je teraz vidno". Ak chceš sledovať impresie, natívne riešenie nestačí.
 
-Pre 90 % use cases je toto OK. Produktové listingy, blog post obrázky, gallery — všetko native.
+Pre 90 % prípadov je toto v poriadku. Produktové výpisy, obrázky v článkoch, galéria — všetko natívne.
 
-## 2. Custom IntersectionObserver — keď ti native nestačí
+## 2. Vlastný IntersectionObserver — keď ti natívne riešenie nestačí
 
-Tri scenáre, kedy reálne siahnem po custom observer:
+Tri scenáre, kedy reálne siahnem po vlastnom observeri:
 
 ### Scenár A: blur-up placeholder
 
-Chceš ukázať rozmazanú low-quality verziu obrázka, kým sa fetch-ne plná. Použiteľné na portfólio sajtoch, obsahových weboch s veľkými hero obrázkami v článkoch.
+Chceš ukázať rozmazanú verziu obrázka v nízkej kvalite, kým sa stiahne plná. Hodí sa to na portfóliových stránkach a obsahových weboch s veľkými hero obrázkami v článkoch.
 
 ```html
 <img src="/path/lqip-20px.jpg"
@@ -70,24 +70,24 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.lazy-img').forEach(img => observer.observe(img));
 ```
 
-Bonus: server vygeneruje 20px LQIP cez `sharp` na build time, base64-encoded inline ako `src`. Žiadny extra HTTP request.
+Bonus: server vygeneruje 20 px LQIP cez `sharp` pri builde, zakóduje ho do base64 a vloží inline ako `src`. Žiadny HTTP request navyše.
 
-### Scenár B: custom rootMargin pre infinite scroll
+### Scenár B: vlastný rootMargin pre nekonečný scroll
 
-Native `loading="lazy"` má fixný rootMargin. Pre infinite-scroll feed (Instagram-style) chceš trigger 4 viewport-y dopredu, aby user nikdy nevidel loading state.
+Natívne `loading="lazy"` má pevne danú prahovú vzdialenosť. Pre feed s nekonečným scrollom (v štýle Instagramu) chceš spustiť načítanie 3 viewporty dopredu, aby používateľ nikdy nevidel stav načítavania.
 
 ```js
 const observer = new IntersectionObserver(callback, {
-  rootMargin: '300% 0px',  // 3 viewport-y dopredu
+  rootMargin: '300% 0px',  // 3 viewporty dopredu
   threshold: 0.01
 });
 ```
 
-Native to nevie. Custom observer áno.
+Natívne riešenie to nevie, vlastný observer áno.
 
-### Scenár C: tracking + analytics
+### Scenár C: sledovanie a analytika
 
-Posielaš event "impression" do GA4 keď je obrázok minimálne 50 % vidno aspoň 1 sekundu. Toto je classic IntersectionObserver use case.
+Posielaš event „impression" do GA4, keď je obrázok aspoň z 50 % viditeľný minimálne 1 sekundu. Toto je učebnicový prípad použitia IntersectionObserveru.
 
 ```js
 const observer = new IntersectionObserver((entries) => {
@@ -104,15 +104,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: [0, 0.5, 1] });
 ```
 
-## 3. Framework Image komponent — Astro a Next.js
+## 3. Image komponent vo frameworku — Astro a Next.js
 
-Ak používaš modern framework, pravdepodobne chceš jeho built-in. Robí toho viac ako natívny `<img>`:
+Ak používaš moderný framework, pravdepodobne chceš jeho zabudovaný komponent. Robí toho viac ako natívny `<img>`:
 
-- Auto WebP/AVIF format negotiation cez `Accept` header
-- Responsive `srcset` pre rôzne veľkosti
-- Build-time optimalizácia (resize, kompresia)
-- Automatic LQIP / blur-up
-- `priority` flag pre hero (ekvivalent `fetchpriority="high"` + `loading="eager"`)
+- automatické vyjednávanie formátu WebP/AVIF cez hlavičku `Accept`,
+- responzívny `srcset` pre rôzne veľkosti,
+- optimalizácia pri builde (zmena rozmerov, kompresia),
+- automatické LQIP / blur-up,
+- príznak `priority` pre hero (ekvivalent `fetchpriority="high"` a `loading="eager"`).
 
 ### Astro
 
@@ -132,7 +132,7 @@ import hero from '../assets/hero.jpg';
 />
 ```
 
-Astro vygeneruje 4 veľkosti × 2 formáty = 8 variantov, vytvorí `srcset`, optimalizuje cez `sharp`. Bez konfigurácie.
+Astro vygeneruje 4 veľkosti × 2 formáty = 8 variantov, vytvorí `srcset` a optimalizuje cez `sharp`. Bez konfigurácie.
 
 ### Next.js
 
@@ -151,24 +151,24 @@ import Image from 'next/image';
 />
 ```
 
-Next runtime-optimalizuje cez Sharp na serveri (alebo cez Vercel Image Optimization API ak deploy-uješ tam). Cache na disk + CDN.
+Next optimalizuje za behu cez Sharp na serveri (alebo cez Vercel Image Optimization API, ak nasadzuješ tam). Výsledok sa cachuje na disk a do CDN.
 
-**Catch:** Next `<Image>` na `loader: 'default'` vyžaduje server-side runtime. Ak deploy-uješ ako static export, potrebuješ vlastný `loader` (napr. Cloudflare Images alebo Imgix).
+**Háčik:** predvolený loader (`loader: 'default'`) komponentu Next `<Image>` vyžaduje serverový runtime. Ak nasadzuješ ako statický export, potrebuješ vlastný `loader` (napr. Cloudflare Images alebo Imgix).
 
-## Kedy čo použiť — quick reference
+## Kedy čo použiť — rýchly prehľad
 
-| Use case | Riešenie |
+| Prípad použitia | Riešenie |
 |---|---|
-| Blog post obrázky, produktové listingy (90 % cases) | `<img loading="lazy">` |
-| Hero / above-the-fold | `<img loading="eager" fetchpriority="high">` |
+| Obrázky v článkoch, produktové výpisy (90 % prípadov) | `<img loading="lazy">` |
+| Hero / obsah nad foldom | `<img loading="eager" fetchpriority="high">` |
 | Blur-up placeholder | IntersectionObserver + LQIP |
-| Infinite scroll feed | IntersectionObserver s custom rootMargin |
-| Image impression tracking | IntersectionObserver |
-| Astro / Next.js project | `<Image>` z `astro:assets` / `next/image` |
-| WordPress | `loading="lazy"` je default v core od 5.5; pre AVIF Cloudflare Polish alebo plugin |
+| Feed s nekonečným scrollom | IntersectionObserver s vlastným rootMargin |
+| Sledovanie impresií obrázkov | IntersectionObserver |
+| Projekt v Astre / Next.js | `<Image>` z `astro:assets` / `next/image` |
+| WordPress | `loading="lazy"` je predvolené v jadre od verzie 5.5; pre AVIF Cloudflare Polish alebo plugin |
 
-## TL;DR
+## Zhrnutie
 
-Default voľba je `<img loading="lazy" width="..." height="..." decoding="async">`. Ak chceš responsive `srcset` + format negotiation, použi framework `<Image>`. Custom observer si necháš na blur-up, custom rootMargin alebo tracking — nikdy ako default.
+Predvolená voľba je `<img loading="lazy" width="..." height="..." decoding="async">`. Ak chceš responzívny `srcset` a vyjednávanie formátu, použi `<Image>` z frameworku. Vlastný observer si necháš na blur-up, vlastný rootMargin alebo sledovanie impresií — nikdy nie ako predvolené riešenie.
 
-Najčastejší fail v auditoch: hero obrázok má `loading="lazy"`. To je sebapoškodenie. Hero patrí `eager` + `fetchpriority="high"`, lazy je pre obrázky pod foldom.
+Najčastejšia chyba, ktorú vidím pri auditoch: hero obrázok má `loading="lazy"`. To je streľba do vlastnej nohy. Hero patrí `eager` a `fetchpriority="high"`, lazy je pre obrázky pod foldom.

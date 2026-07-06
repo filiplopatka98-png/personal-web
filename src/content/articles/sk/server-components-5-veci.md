@@ -3,15 +3,15 @@ title: "React Server Components: 5 vecí, ktoré ma prekvapili po roku"
 date: 2026-03-19
 read: 8
 tags: ["React", "Next.js"]
-excerpt: "Po roku produkčného používania RSC v Next.js — päť vecí, ktoré dokumentácia neukáže a ktoré ti zožerú deň, kým prídeš na to, čo sa deje."
+excerpt: "Po roku produkčného používania RSC v Next.js — päť vecí, ktoré ti dokumentácia neukáže a ktoré ti zožerú celý deň, kým prídeš na to, čo sa deje."
 featured: false
 ---
 
-Pred rokom som zaviedol React Server Components na prvý produkčný projekt — eshop s 5 000 produktmi v Next.js 14. Odvtedy som ich nasadil na 6 ďalších. Tu je päť vecí, ktoré ma prekvapili a ktoré dokumentácia odbije jednou vetou.
+Pred rokom som nasadil React Server Components na prvý produkčný projekt — eshop s 5 000 produktmi v Next.js 14. Odvtedy som ich nasadil na šesť ďalších. Tu je päť vecí, ktoré ma prekvapili a ktoré dokumentácia odbije jednou vetou.
 
-## 1) `"use client"` boundary discipline je jadro hry
+## 1) Disciplína pri `"use client"` hranici je jadro hry
 
-Najčastejšia chyba, ktorú som videl (a sám robil): **`"use client"` na top-level komponenta kvôli jednému `useState`** a celý strom pod ním sa stáva client component. Strácaš všetky benefity RSC.
+Najčastejšia chyba, ktorú som videl (a sám robil): **`"use client"` na komponente najvyššej úrovne kvôli jedinému `useState`** — a celý strom pod ním sa stáva klientskym komponentom. Strácaš všetky výhody RSC.
 
 Zlý príklad:
 
@@ -54,17 +54,17 @@ export function FilterableGrid({ products }) {
 }
 ```
 
-Pravidlo: **`"use client"` ide čo najnižšie v strome**, ideálne na list komponenty. Nie na page.
+Pravidlo: **`"use client"` ide čo najnižšie v strome**, ideálne na listové komponenty. Nie na stránku.
 
-## 2) Third-party libs často nemajú `"use client"` wrap
+## 2) Knižnice tretích strán často nemajú `"use client"` obal
 
-Toto ma chytilo trikrát. Nainštaluješ `react-select`, `@radix-ui/react-dialog`, `react-hot-toast` — fungujú lokálne, na produkcii ti spadne build:
+Toto ma chytilo trikrát. Nainštaluješ `react-select`, `@radix-ui/react-dialog`, `react-hot-toast` — lokálne fungujú, na produkcii ti spadne build:
 
 ```text
-Error: useState only works in Client Components
+Error: You're importing a component that needs `useState`. This React hook only works in a client component. To fix, mark the file (or its parent) with the `"use client"` directive.
 ```
 
-Príčina: lib používa hooks ale nemá `"use client"` v svojom `dist`. Musíš si **wrap-núť** import:
+Príčina: knižnica používa hooky, ale nemá `"use client"` vo svojom `dist`. Musíš si import **obaliť**:
 
 ```tsx
 // components/ui/select.tsx
@@ -72,17 +72,17 @@ Príčina: lib používa hooks ale nemá `"use client"` v svojom `dist`. Musíš
 export { default } from "react-select";
 ```
 
-A potom importuješ `from "@/components/ui/select"` namiesto priameho `react-select`. Otravné, ale pekná lekcia: **každý import zo `node_modules`, ktorý používa hooks, treba pre-wrap-núť**.
+A potom importuješ `from "@/components/ui/select"` namiesto priamo z `react-select`. Otravné, ale pekná lekcia: **každý import zo `node_modules`, ktorý používa hooky, treba vopred obaliť**.
 
-Knižnice s natívnym RSC supportom (s `"use client"` v `dist`): `framer-motion@11+`, `react-hook-form@7.50+`, `zustand@4.5+`. Ostatné si over.
+Knižnice s natívnou podporou RSC (s `"use client"` v `dist`): `framer-motion@11+`, `react-hook-form@7.50+`, `zustand@4.5+`. Ostatné si over.
 
-## 3) DevTools mental model — Server vs Client osobitne
+## 3) Mentálny model DevTools — server a klient osobitne
 
-React DevTools ukazuje **iba klientské** komponenty. Server komponenty vidíš ako "anonymous" alebo nevidíš vôbec. To znamená:
+React DevTools ukazuje **iba klientske** komponenty. Serverové komponenty vidíš ako „anonymous“ alebo ich nevidíš vôbec. To znamená:
 
-- Pre debugging serverových komponent **používaj `console.log` s prefixom** typu `[server]`. Logy idú do **Node.js console** (terminál, kde beží `next dev`), nie do browser console.
-- Pre client komponenty máš normálne DevTools.
-- **Network tab** ti ukáže payload Server Component-u ako `RSC` content type — fascinujúci binary-ish formát, ktorý si môžeš pozrieť ale nie debugovať.
+- Serverové komponenty debuguj cez **`console.log` s prefixom** typu `[server]`. Logy idú do **konzoly Node.js** (terminál, kde beží `next dev`), nie do konzoly prehliadača.
+- Pre klientske komponenty máš normálne DevTools.
+- **Karta Network** ti ukáže payload serverového komponentu s content type `RSC` — fascinujúci, takmer binárny formát, ktorý si síce môžeš pozrieť, ale nie debugovať.
 
 Praktický tip:
 
@@ -94,7 +94,7 @@ export default async function Page() {
 }
 ```
 
-Tieto logy uvidíš v termináli pri každom request-e. Pomáha to pri troubleshootingu cache hit/miss.
+Tieto logy uvidíš v termináli pri každom requeste. Pomáha to pri riešení problémov s cache hit/miss.
 
 ## 4) Streaming + Suspense — kedy je waterfall zlý a kedy v poriadku
 
@@ -109,9 +109,9 @@ export default async function Page() {
 }
 ```
 
-Toto je **sequential waterfall**. 3 fetch-y pekne za sebou, total time = súčet. Network tab ukáže ladder pattern.
+Toto je **sekvenčný waterfall**. Tri fetche pekne za sebou, celkový čas = ich súčet. Karta Network ukáže rebríčkový (ladder) vzor.
 
-Riešenie 1: parallelný fetch, kde je to možné:
+Riešenie 1: paralelný fetch, kde sa dá:
 
 ```tsx
 const [products, reviews, user] = await Promise.all([
@@ -121,7 +121,7 @@ const [products, reviews, user] = await Promise.all([
 ]);
 ```
 
-Riešenie 2: streaming so `Suspense` — show what you have, stream the rest:
+Riešenie 2: streaming cez `Suspense` — zobraz, čo už máš, a zvyšok streamuj:
 
 ```tsx
 export default function Page() {
@@ -141,21 +141,21 @@ async function Reviews() {
 }
 ```
 
-User vidí produkty okamžite, recenzie sa stream-nú keď sa dotiahnu. **TTFB** zostane nízky, **LCP** sa neposunie kvôli pomalému side-fetch-u.
+Používateľ vidí produkty okamžite, recenzie sa dostreamujú, keď sa dotiahnu. **TTFB** zostane nízky a **LCP** sa neposunie kvôli pomalému vedľajšiemu fetchu.
 
-Kedy waterfall NIE JE zlý: keď druhý fetch naozaj **závisí** od prvého (napr. najprv user, potom orders pre user.id). Vtedy je sequence nutná.
+Kedy waterfall NIE JE zlý: keď druhý fetch naozaj **závisí** od prvého (napr. najprv user, potom objednávky pre user.id). Vtedy je sekvencia nutná.
 
-## 5) Cache `fetch` a `revalidate` — implicit caching prekvapí
+## 5) Cache pri `fetch` a `revalidate` — implicitné cachovanie prekvapí
 
-Next.js 14 mal default `fetch` cache `force-cache`. To znamená, že:
+Next.js 14 mal predvolenú cache pri `fetch` nastavenú na `force-cache`. To znamená, že:
 
 ```tsx
 const data = await fetch("https://api.example.com/products");
 ```
 
-...sa **uloží do cache navždy** (do nasledujúceho deploye). Ak voláš API, ktorá vracia dynamické dáta, dostávaš stale data a nevieš prečo. Toto v Next.js 15 zmenili na `no-store` default — ale starší projekty sú stále chytené.
+...sa **uloží do cache navždy** (až do nasledujúceho deployu). Ak voláš API, ktoré vracia dynamické dáta, dostávaš zastarané dáta a nevieš prečo. V Next.js 15 to zmenili — predvolená hodnota je teraz `no-store` — ale staršie projekty sú stále chytené.
 
-Explicit voľby, ktoré si treba pamätať:
+Explicitné voľby, ktoré si treba pamätať:
 
 ```tsx
 // no cache — vždy fresh
@@ -175,16 +175,16 @@ import { revalidateTag } from "next/cache";
 revalidateTag("products");
 ```
 
-**Common gotcha:** ak máš `fetch` v server component **a aj** `revalidate` v `route segment config`, vyhráva ten reštriktívnejší (kratší interval). Spätne to nikdy neoľutuješ skontrolovať `next build` output, ktorý ti vypíše cache režim pre každý route.
+**Častý zádrhel:** ak máš `fetch` v serverovom komponente **a aj** `revalidate` v konfigurácii route segmentu, vyhráva ten reštriktívnejší (kratší interval). Nikdy neoľutuješ, že si skontroloval výstup `next build`, ktorý ti vypíše režim cache pre každý route.
 
 ## TL;DR
 
-Server Components fungujú, ale majú vlastný mental model. **Pravidlá, ktoré si zapamätaj:**
+Server Components fungujú, ale majú vlastný mentálny model. **Pravidlá, ktoré si zapamätaj:**
 
 1. `"use client"` čo najnižšie v strome.
-2. Third-party libs s hooks treba pre-wrap-núť.
-3. Server logy idú do terminálu, nie browseru.
+2. Knižnice tretích strán s hookmi treba vopred obaliť.
+3. Serverové logy idú do terminálu, nie do prehliadača.
 4. Suspense + streaming pre paralelné rendery, `Promise.all` pre paralelné fetche.
-5. Explicit cache strategy, nikdy nespoliehaj na default.
+5. Explicitná stratégia cache, nikdy sa nespoliehaj na predvolené hodnoty.
 
-Po roku môžem povedať že produkčne to funguje fajn a dev velocity je vyššia ako pri Pages Router. Ale prvé 2-3 týždne sú learning curve, na ktorú musíš tím psychicky pripraviť.
+Po roku môžem povedať, že produkčne to funguje fajn a dev velocity je vyššia ako pri Pages Routeri. Ale prvé dva až tri týždne sú learning curve, na ktorú musíš tím psychicky pripraviť vopred.

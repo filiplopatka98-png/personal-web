@@ -3,140 +3,140 @@ title: "Vercel vs Cloudflare Pages vs vlastný node: cena + výkon"
 date: 2025-09-25
 read: 8
 tags: ["Hosting", "Next.js", "DevOps"]
-excerpt: "Identický Next.js portfolio site, deploy na 3 platformy. Mesačné faktúry, latencia z Bratislavy, cold starts a kde sú kompromisy."
+excerpt: "Identická Next.js portfólio stránka, nasadená na tri platformy. Reálne mesačné faktúry, latencia z Bratislavy, cold starty a kde sú kompromisy."
 featured: false
 ---
 
-Klient sa pýtal: "Kam mám deploynúť Next.js portfolio? Vercel vie každý kamarát, Cloudflare je vraj zadarmo, alebo si zoženiem VPS?" Namiesto teoretického porovnania som spravil reálny test: **identický Next.js 15.2 site, 50 statických stránok + 10 dynamických routes, 100k MAU baseline**, deploy na všetky tri.
+Klient sa pýtal: „Kam mám nasadiť Next.js portfólio? Vercel pozná každý kamarát, Cloudflare je vraj zadarmo, alebo si zoženiem VPS?“ Namiesto teoretického porovnania som spravil reálny test: **identická Next.js 15.2 stránka, 50 statických stránok + 10 dynamických routes, baseline 100 000 MAU**, nasadená na všetky tri platformy.
 
 ## Setup testu
 
-Aplikácia: portfolio + blog + 3 jednoduché formuláre (Server Actions). Žiadny SQL, dáta z headless WP cez REST API. ISR `revalidate: 3600` na blog feed.
+Aplikácia: portfólio + blog + 3 jednoduché formuláre (Server Actions). Žiadny SQL, dáta z headless WordPressu cez REST API. ISR `revalidate: 3600` na blog feed.
 
-Test traffic: simulácia 100k MAU = ~3300 requests/day, peak 15 req/s. Robil som synthetic load 7 dní, sledoval som:
+Testovacia prevádzka: simulácia 100 000 MAU = ~3300 requestov denne, peak 15 req/s. Púšťal som syntetický load 7 dní a sledoval som:
 
-- Mesačnú faktúru (real, screenshot z dashboardu).
-- Latencia z Bratislavy (z mojej linky, 3 merania denne).
-- Cold start latency (deploy → prvý request).
-- Bandwidth a build minutes.
+- Mesačnú faktúru (reálnu, screenshot z dashboardu).
+- Latenciu z Bratislavy (z mojej linky, 3 merania denne).
+- Latenciu cold startu (deploy → prvý request).
+- Bandwidth a build minúty.
 
 ## 1) Vercel
 
-Plan: **Pro za €20/mes**. Hobby plan zadarmo NETESTOVAL som — má fair use limit 100 GB bandwidth ktorý by som pri 100k MAU prekročil.
+Plán: **Pro za 20 €/mes**. Hobby plán zadarmo som NETESTOVAL — má fair-use limit 100 GB bandwidthu, ktorý by som pri 100 000 MAU prekročil.
 
 **Mesačná faktúra:**
 
-- Pro plan base: €20.
-- Bandwidth (175 GB): zahnuté v €20 (Pro má 1TB).
-- Function executions (300k): v limite (1M/mes).
-- Build minutes (40 min): v limite (6000 min/mes).
-- **Total: €20.**
+- Pro plán base: 20 €.
+- Bandwidth (175 GB): zahrnuté v 20 € (Pro má 1 TB).
+- Function executions (300k): v limite (1 M/mes).
+- Build minúty (40 min): v limite (6000 min/mes).
+- **Spolu: 20 €.**
 
 **Latencia z Bratislavy:**
 
-- Frankfurt edge (FRA1): **22-28 ms TTFB** pre statické stránky.
-- ISR regenerácia: 380 ms (jeden hop do origin v eu-west).
+- Frankfurt edge (FRA1): **22 – 28 ms TTFB** pre statické stránky.
+- ISR regenerácia: 380 ms (jeden hop do originu v eu-west).
 - Server Action: 65 ms.
 
 **Cold start:**
 
-- Po deploy-i prvý request na dynamic route: **180-220 ms** cold start (Node.js function init).
-- Ďalšie requests: 25-40 ms.
-- Po 15 min idle: znovu cold.
+- Po nasadení prvý request na dynamickú route: **180 – 220 ms** cold start (init Node.js funkcie).
+- Ďalšie requesty: 25 – 40 ms.
+- Po 15 min nečinnosti: znova cold.
 
 **Plus:**
-- Najlepšie DX, čo som zažil. `git push` → URL.
-- Preview deploys per PR zadarmo.
-- Image Optimization built-in.
+- Najlepšie DX, aké som zažil. `git push` → URL.
+- Preview deploye pre každý PR zadarmo.
+- Image Optimization zabudovaný.
 - Analytics + Speed Insights.
 
 **Mínus:**
-- Cena rastie pri vyššom traffic-u (bandwidth €0.15/GB nad 1TB).
-- Vendor lock-in na proprietárne features (Image Optimization, ISR cache).
+- Cena rastie pri vyššej prevádzke (bandwidth 0,15 €/GB nad 1 TB).
+- Vendor lock-in na proprietárne funkcie (Image Optimization, ISR cache).
 
 ## 2) Cloudflare Pages
 
-Plan: **Free tier**. CF Pages free dáva 500 builds/mes a unlimited bandwidth pre statiku. Pre Next.js musíš použiť `@cloudflare/next-on-pages` adapter, ktorý transformuje Next na Workers (V8 runtime, NIE Node).
+Plán: **Free tier**. CF Pages free dáva 500 buildov/mes a neobmedzený bandwidth pre statiku. Pre Next.js som vtedy použil adaptér `@cloudflare/next-on-pages`, ktorý transformuje Next na Workers (V8 runtime, NIE Node). (Pozn.: tento adaptér je dnes deprecatnutý — Cloudflare odvtedy prešiel na adaptér OpenNext pre Workers, ktorý už podporuje aj Node.js runtime.)
 
 **Mesačná faktúra:**
 
-- Pages: €0 (do 100k requests/day pre dynamic routes — som mal 3300/day, easily v limite).
-- Workers: €0 (Free plan: 100k requests/day).
-- KV (cache): €0 (10M reads/mes free).
-- **Total: €0.**
+- Pages: 0 € (do 100 000 requestov denne pre dynamické routes — mal som 3300 denne, hravo v limite).
+- Workers: 0 € (Free plán: 100 000 requestov denne).
+- KV (cache): 0 € (10 M čítaní/mes zadarmo).
+- **Spolu: 0 €.**
 
 **Latencia z Bratislavy:**
 
-- Cloudflare anycast: **15-22 ms TTFB**. Najrýchlejšia z trojice.
-- ISR-equivalent (cached na KV): 18 ms.
+- Cloudflare anycast: **15 – 22 ms TTFB**. Najrýchlejšia z trojice.
+- ISR ekvivalent (cachnuté v KV): 18 ms.
 - Server Action (Worker): 45 ms.
 
 **Cold start:**
 
-- Workers majú **near-zero cold start** (V8 isolates spustia za ~5 ms). **Nemerateľné v praxi.** Toto je killer feature.
+- Workers majú **takmer nulový cold start** (V8 isolates sa spustia za ~5 ms). **V praxi nemerateľné.** Toto je killer feature.
 
 **Plus:**
-- Najrýchlejšia globálne (300+ edge locations).
-- Cena nepostojí ak nepoužívaš platené services (R2, D1).
-- Workers cold start nie je téma.
+- Najrýchlejšia globálne (330+ edge lokalít).
+- Cena nestúpne, ak nepoužívaš platené služby (R2, D1).
+- Cold start Workerov nie je téma.
 
 **Mínus:**
-- **Workers runtime nie je Node.js.** Niektoré npm packages nefungujú (čo používa `fs`, `crypto.createHash` API rozdiely, `Buffer` polyfilly). Asi 5 % balíkov mi padlo.
-- `@cloudflare/next-on-pages` adapter je fungujúci ale občas behind Next.js — keď vyšiel Next 15.2, podpora prišla po týždni.
-- ISR funguje, ale cez KV layer — debugging je menej priamy ako vo Vercel.
-- Image Optimization nemáš zadarmo, musíš použiť Cloudflare Images (€5/mes) alebo external service.
+- **Workers runtime nie je Node.js.** Niektoré npm balíky nefungujú (tie, čo používajú `fs`, rozdiely v API `crypto.createHash`, polyfilly `Buffer`). Asi 5 % balíkov mi padlo.
+- Adaptér `@cloudflare/next-on-pages` funguje, ale občas zaostáva za Next.js — keď vyšiel Next 15.2, podpora prišla po týždni.
+- ISR funguje, ale cez vrstvu KV — debugovanie je menej priame ako na Verceli.
+- Image Optimization nemáš zadarmo — musíš použiť Cloudflare Images (usage-based, cca 5 $ za 100 000 uložených obrázkov + 1 $ za 100 000 doručených) alebo externú službu.
 
 ## 3) VPS Hetzner + Coolify
 
-Plan: **CX22 Hetzner** za €5.83/mes (2 vCPU, 4 GB RAM, 40 GB SSD, lokácia Helsinki). Coolify ako self-hosted Vercel-alike (€0, open source).
+Plán: **Hetzner CX22** za 3,79 €/mes (2 vCPU, 4 GB RAM, 40 GB SSD, lokalita Helsinki). Coolify ako self-hosted alternatíva k Vercelu (0 €, open source).
 
 **Mesačná faktúra:**
 
-- VPS: €5.83.
+- VPS: 3,79 €.
 - Domény, SSL: zadarmo (Let's Encrypt cez Coolify).
-- Cloudflare DNS + free CDN (orange cloud): €0.
-- **Total: €5.83.**
+- Cloudflare DNS + free CDN (orange cloud): 0 €.
+- **Spolu: 3,79 €.**
 
 **Latencia z Bratislavy:**
 
-- Helsinki origin: **30-38 ms TTFB**.
-- S Cloudflare CDN pred VPS-kom (orange cloud): **18-24 ms** (cache hit) / 35 ms (cache miss).
+- Helsinki origin: **30 – 38 ms TTFB**.
+- S Cloudflare CDN pred VPS-kom (orange cloud): **18 – 24 ms** (cache hit) / 35 ms (cache miss).
 
 **Cold start:**
 
-- Žiadny — Next.js beží ako persistent Node.js proces. **Always warm.**
+- Žiadny — Next.js beží ako perzistentný Node.js proces. **Vždy warm.**
 
 **Plus:**
-- Najlacnejšie pri raste — 1M MAU stojí stále €6/mes.
-- Plný kontrola — môžem inštalovať čokoľvek (Redis, PostgreSQL, custom binaries).
-- Žiadny vendor lock-in. Pre štátne projekty (DPP) niekedy nutné.
+- Najlacnejšie pri raste — aj 1 M MAU stojí stále ~4 €/mes.
+- Plná kontrola — môžem nainštalovať čokoľvek (Redis, PostgreSQL, vlastné binárky).
+- Žiadny vendor lock-in. Pri štátnych projektoch (DPP) niekedy nutnosť.
 
 **Mínus:**
-- **Maintenance overhead.** Backupy, security updates, monitoring. Cca 2-4 hodiny/mes.
-- Single region — pre globálny audit nestačí (nutný CDN frontend).
-- Žiadny preview deploy out-of-the-box (Coolify má branches ale nie tak hladké ako Vercel).
-- Pri výpadku VPS nikto neopraví — tvoja zodpovednosť.
+- **Réžia s údržbou.** Zálohy, bezpečnostné aktualizácie, monitoring. Cca 2 – 4 hodiny/mes.
+- Jeden región — pre globálne publikum nestačí (treba CDN pred tým).
+- Žiadny preview deploy out-of-the-box (Coolify má branche, ale nie tak hladko ako Vercel).
+- Pri výpadku VPS ho nikto neopraví — je to tvoja zodpovednosť.
 
 ## Porovnanie v jednej tabuľke
 
 | | Vercel Pro | Cloudflare Pages | Hetzner + Coolify |
 |---|---|---|---|
-| Cena/mes | €20 | €0 | €6 |
+| Cena/mes | 20 € | 0 € | ~4 € |
 | TTFB Bratislava | 25 ms | 18 ms | 22 ms (s CDN) |
-| Cold start | 180-220 ms | ~5 ms | 0 ms |
+| Cold start | 180 – 220 ms | ~5 ms | 0 ms |
 | DX | Top | Dobrá | Stredná (treba setup) |
-| Image Opt | Built-in | €5/mes extra | self-host |
+| Image Opt | zabudovaný | usage-based extra | self-host |
 | Vendor lock | Vysoký | Stredný | Žiadny |
-| Maintenance | 0h | 0h | 2-4h/mes |
+| Údržba | 0 h | 0 h | 2 – 4 h/mes |
 
 ## Komu odporučím čo
 
-- **Solopreneur, prvý projekt, nechce sa starať**: Vercel Pro €20. Najjednoduchšie.
-- **Hobby projekt / portfolio / malý web**: Cloudflare Pages free. Najlepší pomer cena/výkon.
-- **Vyšší traffic (>500k MAU), kontrola, dlhodobo**: VPS + Coolify. €6/mes pri akomkoľvek scale.
-- **Klient s GDPR požiadavkou na EU-only data**: VPS Hetzner Nemecko.
-- **Tím s React/Next.js skills**: Vercel pre flow, Cloudflare ak treba šetriť.
+- **Solopreneur, prvý projekt, nechce sa starať**: Vercel Pro 20 €. Najjednoduchšie.
+- **Hobby projekt / portfólio / malý web**: Cloudflare Pages free. Najlepší pomer cena/výkon.
+- **Vyššia prevádzka (>500 000 MAU), kontrola, dlhodobo**: VPS + Coolify. ~4 €/mes pri akomkoľvek scale.
+- **Klient s GDPR požiadavkou na EU-only dáta**: VPS Hetzner Nemecko.
+- **Tím so skúsenosťami s Reactom/Next.js**: Vercel pre flow, Cloudflare ak treba šetriť.
 
 ## TL;DR
 
-Najlacnejší výkonný hosting Next.js v 2026 je **Cloudflare Pages free**, ak ti netrápi runtime non-Node. Najlepší DX je stále **Vercel** za €20/mes. Najlacnejší pri scale je **VPS Hetzner + Coolify** za €6/mes ale platíš to časom na maintenance. Žiadna univerzálna odpoveď — záleží od projektu, tímu a toho, či chceš mať voľný víkend.
+Najlacnejší výkonný hosting Next.js v roku 2026 je **Cloudflare Pages free**, ak ti neprekáža non-Node runtime. Najlepšie DX má stále **Vercel** za 20 €/mes. Najlacnejší pri scale je **VPS Hetzner + Coolify** za necelé 4 €/mes, ale platíš to časom stráveným na údržbe. Žiadna univerzálna odpoveď — záleží od projektu, tímu a od toho, či chceš mať voľný víkend.

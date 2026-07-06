@@ -3,11 +3,11 @@ title: "Bundle audit pre Astro a Next.js: čo zmazať najprv"
 date: 2026-03-15
 read: 7
 tags: ["Performance", "Astro", "Next.js"]
-excerpt: "Reálny prípad zníženia initial JS z 412KB na 167KB. Najčastejšie zdroje bloatu, postup auditu cez bundle-analyzer a vite-bundle-visualizer."
+excerpt: "Reálny prípad zníženia initial JS zo 412 KB na 167 KB. Najčastejšie zdroje bloatu a presný postup auditu cez bundle-analyzer a vite-bundle-visualizer."
 featured: false
 ---
 
-JavaScript bundle je často najväčší vinník pomalého TTI a TBT. V auditoch sa mi za posledný rok opakuje rovnaký zoznam vinníkov — 4 knižnice ktoré v 2026 už nemajú právo žiť v moderných projektoch. Reálny prípad: Next.js 15 SaaS dashboard, **412KB initial JS → 167KB** po auditu. Tu je presný postup.
+JavaScript bundle býva najväčší vinník pomalého TTI a TBT. V auditoch sa mi za posledný rok opakuje ten istý zoznam vinníkov — štyri knižnice, ktoré v roku 2026 už nemajú právo žiť v moderných projektoch. Reálny prípad: Next.js SaaS dashboard, **412 KB initial JS → 167 KB** po audite. Tu je presný postup.
 
 ## Krok 1: zmeraj východiskový stav
 
@@ -17,7 +17,7 @@ JavaScript bundle je často najväčší vinník pomalého TTI a TBT. V auditoch
 ANALYZE=true npm run build
 ```
 
-Predtým si nainštaluj `@next/bundle-analyzer` a v `next.config.js`:
+Predtým si nainštaluj `@next/bundle-analyzer` a uprav `next.config.js`:
 
 ```js
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -29,7 +29,7 @@ module.exports = withBundleAnalyzer({
 });
 ```
 
-Otvorí sa interaktívna treemap. Hľadáš oranžovo-červené bloky — najväčšie moduly. Klikneš na ne, vidíš ktoré knižnice ich pretiahli do bundle.
+Otvorí sa interaktívna treemapa. Hľadáš oranžovo-červené bloky — najväčšie moduly. Klikneš na ne a vidíš, ktoré knižnice ich pritiahli do bundle.
 
 ### Astro
 
@@ -39,62 +39,62 @@ Astro nemá oficiálny analyzer, ale `vite-bundle-visualizer` funguje skvele:
 npx vite-bundle-visualizer
 ```
 
-Otvorí sa HTML report s treemap. Pre verbose statistiku:
+Otvorí sa HTML report s treemapou. Pre podrobnejšiu štatistiku:
 
 ```bash
 astro build --verbose
 ```
 
-V `dist/` máš samostatné chunks per route + shared common chunks.
+V `dist/` máš samostatné chunky per route plus zdieľané spoločné chunky.
 
 ## Krok 2: top 4 vinníci, ktorých zabiješ najprv
 
-### 1. moment.js (290KB minified)
+### 1. moment.js (~290 KB minified so všetkými locales)
 
-V 2026 už neexistuje dôvod pre moment.js. Maintainers ho [oficiálne označili ako legacy](https://momentjs.com/docs/#/-project-status/). Náhrada:
+V roku 2026 už neexistuje dôvod na moment.js. Autori ho [oficiálne označili ako legacy projekt](https://momentjs.com/docs/#/-project-status/) v režime údržby — nové funkcie ani riešenie veľkosti bundle už nepribudnú. Náhrada:
 
-- **`date-fns`** — modular, tree-shakeable. Importuješ len čo potrebuješ.
-- **`dayjs`** — 2KB core, plugin systém pre extras. API kompatibilné s moment.
-- **Native `Intl.DateTimeFormat`** — zero dependency, browser support 95%+.
+- **`date-fns`** — modulárny, tree-shakeable. Importuješ len to, čo potrebuješ.
+- **`dayjs`** — 2 KB core, plugin systém pre extras. API kompatibilné s moment.
+- **Natívny `Intl.DateTimeFormat`** — nulová závislosť, podpora v prehliadačoch nad 95 %.
 
 ```js
-// Predtým — 290KB
+// Predtým — ~290 KB
 import moment from 'moment';
 moment(date).format('DD.MM.YYYY');
 
-// Po — 0KB
+// Po — 0 KB
 new Intl.DateTimeFormat('sk-SK').format(new Date(date));
 // → "15. 3. 2026"
 ```
 
-Pre relative time ("pred 3 hodinami") použiš `Intl.RelativeTimeFormat`. Tiež natívne, tiež zero deps.
+Na relatívny čas („pred 3 hodinami“) použiješ `Intl.RelativeTimeFormat`. Tiež natívne, tiež nulová závislosť.
 
-### 2. lodash full import (75KB)
+### 2. lodash — celý import (~70 KB)
 
-Ak vidíš `import _ from 'lodash'`, máš v bundle 75KB. Aj keď používaš len `debounce` a `cloneDeep`.
+Ak vidíš `import _ from 'lodash'`, máš v bundle zhruba 70 KB. Aj keď používaš len `debounce` a `cloneDeep`.
 
 ```js
-// ZLÉ — 75KB
+// ZLÉ — ~70 KB
 import _ from 'lodash';
 _.debounce(fn, 300);
 
-// LEPŠIE — ~3KB každý
+// LEPŠIE — pár KB každý
 import debounce from 'lodash/debounce';
 import cloneDeep from 'lodash/cloneDeep';
 
-// NAJLEPŠIE — native alternatívy
+// NAJLEPŠIE — natívne alternatívy
 const debounce = (fn, ms) => {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 };
-const cloneDeep = obj => structuredClone(obj); // browser support 96%+
+const cloneDeep = obj => structuredClone(obj); // podpora v prehliadačoch nad 94 %
 ```
 
-`structuredClone` je [native v každom modernom browseri](https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone) od 2022. Žiadny dôvod pre lodash deepClone.
+`structuredClone` je [natívne v každom modernom prehliadači](https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone) od marca 2022. Žiadny dôvod na lodash `cloneDeep`.
 
 ### 3. core-js polyfilly v moderných projektoch
 
-Ak používaš Vite, Next.js 15+, alebo Astro, **core-js by si nemal mať**. Tieto buildery default-ne targetujú modern ES2020+ a polyfilly nie sú potrebné.
+Ak používaš Vite, Next.js 15+ alebo Astro, **core-js by si mať nemal**. Tieto buildery štandardne cielia na moderné prehliadače (Next.js napríklad na Chrome/Edge 111+, Firefox 111+ a Safari 16.4+), takže polyfilly nie sú potrebné.
 
 Skontroluj `package.json`:
 
@@ -102,7 +102,7 @@ Skontroluj `package.json`:
 npm ls core-js
 ```
 
-Ak je tam, je tam pravdepodobne kvôli `babel-preset-env` s nesprávnym `targets`. Fix:
+Ak tam je, tak pravdepodobne kvôli `babel-preset-env` s nesprávnym `targets`. Fix:
 
 ```json
 {
@@ -115,25 +115,25 @@ Ak je tam, je tam pravdepodobne kvôli `babel-preset-env` s nesprávnym `targets
 }
 ```
 
-Bez IE11 mizne ~80KB polyfillov. V 2026 IE11 už neexistuje — Microsoft ho vypol v 2022.
+Bez IE11 mizne zhruba 80 KB polyfillov. V roku 2026 už IE11 neexistuje — Microsoft ho oficiálne vypol 15. júna 2022.
 
-### 4. Multiple icon libraries
+### 4. viac icon knižníc naraz
 
-Klasika React/Next projektov: niekto pridal `react-icons` (300KB ak naimportuješ celé), niekto neskôr `lucide-react`, niekto pre admin `@heroicons/react`. Bundle končí s 3 knižnicami pre to isté.
+Klasika React/Next projektov: niekto pridal `react-icons`, neskôr niekto `lucide-react`, a pre admin ešte niekto `@heroicons/react`. Bundle končí s tromi knižnicami pre to isté. (Pozor najmä na `react-icons` — pri wildcard importe celého setu `import * as Icons from 'react-icons/fa'` sa tree-shaking vypne a pritiahne to stovky kilobajtov.)
 
-Audit: `grep -r "from '@heroicons" src/` + `grep -r "from 'react-icons" src/` + `grep -r "from 'lucide-react" src/`. Konsoliduj na jednu.
+Audit: `grep -r "from '@heroicons" src/` plus `grep -r "from 'react-icons" src/` plus `grep -r "from 'lucide-react" src/`. Konsoliduj na jednu.
 
-Moja preferovaná: **Lucide** — tree-shakeable, modern dizajn, vlastný `icon` komponent v Astro/Next.
+Moja preferovaná: **Lucide** — tree-shakeable, moderný dizajn, vlastný `icon` komponent aj pre Astro (`@lucide/astro`), aj pre Next (`lucide-react`).
 
 ```jsx
-import { ChevronRight } from 'lucide-react'; // ~1KB
+import { ChevronRight } from 'lucide-react'; // ~1 KB
 ```
 
-Pre maximálny šetrenie: SVG inline ako React/Astro komponenty, generované z [Iconify](https://iconify.design/) alebo Figma exportu. Žiadna runtime knižnica, len plain SVG.
+Na maximálnu úsporu: SVG inline ako React/Astro komponenty, vygenerované z [Iconify](https://iconify.design/) alebo z Figma exportu. Žiadna runtime knižnica, len čisté SVG.
 
 ## Krok 3: code splitting per route
 
-V Next.js sa to deje automaticky pre `app/` directory. Každý `page.tsx` má svoj chunk + shared common chunks. Ak máš stále veľký initial bundle, pravdepodobne si naimportoval ťažkú knižnicu na page top-level namiesto `dynamic()`:
+V Next.js sa to deje automaticky pre `app/` adresár. Každý `page.tsx` má vlastný chunk plus zdieľané spoločné chunky. Ak máš stále veľký initial bundle, pravdepodobne si naimportoval ťažkú knižnicu na top-level stránky namiesto cez `dynamic()`:
 
 ```jsx
 // ZLÉ — Chart.js v initial bundle
@@ -147,13 +147,13 @@ const Chart = dynamic(() => import('@/components/Chart'), {
 });
 ```
 
-V Astro je to ešte agresívnejšie. Default-ne 0KB JS na route. Komponenty sa hydratujú len ak majú `client:*` direktívu. Pravidlo: použi `client:visible` namiesto `client:load` všade kde je to možné — komponent sa hydratuje až keď je v viewport.
+V Astro je to ešte agresívnejšie. Štandardne 0 KB JS na route. Komponenty sa hydratujú, len ak majú direktívu `client:*`. Pravidlo: použi `client:visible` namiesto `client:load` všade, kde sa dá — komponent sa hydratuje až vtedy, keď je vo viewporte.
 
 ```astro
 <HeavyChart client:visible data={data} />
 ```
 
-## Krok 4: pred/po metriky
+## Krok 4: metriky pred/po
 
 Reálny SaaS dashboard, Next.js 15.2:
 
@@ -161,25 +161,25 @@ Reálny SaaS dashboard, Next.js 15.2:
 |---|---|---|
 | Initial JS (gzipped) | 412 KB | 167 KB |
 | First Load JS (Next dashboard) | 580 KB | 220 KB |
-| TTI (Lighthouse mobile) | 4.8 s | 2.1 s |
+| TTI (Lighthouse mobile) | 4,8 s | 2,1 s |
 | TBT | 920 ms | 280 ms |
 
 Konkrétne čo padlo:
 
-- moment.js → `Intl.DateTimeFormat` (-290 KB)
-- lodash → 4 named imports + native (-65 KB)
-- core-js polyfilly (browserslist update) (-85 KB)
-- 2× icon library → Lucide only (-45 KB)
-- Chart.js → `dynamic()` import (-180 KB z initial)
+- moment.js → `Intl.DateTimeFormat` (−290 KB)
+- lodash → 4 named importy plus natívne (−65 KB)
+- core-js polyfilly (update browserslist) (−85 KB)
+- 2× icon knižnica → len Lucide (−45 KB)
+- Chart.js → `dynamic()` import (−180 KB z initial)
 
-## Postup ktorý reálne robím v audite
+## Postup, ktorý reálne robím v audite
 
 1. **Analyzer** — `ANALYZE=true npm run build` alebo `vite-bundle-visualizer`.
-2. **Top 5 modulov** v treemap — kliknem, identifikujem source.
-3. **Skontrolujem `package.json`** na obvyklých vinníkov: moment, lodash, core-js, multiple icon libs.
-4. **`npm ls <package>`** pre transitive dependencies — niekedy ich pretiahne nejaký iný plugin.
-5. **Postupne fix-ujem**, build-ujem, porovnávam treemap.
+2. **Top 5 modulov** v treemape — kliknem, identifikujem zdroj.
+3. **Skontrolujem `package.json`** na obvyklých vinníkov: moment, lodash, core-js, viac icon knižníc.
+4. **`npm ls <package>`** pre tranzitívne závislosti — niekedy ich pritiahne nejaký iný plugin.
+5. **Postupne fixujem**, buildujem, porovnávam treemapu.
 
 ## TL;DR
 
-Bundle audit nie je raketová veda. 80 % zlepšenia dosiahneš zmazaním 4 vecí: moment.js, lodash full import, zbytočné polyfilly, multiple icon libraries. Ďalších 15 % cez code splitting (`dynamic()` v Next, `client:visible` v Astro). Posledných 5 % sú boutique optimalizácie ktoré skoro nikto nepotrebuje. Začni analyzerom, identifikuj veľké bloky, postupuj zhora.
+Bundle audit nie je raketová veda. 80 % zlepšenia dosiahneš zmazaním štyroch vecí: moment.js, celý import lodash, zbytočné polyfilly a viac icon knižníc naraz. Ďalších 15 % cez code splitting (`dynamic()` v Next, `client:visible` v Astro). Posledných 5 % sú boutique optimalizácie, ktoré skoro nikto nepotrebuje. Začni analyzerom, identifikuj veľké bloky a postupuj zhora.

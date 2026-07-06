@@ -3,90 +3,90 @@ title: "Local SEO pre Bratislavu: čo robí rozdiel v 2026"
 date: 2025-10-29
 read: 7
 tags: ["SEO", "Process"]
-excerpt: "Päť vecí ktoré pomáhajú lokálnym BA biznisom — Google Business Profile, NAP, lokálne backlinky, review flow, LocalBusiness schema."
+excerpt: "Päť vecí, ktoré reálne hýbu rebríčkom lokálnym bratislavským firmám — Google Business Profile, konzistentný NAP, lokálne spätné odkazy, tok recenzií a LocalBusiness schema."
 featured: false
 ---
 
-Klient (malá ramen reštaurácia v centre BA) bol v lete na pozícii #15 pre "ramen Bratislava". 4 mesiace consistent local SEO práce a teraz drží #3, občas #2. Žiadne ads, žiadny SEO agency budget €1500/mes — len zopár vecí robených systematicky.
+Klient (malá ramen reštaurácia v centre BA) bol v lete na pozícii #15 pre „ramen Bratislava“. Štyri mesiace systematickej lokálnej SEO práce a teraz drží #3, občas #2. Žiadne reklamy, žiadny agentúrny SEO rozpočet 1500 EUR mesačne — len zopár vecí robených dôsledne.
 
-Lokál SEO v Bratislave (alebo Košiciach, Nitre...) má svoj rytmus. Tu je, čo skutočne hýbe rebríčkom v 2026.
+Lokálne SEO v Bratislave (alebo v Košiciach, v Nitre…) má svoj rytmus. Tu je to, čo skutočne hýbe rebríčkom v roku 2026.
 
-## 1. Google Business Profile complete
+## 1. Kompletný Google Business Profile
 
-Najsilnejší faktor pre Map Pack ranking. Profil musí byť:
+Najsilnejší faktor pre umiestnenie v Map Packu. Profil musí byť:
 
-- **Kompletne vyplnený** — všetky sekcie, nie len name + address
-- **Správna primary kategória** + secondary kategórie. Pre ramen: primary "Ramen restaurant", secondary "Asian restaurant", "Japanese restaurant", "Soup restaurant"
-- **Photos weekly** — fyzicky upload-uj 3-5 foto týždenne. Google Business Profile API má `mediaItems.create`. Manuálne cez app stačí.
-- **Posts weekly** — text update + photo, "Týždenná novinka", event, akcia
-- **Q&A** — Google ti tam pridáva otázky od ľudí. Nepustí to bez odpovede.
-- **Services / Menu** — pre reštaurácie menu items s cenami; pre service business štruktúrovaný service catalog
+- **Kompletne vyplnený** — všetky sekcie, nie len názov a adresa
+- **Správna hlavná kategória** + vedľajšie kategórie. Pre ramen: hlavná „Ramen restaurant“, vedľajšie „Asian restaurant“, „Japanese restaurant“, „Soup restaurant“
+- **Fotky každý týždeň** — pridávaj 3 – 5 fotiek týždenne. Google Business Profile API má na to metódu `media.create`. Ručne cez appku to však úplne stačí.
+- **Príspevky každý týždeň** — textová novinka + fotka, „Týždenná novinka“, event, akcia
+- **Q&A** — Google ti sem pridáva otázky od ľudí. Nenechaj ich bez odpovede.
+- **Služby / Menu** — pre reštaurácie položky menu s cenami; pre služby štruktúrovaný katalóg služieb
 
-Klientov prvý mesiac práce: pridal som 12 fotiek (jedlo, interiér, tím, exteriér v rôznych časoch dňa), 4 posty (špecialita týždňa), zodpovedal 8 nezodpovedaných otázok. Bez akýchkoľvek zmien na webe → posun z #15 na #9.
+Klientov prvý mesiac práce: pridal som 12 fotiek (jedlo, interiér, tím, exteriér v rôznych časoch dňa), 4 príspevky (špecialita týždňa), zodpovedal 8 nezodpovedaných otázok. Bez akýchkoľvek zmien na webe → posun z #15 na #9.
 
-## 2. NAP consistency
+## 2. Konzistentný NAP
 
-NAP = **N**ame, **A**ddress, **P**hone. Google porovnáva, ako sa biznis "ohlasuje" naprieč webom. Inkonzistencia = trust hit.
+NAP = **N**ame, **A**ddress, **P**hone (názov, adresa, telefón). Google porovnáva, ako sa firma „ohlasuje“ naprieč webom. Nekonzistentnosť = strata dôvery.
 
-Skontroluj, že na týchto miestach máš **identický** NAP:
+Skontroluj, či máš na týchto miestach **identický** NAP:
 
-- Tvoj web (footer, kontakt page) — schema markup `LocalBusiness`
+- Tvoj web (pätička, kontaktná stránka) — schema markup `LocalBusiness`
 - Google Business Profile
 - [Firmy.sk](https://www.firmy.sk/)
 - [Zoznam.sk](https://www.zoznam.sk/) (Katalóg firiem)
 - [Azet katalóg](https://katalog.azet.sk/)
-- Facebook business page
-- LinkedIn company page
+- Firemná stránka na Facebooku
+- Firemný profil na LinkedIne
 
-"Identický" znamená:
-- presne rovnaký formát adresy (`Vajanského nábrežie 5, 811 02 Bratislava` vs `Vajanskeho nabr. 5, 81102 Bratislava` = rôzne)
+„Identický“ znamená:
+- presne rovnaký formát adresy (`Vajanského nábrežie 5, 811 02 Bratislava` vs. `Vajanskeho nabr. 5, 81102 Bratislava` = rôzne)
 - jeden formát telefónu (`+421 905 123 456` všade)
 - jeden názov (žiadne `s.r.o.` raz tu, raz tam)
 
-Audit nástroj: [Brightlocal Citation Tracker](https://www.brightlocal.com/) (nie zadarmo) alebo manuálne 30-min check.
+Nástroj na audit: [BrightLocal Citation Tracker](https://www.brightlocal.com/) (nie je zadarmo) alebo ručná 30-minútová kontrola.
 
 ## 3. Lokálne backlinky
 
-Bratislavské weby, ktoré linkujú na lokálne biznisy:
+Bratislavské weby, ktoré odkazujú na lokálne firmy:
 
-- **Bratislava-mesto.sk** sekcie pre podnikateľov, eventy
-- **Mestské časti** (Staré mesto, Ružinov...) — ich newsletter / event calendar
-- **Bratislava Tourism Board** — visit bratislava listings
-- **Lokálne FB skupiny** — "Restauracie BA", "Móda BA", lokálne directory weby
-- **BSK** (Bratislavský samosprávny kraj) ak relevantné
+- **Bratislava.sk** — sekcie pre podnikateľov, eventy
+- **Mestské časti** (Staré Mesto, Ružinov…) — ich newsletter alebo kalendár podujatí
+- **Bratislava Tourist Board** — výpisy na visitbratislava.com
+- **Lokálne FB skupiny** — „Reštaurácie BA“, „Móda BA“, lokálne katalógové weby
+- **BSK** (Bratislavský samosprávny kraj), ak je to relevantné
 - **Lokálne médiá** — Bratislavské noviny, mestský magazín, podcasty
 
-Strategy: každý mesiac jeden lokálny outreach. Press release pre nové menu, sponsorship malého eventu, host neformálnu networking session.
+Stratégia: každý mesiac jeden lokálny outreach. Tlačová správa k novému menu, sponzoring malého eventu, hosťovanie neformálnej networkingovej akcie.
 
-Klient získal 3 lokálne backlinky cez sponzorstvo malého food festivalu (€200) + interview v Bratislavské Noviny (zadarmo, len pitch). Domain Rating jeden z tých backlinkov: 58. To posunulo lokálnu authority výrazne.
+Klient získal 3 lokálne spätné odkazy cez sponzoring malého food festivalu (200 EUR) + rozhovor v Bratislavských novinách (zadarmo, stačil pitch). Domain Rating jedného z tých odkazov: 58. To výrazne posunulo lokálnu autoritu.
 
-## 4. Review strategy
+## 4. Stratégia recenzií
 
-Reviews sú top 3 ranking faktor pre Map Pack. Quantity + quality + recency.
+Recenzie patria medzi najsilnejšie faktory umiestnenia v Map Packu. Počet + kvalita + čerstvosť.
 
-**Request flow** ktorý funguje:
+**Postup, ktorý funguje:**
 
-1. **Po service** (obed dojedený, zákazník zaplatil): server slušne povie "Ak ste boli spokojní, ocením, ak by ste nám napísali kratičkú recenziu na Google."
-2. **Hand them a card** s QR kódom → priamo na review form (nie len na profil!). Url tvar:
+1. **Po obsluhe** (obed dojedený, zákazník zaplatil): čašník slušne povie „Ak ste boli spokojní, ocením, keby ste nám napísali kratučkú recenziu na Google.“
+2. **Podaj mu kartičku** s QR kódom → priamo na formulár recenzie (nie len na profil!). Tvar URL:
    ```
    https://search.google.com/local/writereview?placeid=ChIJ...
    ```
    placeId nájdeš [tu](https://developers.google.com/maps/documentation/places/web-service/place-id).
-3. **Follow-up** (len pre take-away/online order kde máš email): 24h po pickup-e jeden krátky email "Ako sa vám páčilo? Recenzia tu."
+3. **Follow-up** (len pri take-away/online objednávkach, kde máš e-mail): 24 h po vyzdvihnutí jeden krátky e-mail „Ako vám chutilo? Recenziu môžete napísať tu.“
 
-**Don't:**
-- Nikdy fake reviews (Google to vie detekovať patterns ako frequency, IP, account age — penalty môže byť permanentná)
-- Nikdy "incentivize" reviews ("zľava 10 % za review") — proti Google ToS, riziko suspend
+**Čo nerobiť:**
+- Nikdy nie falošné recenzie (Google vie odhaliť vzorce ako frekvencia, IP adresa či vek účtu — postih môže byť trvalý)
+- Nikdy neponúkaj recenzie za protihodnotu („zľava 10 % za recenziu“) — je to proti pravidlám Googlu a riskuješ zablokovanie profilu
 
-**Do:**
-- Odpovedaj na **všetky** reviews (positive aj negative). Pomalá negative response je horšia než žiadna.
-- Pri negatívnej review: profesionálne, faktickou linkou, ponuka offline rieenia. Nikdy defensive.
+**Čo robiť:**
+- Odpovedaj na **všetky** recenzie (pozitívne aj negatívne). Pomalá reakcia na negatívnu je horšia než žiadna.
+- Pri negatívnej recenzii: profesionálne, vecne, s ponukou riešenia mimo verejnej diskusie. Nikdy nie defenzívne.
 
-Klient má 28 nových reviews za 4 mesiace, priemer 4.7. Pred tým: 11 reviews za rok, priemer 4.3. To je signal nielen recency, ale aj velocity (Google to zaujíma).
+Klient má 28 nových recenzií za 4 mesiace, priemer 4,7. Predtým: 11 recenzií za rok, priemer 4,3. To je signál nielen čerstvosti, ale aj tempa pribúdania (a to Google zaujíma).
 
 ## 5. LocalBusiness schema
 
-JSON-LD na hlavnej stránke + kontakt page:
+JSON-LD na hlavnej stránke + kontaktnej stránke:
 
 ```json
 {
@@ -129,15 +129,15 @@ JSON-LD na hlavnej stránke + kontakt page:
 }
 ```
 
-Validuj cez [validator.schema.org](https://validator.schema.org). `@type` voľ podľa biznisu: `Restaurant`, `Dentist`, `LegalService`, `HairSalon`, `AutomotiveBusiness`...
+Validuj cez [validator.schema.org](https://validator.schema.org). `@type` voľ podľa typu firmy: `Restaurant`, `Dentist`, `LegalService`, `HairSalon`, `AutomotiveBusiness`…
 
 ## Čo Google ignoruje
 
-- **Keyword stuffing v meta title** — "Ramen Bratislava | Best Ramen Bratislava | Cheap Ramen BA" je penal-able
-- **Fake reviews** — algoritmus aj manual review tím to riešia agresívne v 2025/2026
-- **Hidden NAP "all over the page"** — žiadny benefit, looks spammy
-- **EXIF GPS data v image upload-e** — zaujímavá teória, ale nemajú merateľný impact
+- **Keyword stuffing v meta title** — „Ramen Bratislava | Best Ramen Bratislava | Cheap Ramen BA“ vie priniesť postih
+- **Falošné recenzie** — algoritmus aj manuálny tím ich v rokoch 2025/2026 riešia agresívne
+- **Skrytý NAP „po celej stránke“** — žiadny prínos, pôsobí to spamovo
+- **EXIF GPS dáta v nahrávaných fotkách** — zaujímavá teória, ale nemá merateľný vplyv
 
 ## TL;DR
 
-Local SEO pre Bratislavu = Google Business Profile complete + NAP consistent + 1 lokálny backlink/mesiac + organický review flow + LocalBusiness schema. Žiadne agency tricks, len mesiac za mesiacom systematicky. Realistický timeline pre top 3 v Map Pack: 3-6 mesiacov pri non-saturated keyword (ramen Bratislava), 9-12 mesiacov pri high-comp (kaviareň Bratislava centrum).
+Lokálne SEO pre Bratislavu = kompletný Google Business Profile + konzistentný NAP + 1 lokálny spätný odkaz mesačne + organický tok recenzií + LocalBusiness schema. Žiadne agentúrne triky, len mesiac za mesiacom systematicky. Realistický časový horizont pre top 3 v Map Packu: 3 – 6 mesiacov pri menej saturovanom kľúčovom slove („ramen Bratislava“), 9 – 12 mesiacov pri vysoko konkurenčnom („kaviareň Bratislava centrum“).

@@ -3,28 +3,28 @@ title: "Next.js cache: revalidate, tag, path — kde čo použiť"
 date: 2026-03-05
 read: 7
 tags: ["Next.js", "Performance"]
-excerpt: "Tri druhy cache invalidation v Next.js robia každý niečo iné. Decision tree podľa use case s tromi praktickými code samplami."
+excerpt: "Tri spôsoby invalidácie cache v Next.js, každý robí niečo iné. Rozhodovací strom podľa situácie a tri praktické ukážky kódu."
 featured: false
 ---
 
-Next.js má tri spôsoby, ako revalidovať cache: `revalidate` (number), `revalidateTag()` a `revalidatePath()`. Vyzerajú podobne, robia rôzne veci a väčšina chýb na projektoch ide z toho, že sa použije nesprávny spôsob na nesprávnu vec.
+Next.js má tri spôsoby, ako revalidovať cache: `revalidate` (číslo), `revalidateTag()` a `revalidatePath()`. Vyzerajú podobne, robia rôzne veci a väčšina chýb na projektoch pramení z toho, že sa použije nesprávny spôsob na nesprávnu vec.
 
-## Decision tree v jednej tabuľke
+## Rozhodovací strom v jednej tabuľke
 
-| Use case | Mechanizmus | Príklad |
+| Situácia | Mechanizmus | Príklad |
 |---|---|---|
-| Refresh každých X sekúnd | `revalidate = 3600` | Blog feed every 1h |
-| Webhook → invaliduj jednu stránku | `revalidatePath('/blog')` | CMS publish |
-| Webhook → invaliduj skupinu fetch-ov | `revalidateTag('products')` | Admin updatuje 50 produktov |
+| Obnov každých X sekúnd | `revalidate = 3600` | Blogový feed raz za hodinu |
+| Webhook → invaliduj jednu stránku | `revalidatePath('/blog')` | Publikovanie v CMS |
+| Webhook → invaliduj skupinu fetchov | `revalidateTag('products')` | Admin upraví 50 produktov |
 
 Inak povedané:
-- **`revalidate`** = "automaticky, podľa hodín".
-- **`revalidatePath`** = "manuálne, jedna konkrétna stránka".
-- **`revalidateTag`** = "manuálne, všetko označené tag-om naprieč stránkami".
+- **`revalidate`** = „automaticky, podľa hodín".
+- **`revalidatePath`** = „manuálne, jedna konkrétna stránka".
+- **`revalidateTag`** = „manuálne, všetko označené tagom naprieč stránkami".
 
-## 1) `revalidate` (number) — time-based
+## 1) `revalidate` (číslo) — časovo riadená
 
-Najjednoduchší. Definuješ ako export v page (alebo route segmente):
+Najjednoduchšia. Definuješ ju ako export v stránke (alebo v segmente routy):
 
 ```tsx
 // app/blog/page.tsx
@@ -36,20 +36,20 @@ export default async function BlogPage() {
 }
 ```
 
-Po hodine od posledného renderu prvý request spustí regeneráciu. **User vždy vidí starú verziu počas regenerácie** (background revalidation).
+Po hodine od posledného renderu spustí prvý request regeneráciu. **Používateľ počas regenerácie vždy vidí starú verziu** (revalidácia beží na pozadí).
 
 Kde sa hodí:
 
-- **Blog feed** — articles sa pridávajú zriedka, hour fresh stačí.
-- **Top products widget** na homepage — recompute raz za 6 hodín OK.
-- **Status page** — refresh každú minútu.
-- **Currency rates** — raz za hodinu refresh.
+- **Blogový feed** — články pribúdajú zriedka, dáta staré do hodiny stačia.
+- **Widget najlepších produktov** na domovskej stránke — prepočet raz za 6 hodín je v pohode.
+- **Stavová stránka** — obnova každú minútu.
+- **Kurzy mien** — obnova raz za hodinu.
 
-Kde sa NEHODÍ: pri publish-i potrebuješ okamžité odzrkadlenie. Vtedy treba kombináciu s on-demand revalidation.
+Kde sa NEHODÍ: keď pri publikovaní potrebuješ okamžité premietnutie zmeny. Vtedy treba kombináciu s revalidáciou na požiadanie (on-demand).
 
-## 2) `revalidatePath()` — single-page invalidation
+## 2) `revalidatePath()` — invalidácia jednej stránky
 
-Použitie z route handler-a (typicky webhook):
+Použitie z route handlera (typicky webhook):
 
 ```tsx
 // app/api/cms-webhook/route.ts
@@ -74,18 +74,18 @@ export async function POST(req: Request) {
 
 `revalidatePath()` má voliteľný druhý parameter:
 
-- `"page"` (default) — len daná stránka.
-- `"layout"` — stránka + všetky layouty pod ňou (use case: header menu zmena).
+- `"page"` (predvolené) — len daná stránka.
+- `"layout"` — stránka plus všetky layouty pod ňou (typický prípad: zmena v hlavnom menu).
 
 Kde sa hodí:
 
-- **CMS publish hook** — vieš, ktorú konkrétnu stránku invalidovať.
-- **User profile update** — revaliduj `/u/[username]`.
-- **Order placed** — revaliduj `/admin/orders`.
+- **Webhook z CMS pri publikovaní** — vieš, ktorú konkrétnu stránku invalidovať.
+- **Úprava používateľského profilu** — revaliduj `/u/[username]`.
+- **Vytvorenie objednávky** — revaliduj `/admin/orders`.
 
-## 3) `revalidateTag()` — koordinovaná invalidation
+## 3) `revalidateTag()` — koordinovaná invalidácia
 
-Toto je najsilnejší mechanizmus a najmenej pochopený. Každý `fetch()` môžeš označiť tag-om:
+Toto je najsilnejší mechanizmus a najmenej pochopený. Každý `fetch()` môžeš označiť tagom:
 
 ```tsx
 // app/products/[slug]/page.tsx
@@ -107,7 +107,7 @@ export default async function ProductsListing() {
 }
 ```
 
-Keď admin updatne 50 produktov, **jeden call** invalidne všetky stránky používajúce tag `products`:
+Keď admin upraví 50 produktov, **jedno volanie** invaliduje všetky stránky používajúce tag `products`:
 
 ```tsx
 // app/api/admin-bulk-update/route.ts
@@ -120,9 +120,9 @@ export async function POST() {
 }
 ```
 
-Toto invaliduje **listing aj všetky detail stránky súčasne**, lebo všetky fetche majú tag `products`. Bez tag-ov by si musel volať `revalidatePath('/products')` + 50x `revalidatePath('/products/${slug}')`.
+Toto invaliduje **výpis aj všetky detailové stránky súčasne**, lebo všetky fetche majú tag `products`. Bez tagov by si musel volať `revalidatePath('/products')` plus 50-krát `revalidatePath('/products/${slug}')`.
 
-Kombinovať tagy je legit:
+Kombinovať tagy je úplne v poriadku:
 
 ```tsx
 fetch(url, { next: { tags: ["products", "category-electronics"] } });
@@ -134,31 +134,31 @@ A potom:
 revalidateTag("category-electronics"); // invaliduj len elektroniku
 ```
 
-## Kedy revalidatePath vs revalidateTag
+## Kedy revalidatePath a kedy revalidateTag
 
 Pravidlo, ktoré používam:
 
 - **Vieš presne, ktorú URL invalidovať?** → `revalidatePath`.
-- **Chceš invalidovať skupinu fetch-ov, ktoré sú rozhodené na viacerých URLs?** → `revalidateTag`.
+- **Chceš invalidovať skupinu fetchov rozhodených po viacerých URL?** → `revalidateTag`.
 
-Príklad: blog post update.
+Príklad: úprava blogového článku.
 
-- Použijem `revalidatePath('/blog/${slug}')` pre konkrétny post.
-- A `revalidatePath('/blog')` pre listing.
-- ALEBO: `revalidateTag('post-${slug}')` na detail fetch + `revalidateTag('posts-list')` na listing fetch.
+- Použijem `revalidatePath('/blog/${slug}')` pre konkrétny článok.
+- A `revalidatePath('/blog')` pre výpis.
+- ALEBO: `revalidateTag('post-${slug}')` na fetch detailu plus `revalidateTag('posts-list')` na fetch výpisu.
 
-Tag-ový prístup je flexibilnejší, ale vyžaduje disciplínu pri pridávaní tag-ov k fetch-om hneď na začiatku. Path-ový prístup je hladší pre malé projekty.
+Tagový prístup je flexibilnejší, ale vyžaduje disciplínu pridávať tagy k fetchom hneď od začiatku. Cestový prístup je jednoduchší pre malé projekty.
 
-## Common mistakes, ktoré som videl
+## Časté chyby, ktoré som videl
 
-1. **Zabudnutý revalidate volanie** — `await db.update(...)` bez následného `revalidatePath/Tag`. User submituje formulár, vidí starú stránku, nadáva.
-2. **Wrong path** — `revalidatePath('/products/123')` ale stránka je `/products/[slug]` s slugom `auto-123`. Cesta musí matchnúť **finálny URL**, nie route pattern (alebo používaj typu argument: `revalidatePath('/products/[slug]', 'page')`).
-3. **Nezhoda tag-u** — fetch má tag `'products'` (singular), revalidate volá `revalidateTag('product')`. Tichá chyba, žiadny error, len cache nefunguje.
-4. **Cache layer cez fetch v Server Action** — Server Actions majú vlastný `cache()` mechanizmus. Ak v action voláš `fetch()` bez `cache: 'no-store'`, môže ti dôjsť k stale read.
+1. **Zabudnuté volanie revalidate** — `await db.update(...)` bez následného `revalidatePath/Tag`. Používateľ odošle formulár, vidí starú stránku a nadáva.
+2. **Nesprávna cesta** — voláš `revalidatePath('/products/123')`, ale stránka je `/products/[slug]` so slugom `auto-123`. Pri konkrétnej ceste musíš zadať **finálnu URL** (`/products/auto-123`), nie route pattern. Ak chceš zasiahnuť všetky stránky podľa vzoru, použi pattern spolu s druhým parametrom: `revalidatePath('/products/[slug]', 'page')`.
+3. **Nezhoda tagu** — fetch má tag `'products'` (množné číslo), revalidate volá `revalidateTag('product')` (jednotné). Tichá chyba, žiadne vyhodenie výnimky, len cache nefunguje.
+4. **Spoliehanie sa na cache fetchu v Server Action** — od Next.js 15 `fetch()` už **nie je cachovaný predvolene** (defaultne `no-store`). Ak si zvyknutý z Next.js 14, kde bol default `force-cache`, pozor: v Server Action ti neanotovaný `fetch()` už nič neukladá do cache. Ak naopak *chceš* cachovať, musíš explicitne pridať `cache: 'force-cache'` alebo `next: { revalidate }` — inak ide o čerstvé dáta pri každom volaní.
 
 ## Praktický tip na debug
 
-Pridaj si log do API webhook-u:
+Pridaj si log do webhooku:
 
 ```tsx
 console.log(`[revalidate] tag=${tag} time=${Date.now()}`);
@@ -171,8 +171,8 @@ A pri page render-e:
 console.log(`[render] /blog at ${Date.now()}`);
 ```
 
-V `next dev` termináli vidíš, kedy sa volá revalidate vs kedy reálne preběhne re-render. Ak sa render nedeje po revalidate volaní, máš nesprávny tag/path.
+V termináli `next dev` vidíš, kedy sa volá revalidate oproti tomu, kedy reálne prebehne opätovný render. Ak sa render po volaní revalidate nedeje, máš nesprávny tag alebo cestu.
 
-## TL;DR
+## Zhrnutie
 
-Tri mechanizmy, tri use cases. `revalidate = 3600` pre auto refresh. `revalidatePath('/url')` pre cielenú jednu stránku. `revalidateTag('group')` pre koordinovanú invalidation skupiny fetch-ov. Pravidlo: vieš URL → path. Nevieš URL ale máš tag → tag. Nechce sa ti uvažovať → revalidate number, ale priprav sa na stale data.
+Tri mechanizmy, tri situácie. `revalidate = 3600` na automatickú obnovu. `revalidatePath('/url')` na cielenú jednu stránku. `revalidateTag('group')` na koordinovanú invalidáciu skupiny fetchov. Pravidlo: vieš URL → path. Nevieš URL, ale máš tag → tag. Nechce sa ti nad tým rozmýšľať → revalidate číslom, ale priprav sa na staré dáta.

@@ -3,99 +3,99 @@ title: "Brief, ktorý ušetrí 3 týždne nedorozumení"
 date: 2026-04-15
 read: 7
 tags: ["Process", "UX"]
-excerpt: "5 sekcií, jedna A4 strana. Goal, audience, scope, constraints, success criteria. Reálny ROI: 2 hodiny brief discovery zachránili 3 týždne implementačných hádok."
+excerpt: "5 sekcií, jedna A4 strana: cieľ, publikum, rozsah, obmedzenia, kritériá úspechu. Reálny ROI: 2 hodiny nad briefom ušetria 3 týždne implementačných hádok."
 featured: false
 ---
 
-Bez briefu klient povie "spravte web" a o 6 týždňov sa čuduje, prečo na ňom nie je booking systém. Ty sa čuduješ, prečo má klient v hlave čokoľvek iné než landing page. Brief odstráni 80 % týchto situácií.
+Bez briefu klient povie „spravte web“ a o 6 týždňov sa čuduje, prečo na ňom nie je rezervačný systém. Ty sa čuduješ, prečo má klient v hlave čokoľvek iné než landing page. Brief odstráni 80 % týchto situácií.
 
-Toto je 5-sekcia template, ktorú používam na každom novom projekte. Vyplnenie 2 hodiny (klient + ja), úspora 3 týždne neskoršie. Nie metafora — reálny rozdiel medzi projektom s briefom a bez.
+Toto je päťsekciová šablóna, ktorú používam na každom novom projekte. Vyplnenie 2 hodiny (klient + ja), úspora 3 týždne neskôr. Nie je to metafora — je to reálny rozdiel medzi projektom s briefom a bez neho.
 
-## Sekcia 1: Goal
+## Sekcia 1: Cieľ
 
 **1 veta + 1 metrika.** Nič viac.
 
 Príklad:
 
-> Web má generovať 30 kvalifikovaných lead-ov mesačne pre B2B sales tím. Metrika: form submissions s vyplneným "company" field-om.
+> Web má generovať 30 kvalifikovaných leadov mesačne pre B2B obchodný tím. Metrika: odoslané formuláre s vyplneným poľom „company“.
 
-Čo NEdávať do goalu:
+Čo do cieľa NEdávať:
 
-- "Byť moderný a profesionálny" — to nie je goal, to je pocit
-- "Zlepšiť SEO" — pre aké keywordy? Čo z toho tečie?
-- "Mať novú stránku" — to je akcia, nie cieľ
+- „Byť moderný a profesionálny“ — to nie je cieľ, to je pocit
+- „Zlepšiť SEO“ — pre aké kľúčové slová? Čo z toho tečie?
+- „Mať novú stránku“ — to je akcia, nie cieľ
 
-Ak klient nevie zformulovať goal vetou, projekt nie je ready. Pošli ho späť na discovery, alebo dohodnite session kde to spolu skladáte.
+Ak klient nevie sformulovať cieľ jednou vetou, projekt nie je pripravený. Pošli ho späť na discovery, alebo si dohodnite stretnutie, kde to poskladáte spolu.
 
-## Sekcia 2: Audience
+## Sekcia 2: Publikum
 
-**Kto, prečo prichádza, kde sú teraz.** 3 vety.
+**Kto, prečo prichádza, kde je teraz.** 3 vety.
 
 Príklad:
 
-> **Kto:** Procurement managers v stavebných firmách, 35-50 rokov, B2B.  
-> **Prečo prichádza:** Hľadajú dodávateľa pre konkrétny projekt, potrebujú rýchlu cenovú ponuku.  
-> **Kde sú teraz:** Google search "stavebný materiál bratislava dodávka", LinkedIn referencie, kolega odporučil.
+> **Kto:** nákupcovia v stavebných firmách, 35 – 50 rokov, B2B.  
+> **Prečo prichádza:** hľadajú dodávateľa pre konkrétny projekt, potrebujú rýchlu cenovú ponuku.  
+> **Kde je teraz:** vyhľadávanie na Googli „stavebný materiál bratislava dodávka“, referencie na LinkedIne, odporúčanie kolegu.
 
-Toto je všetko. Nie persona dokument s menom, hobby a Spotify playlist-om. Tieto 3 vety ti definujú:
+To je všetko. Žiadny persona dokument s menom, koníčkami a Spotify playlistom. Tieto 3 vety ti definujú:
 
-- Tone (B2B → vecný, žiadny startup-y slang)
-- Content priority (rýchla cenová ponuka → prominent CTA "Vyžiadať ponuku")
-- Acquisition channel (search → SEO + ads, nie social media)
+- Tón (B2B → vecný, žiadny startupový slang)
+- Prioritu obsahu (rýchla cenová ponuka → výrazné CTA „Vyžiadať ponuku“)
+- Akvizičný kanál (vyhľadávanie → SEO + reklama, nie sociálne siete)
 
-Ak má projekt 2 distinct audiences (napr. eshop má B2B aj B2C zákazníkov), urob 2× túto sekciu. Nie viac. 4 audiences = projekt nemá fokus.
+Ak má projekt 2 odlišné publiká (napr. e-shop má B2B aj B2C zákazníkov), urob túto sekciu 2×. Nie viac. 4 publiká = projekt nemá fokus.
 
-## Sekcia 3: Scope
+## Sekcia 3: Rozsah
 
 Tri stĺpce: **In, Out, Later.**
 
 ```
 IN (v cene):
-- Landing page + 5 pod-stránok
-- Blog template (ne content)
-- Kontakt form s lead routing do CRM
-- Cookie banner GDPR-compliant
-- Základné SEO setup (sitemap, robots, meta tagy)
+- Landing page + 5 podstránok
+- Šablóna blogu (bez obsahu)
+- Kontaktný formulár s routovaním leadov do CRM
+- Cookie lišta v súlade s GDPR
+- Základné SEO nastavenie (sitemap, robots, meta tagy)
 
 OUT (nie sme za to zodpovední):
-- Content písanie (klient zabezpečí)
-- Brand identity / logo redesign
-- E-mail marketing setup (existing Mailchimp)
-- Production fotky (klient dodá)
+- Písanie obsahu (zabezpečí klient)
+- Brand identita / redizajn loga
+- Nastavenie e-mail marketingu (existujúci Mailchimp)
+- Produktové fotky (dodá klient)
 
-LATER (Phase 2, separate scope):
-- Multi-language (EN verzia)
-- Booking systém / kalendár
-- Member area s logged-in users
-- Native mobile app
+LATER (2. fáza, samostatný rozsah):
+- Viacjazyčnosť (EN verzia)
+- Rezervačný systém / kalendár
+- Členská sekcia s prihlásenými používateľmi
+- Natívna mobilná aplikácia
 ```
 
-`LATER` sekcia je dôležitá — zachytáva veci, ktoré klient hovorí "to by sme možno chceli". Bez nej skončia v Phase 1 a posunú deadline o mesiac. S `LATER` sekciou má klient čierno na bielom: "tieto veci sme dohodli, že riešime neskôr."
+Sekcia `LATER` je dôležitá — zachytáva veci, o ktorých klient hovorí „to by sme možno chceli“. Bez nej skončia v 1. fáze a posunú deadline o mesiac. So sekciou `LATER` má klient čierne na bielom: „na týchto veciach sme sa dohodli, že ich riešime neskôr.“
 
-## Sekcia 4: Constraints
+## Sekcia 4: Obmedzenia
 
 4 podsekcie:
 
 **Deadline.**
-> Launch 30. november 2026. Pevný — viaže sa na Black Friday kampaň.
+> Spustenie 30. novembra 2026. Pevný — viaže sa na kampaň Black Friday.
 
-**Budget.**
-> €12 000 – €15 000 (±20 %). Po dohode s CFO.
+**Rozpočet.**
+> 12 000 – 15 000 EUR (±20 %). Po dohode s CFO.
 
-**Technical limits.**
-> Hosting na existing AWS account. CMS musí byť WordPress (interný tím vie). E-mail integrácia s Mailchimp (existing).
+**Technické limity.**
+> Hosting na existujúcom AWS účte. CMS musí byť WordPress (interný tím ho vie). E-mailová integrácia s Mailchimpom (existujúca).
 
 **Brand.**
-> Existing brand guidelines (PDF, 2024). Farby: #003366, #FFAA00, #FFFFFF. Font: Inter. Tone: vecný, B2B, žiadny humor.
+> Existujúci brand manuál (PDF, 2024). Farby: #003366, #FFAA00, #FFFFFF. Font: Inter. Tón: vecný, B2B, žiadny humor.
 
-Ak klient nevyplní hocijakú zo 4 sekcií, máš jasné next steps:
+Ak klient nevyplní hociktorú zo 4 sekcií, máš jasné ďalšie kroky:
 
-- Bez deadline → "kedy je posledný možný launch?"
-- Bez budget → "máte interval ±50 %?"
-- Bez tech limits → ty navrhneš stack
-- Bez brand → musíš space-ovať brand work-shop pred dizajnom
+- Bez deadlinu → „kedy je posledný možný termín spustenia?“
+- Bez rozpočtu → „máte interval ±50 %?“
+- Bez technických limitov → stack navrhneš ty
+- Bez brandu → pred dizajnom musíš naplánovať brand workshop
 
-## Sekcia 5: Success criteria
+## Sekcia 5: Kritériá úspechu
 
 **Kedy sme hotoví. Kto schvaľuje.**
 
@@ -103,83 +103,83 @@ Príklad:
 
 ```
 HOTOVÉ keď:
-- Web je live na klient-com produkčnom dom-éne
+- Web je nasadený na klientovej produkčnej doméne
 - Lighthouse Performance ≥ 90 na mobile pre top 5 stránok
-- Kontakt form testovaný end-to-end (form → CRM)
-- Cookie banner approved by klient-ov DPO
-- Klient má prístup do CMS a vie editovať blog posty (1h training)
+- Kontaktný formulár otestovaný end-to-end (formulár → CRM)
+- Cookie lištu schválil klientov DPO
+- Klient má prístup do CMS a vie editovať blogové články (1 h zaškolenia)
 
 SCHVAĽUJE:
-- Final dizajn → Marketing manager (Anna K.)
-- Texty → Content lead (Peter M.)
-- Tech setup → CTO (Tomáš S.)
-- Sign-off na live → CEO (Martin L.)
+- Finálny dizajn → marketingový manažér (Anna K.)
+- Texty → content lead (Peter M.)
+- Technické nastavenie → CTO (Tomáš S.)
+- Súhlas so spustením → CEO (Martin L.)
 ```
 
-Ak success criteria nie sú definované, pri konci projektu sa vždy nájde "ešte jedna malá vec". Nie je. Klient nemá čierno na bielom, kedy projekt skončil. Toto rieši.
+Ak kritériá úspechu nie sú definované, v závere projektu sa vždy nájde „ešte jedna malá vec“. Nenájde. Klient nemá čierne na bielom, kedy projekt skončil. Toto to rieši.
 
-## Čo NEdávať do briefu
+## Čo do briefu NEdávať
 
-- **Implementation details.** "Použite Yoast SEO plugin, theme Astra, Elementor Pro." To rieši dev. Klient sa starata o **čo**, nie **ako**.
-- **Wireframe sketches.** Ak klient nakreslí 3 wireframy a pošle ich, briefuje výsledok namiesto cieľa. Wireframe sa robí pri dizajne. V briefe sú slová.
-- **"Spravte to ako Stripe ale pre nás."** Toto je antipattern. Stripe má 1000+ engineerov, $billion budget a iný product. Konkrétne odkazy na inšpiráciu sú OK ("máme radi sekciu X na webe Y, lebo Z"), ale "ako Stripe" nie je špecifikácia.
-- **Detail copy.** "Hero text bude Z." Brief je **goal**, nie **content**. Texty sa píšu počas implementácie, na základe SEO research-u a dizajnu.
+- **Implementačné detaily.** „Použite plugin Yoast SEO, tému Astra, Elementor Pro.“ To rieši vývojár. Klient sa stará o **čo**, nie o **ako**.
+- **Wireframy.** Ak klient nakreslí 3 wireframy a pošle ich, briefuje výsledok namiesto cieľa. Wireframe sa robí pri dizajne. V briefe sú slová.
+- **„Spravte to ako Stripe, ale pre nás.“** To je antipattern. Stripe má tisíce inžinierov, miliardový rozpočet a úplne iný produkt. Konkrétne odkazy na inšpiráciu sú v poriadku („máme radi sekciu X na webe Y, lebo Z“), ale „ako Stripe“ nie je špecifikácia.
+- **Detailné texty.** „Hero text bude Z.“ Brief je **cieľ**, nie **obsah**. Texty sa píšu počas implementácie, na základe SEO researchu a dizajnu.
 
-## Kto vyplňa brief
+## Kto brief vypĺňa
 
 V ideálnom stave: **klient vyplní 80 %, ja doplním 20 %.**
 
-Reálne: klient vyplní 40 %, ja doplním 60 %. Spolu na 90-min calle prejdeme template, ja kladiem otázky, klient odpovedá, ja zapisujem.
+Reálne: klient vyplní 40 %, ja doplním 60 %. Na 90-minútovom hovore spolu prejdeme šablónu, ja kladiem otázky, klient odpovedá, ja zapisujem.
 
-Ak klient odmietne vyplniť brief ("nemáme čas, povedz cenu"), je to test commitment-u. Bez briefu projekt zlyhá; klient bez vyplneného briefu nie je commited. Ja takéto projekty neberiem.
+Ak klient odmietne brief vyplniť („nemáme čas, povedz cenu“), je to test odhodlania. Bez briefu projekt zlyhá; klient bez vyplneného briefu nie je odhodlaný do toho ísť. Ja takéto projekty neberiem.
 
 ## Reálny ROI
 
 Posledné 3 projekty s briefom:
 
-- **Brief discovery:** 2 hodiny (90 min call + 30 min písanie)
-- **Implementačná fáza:** 3-6 týždňov, 2-3 zmeny scope-u (oboje strany akceptujú)
-- **Disputes:** žiadne
+- **Discovery:** 2 hodiny (90-minútový hovor + 30 minút písania)
+- **Implementačná fáza:** 3 – 6 týždňov, 2 – 3 zmeny rozsahu (obe strany ich akceptujú)
+- **Spory:** žiadne
 
 Predchádzajúce 3 projekty bez briefu:
 
-- **Discovery:** 30 minút "rýchly call, ja viem čo chceš"
-- **Implementačná fáza:** 5-10 týždňov, 8-12 scope changes (nezhody na čom sa dohodlo)
-- **Disputes:** v 2/3 projektoch
+- **Discovery:** 30 minút „rýchly hovor, ja viem, čo chceš“
+- **Implementačná fáza:** 5 – 10 týždňov, 8 – 12 zmien rozsahu (nezhody na tom, čo sa dohodlo)
+- **Spory:** v 2 z 3 projektov
 
-Pre 1 priemerný projekt: brief ušetrí ~3 týždne kalendárneho času a zabráni ~5 hádkam o scope. Klient platí menej (lebo žiadny rework), ja zarobím rovnako (rovnaké hodiny, ale na value-add prácu, nie na clarification calls).
+Pre 1 priemerný projekt: brief ušetrí ~3 týždne kalendárneho času a zabráni ~5 hádkam o rozsahu. Klient platí menej (lebo žiadne prerábky), ja zarobím rovnako (rovnaké hodiny, ale na prácu s pridanou hodnotou, nie na vyjasňovacie hovory).
 
-## Brief template (skrátená verzia na copy-paste)
+## Šablóna briefu (skrátená verzia na copy-paste)
 
 ```markdown
 # Brief: [Názov projektu]
 
-## 1. Goal
+## 1. Cieľ
 Web má _______ (1 veta). Metrika: _______.
 
-## 2. Audience
+## 2. Publikum
 **Kto:** _______
 **Prečo prichádza:** _______
-**Kde sú teraz:** _______
+**Kde je teraz:** _______
 
-## 3. Scope
+## 3. Rozsah
 **IN:** _______
 **OUT:** _______
 **LATER:** _______
 
-## 4. Constraints
+## 4. Obmedzenia
 - Deadline: _______
-- Budget: _______
-- Technical: _______
+- Rozpočet: _______
+- Technické: _______
 - Brand: _______
 
-## 5. Success criteria
+## 5. Kritériá úspechu
 **Hotové keď:** _______
 **Schvaľuje:** _______
 ```
 
-Stačí jedna A4 strana. Notion alebo Google Doc, sharedný link. Žiadny PDF, žiadny PowerPoint.
+Stačí jedna A4 strana. Notion alebo Google Doc, zdieľaný odkaz. Žiadny PDF, žiadny PowerPoint.
 
-## TL;DR
+## Zhrnutie
 
-5 sekcií, jedna strana: Goal (1 veta + metrika), Audience (3 vety), Scope (in/out/later), Constraints (deadline/budget/tech/brand), Success criteria (kedy hotové + kto schvaľuje). Vyplnenie 2h, úspora ~3 týždne. Bez briefu projekty zlyhávajú v scope creep-e.
+5 sekcií, jedna strana: cieľ (1 veta + metrika), publikum (3 vety), rozsah (in/out/later), obmedzenia (deadline/rozpočet/tech/brand), kritériá úspechu (kedy hotové + kto schvaľuje). Vyplnenie 2 h, úspora ~3 týždne. Bez briefu projekty zlyhávajú na rozpínaní rozsahu.

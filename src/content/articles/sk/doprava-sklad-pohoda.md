@@ -3,17 +3,17 @@ title: "WooCommerce + Pohoda + MoneyS3: ako nastaviť sklad a dopravu"
 date: 2026-05-02
 read: 8
 tags: ["WooCommerce", "DevOps"]
-excerpt: "Dva integračné scenáre pre SK eshopy — Pohoda mServer XML a MoneyS3 REST API. Sync objednávok, stock counts, mapovanie SKU a kedy oplatí custom riešenie."
+excerpt: "Dva integračné scenáre pre slovenské eshopy — Pohoda mServer XML a Money S3. Synchronizácia objednávok, stavov skladu, mapovanie SKU a kedy sa oplatí zákazkové riešenie."
 featured: false
 ---
 
-Eshop bez napojenia na účtovníctvo je dvoma databázami, ktoré sa nezhodujú. Klient nedávno zistil, že na Pohode mal stav skladu 0, ale eshop predal 23 ks za víkend — pri rozbalení balíkov tovar zostal v sklade, lebo manažér zabudol pridať príjemku do Pohody. Klasická bolesť.
+Eshop bez napojenia na účtovníctvo sú dve databázy, ktoré sa nezhodujú. Klient nedávno zistil, že v Pohode mal stav skladu 0, ale eshop cez víkend predal 23 ks — pri rozbaľovaní balíkov tovar zostal v sklade, lebo manažér zabudol pridať príjemku do Pohody. Klasická bolesť.
 
-Tu je presný setup, ktorý odjazdím pre 90% klientov s **Pohoda** alebo **MoneyS3**. Plus konkrétne čísla pre to, kedy oplatí custom riešenie.
+Tu je presný setup, ktorý nasadzujem pre 90 % klientov s **Pohodou** alebo **Money S3**. Plus konkrétne čísla, kedy sa oplatí zákazkové riešenie.
 
 ## Scenár 1: Pohoda mServer (XML)
 
-Pohoda je SK/CZ desktop accounting software. Komunikácia s eshopom = **mServer**, čo je HTTP wrapper okolo XML import/export interface.
+Pohoda je slovensko-český desktopový účtovný softvér. Komunikácia s eshopom prebieha cez **mServer** — HTTP obal okolo XML rozhrania na import a export.
 
 ### Architektúra
 
@@ -23,13 +23,13 @@ WooCommerce  ←  Pull: stock counts 2x denne (XML)         ←  Pohoda mServer
 ```
 
 Na strane Pohody musíš mať:
-- Pohoda E1/SQL alebo vyšší (Standard nemá mServer)
-- mServer running na dedikovanej IP (väčšinou cez VPN do klientovho účtovníctva)
-- mServer API listener s basic auth credentials
+- Pohodu E1/SQL alebo vyššiu (Standard nemá mServer)
+- mServer bežiaci na dedikovanej IP (väčšinou cez VPN do klientovho účtovníctva)
+- mServer listener s prihlasovacími údajmi cez basic auth
 
 ### WP-Cron pre push
 
-Defaultný WP-Cron je nespoľahlivý (závisí od traffic-u). Pre business-critical sync používam **system cron** + zavolanie WP endpointu:
+Predvolený WP-Cron je nespoľahlivý (spúšťa sa podľa návštevnosti). Pre kriticky dôležitú synchronizáciu používam **systémový cron** + zavolanie WP endpointu:
 
 ```bash
 # /etc/cron.d/woo-pohoda
@@ -97,7 +97,7 @@ XML formát (zjednodušene):
         </ord:partnerIdentity>
       </ord:orderHeader>
       <ord:orderDetail>
-        <!-- pozícia per item -->
+        <!-- jedna položka na riadok objednávky -->
       </ord:orderDetail>
     </ord:order>
   </dat:dataPackItem>
@@ -131,9 +131,9 @@ function firma_pohoda_pull_stocks() {
 }
 ```
 
-### Error handling pri DB lockoch
+### Ošetrenie chýb pri zámkoch databázy
 
-Pohoda má **single-user write lock** na danej zákazke. Ak účtovníčka má otvorenú objednávku, mServer ti vráti `Database is locked`. Riešenie:
+Pohoda má **zámok na zápis pre jedného používateľa** nad danou agendou. Ak má účtovníčka otvorenú objednávku, mServer ti vráti `Database is locked`. Riešenie:
 
 ```php
 function firma_send_to_pohoda($xml, $retry = 0) {
@@ -157,33 +157,33 @@ function firma_send_to_pohoda($xml, $retry = 0) {
 }
 ```
 
-3 retry s 60-sekundovým sleep-om vyrieši 95% lock-ov.
+Tri pokusy so 60-sekundovým čakaním vyriešia 95 % zámkov.
 
-## Scenár 2: MoneyS3 (REST API)
+## Scenár 2: Money S3 (API)
 
-MoneyS3 je modernejší, cloud-friendly accounting tool. REST API z fabriky, v 2024+ s OAuth 2.
+Money S3 (dnes pod značkou Seyfor) je ďalší populárny desktopový účtovný softvér na trhu. Programové napojenie rieši natívne cez XML (modul XML DE, resp. XML DE Profi), oficiálne API má postavené na GraphQL. Nižšie ukazujem princíp cez zjednodušené REST volania — kód ber ako ilustráciu toku dát, nie ako doslovnú Money S3 signatúru.
 
-### Plugin: WooCommerce-MoneyS3-Sync
+### Hotový plugin
 
-Komerčný plugin **[WooCommerce MoneyS3 Sync](https://www.moneys3-pro.cz/)** za ~€99/year. Poskytuje:
+Ak klient nechce zákazkový vývoj, existujú komerčné konektory (spravidla v ráde nižších stoviek eur ročne), ktoré poskytujú:
 
-- bidirectional sync orders ↔ MoneyS3 invoices
-- stock pull každú hodinu (configurable)
-- product sync (názvy, ceny, kategórie)
-- payment status sync (paid → MoneyS3 mark as paid)
+- obojsmernú synchronizáciu objednávok ↔ faktúry
+- sťahovanie stavu skladu každú hodinu (voliteľne)
+- synchronizáciu produktov (názvy, ceny, kategórie)
+- synchronizáciu stavu platby (zaplatené → označiť ako uhradené)
 
 Inštalácia:
 
 ```bash
 wp plugin install woocommerce-moneys3-sync.zip --activate
-# Settings → MoneyS3 → enter API endpoint, OAuth client_id + secret
+# Nastavenia → Money S3 → zadaj API endpoint a prihlasovacie údaje
 ```
 
-Setup ~30 minút ak máš MoneyS3 dev account ready. **Toto je default voľba** pre 90% klientov, ktorí MoneyS3 používajú. Žiadne custom dev hours.
+Nastavenie zaberie asi 30 minút, keď máš pripravený prístup k API. **Toto je predvolená voľba** pre 90 % klientov, ktorí Money S3 používajú. Žiadne hodiny zákazkového vývoja.
 
-### Custom riešenie cez REST API
+### Zákazkové riešenie cez API
 
-Pre projekty s netradičnými potrebami (custom invoice numbering, multi-tenant flows, B2B contract pricing). MoneyS3 REST API:
+Pre projekty s neštandardnými potrebami (vlastné číslovanie faktúr, multi-tenant toky, B2B zmluvné ceny). Ukážka volaní:
 
 ```php
 function moneys3_create_invoice($order) {
@@ -242,9 +242,9 @@ function moneys3_get_oauth_token() {
 
 ## Reálne zákutia, na ktoré som narazil
 
-### SKU normalizácia
+### Normalizácia SKU
 
-Eshop má SKU `PROD-001`, Pohoda v ňom má `PROD001` (bez pomlčky). Sync zlyhá ticho — nezmatchuje. Riešenie:
+Eshop má SKU `PROD-001`, Pohoda ho má ako `PROD001` (bez pomlčky). Synchronizácia zlyhá potichu — nespáruje sa. Riešenie:
 
 ```php
 function normalize_sku($sku) {
@@ -252,19 +252,19 @@ function normalize_sku($sku) {
 }
 ```
 
-Aplikuj pri každom matchi v oboch smeroch.
+Aplikuj ju pri každom párovaní v oboch smeroch.
 
-### Mena prepočty
+### Prepočty meny
 
-Pohoda v CZK, eshop v EUR. mServer má conversion rate, ale **kurzový rozdiel medzi dňom objednávky a dňom invoice-u** môže spôsobiť rozdiel pár centov. Pre IRS audit ti to môže narobiť. Riešenie: pri create invoice posielaj explicit `exchangeRate` z dňa objednávky.
+Pohoda v CZK, eshop v EUR. mServer má kurz, ale **kurzový rozdiel medzi dňom objednávky a dňom vystavenia faktúry** môže spôsobiť rozdiel pár centov. Pri daňovej kontrole ti to vie narobiť problém. Riešenie: pri vystavení faktúry posielaj explicitný `exchangeRate` z dňa objednávky.
 
-### Return / refund flow
+### Toky vrátenia tovaru a refundácie
 
-Eshop vytvorí refund → ako to dostať do účtovníctva? Dve možnosti:
-1. **Zápornú objednávku** (negative quantities) — Pohoda akceptuje, ale UX je weird.
-2. **Credit note (dobropis)** — správne riešenie, ale zložitejšie XML.
+Eshop vytvorí refundáciu → ako ju dostať do účtovníctva? Dve možnosti:
+1. **Záporná objednávka** (záporné množstvá) — Pohoda ju akceptuje, ale používateľsky je to čudné.
+2. **Dobropis (credit note)** — správne riešenie, ale zložitejšie XML.
 
-Vyrobil som vlastný handler pre Pohoda credit notes:
+Vyrobil som vlastný handler pre dobropisy v Pohode:
 
 ```php
 add_action('woocommerce_order_refunded', function($order_id, $refund_id) {
@@ -275,12 +275,12 @@ add_action('woocommerce_order_refunded', function($order_id, $refund_id) {
 }, 10, 2);
 ```
 
-## Kedy oplatí custom vs platený plugin
+## Kedy sa oplatí zákazkové riešenie vs. platený plugin
 
-**Plugin (€99/year):** klient má štandardné potreby, počet objednávok < 1000/mesiac, žiadne custom invoice numbering, štandardná SK 23% DPH. Saving: ~40 dev hodín = ~€2-3k.
+**Plugin (€99/rok):** klient má štandardné potreby, počet objednávok < 1000/mesiac, žiadne vlastné číslovanie faktúr, štandardná slovenská 23 % DPH. Úspora: ~40 dev hodín = ~€2-3k.
 
-**Custom:** klient má B2B s per-contract pricing, multi-currency, custom invoice formats, integráciu s 3+ ďalšími systémami (CRM, WMS, ERP). Plugin nepokrýva, custom dev má sense. Reálny budget: 60-120 hodín initial + 10h/mesiac maintenance.
+**Zákazkové riešenie:** klient má B2B so zmluvnými cenami, viac mien, vlastné formáty faktúr, integráciu s 3+ ďalšími systémami (CRM, WMS, ERP). Plugin to nepokryje, zákazkový vývoj dáva zmysel. Reálny rozpočet: 60-120 hodín na začiatku + 10 h/mesiac na údržbu.
 
-## TL;DR
+## Zhrnutie
 
-Pre Pohoda eshopy: mServer XML interface + system cron + WP REST endpoint, push orders hourly, pull stocks 2× denne. Pre MoneyS3: oficiálny plugin €99/year pre 90% prípadov, custom REST integration len pre B2B/multi-currency edge cases. Najčastejšie chyby: SKU mismatch, kurzové rozdiely, nepripravený refund flow. Plánuj retry logic pre DB locks pri Pohode — nie je to optional.
+Pre eshopy s Pohodou: XML rozhranie mServera + systémový cron + WP REST endpoint, posielanie objednávok každú hodinu, sťahovanie stavu skladu 2× denne. Pre Money S3: hotový konektor pre 90 % prípadov, zákazková integrácia cez API len pre B2B a viac-menové okrajové prípady. Najčastejšie chyby: nespárované SKU, kurzové rozdiely, nepripravený tok refundácií. Naplánuj si logiku opakovaných pokusov pri zámkoch databázy v Pohode — nie je to voliteľné.

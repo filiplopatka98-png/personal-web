@@ -3,15 +3,15 @@ title: "Faceted filtre na eshope, ktoré nelagnú — bez ElasticSearch"
 date: 2025-11-18
 read: 8
 tags: ["WooCommerce", "Performance"]
-excerpt: "Pre 5000-50000 produktov nemusíš kupovať ElasticSearch hosting. Štyri kroky, ktoré dostali response z 4.2s na 280ms na čistom WooCommerce."
+excerpt: "Pre 5 000 – 50 000 produktov nemusíš kupovať Elasticsearch hosting. Štyri kroky, ktoré zrazili odozvu zo 4,2 s na 280 ms na čistom WooCommerce."
 featured: false
 ---
 
-Klient mal 18 000 produktov, šesť atribútov filtra (značka, farba, materiál, cena, dostupnosť, štítok) a stránka dýchala 4.2s na každom kliknutí filtra. ElasticSearch by to vyriešil — ale aj naložil €40-80/mesiac do hostingu plus udržiavacia robota. Skúsili sme štyri kroky bez ES. Skončili sme na **280ms response** a klient ušetril €600/rok.
+Klient mal 18 000 produktov, šesť atribútov filtra (značka, farba, materiál, cena, dostupnosť, štítok) a stránka sa nadýchla 4,2 s pri každom kliknutí na filter. Elasticsearch by to vyriešil — ale zároveň by pridal 40 – 80 EUR/mesiac na hostingu plus starosti s údržbou. Skúsili sme štyri kroky bez neho. Skončili sme na **odozve 280 ms** a klient ušetril 600 EUR/rok.
 
-## Krok 1: Database indexy na `wp_postmeta`
+## Krok 1: Databázové indexy na `wp_postmeta`
 
-WooCommerce drží atribúty produktu v `wp_postmeta`. Default schema má index na `(meta_key)` a `(post_id)`, ale **nie na `(meta_key, meta_value)` composite**. Pri filtri typu "značka = Adidas" Mysql robí filesort na 200 000 riadkoch.
+WooCommerce drží veľa filtrovateľných dát produktu v `wp_postmeta` (cena, sklad, vlastné atribúty). Predvolená schéma má index na `(meta_key)` a `(post_id)`, ale **nie composite index na `(meta_key, meta_value)`**. Pri filtri typu „cena od–do“ tak MySQL robí filesort na 200 000 riadkoch.
 
 ```sql
 CREATE INDEX idx_postmeta_key_value
@@ -21,15 +21,15 @@ CREATE INDEX idx_postmeta_value_partial
 ON wp_postmeta (meta_value(20));
 ```
 
-**Nepoužívaj full-length index na `meta_value`** — je to TEXT/LONGTEXT a indexovanie celej hodnoty zožerie 200+ MB. Stačí `(20)` prefix pre 95 % použitia.
+**Neindexuj `meta_value` v plnej dĺžke** — je to `LONGTEXT`, takže MySQL ti index bez prefixu ani nedovolí vytvoriť, a indexovanie celej hodnoty by zožralo 200+ MB. Prefix `(20)` pokryje 95 % použitia.
 
-Po týchto dvoch indexoch náš query čas spadol z **2.8s na 320ms** bez ďalších zmien. Spusti `EXPLAIN SELECT ...` na hlavnom WP_Query a uvidíš `Using index` namiesto `Using filesort`.
+Po týchto dvoch indexoch nám čas dopytu spadol z **2,8 s na 320 ms** bez ďalších zmien. Spusti `EXPLAIN SELECT ...` na hlavnom `WP_Query` a uvidíš `Using index` namiesto `Using filesort`.
 
 ## Krok 2: Pre-computed term counts cez transient cache
 
-V sidebare filtra ukazuješ `Adidas (142)`, `Nike (97)`, `Puma (38)`. Ak to počítaš pri každom request-e, robíš `COUNT(*)` cez post_meta JOIN — lagy.
+V bočnom paneli filtra ukazuješ `Adidas (142)`, `Nike (97)`, `Puma (38)`. Ak to počítaš pri každej požiadavke, robíš `COUNT(*)` cez JOIN na `postmeta` — a to seká.
 
-Spočítaj raz, ulož do transientu:
+Spočítaj to raz a ulož do transientu:
 
 ```php
 function get_filter_counts($attribute) {
@@ -54,7 +54,7 @@ function get_filter_counts($attribute) {
 }
 ```
 
-A invaliduj len keď sa naozaj niečo zmení:
+A invaliduj ho len vtedy, keď sa naozaj niečo zmení:
 
 ```php
 add_action('woocommerce_update_product', function($product_id) {
@@ -71,7 +71,7 @@ add_action('woocommerce_product_set_stock', function($product) {
 
 ## Krok 3: AJAX endpoint s debounce, nie full reload
 
-Default WooCommerce filtering robí full page reload — server musí znova vyrenderovať header, footer, sidebar. Trápenie. Spravme AJAX endpoint, ktorý vráti len HTML grid produktov + nové count čísla:
+Predvolené filtrovanie vo WooCommerce robí kompletný reload stránky — server musí znova vyrenderovať hlavičku, pätičku aj bočný panel. Utrpenie. Spravme AJAX endpoint, ktorý vráti len HTML mriežku produktov a nové čísla počtov:
 
 ```php
 add_action('wp_ajax_filter_products', 'filter_products_ajax');
@@ -100,7 +100,7 @@ function filter_products_ajax() {
 }
 ```
 
-Klient strana s `300ms` debounce, aby sa nepálili requesty pri rýchlom klikaní:
+Na strane klienta `300 ms` debounce, aby sa pri rýchlom klikaní nepálili zbytočné požiadavky:
 
 ```js
 let timer;
@@ -112,7 +112,7 @@ const onFilterChange = () => {
 
 ## Krok 4: URL state cez `history.pushState`
 
-Užívateľ chce **zdielať** odkaz na filtrovaný výsledok. A používať **back button**. Pridaj URL state:
+Používateľ chce **zdieľať** odkaz na filtrovaný výsledok. A používať **tlačidlo Späť**. Pridaj stav do URL:
 
 ```js
 function updateUrl(filterState) {
@@ -125,20 +125,20 @@ window.addEventListener('popstate', (e) => {
 });
 ```
 
-A pri page load číta `URLSearchParams` a aplikuje stav. Tým máš sharable + back-button-friendly bez routera.
+A pri načítaní stránky prečíta `URLSearchParams` a aplikuje stav. Tým máš zdieľateľné odkazy aj funkčné tlačidlo Späť — bez routera.
 
 ## Výsledky a kedy stále zvážiť ES
 
 Reálne výsledky na 18 000 produktov:
 
-- **Pred:** 4.2s response na filter, 2.8s len na DB query.
-- **Po krokoch 1+2:** 720ms response.
-- **Po krokoch 3+4:** 280ms (a žiadny page reload, pocit appky).
+- **Pred:** 4,2 s odozva na filter, 2,8 s len samotný DB dopyt.
+- **Po krokoch 1 + 2:** 720 ms odozva.
+- **Po krokoch 3 + 4:** 280 ms (a žiadny reload stránky, pocit aplikácie).
 
-Kedy by som siahol po ElasticSearch napriek tomu:
+Kedy by som po Elasticsearchi siahol napriek tomu:
 
-1. **Full-text vyhľadávanie** s typo-tolerance a synonymami — MySQL FULLTEXT je slabučký.
+1. **Fulltextové vyhľadávanie** s toleranciou preklepov a synonymami — MySQL FULLTEXT je slabučký.
 2. **Nad 100 000 produktov** — composite index prestane škálovať.
-3. **Multi-language search** s morfológiou (skloňovanie v slovenčine je peklo).
+3. **Viacjazyčné vyhľadávanie** s morfológiou (skloňovanie v slovenčine je peklo).
 
-Pod 50 000 produktov si pohodlne vystačíš so štyrmi krokmi vyššie. ES si nechaj na moment, keď budeš mať na to dôvod, nielen feeling že "to tak treba".
+Pod 50 000 produktov si so štyrmi krokmi vyššie pohodlne vystačíš. Elasticsearch si nechaj na chvíľu, keď budeš mať na to dôvod — nie len pocit, že „to tak treba“.

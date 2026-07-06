@@ -3,15 +3,15 @@ title: "Schema.org pre malý eshop: hotové JSON-LD šablóny"
 date: 2026-04-09
 read: 8
 tags: ["SEO", "WooCommerce"]
-excerpt: "Päť hotových JSON-LD blokov na copy-paste — Product, BreadcrumbList, Organization, WebSite, LocalBusiness. Plus validation a common pitfalls."
+excerpt: "Päť hotových JSON-LD blokov na skopírovanie — Product, BreadcrumbList, Organization, WebSite, LocalBusiness. Plus validácia a najčastejšie chyby."
 featured: false
 ---
 
-Structured data pre eshop = rich results v SERPe = vyšší CTR. V 2026 by žiadny serious eshop nemal byť bez týchto piatich schema blokov. Tu sú hotové šablóny, ktoré si môžeš copy-paste-núť a doladiť pod svoj projekt.
+Štruktúrované dáta pre eshop = rich results v SERPe = vyšší CTR. V roku 2026 by žiadny eshop, ktorý to myslí vážne, nemal byť bez týchto piatich schema blokov. Tu sú hotové šablóny, ktoré si môžeš skopírovať a doladiť pod svoj projekt.
 
-Všetko je vo formáte JSON-LD (Google preferred), ktorý sa vkladá do `<head>` cez `<script type="application/ld+json">`. Pre WordPress cez `wp_head` hook alebo Yoast SEO Premium / RankMath. Pre Astro/Next.js do `<head>` priamo.
+Všetko je vo formáte JSON-LD (ktorý Google preferuje) a vkladá sa do `<head>` cez `<script type="application/ld+json">`. Vo WordPresse cez hook `wp_head` alebo cez Yoast SEO Premium / Rank Math. V Astre či Next.js priamo do `<head>`.
 
-## 1. Product (na product detail page)
+## 1. Product (na detail produktu)
 
 ```json
 {
@@ -80,14 +80,14 @@ Všetko je vo formáte JSON-LD (Google preferred), ktorý sa vkladá do `<head>`
 }
 ```
 
-**Common pitfalls:**
-- `priceCurrency` musí byť ISO 4217 (EUR, CZK, USD), nie "€"
-- `availability` jeden z [enum hodnôt](https://schema.org/ItemAvailability) — `InStock`, `OutOfStock`, `PreOrder`
-- `image` aspoň 1, ideálne viac — Google preferuje 16:9 + 4:3 + 1:1
-- `priceValidUntil` povinne ak máš sale price — bez toho Google nezobrazí rich price
-- `aggregateRating` len ak máš REÁLNE recenzie. Fake reviews v schema = manual penalty
+**Najčastejšie chyby:**
+- `priceCurrency` musí byť kód podľa ISO 4217 (EUR, CZK, USD), nie „€“
+- `availability` musí byť jedna z [enum hodnôt](https://schema.org/ItemAvailability) — `InStock`, `OutOfStock`, `PreOrder`
+- `image` aspoň 1, ideálne viac — Google odporúča dodať viac pomerov strán: 16:9, 4:3 aj 1:1
+- `priceValidUntil` uveď pri akciovej cene — Google tak číta zľavu ako dočasnú. Pozor: neaktuálny dátum z dávno skončenej akcie signalizuje Googlu, že cena už neplatí
+- `aggregateRating` len ak máš REÁLNE recenzie. Vymyslené recenzie v schéme = ručná penalizácia
 
-## 2. BreadcrumbList (na všetkých kategóriách + produktoch)
+## 2. BreadcrumbList (na všetkých kategóriách aj produktoch)
 
 ```json
 {
@@ -121,7 +121,7 @@ Všetko je vo formáte JSON-LD (Google preferred), ktorý sa vkladá do `<head>`
 }
 ```
 
-**Pitfall:** posledná položka (current page) NEMÁ mať `item` URL. Google to chce takto, inak warning v Search Console.
+**Tip:** pri poslednej položke (aktuálna stránka) môžeš `item` URL vynechať — Google vtedy použije URL samotnej stránky. Uviesť ju je tiež v poriadku, ale ja ju radšej vynechávam, nech schéma presne kopíruje viditeľné omrvinky.
 
 ## 3. Organization (na homepage)
 
@@ -155,11 +155,11 @@ Všetko je vo formáte JSON-LD (Google preferred), ktorý sa vkladá do `<head>`
 }
 ```
 
-`sameAs` array je dôležitý — linkuje "knowledge graph" entity naprieč sociálnymi platformami. Google to používa pre brand identity confidence.
+Pole `sameAs` je dôležité — prepája entitu v „knowledge graphe“ naprieč sociálnymi platformami. Google to používa na potvrdenie identity značky.
 
 ## 4. WebSite so SearchAction (na homepage)
 
-Toto Google používa pre **sitelinks search box** — search box priamo v SERPe pod tvojím homepage výsledkom.
+Toto Google používa pre **sitelinks searchbox** — vyhľadávacie pole priamo v SERPe pod výsledkom tvojej homepage.
 
 ```json
 {
@@ -178,9 +178,9 @@ Toto Google používa pre **sitelinks search box** — search box priamo v SERPe
 }
 ```
 
-`urlTemplate` musí ukazovať na tvoju existujúcu search URL. Pre WooCommerce default `?s={query}&post_type=product`.
+`urlTemplate` musí ukazovať na tvoju existujúcu vyhľadávaciu URL. Pri WooCommerce je predvolená `?s={search_term_string}&post_type=product`.
 
-## 5. LocalBusiness (ak máš kamenné)
+## 5. LocalBusiness (ak máš kamennú predajňu)
 
 ```json
 {
@@ -220,24 +220,24 @@ Toto Google používa pre **sitelinks search box** — search box priamo v SERPe
 }
 ```
 
-`@type` zvol najšpecifickejší aplikovateľný — `ClothingStore`, `BookStore`, `ElectronicsStore`. Ak nič nesedí, fallback `Store` alebo `LocalBusiness`.
+`@type` zvoľ čo najšpecifickejší z použiteľných — `ClothingStore`, `BookStore`, `ElectronicsStore`. Ak nič nesedí, siahni po `Store` alebo `LocalBusiness`.
 
 ## Validation
 
-Vždy preveríš cez **dva** nástroje:
+Vždy over cez **dva** nástroje:
 
-1. **[validator.schema.org](https://validator.schema.org)** — syntax + recommended fields
-2. **[Google Rich Results Test](https://search.google.com/test/rich-results)** — či to Google parsuje a aký rich result type vidí
+1. **[validator.schema.org](https://validator.schema.org)** — syntax + odporúčané polia
+2. **[Google Rich Results Test](https://search.google.com/test/rich-results)** — či to Google parsuje a aký typ rich result vidí
 
-Pre live monitoring: **Google Search Console → Enhancements** zobrazí, koľko stránok má detected schema typ a koľko má errors. Critical pri scale (eshop s 5000 produktov).
+Na priebežné sledovanie: **Google Search Console** (reporty štruktúrovaných dát nájdeš v sekcii *Shopping* / *Vylepšenia*) zobrazí, koľko stránok má rozpoznaný schema typ a koľko má chyby. Pri väčšom rozsahu (eshop s 5000 produktmi) je to kľúčové.
 
 ## WordPress / WooCommerce setup
 
-**Voľba A: Yoast SEO Premium** — generuje `Product`, `BreadcrumbList`, `Organization`, `WebSite` automaticky. €99/rok. Pre 90 % WooCommerce eshopov stačí.
+**Voľba A: Yoast SEO Premium** — generuje `Product`, `BreadcrumbList`, `Organization`, `WebSite` automaticky. 118,80 EUR/rok (bez DPH, na jednu doménu). Pre 90 % WooCommerce eshopov stačí.
 
-**Voľba B: RankMath** — free plan má veľa schema features. Premium €59/rok.
+**Voľba B: Rank Math** — free plán má veľa schema funkcií (18 predvolených typov + vlastné JSON-LD). Rank Math PRO stojí 71,88 EUR/rok (5,99 EUR/mesiac účtované ročne).
 
-**Voľba C: Custom** cez `wp_head` hook ak máš špecifické needs:
+**Voľba C: vlastné riešenie** cez hook `wp_head`, ak máš špecifické potreby:
 
 ```php
 add_action('wp_head', function() {
@@ -265,8 +265,8 @@ add_action('wp_head', function() {
 });
 ```
 
-`JSON_UNESCAPED_SLASHES` flag je dôležitý — bez neho dostaneš escaped URLs, čo Yoast/Google parser akceptuje, ale je škaredé na DOM inspect.
+Flag `JSON_UNESCAPED_SLASHES` je dôležitý — bez neho dostaneš escapované lomítka v URL, čo Google parser síce akceptuje, ale v DOM inspektore to vyzerá škaredo.
 
 ## TL;DR
 
-Päť schema typov pokrýva 95 % eshop potrieb: Product, BreadcrumbList, Organization, WebSite, LocalBusiness. Hotové JSON-LD šablóny vyššie sú production-ready. Kľúčové pitfalls: ISO currency code, `availability` enum, `priceValidUntil` pri sale, žiadne fake reviews. Validuj cez schema.org + Google Rich Results Test pred deploy.
+Päť schema typov pokrýva 95 % potrieb eshopu: Product, BreadcrumbList, Organization, WebSite, LocalBusiness. Hotové JSON-LD šablóny vyššie sú pripravené na produkciu. Kľúčové chyby, na ktoré si dať pozor: kód meny podľa ISO, enum pre `availability`, `priceValidUntil` pri akcii a žiadne vymyslené recenzie. Pred nasadením validuj cez schema.org + Google Rich Results Test.
