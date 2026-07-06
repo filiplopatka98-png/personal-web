@@ -1,6 +1,7 @@
 ---
 import { t, type Lang } from '../i18n';
 import Reveal from './Reveal.astro';
+import { WEB3FORMS_ACCESS_KEY } from '../config';
 
 export interface Props {
   lang: Lang;
@@ -61,7 +62,15 @@ const CONTACT_EMAIL = t('menu.email', lang);
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 ---
-<div class="brief-wizard" data-step="0" data-contact-email={CONTACT_EMAIL}>
+<div
+  class="brief-wizard"
+  data-step="0"
+  data-contact-email={CONTACT_EMAIL}
+  data-w3f-key={WEB3FORMS_ACCESS_KEY}
+  data-subject-prefix={t('brief.subject', lang)}
+  data-sending={t('brief.btn.sending', lang)}
+  data-error={t('brief.error', lang)}
+>
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
   <section class="brief-header">
     <Reveal>
@@ -87,8 +96,8 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   {/* Body — handoff line 464: 60/56, minHeight 500, max-width 760 inner */}
   <section class="brief-body">
     <form class="brief-form" novalidate>
-    <input type="hidden" name="_subject" value="New brief from lopatka.sk" />
-    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+    <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
+    <input type="checkbox" name="botcheck" class="brief-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
     <!-- Step 0: Type -->
     <fieldset class="brief-step" data-step="0">
@@ -185,6 +194,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)} →</button>
       <button type="submit" data-cursor="hover" data-submit class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
     </div>
+    <p class="brief-error mono" data-error role="alert" hidden></p>
     </form>
   </section>
 </div>
@@ -455,6 +465,23 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     text-decoration: none;
   }
 
+  /* Honeypot — visually and semantically hidden, kept in the DOM for bots. */
+  .brief-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  /* Submit error — shown inline when the Web3Forms POST fails. */
+  .brief-error {
+    margin: 0;
+    color: var(--accent);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
   /* Nav buttons */
   .brief-nav {
     margin-top: 16px;
@@ -627,36 +654,62 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       }
     });
 
-    form?.addEventListener('submit', (e) => {
-      if (step !== lastInputStep) {
-        e.preventDefault();
-        return;
-      }
-      if (!canAdvance()) {
-        e.preventDefault();
-        return;
-      }
+    const errorEl = wizard.querySelector<HTMLElement>('[data-error]');
+
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (step !== lastInputStep || !canAdvance()) return;
+
       const data = new FormData(form);
       const val = (k: string) => (data.get(k) ?? '').toString().trim();
-      const subject = `Nový brief z lopatka.sk — ${val('name') || 'dopyt'}`;
-      const bodyText = [
-        `Typ projektu: ${val('type')}`,
-        `Rozpočet: ${val('budget')}`,
-        `Timeline: ${val('timeline')}`,
-        '',
-        'Popis:',
-        val('description'),
-        '',
-        `Meno: ${val('name')}`,
-        `Email: ${val('email')}`,
-        `Firma: ${val('company') || '—'}`,
-      ].join('\n');
-      const contactEmail = wizard!.dataset.contactEmail || '';
-      const href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-      window.location.href = href;
-      step = lastInputStep + 1;
-      updateUI();
+      const subjectPrefix = wizard!.dataset.subjectPrefix || 'New brief from lopatka.sk';
+      const payload = {
+        access_key: wizard!.dataset.w3fKey || '',
+        subject: `${subjectPrefix} — ${val('name') || val('email') || 'dopyt'}`,
+        from_name: val('name') || 'lopatka.sk',
+        replyto: val('email'),
+        // Honeypot: present only when a bot checked it; Web3Forms rejects those.
+        botcheck: (data.get('botcheck') ?? '').toString(),
+        'Typ projektu': val('type'),
+        'Rozpočet': val('budget'),
+        Timeline: val('timeline'),
+        Popis: val('description'),
+        Meno: val('name'),
+        Email: val('email'),
+        Firma: val('company') || '—',
+      };
+
+      if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
+      const sendingLabel = wizard!.dataset.sending || 'Odosielam…';
+      let originalLabel = '';
+      if (submitBtn) {
+        originalLabel = submitBtn.textContent ?? '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = sendingLabel;
+      }
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.success) throw new Error(json.message || 'submit failed');
+        step = lastInputStep + 1;
+        updateUI();
+      } catch {
+        if (errorEl) {
+          const email = wizard!.dataset.contactEmail || '';
+          const tmpl = wizard!.dataset.error || 'Nepodarilo sa odoslať. Skús to znova.';
+          errorEl.textContent = tmpl.replace('{email}', email);
+          errorEl.hidden = false;
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      }
     });
 
     textarea?.addEventListener('input', () => {

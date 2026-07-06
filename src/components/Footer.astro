@@ -2,6 +2,7 @@
 import { t, type Lang } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
 import Reveal from './Reveal.astro';
+import { WEB3FORMS_ACCESS_KEY } from '../config';
 
 export interface Props {
   lang: Lang;
@@ -54,7 +55,19 @@ const CONTACT_EMAIL = t('menu.email', lang);
     </Reveal>
 
     <Reveal delay={0.1} class="footer-form-wrap">
-      <form class="footer-form" data-mailto-form data-contact-email={CONTACT_EMAIL} novalidate>
+      <form
+        class="footer-form"
+        data-contact-form
+        data-contact-email={CONTACT_EMAIL}
+        data-w3f-key={WEB3FORMS_ACCESS_KEY}
+        data-subject={t('footer.formSubject', lang)}
+        data-sending={t('footer.formSending', lang)}
+        data-success={t('footer.formSuccess', lang)}
+        data-error={t('footer.formError', lang)}
+        novalidate
+      >
+        <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
+        <input type="checkbox" name="botcheck" class="footer-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="form-field">
           <label for="footer-form-name">{t('footer.formName', lang)}</label>
           <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
@@ -70,6 +83,7 @@ const CONTACT_EMAIL = t('menu.email', lang);
         <button type="submit" data-cursor="hover" class="footer-submit">
           {t('footer.formSend', lang)}
         </button>
+        <p class="footer-form-status" data-status role="alert" hidden></p>
       </form>
     </Reveal>
   </div>
@@ -220,6 +234,39 @@ const CONTACT_EMAIL = t('menu.email', lang);
     letter-spacing: 0.04em;
     cursor: pointer;
   }
+  .footer-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  /* Honeypot — hidden from users and AT, kept in the DOM to catch bots. */
+  .footer-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  /* Submit status — success/error feedback after the Web3Forms POST. */
+  .footer-form-status {
+    margin: 4px 0 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .footer-form-status.is-error {
+    color: var(--accent);
+  }
+  /* On success, collapse the fields and show only the thank-you status. */
+  .footer-form.is-sent .form-field,
+  .footer-form.is-sent .footer-submit {
+    display: none;
+  }
+  .footer-form.is-sent .footer-form-status {
+    font-size: 16px;
+    opacity: 0.9;
+  }
 
   .footer-bottom {
     display: flex;
@@ -309,33 +356,75 @@ const CONTACT_EMAIL = t('menu.email', lang);
 </style>
 
 <script>
-  function initFooterMailto() {
-    const forms = document.querySelectorAll<HTMLFormElement>('form[data-mailto-form]');
+  function initFooterContact() {
+    const forms = document.querySelectorAll<HTMLFormElement>('form[data-contact-form]');
     forms.forEach((form) => {
-      if ((form as any).__mailtoInit) return;
-      (form as any).__mailtoInit = true;
+      if ((form as any).__contactInit) return;
+      (form as any).__contactInit = true;
+
+      const submitBtn = form.querySelector<HTMLButtonElement>('.footer-submit');
+      const statusEl = form.querySelector<HTMLElement>('[data-status]');
       const email = form.getAttribute('data-contact-email') || '';
-      form.addEventListener('submit', (e) => {
+
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!form.checkValidity()) { form.reportValidity(); return; }
+
         const data = new FormData(form);
         const val = (k: string) => (data.get(k) ?? '').toString().trim();
-        const subject = `Správa z webu — ${val('name') || 'kontakt'}`;
-        const body = [
-          `Meno: ${val('name')}`,
-          `Email: ${val('email')}`,
-          '',
-          val('message'),
-        ].join('\n');
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        form.reset();
+        const subjectPrefix = form.dataset.subject || 'Message from lopatka.sk';
+        const payload = {
+          access_key: form.dataset.w3fKey || '',
+          subject: `${subjectPrefix} — ${val('name') || val('email') || 'kontakt'}`,
+          from_name: val('name') || 'lopatka.sk',
+          replyto: val('email'),
+          botcheck: (data.get('botcheck') ?? '').toString(),
+          Meno: val('name'),
+          Email: val('email'),
+          Sprava: val('message'),
+        };
+
+        if (statusEl) { statusEl.hidden = true; statusEl.textContent = ''; statusEl.classList.remove('is-error'); }
+        let originalLabel = '';
+        if (submitBtn) {
+          originalLabel = submitBtn.textContent ?? '';
+          submitBtn.disabled = true;
+          submitBtn.textContent = form.dataset.sending || 'Odosielam…';
+        }
+
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const json = await res.json().catch(() => ({}));
+          if (!res.ok || !json.success) throw new Error(json.message || 'submit failed');
+          form.reset();
+          form.classList.add('is-sent');
+          if (statusEl) {
+            statusEl.textContent = form.dataset.success || 'Ďakujem!';
+            statusEl.hidden = false;
+          }
+        } catch {
+          if (statusEl) {
+            const tmpl = form.dataset.error || 'Nepodarilo sa odoslať. Skús to znova.';
+            statusEl.textContent = tmpl.replace('{email}', email);
+            statusEl.classList.add('is-error');
+            statusEl.hidden = false;
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalLabel;
+          }
+        }
       });
     });
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFooterMailto);
+    document.addEventListener('DOMContentLoaded', initFooterContact);
   } else {
-    initFooterMailto();
+    initFooterContact();
   }
-  document.addEventListener('astro:page-load', initFooterMailto);
+  document.addEventListener('astro:page-load', initFooterContact);
 </script>
