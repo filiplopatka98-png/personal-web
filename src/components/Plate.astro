@@ -49,8 +49,10 @@ const {
 
 const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
 
-// Responsive widths capped to the source width (retina-friendly up to 1760px).
-const widthPool = [400, 640, 960, 1280, 1760];
+// Responsive widths capped to the source width. Includes hi-DPI sizes up to
+// ~2560px so laptop-mockup screenshots stay crisp on retina/2x displays
+// (a ~1100px plate needs ~2200px on a 2x screen).
+const widthPool = [400, 640, 960, 1280, 1760, 2200, 2560];
 const widths = image
   ? (() => {
       const w = widthPool.filter((x) => x <= image.width);
