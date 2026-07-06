@@ -3,7 +3,7 @@ title: "LCP over 2.5s? The 7 most common causes in practice"
 date: 2026-01-22
 read: 8
 tags: ["Performance", "Core Web Vitals", "WordPress"]
-excerpt: "Pattern matching from 30+ audits over six months. Seven concrete causes of slow LCP, each with identification via the WebPageTest filmstrip and a fix with real code."
+excerpt: "Patterns from 30+ audits over six months. Seven concrete causes of slow LCP — each with a way to spot it in the WebPageTest filmstrip and a fix with real code."
 featured: true
 ---
 
@@ -34,7 +34,7 @@ A Google Maps embed, a YouTube facade, Tidio chat. A plugin shoves a `<script>` 
 
 **Identification:** Lighthouse "Eliminate render-blocking resources" + a waterfall row without the `async/defer` flag.
 
-**Fix:** `defer` if the script needs the DOM, `async` otherwise. Or better still — fold it into a facade pattern. For YouTube: [`lite-youtube-embed`](https://github.com/paulirish/lite-youtube-embed) — instead of a 540KB iframe, it loads a 3KB custom element that turns into an iframe only after a click.
+**Fix:** `defer` if the script needs the DOM, `async` otherwise. Or better still — fold it into a facade pattern. For YouTube: [`lite-youtube-embed`](https://github.com/paulirish/lite-youtube-embed) — instead of a 1MB+ iframe, it loads a ~30KB custom element that turns into the full iframe only after a click.
 
 ```html
 <lite-youtube videoid="dQw4w9WgXcQ"></lite-youtube>
@@ -42,7 +42,7 @@ A Google Maps embed, a YouTube facade, Tidio chat. A plugin shoves a `<script>` 
 
 ## 3. Slow TTFB (>800ms) from cheap hosting
 
-Pure physics: if the server responds in 1.2s, LCP will never be under 2.5s. Most common on shared hosts at €3/month running WP without a page cache. MySQL runs on the same VPS as another 800 domains, and I/O wait is grotesque.
+Pure physics: if the server responds in 1.2s, LCP will never be under 2.5s. A good TTFB, per web.dev, is 800ms or less at the 75th percentile. Most common on shared hosts at €3/month running WP without a page cache. MySQL runs on the same VPS as another 800 domains, and I/O wait is grotesque.
 
 **Identification:** the WebPageTest "First Byte" number. If it's >800ms in production from Slovakia, you have a problem. Also check via `curl -w "@curl-format.txt"` from several locations.
 
@@ -58,21 +58,21 @@ A 1.4MB hero JPEG at quality 95. WebP at quality 80 would be around 180KB at a v
 
 **Identification:** waterfall — the biggest file is an image >300KB.
 
-**Fix:** server-side conversion in the `image_make_intermediate_size` filter (WP), or Cloudflare Polish, or build-time via `sharp`. For Astro, `<Image>` from `astro:assets` is enough — auto WebP/AVIF with `srcset`.
+**Fix:** server-side conversion via the `image_make_intermediate_size` filter (WP), or Cloudflare Polish, or build-time via `sharp`. For Astro, `<Picture>` from `astro:assets` is enough — auto WebP/AVIF with `srcset`.
 
 ```js
 // Astro
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import hero from '../assets/hero.jpg';
 
-<Image src={hero} alt="..." widths={[400, 800, 1200]} formats={['avif', 'webp']} />
+<Picture src={hero} alt="..." widths={[400, 800, 1200]} sizes="100vw" formats={['avif', 'webp']} />
 ```
 
 Real numbers from an audit: hero 1.4MB JPEG → 142KB AVIF. LCP -0.8s.
 
 ## 5. Custom font without font-display: swap
 
-The hero element is often an `<h1>` with a custom font. Without `font-display: swap` the browser waits up to 3 seconds for the font, then renders the text. LCP goes down the drain.
+The hero element is often an `<h1>` with a custom font. Without `font-display: swap` the browser waits up to 3 seconds (the block period) for the font before rendering the text at all. LCP goes down the drain.
 
 **Identification:** filmstrip — the text appears a second after the image. Lighthouse reports "Ensure text remains visible during webfont load."
 

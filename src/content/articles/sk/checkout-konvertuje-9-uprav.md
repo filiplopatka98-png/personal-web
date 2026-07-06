@@ -3,19 +3,19 @@ title: "WooCommerce checkout, ktorý konvertuje: 9 mikro-úprav z reálneho audi
 date: 2026-03-18
 read: 9
 tags: ["WooCommerce", "UX", "Performance"]
-excerpt: "Audit checkoutu eshopu — z 71% cart abandonment na 48%. Deväť konkrétnych úprav s code snippetmi: jednostránka, žiadny gating, autocomplete, mobile inputmode."
+excerpt: "Audit checkoutu jedného eshopu — z 71 % opustených košíkov na 48 %. Deväť konkrétnych úprav s ukážkami kódu: jednostránkový checkout, žiadny login gate, autocomplete adresy, mobilný inputmode."
 featured: true
 ---
 
-Klient — stredne veľký SK eshop s ročným obratom okolo €1.2M — mi prišiel s otázkou: "tržby od mája rastú, ale cart abandonment je 71%. Vieš s tým niečo?". Po týždni auditu som vyrobil prioritizovaný zoznam zmien. Tu je 9 z nich, ktoré sme implementovali za 3 sprinty. Po nasadení **abandonment klesol na 48%**, conversion rate vzrástol z 1.4% na 2.6%.
+Klient — stredne veľký slovenský eshop s ročným obratom okolo €1,2 mil. — mi prišiel s otázkou: „Tržby od mája rastú, ale opustenosť košíka je 71 %. Vieš s tým niečo urobiť?“ Po týždni auditu som pripravil prioritizovaný zoznam zmien. Tu je 9 z nich, ktoré sme implementovali počas 3 šprintov. Po nasadení **opustenosť košíka klesla na 48 %** a konverzný pomer vzrástol z 1,4 % na 2,6 %.
 
-Anonymizované, ale čísla a riešenia sú reálne.
+Anonymizované, ale čísla aj riešenia sú reálne.
 
 ## 1. Jednostránkový checkout namiesto multi-step
 
-Pôvodný setup: 3-step checkout (Address → Shipping → Payment). 18% userov padalo medzi krokmi 1 a 2.
+Pôvodný stav: trojkrokový checkout (Adresa → Doprava → Platba). 18 % používateľov odpadávalo medzi krokmi 1 a 2.
 
-Riešenie: **single-page checkout** — všetky polia naraz, postupne odhalené ako user vypĺňa. Použili sme upravený default Woo template `checkout/form-checkout.php` v child themes a vyhodili wrappers pre kroky.
+Riešenie: **jednostránkový checkout** — všetky polia naraz, postupne odhaľované, ako ich používateľ vypĺňa. Použili sme upravenú predvolenú šablónu WooCommerce `checkout/form-checkout.php` v child téme a vyhodili sme wrappery jednotlivých krokov.
 
 ```php
 // child theme: woocommerce/checkout/form-checkout.php
@@ -23,30 +23,31 @@ Riešenie: **single-page checkout** — všetky polia naraz, postupne odhalené 
 // jeden formulár, scroll-down structure: address → shipping → payment → review
 ```
 
-Mental model usera: "vidím, koľko mi to ešte zaberie". Keď vidí 3 nadpisy a krátky formulár, začne. Keď vidí "Krok 1 z 3", odíde.
+Mentálny model používateľa: „vidím, koľko mi to ešte zaberie“. Keď vidí 3 nadpisy a krátky formulár, začne. Keď vidí „Krok 1 z 3“, odíde.
 
-## 2. Odstránenie prihláška/registrácia gating
+## 2. Odstránenie gatingu prihlásením/registráciou
 
-Pred: prvá vec, ktorú si user na checkoute videl, bolo "Máte u nás konto? Prihláste sa." Toto je **kill switch** pre conversion. User si pamätá heslo z roku 2019, frustruje sa, odíde.
+Predtým: prvá vec, ktorú používateľ na checkoute videl, bolo „Máte u nás konto? Prihláste sa.“ Toto je **kill switch** pre konverziu. Používateľ si spomína na heslo z roku 2019, frustruje sa a odíde.
 
-Po: **guest checkout default**. Po vyplnení email-u sa pod ním objaví drobný checkbox "Vytvoriť heslo a uložiť si konto na ďalší nákup (1 click)". Optional.
+Potom: **guest checkout ako predvolený**. Po vyplnení e-mailu sa pod ním objaví drobný checkbox „Vytvoriť heslo a uložiť si konto na ďalší nákup (na 1 klik)“. Voliteľné.
 
 ```php
 // functions.php
-add_filter('woocommerce_checkout_must_create_account', '__return_false');
+// registrácia nie je povinná → povolí sa guest checkout
 add_filter('woocommerce_checkout_registration_required', '__return_false');
+// ale možnosť vytvoriť si konto zostane zobrazená (opt-in checkbox)
 add_filter('woocommerce_checkout_registration_enabled', '__return_true');
 ```
 
-A v Woo settings: Accounts & Privacy → uncheck "Allow customers to log into an existing account during checkout".
+A v nastaveniach WooCommerce: Accounts & Privacy → odškrtni „Allow customers to log into an existing account during checkout“.
 
-Sám checkbox "vytvoriť konto" je opt-in, defaultne unchecked. Konverzia +9% sama o sebe.
+Samotný checkbox „vytvoriť konto“ je opt-in, predvolene neoznačený. Konverzia +9 % sama o sebe.
 
 ## 3. Inline validácia (nie po submite)
 
-Pôvodný validation flow: user vyplní celý formulár, klikne "Objednať", server vráti "PSČ je nevalidné", scroll naspäť, user musí nájsť, kde to je. 3 sekundy frustrácie.
+Pôvodný priebeh validácie: používateľ vyplní celý formulár, klikne „Objednať“, server vráti „PSČ je nevalidné“, scroll naspäť a musí hľadať, kde to je. 3 sekundy frustrácie.
 
-Riešenie: validácia **na blur** (keď user opustí pole), s vizuálnym feedbackom hneď.
+Riešenie: validácia **na blur** (keď používateľ opustí pole), s okamžitým vizuálnym feedbackom.
 
 ```js
 // child theme assets/js/checkout-validation.js
@@ -67,13 +68,13 @@ document.querySelectorAll('#billing_postcode').forEach(field => {
 });
 ```
 
-Plus aria-live=polite pre screen reader users. Accessibility win navyše.
+Plus `aria-live="polite"` pre používateľov čítačiek obrazovky. Prístupnosť navyše.
 
-## 4. Autocomplete na adresu — Slovenská pošta API
+## 4. Autocomplete adresy — API Slovenskej pošty
 
-User vypĺňa "Bratislava" → ulica autocomplete-uje. PSČ sa doplní. Mestská časť sa doplní. **Z 12 polí stláča 4.**
+Používateľ vypĺňa „Bratislava“ → ulica sa doplní automaticky. PSČ sa doplní. Mestská časť sa doplní. **Z 12 polí vypĺňa 4.**
 
-[API Slovenskej pošty](https://api.posta.sk/) má free tier pre PSČ lookup. Endpoint: `GET https://api.posta.sk/v1/postcodes?city={query}`.
+[API Slovenskej pošty](https://api.posta.sk/) má free tier pre lookup PSČ. Endpoint: `GET https://api.posta.sk/v1/postcodes?city={query}`.
 
 ```js
 // debounced search
@@ -90,7 +91,7 @@ cityInput.addEventListener('input', () => {
 });
 ```
 
-Backend proxy v WP (aby sa API key netrúsil v JS):
+Backend proxy vo WordPresse (aby sa API kľúč nedostal do JS):
 
 ```php
 add_action('rest_api_init', function() {
@@ -113,13 +114,13 @@ function firma_postcode_lookup($request) {
 }
 ```
 
-Cache cez transients, aby si neminul API quota.
+Cache cez transienty, aby si nevyčerpal API kvótu.
 
-## 5. Platobné metódy ako ikony, nie skryté za radio
+## 5. Platobné metódy ako ikony, nie skryté za radiobuttonom
 
-Default Woo: radio buttons pod text "Platobná metóda". User musí kliknúť, aby uvidel, čo je tam.
+Predvolený WooCommerce: radiobuttony pod textom „Platobná metóda“. Používateľ musí kliknúť, aby uvidel, čo tam je.
 
-Po: vizuálna grid s logami (Visa, MasterCard, GoPay, Tatra Banka, Bankový prevod). User vidí naraz všetky možnosti. **Trust signal.**
+Potom: vizuálny grid s logami (Visa, Mastercard, GoPay, Tatra banka, bankový prevod). Používateľ vidí všetky možnosti naraz. **Trust signal.**
 
 ```php
 // functions.php
@@ -148,9 +149,9 @@ CSS na to, aby radio buttons vyzerali ako klikacie karty:
 }
 ```
 
-## 6. Mobile číslo s `inputmode="numeric"`
+## 6. Telefónne číslo na mobile s `inputmode="numeric"`
 
-Telefón na mobile defaultne otvorí qwerty klávesnicu. User stláča "?123" a potom čísla. Frustrácia.
+Pole telefónu na mobile predvolene otvorí QWERTY klávesnicu. Používateľ ťuká „?123“ a až potom čísla. Frustrácia.
 
 ```php
 add_filter('woocommerce_checkout_fields', function($fields) {
@@ -162,7 +163,7 @@ add_filter('woocommerce_checkout_fields', function($fields) {
 });
 ```
 
-`inputmode="numeric"` otvorí číselnú klávesnicu na iOS aj Androide. PSČ tiež dostane rovnaké:
+`inputmode="numeric"` otvorí číselnú klávesnicu na iOS aj Androide (spolu s `pattern` kvôli starším verziám iOS). PSČ dostane to isté:
 
 ```php
 $fields['billing']['billing_postcode']['custom_attributes'] = [
@@ -171,9 +172,9 @@ $fields['billing']['billing_postcode']['custom_attributes'] = [
 ];
 ```
 
-## 7. Order summary sticky pri scroll na mobile
+## 7. Sticky súhrn objednávky pri scrolle na mobile
 
-Mobile checkout: user vypĺňa polia, súčet €82,40 a počet items je nad záhybom. Po scroll dole stratí kontext. Sticky `position: sticky` summary panel pri scroll-e.
+Mobilný checkout: používateľ vypĺňa polia, ale súčet €82,40 a počet položiek sú nad záhybom. Po scrolle dole stratí kontext. Riešením je súhrnný panel prilepený cez `position: sticky`.
 
 ```css
 @media (max-width: 768px) {
@@ -185,7 +186,7 @@ Mobile checkout: user vypĺňa polia, súčet €82,40 a počet items je nad zá
 }
 ```
 
-A v PHP partial render summary mini-bar:
+A v PHP partiale sa renderuje mini-lišta so súhrnom:
 
 ```php
 <div class="firma-order-summary-mini">
@@ -196,9 +197,9 @@ A v PHP partial render summary mini-bar:
 
 ## 8. Zobraziť dopravu pred zadaním adresy
 
-User chce vedieť koľko ho dôjde produkt **pred** vyplnením 12 polí. Default Woo počíta dopravu až po zadaní PSČ.
+Používateľ chce vedieť, koľko ho bude stáť doprava **pred** vyplnením 12 polí. Predvolený WooCommerce počíta dopravu až po zadaní PSČ.
 
-Riešenie: **estimate na základe IP geolokalizácie**. Používame [GeoIP Detection](https://wordpress.org/plugins/geoip-detect/) plugin. V `cart` page zobrazujeme:
+Riešenie: **odhad na základe IP geolokácie**. Používame plugin [GeoIP Detection](https://wordpress.org/plugins/geoip-detect/). Na stránke košíka zobrazujeme:
 
 ```php
 $location = geoip_detect2_get_info_from_current_ip();
@@ -211,13 +212,13 @@ if ($country === 'SK') {
 }
 ```
 
-User vie, čo ho čaká. Žiadne unpleasant surprises na poslednej obrazovke.
+Používateľ vie, čo ho čaká. Žiadne nepríjemné prekvapenia na poslednej obrazovke.
 
-## 9. Odstránenie "vypnúť AdBlock" upsell z checkoutu
+## 9. Odstránenie „vypni AdBlock“ upsellu z checkoutu
 
-Klient mal v checkout-e banner: "Vypnúť AdBlock pre 5% zľavu na ďalšiu objednávku". Plus exit-intent modal s newsletter sign-upom.
+Klient mal v checkoute banner: „Vypni AdBlock a získaj 5 % zľavu na ďalšiu objednávku.“ Plus exit-intent modal s prihlásením na newsletter.
 
-Vyhodené. Checkout flow musí byť **lineárny a single-purpose**: dokončiť objednávku. Každý ďalší prvok je friction. Newslettery a discount triks patria do post-purchase emails alebo cart, nie checkoutu.
+Vyhodené. Checkout flow musí byť **lineárny a jednoúčelový**: dokončiť objednávku. Každý ďalší prvok je friction. Newslettery a zľavové triky patria do post-purchase e-mailov alebo do košíka, nie na checkout.
 
 ```php
 // vyhodili sme
@@ -225,19 +226,19 @@ remove_action('woocommerce_checkout_after_customer_details', 'firma_newsletter_m
 remove_action('woocommerce_review_order_before_payment', 'firma_adblock_banner');
 ```
 
-## Výsledky audit-u
+## Výsledky auditu
 
-3 sprinty implementácie (~12 dev hodín celkovo). Pred-After (8 týždňov porovnanie):
+3 šprinty implementácie (~12 dev hodín celkovo). Porovnanie pred/po (8-týždňové okno):
 
 | Metrika | Pred | Po |
 |---|---|---|
-| Cart abandonment | 71% | 48% |
-| Checkout completion (mobile) | 22% | 41% |
-| Average checkout time | 4:18 | 1:52 |
+| Opustenosť košíka | 71 % | 48 % |
+| Dokončenie checkoutu (mobil) | 22 % | 41 % |
+| Priemerný čas checkoutu | 4:18 | 1:52 |
 | Mesačné tržby | €98k | €134k |
 
-Najväčší impact malo (poradie podľa odhadu): #2 (gating), #1 (one-page), #4 (autocomplete), #6 (numeric inputmode).
+Najväčší dopad malo (poradie podľa odhadu): #2 (gating), #1 (jednostránka), #4 (autocomplete), #6 (numeric inputmode).
 
 ## TL;DR
 
-Checkout konverzie nie sú o color tlačidla. Sú o znižovaní friction: žiadny login gate, jeden flow miesto troch, inline validation, mobile-friendly inputs, autocomplete adresy, sticky summary, transparent shipping, žiadne distractions. Deväť malých zmien spravilo z 71% abandonment 48%. Otestuj na svojom Woo projekte aspoň prvých 5.
+Konverzia checkoutu nie je o farbe tlačidla. Je o znižovaní friction: žiadny login gate, jeden flow namiesto troch, inline validácia, mobile-friendly inputy, autocomplete adresy, sticky súhrn, transparentná doprava, žiadne rozptýlenia. Deväť malých zmien spravilo zo 71 % opustenosti 48 %. Otestuj na svojom WooCommerce projekte aspoň prvých 5.

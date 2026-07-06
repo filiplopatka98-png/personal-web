@@ -3,7 +3,7 @@ title: "The WooCommerce checkout that converts: 9 micro-fixes from a real audit"
 date: 2026-03-18
 read: 9
 tags: ["WooCommerce", "UX", "Performance"]
-excerpt: "A store checkout audit — from 71% cart abandonment down to 48%. Nine concrete fixes with code snippets: single page, no gating, autocomplete, mobile inputmode."
+excerpt: "A checkout audit for one online store — from 71% cart abandonment down to 48%. Nine concrete fixes with code snippets: single-page checkout, no login gate, address autocomplete, mobile inputmode."
 featured: true
 ---
 
@@ -33,14 +33,15 @@ After: **guest checkout by default**. After entering their email, a small checkb
 
 ```php
 // functions.php
-add_filter('woocommerce_checkout_must_create_account', '__return_false');
+// registration not required → guest checkout is allowed
 add_filter('woocommerce_checkout_registration_required', '__return_false');
+// but keep the "create an account" option visible (opt-in checkbox)
 add_filter('woocommerce_checkout_registration_enabled', '__return_true');
 ```
 
-And in Woo settings: Accounts & Privacy → uncheck "Allow customers to log into an existing account during checkout."
+And in WooCommerce settings: Accounts & Privacy → uncheck "Allow customers to log into an existing account during checkout."
 
-The "create account" checkbox itself is opt-in, unchecked by default. +9% conversion on its own.
+The "create account" checkbox itself is opt-in, unchecked by default. +9% conversion from this change alone.
 
 ## 3. Inline validation (not after submit)
 
@@ -162,7 +163,7 @@ add_filter('woocommerce_checkout_fields', function($fields) {
 });
 ```
 
-`inputmode="numeric"` opens the numeric keyboard on both iOS and Android. The postcode gets the same:
+`inputmode="numeric"` opens the numeric keyboard on both iOS and Android (paired with `pattern` to cover older iOS versions). The postcode gets the same:
 
 ```php
 $fields['billing']['billing_postcode']['custom_attributes'] = [

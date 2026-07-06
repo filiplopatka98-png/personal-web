@@ -3,7 +3,7 @@ title: "Headless Woo + Next.js: when it's worth it (and when it isn't)"
 date: 2026-02-14
 read: 8
 tags: ["WooCommerce", "Next.js", "Headless"]
-excerpt: "Headless WooCommerce with Next.js sounds sexy, but it costs 3x more than a native store. A decision matrix across 4 axes for when it makes sense."
+excerpt: "Headless WooCommerce with Next.js sounds sexy, but it costs 3x more than a native store. A decision matrix across 4 axes for when it makes sense and when it doesn't."
 featured: true
 ---
 
@@ -34,8 +34,8 @@ Edge cases: if you have seasonal peaks (Black Friday at 10x normal traffic), hea
 
 This is the factor people underrate:
 
-- **1 dev, PHP background** → Woo. Headless will kill them. WooCommerce has 12 years of documentation; a headless setup requires GraphQL, Next.js, a deployment pipeline, environment management, ISR debugging.
-- **2-3 devs, mixed PHP + JS** → Hybrid, or Woo with a React frontend (Storefront API).
+- **1 dev, PHP background** → Woo. Headless will kill them. WooCommerce has 14+ years of documentation; a headless setup requires GraphQL, Next.js, a deployment pipeline, environment management, ISR debugging.
+- **2-3 devs, mixed PHP + JS** → Hybrid, or Woo with a React frontend (via the Store API).
 - **3+ devs, React/TypeScript** → Headless is their home. They move faster than in PHP.
 
 If the lead developer on the project is WordPress/PHP, headless will genuinely **slow down** development by 30-50%, because they have to deal with problems they never had in PHP (CORS, SSR/CSR boundaries, hydration, cache invalidation).
@@ -44,7 +44,7 @@ If the lead developer on the project is WordPress/PHP, headless will genuinely *
 
 The question: **What will you do on the frontend that Woo can't handle natively?**
 
-- **Basic store** (categories, products, cart, checkout) → Woo has done this for 12 years, why complicate your life.
+- **Basic store** (categories, products, cart, checkout) → Woo has done this for 14+ years, why complicate your life.
 - **Multi-channel** (web + mobile app + kiosk + B2B portal) → Headless gives one API source for all of them.
 - **Custom checkout flow** (3-step wizard, AR try-on, configurator) → Headless gives you flexibility.
 - **Heavy personalization** (a different homepage per segment, A/B testing infrastructure) → Headless is advantageous, but it can also be done in Woo.
@@ -57,10 +57,10 @@ Real numbers from my projects:
 - **WooCommerce native with a custom theme + perf optimization**: **€7,000 – €12,000**.
 - **Headless WooCommerce + Next.js**: **€15,000 – €25,000**, plus **€20-50/mo hosting** (Vercel/CF/VPS).
 
-Maintenance is a different tune too:
+Maintenance is a whole different story too:
 
 - Woo native: WP plugin updates, roughly 2-4 hours/month.
-- Headless: deployment monitoring, dependency updates in Next.js (a major every 2 months), API versioning. **6-10 hours/month.**
+- Headless: deployment monitoring, frequent dependency updates in Next.js (a major roughly once a year, minors and npm packages continuously), API versioning. **6-10 hours/month.**
 
 ## The decision tree in practice
 
@@ -88,7 +88,7 @@ The client mentioned above with 800 products:
 - Team: 1 dev, PHP-only → Axis 3 says "Woo native."
 - Customization: a standard store, no multi-channel → Axis 4 says "Woo native."
 
-**4 out of 4 axes against.** Headless would cost 3x more, would require a new team or training them, and would deliver no user-perceivable benefit. The client would burn €18,000 just to have a "more modern stack." That's not a business case, it's a marketing pose.
+**4 out of 4 axes against.** Headless would cost 3x more, would require a new team or training the existing one, and would deliver no user-perceivable benefit. The client would burn €18,000 just to have a "more modern stack." That's not a business case, it's marketing posturing.
 
 ## When I said YES instead
 
@@ -96,4 +96,4 @@ Another client: 14,000 products, 180k MAU, a 4-person React team, a planned mobi
 
 ## TL;DR
 
-Headless WooCommerce + Next.js is not the default choice. It's an investment that pays off when you have lots of products, lots of traffic, a capable team, and real customization. If you're missing even one of these four things, stay on Woo native and put the money into CWV optimization. Your conversion rate will be much more grateful.
+Headless WooCommerce + Next.js is not the default choice. It's an investment that pays off when you have lots of products, lots of traffic, a capable team, and real customization. If you're missing even one of these four things, stay on Woo native and put the money into Core Web Vitals optimization. Your conversion rate will thank you far more for it.
