@@ -29,5 +29,10 @@ export default defineConfig({
     },
   },
 
-  integrations: [tailwind({ applyBaseStyles: false }), mdx(), sitemap()],
+  integrations: [
+    tailwind({ applyBaseStyles: false }),
+    mdx(),
+    // Exclude 404 pages from the sitemap (they carry a page-level noindex).
+    sitemap({ filter: (page) => !/\/404\/?$/.test(page) }),
+  ],
 });

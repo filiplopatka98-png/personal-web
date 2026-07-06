@@ -19,7 +19,7 @@ const services = (await getCollection('services'))
 const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;
 const steps = processSteps[lang];
 ---
-<BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title={`${t('nav.services', lang)} — Filip Lopatka`}>
+<BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title={`${t('nav.services', lang)} — Filip Lopatka`} description="Balíčky a ceny: landing page, firemný web, eshop a audit. Návrh, build, nasadenie a podpora — s dôrazom na výkon, SEO a prístupnosť.">
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
     titleHtml={titleHtml}

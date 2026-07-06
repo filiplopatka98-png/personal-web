@@ -17,7 +17,7 @@ const titleHtml = `${t('blog.title.before', lang)}<em>${t('blog.title.em', lang)
 
 const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' });
 ---
-<BaseLayout lang={lang} canonicalPath="/en/blog/" altLangUrl="/blog/" title={`${t('nav.blog', lang)} — Filip Lopatka`}>
+<BaseLayout lang={lang} canonicalPath="/en/blog/" altLangUrl="/blog/" title={`${t('nav.blog', lang)} — Filip Lopatka`} description="Articles on web development: WordPress, Next.js, Astro, performance (Core Web Vitals), SEO and accessibility — from real projects.">
   <PageHead
     eyebrow={t('blog.eyebrow', lang)}
     titleHtml={titleHtml}
