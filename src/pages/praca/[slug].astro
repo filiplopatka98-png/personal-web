@@ -1,22 +1,18 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
 import Plate from '../../components/Plate.astro';
 import { t } from '../../i18n';
 
-// Project root resolution for runtime file existence checks (build time).
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = resolve(__dirname, '../../..');
-
-function mockupPath(slug: string, type: 'hero' | 'mobile'): string | null {
-  const rel = `/projects/${slug}-${type}.png`;
-  const abs = join(projectRoot, 'public', rel);
-  return existsSync(abs) ? rel : null;
+// Optimized project mockups, resolved from src/assets at build time.
+const projectImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/projects/*.png',
+  { eager: true },
+);
+function mockupImage(name: string): ImageMetadata | null {
+  return projectImages[`/src/assets/projects/${name}.png`]?.default ?? null;
 }
 
 export async function getStaticPaths() {
@@ -51,12 +47,9 @@ const accentColor = `var(--${data.accent})`;
 //   <slug>-hero.png         → laptop mockup, hero plate
 //   <slug>-mobile.png       → phone mockup, screens grid slot 1
 //   <slug>-screen2-hero.png → laptop mockup, screens grid slot 2
-const heroMockupRel = mockupPath(cleanSlug, 'hero');
-const mobileMockupRel = mockupPath(cleanSlug, 'mobile');
-const secondaryMockupRel = mockupPath(`${cleanSlug}-screen2`, 'hero');
-const heroMockupSrc = heroMockupRel ? `${baseUrl}${heroMockupRel}` : null;
-const mobileMockupSrc = mobileMockupRel ? `${baseUrl}${mobileMockupRel}` : null;
-const secondaryMockupSrc = secondaryMockupRel ? `${baseUrl}${secondaryMockupRel}` : null;
+const heroImage = mockupImage(`${cleanSlug}-hero`);
+const mobileImage = mockupImage(`${cleanSlug}-mobile`);
+const secondaryImage = mockupImage(`${cleanSlug}-screen2-hero`);
 
 // JSON-LD: CreativeWork
 const projectUrlPath = `${baseUrl}/praca/${cleanSlug}/`;
@@ -131,10 +124,11 @@ const projectLd = {
         label={`${data.name} · hero`}
         color={accentColor}
         ratio="16/9"
-        caption={heroMockupSrc ? (data.heroCaption ?? data.url) : 'screen-01.png'}
+        caption={heroImage ? (data.heroCaption ?? data.url) : 'screen-01.png'}
         radius={20}
-        imageSrc={heroMockupSrc ?? undefined}
+        image={heroImage ?? undefined}
         imageAlt={`${data.name} — desktop náhľad`}
+        sizes="(max-width: 1024px) 100vw, 1100px"
       />
     </Reveal>
   </section>
@@ -189,26 +183,28 @@ const projectLd = {
       When a mobile mockup exists, first slot becomes the phone mockup
       (portrait) and grid shifts to 1fr 1.5fr to give the second plate
       more horizontal room. Otherwise: 2 equal Plate placeholders. */}
-  <section class:list={['proj-screens', mobileMockupSrc && 'has-mobile-mockup']}>
+  <section class:list={['proj-screens', mobileImage && 'has-mobile-mockup']}>
     <div class="screens-grid">
       <Reveal>
         <Plate
           label="mobile"
           color={accentColor}
-          ratio={mobileMockupSrc ? '600/1100' : '4/3'}
-          caption={mobileMockupSrc ? (data.mobileCaption ?? 'mobilný pohľad') : 'checkout flow'}
-          imageSrc={mobileMockupSrc ?? undefined}
+          ratio={mobileImage ? '600/1100' : '4/3'}
+          caption={mobileImage ? (data.mobileCaption ?? 'mobilný pohľad') : 'checkout flow'}
+          image={mobileImage ?? undefined}
           imageAlt={`${data.name} — mobilný náhľad`}
+          sizes="(max-width: 768px) 100vw, 420px"
         />
       </Reveal>
       <Reveal delay={0.08}>
         <Plate
-          label={secondaryMockupSrc ? `${data.name} · sekundárny pohľad` : 'screen-03'}
-          color={secondaryMockupSrc ? accentColor : 'var(--accent2)'}
-          ratio={secondaryMockupSrc ? '16/9' : '4/3'}
-          caption={secondaryMockupSrc ? (data.secondaryCaption ?? '—') : 'product detail'}
-          imageSrc={secondaryMockupSrc ?? undefined}
+          label={secondaryImage ? `${data.name} · sekundárny pohľad` : 'screen-03'}
+          color={secondaryImage ? accentColor : 'var(--accent2)'}
+          ratio={secondaryImage ? '16/9' : '4/3'}
+          caption={secondaryImage ? (data.secondaryCaption ?? '—') : 'product detail'}
+          image={secondaryImage ?? undefined}
           imageAlt={`${data.name} — sekundárny náhľad`}
+          sizes="(max-width: 768px) 100vw, 640px"
         />
       </Reveal>
     </div>

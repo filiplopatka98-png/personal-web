@@ -11,12 +11,15 @@
  *    (e.g. a laptop mockup PNG from `npm run shots`). Caption shown
  *    below as a small mono line.
  */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 export interface Props {
   /** File-name label shown top-left in placeholder mode, e.g. "veverka-hero.png". */
   label: string;
   /** Background tint — CSS color, defaults to var(--bg2). */
   color?: string;
-  /** Aspect ratio, e.g. "4/3" (default), "4/5", "16/9". Ignored when `imageSrc` is set. */
+  /** Aspect ratio, e.g. "4/3" (default), "4/5", "16/9". Ignored when `image` is set. */
   ratio?: string;
   /** Optional caption shown bottom-left (placeholder) / below (image). */
   caption?: string;
@@ -24,10 +27,12 @@ export interface Props {
   radius?: number;
   /** Extra classes to merge. */
   class?: string;
-  /** When provided, render this image instead of the CSS placeholder. */
-  imageSrc?: string;
+  /** When provided, render this optimized image instead of the CSS placeholder. */
+  image?: ImageMetadata;
   /** Alt text for the image. Falls back to `label` when omitted. */
   imageAlt?: string;
+  /** Responsive `sizes` hint — how wide the image renders across breakpoints. */
+  sizes?: string;
 }
 
 const {
@@ -37,17 +42,31 @@ const {
   caption,
   radius = 14,
   class: className = '',
-  imageSrc,
+  image,
   imageAlt,
+  sizes = '(max-width: 1024px) 100vw, 1000px',
 } = Astro.props;
 
 const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
+
+// Responsive widths capped to the source width (retina-friendly up to 1760px).
+const widthPool = [400, 640, 960, 1280, 1760];
+const widths = image
+  ? (() => {
+      const w = widthPool.filter((x) => x <= image.width);
+      return w.length ? w : [image.width];
+    })()
+  : [];
 ---
-{imageSrc ? (
+{image ? (
   <figure class:list={['plate-image-wrap', className]}>
-    <img
-      src={imageSrc}
+    <Picture
+      src={image}
       alt={imageAlt ?? label}
+      widths={widths}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
       class="plate-image"
       loading="lazy"
       decoding="async"
