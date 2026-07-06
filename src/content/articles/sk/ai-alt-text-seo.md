@@ -3,17 +3,17 @@ title: "Image alt text z AI: úspora hodín, riziká pre SEO"
 date: 2026-03-14
 read: 7
 tags: ["AI", "SEO", "Accessibility"]
-excerpt: "Test 3 vision modelov na 200 produktových fotkách: GPT-4o, Claude 3.5 Sonnet, Gemini 2.0 Flash. Quality, cena, SEO riziká."
+excerpt: "Test troch vision modelov na 200 produktových fotkách: GPT-4o, Claude 3.5 Sonnet, Gemini 2.0 Flash. Kvalita, cena a SEO riziká, ktoré nesmieš prehliadnuť."
 featured: false
 ---
 
-Klient (móda eshop, ~3500 produktov) prišiel s problémom: 60 % obrázkov má prázdny `alt` atribút, ostatné typu `IMG_4521.jpg`. Manuálne písanie alt textov pre všetky = ~50 hodín práce. AI vision modely to spravia za víkend a $35.
+Klient (módny eshop, ~3500 produktov) prišiel s problémom: 60 % obrázkov má prázdny `alt` atribút, zvyšok typu `IMG_4521.jpg`. Manuálne písanie alt textov pre všetky = ~50 hodín práce. AI vision modely to spravia za víkend a $35.
 
-Spustil som testovacie kolo na 200 reprezentatívnych fotkách (oblečenie, obuv, doplnky, lifestyle shoty) a porovnal tri modely. Tu sú výsledky a praktické závery — vrátane SEO rizík, ktoré nesmieš ignorovať.
+Spustil som testovacie kolo na 200 reprezentatívnych fotkách (oblečenie, obuv, doplnky, lifestylové zábery) a porovnal tri modely. Tu sú výsledky a praktické závery — vrátane SEO rizík, ktoré nesmieš ignorovať.
 
-## Test setup
+## Nastavenie testu
 
-200 produktových fotiek, manually labeled "ground truth" alt text napísaný copywriterom. Každý model dostal rovnaký prompt:
+200 produktových fotiek, ku každej ručne napísaný „ground truth" alt text od copywritera. Každý model dostal rovnaký prompt:
 
 ```
 Generate alt text for an e-commerce product image.
@@ -28,75 +28,75 @@ Return JSON: {"alt": "..."}
 ```
 
 Modely:
-- **GPT-4o** (`gpt-4o-2024-08-06`) — vision standard
-- **Claude 3.5 Sonnet** (`claude-3-5-sonnet-20241022`) — vision od Oct 2024
+- **GPT-4o** (`gpt-4o-2024-08-06`) — vizuálny štandard
+- **Claude 3.5 Sonnet** (`claude-3-5-sonnet-20241022`) — verzia s vision od októbra 2024
 - **Gemini 2.0 Flash** (`gemini-2.0-flash`) — najlacnejší, najrýchlejší
 
-## Scoring metodika
+## Metodika hodnotenia
 
-Manuálny review každého výstupu na 4 kritériá (1-5 skóre):
+Ručný review každého výstupu na štyri kritériá (skóre 1 – 5):
 
-1. **Accuracy** — popisuje skutočný obsah?
-2. **Length** — v sweet spot 50-125 chars?
-3. **Keyword stuffing** — vyhne sa "best red dress for women shop online"?
-4. **Accessibility** — useful pre screen reader (kontext, nie len visual)?
+1. **Presnosť** — popisuje skutočný obsah?
+2. **Dĺžka** — trafí sa do rozpätia 50 – 125 znakov?
+3. **Keyword stuffing** — vyhne sa formuláciám typu „best red dress for women shop online"?
+4. **Prístupnosť** — je použiteľný pre čítač obrazovky (kontext, nielen vizuál)?
 
 ## Výsledky
 
-| Model | Accuracy | Length OK | No stuffing | Accessibility | Cena/img | Latency |
+| Model | Presnosť | Dĺžka OK | Bez stuffingu | Prístupnosť | Cena/obr. | Latencia |
 |---|---|---|---|---|---|---|
-| **Claude 3.5 Sonnet** | 4.6/5 | 92 % | 100 % | 4.4/5 | $0.012 | 1.8s |
-| **GPT-4o** | 4.3/5 | 78 % | 95 % | 4.1/5 | $0.014 | 1.4s |
-| **Gemini 2.0 Flash** | 3.7/5 | 85 % | 100 % | 3.5/5 | $0.002 | 0.6s |
+| **Claude 3.5 Sonnet** | 4,6/5 | 92 % | 100 % | 4,4/5 | $0,012 | 1,8 s |
+| **GPT-4o** | 4,3/5 | 78 % | 95 % | 4,1/5 | $0,014 | 1,4 s |
+| **Gemini 2.0 Flash** | 3,7/5 | 85 % | 100 % | 3,5/5 | $0,002 | 0,6 s |
 
-### Claude 3.5 Sonnet: víťaz na accuracy
+### Claude 3.5 Sonnet: víťaz v presnosti
 
 - najlepšia presnosť popisu (typ produktu, materiál, farba)
-- občas príliš stručný (pod 50 chars), default cca 70-90 chars
-- nikdy nehallucinuje brand mená (✓)
-- občas vynechá kontext ("model nesie..." vs len popis produktu)
+- občas príliš stručný (pod 50 znakov), zvyčajne cca 70 – 90 znakov
+- nikdy si nevymýšľa značky (✓)
+- občas vynechá kontext („model má na sebe..." verzus len popis produktu)
 
-Príklad output: `Tmavomodrý vlnený sveter s véčkovým výstrihom, ležérny strih`
+Príklad výstupu: `Tmavomodrý vlnený sveter s véčkovým výstrihom, ležérny strih`
 
 ### GPT-4o: rýchly, ale halucinuje
 
-- najrýchlejší v tomto teste z modelov "kvalitnej vrstvy"
-- občas pripísal **brand name z context cues** ("Nike running shoes" keď to bola generic shoe)
-- 22 % výstupov bolo cez 125 chars — pridáva detaily, ktoré sú nadbytočné
-- pri 5 fotkách sa "snažil byť poetický": "Elegant black dress that exudes sophistication" — useless
+- najrýchlejší v tomto teste z modelov „kvalitnej vrstvy"
+- občas pripísal **značku podľa nepriamych indícií** („Nike running shoes", hoci šlo o neznačkovú obuv)
+- 22 % výstupov malo cez 125 znakov — pridáva nadbytočné detaily
+- pri piatich fotkách sa „snažil byť poetický": „Elegant black dress that exudes sophistication" — nepoužiteľné
 
-Príklad output: `Nike-style black running sneaker with white sole and laces, men's athletic footwear`
-(realita: bola to neznáčková obuv)
+Príklad výstupu: `Nike-style black running sneaker with white sole and laces, men's athletic footwear`
+(realita: bola to neznačková obuv)
 
-### Gemini 2.0 Flash: cenový kráľ s kvalitatívnym kompromisom
+### Gemini 2.0 Flash: cenový kráľ s kompromisom v kvalite
 
 - 6× lacnejší než Claude/GPT
 - 3× rýchlejší
-- accuracy klesla — popisy generické: "Black shoe with white sole" namiesto "Bežecká pánska obuv s tlmením"
-- accessibility skóre najslabšie — chýba kontext (čo to je za typ produktu)
+- presnosť klesla — popisy sú generické: „Black shoe with white sole" namiesto „Bežecká pánska obuv s tlmením"
+- najslabšie skóre v prístupnosti — chýba kontext (o aký typ produktu ide)
 
-Pre **bulk batch** (10 000+ obrázkov) kde robíš review aj tak, je cena/perf pomer Gemini lákavý. Pre **production publishing** Claude.
+Pre **hromadné dávky** (10 000+ obrázkov), kde tak či tak robíš review, je pomer ceny a výkonu u Gemini lákavý. Pre **produkčné publikovanie** siahni po Claude.
 
 ## SEO riziká
 
-Tu je miesto, kde to môže ublížiť. AI alt text **nikdy nepublikuj automaticky** bez review batch.
+Tu je miesto, kde to môže ublížiť. AI alt text **nikdy nepublikuj automaticky** bez dávkového review.
 
-**Riziko 1: Halucinácia brand names** (videno hlavne u GPT-4o)
+**Riziko 1: Halucinácia značiek** (videné hlavne u GPT-4o)
 - Google vníma alt text ako signal o obsahu stránky
-- Falošné brand mention = potenciálne miscategorization
-- Worst case: trademark issue ak ti to napíše "Adidas" pri tvojom no-name produkte
+- falošná zmienka o značke = potenciálne nesprávne zaradenie
+- najhorší prípad: problém s ochrannou známkou, ak ti to pri neznačkovom produkte napíše „Adidas"
 
 **Riziko 2: Keyword stuffing**
-- Aj keď v prompte zakážeš, niektoré modely občas pridajú "buy online" / "best price"
-- Manual review odchytí
+- aj keď to v prompte zakážeš, niektoré modely občas pridajú „buy online" / „best price"
+- ručný review to odchytí
 
-**Riziko 3: Generic = no SEO benefit**
-- "Black shoe" je accessibility OK ale SEO bezhodnotné
-- "Bežecká pánska obuv s tlmením" má product-relevant keywords + accessibility kontext
+**Riziko 3: Generický popis = žiadny SEO prínos**
+- „Black shoe" je z hľadiska prístupnosti OK, ale pre SEO bezcenné
+- „Bežecká pánska obuv s tlmením" má kľúčové slová relevantné pre produkt aj kontext pre prístupnosť
 
 **Riziko 4: Duplicitné alt texty na podobných produktoch**
-- 5 farebných variantov tej istej tričky → 5x rovnaký alt text
-- Pridaj do promptu variantu (farbu) a SKU kontext
+- 5 farebných variantov toho istého trička → 5× rovnaký alt text
+- pridaj do promptu variant (farbu) a kontext SKU
 
 ## Praktický workflow
 
@@ -144,18 +144,18 @@ Return JSON: {"alt": "..."}`,
 }
 ```
 
-Prečo Slovak prompt? Klient eshop v SK → alt text v SK. Claude to zvláda bez problémov.
+Prečo prompt v slovenčine? Klientov eshop je v SK → alt text v SK. Claude to zvláda bez problémov.
 
-## Review fázy
+## Fázy review
 
-1. **Generate** všetkých 3500 alt textov (~$45 cez Claude, ~3 hodiny batch)
-2. **Auto-flag** — výstupy obsahujúce slová "Nike|Adidas|Apple|brand_X|...", > 125 chars, < 30 chars
-3. **Manual review flagged subset** (~5-10 % obvykle) — 2 hodiny práce
-4. **Spot-check 50 random** z neflagovaných — 30 min
-5. **Deploy** cez WP REST API alebo SQL update
+1. **Vygeneruj** všetkých 3500 alt textov (~$45 cez Claude, ~3 hodiny dávkovania)
+2. **Automaticky označ** — výstupy obsahujúce slová „Nike|Adidas|Apple|značka_X|...", dlhšie ako 125 znakov, kratšie ako 30 znakov
+3. **Ručne skontroluj označenú podmnožinu** (zvyčajne ~5 – 10 %) — 2 hodiny práce
+4. **Namátkovo skontroluj 50 náhodných** z neoznačených — 30 minút
+5. **Nasaď** cez WP REST API alebo SQL update
 
-Total: ~6 hodín human time vs 50 hodín na ručné písanie. Cena: ~$45 API + ~6 h × €25/h = ~$200 vs €1250 manuálne.
+Spolu: ~6 hodín ľudského času oproti 50 hodinám ručného písania. Cena: ~$45 za API + ~6 h × €25/h = ~$200 oproti €1250 manuálne.
 
 ## TL;DR
 
-Claude 3.5 Sonnet je v 2026 najlepší vision model pre alt text generation — accuracy + brevity + bez halucinácií brand mien. GPT-4o je rýchlejší ale občas si vymýšľa. Gemini 2.0 Flash je 6× lacnejší pri ~80 % kvalite — dobrý pre batch s následným review. **Nikdy auto-publish.** Vždy flag suspicious + spot-check.
+Claude 3.5 Sonnet je pre mňa v roku 2026 najlepší vision model na generovanie alt textov — presnosť, stručnosť a žiadne halucinácie značiek. GPT-4o je rýchlejší, ale občas si vymýšľa. Gemini 2.0 Flash je 6× lacnejší pri ~80 % kvalite — dobrý na dávky s následným review. **Nikdy nepublikuj automaticky.** Vždy označ podozrivé výstupy a rob namátkové kontroly.

@@ -3,13 +3,13 @@ title: "Astro Content Collections + MDX pre blog: typesafe end-to-end"
 date: 2026-01-22
 read: 7
 tags: ["Astro", "MDX", "TypeScript"]
-excerpt: "Zod schema chytí preklep vo frontmatteri pri builde — nie keď ti čitateľ otvorí 404. Setup Content Collections + MDX pre typesafe blog za 20 minút."
+excerpt: "Zod schéma chytí preklep vo frontmatteri už pri builde — nie až keď ti ho čitateľ otvorí ako 404. Nastavenie Content Collections + MDX pre typovo bezpečný blog za 20 minút."
 featured: false
 ---
 
-V starom Astre si MDX súbory čítal cez `Astro.glob()` a `frontmatter.title` bol `any`. Preklep v dátume? Build prešiel. Stránka padla v runtime. Content Collections s Zod schémou to obracia: build fail-uje pri **nesprávnom** frontmatteri, runtime je čistý.
+V starom Astre si MDX súbory čítal cez `Astro.glob()` a `frontmatter.title` bol `any`. Preklep v dátume? Build prešiel. Stránka spadla až za behu. Content Collections so Zod schémou to obracia: build zlyhá pri **nesprávnom** frontmatteri, za behu je už čisto.
 
-Toto je setup, ktorý používam na všetkých blog projektoch od Astra 4. V Astre 5.x je už `content.config.ts` namiesto `src/content/config.ts` (oba ešte fungujú, novší je preferred location).
+Toto je nastavenie, ktoré používam na všetkých blogových projektoch od Astra 4. V Astre 5 je konfigurácia už v `src/content.config.ts` namiesto `src/content/config.ts` — staré umiestnenie ešte funguje cez spätnú kompatibilitu, ale je označené za zastarané, takže novú konfiguráciu píš rovno do `src/content.config.ts`.
 
 ## Setup
 
@@ -55,11 +55,11 @@ export const collections = { articles };
 
 Pár dôležitých vecí:
 
-- `z.coerce.date()` ti automaticky parsne `2026-01-22` string z YAML do `Date` objektu.
-- `image()` helper validuje, že súbor existuje **a** dá ti optimalizované `<Image />`-ready data (width, height, format).
-- `featured: z.boolean().default(false)` — keď v MDX nezadáš `featured`, dostaneš `false`.
+- `z.coerce.date()` ti automaticky prevedie reťazec `2026-01-22` z YAML na `Date` objekt.
+- `image()` helper overí, že súbor existuje, **a** dá ti dáta pripravené pre `<Image />` (width, height, format).
+- `featured: z.boolean().default(false)` — keď v MDX pole `featured` nezadáš, dostaneš `false`.
 
-## Frontmatter validácia at build time
+## Validácia frontmatteru pri builde
 
 V `src/content/articles/cwv-eshop.mdx`:
 
@@ -77,13 +77,13 @@ excerpt: "Krátky popis."
 Telo článku.
 ```
 
-Ak napíšeš `read: "8"` (string namiesto number) alebo `excerpt` dlhší ako 280 znakov, `npm run build` zhodí s konkrétnym pointerom na súbor a riadok. **Žiadny článok s rozbitým frontmatterom sa nedostane na produkciu.**
+Ak napíšeš `read: "8"` (reťazec namiesto čísla) alebo `excerpt` dlhší ako 280 znakov, `npm run build` zlyhá a ukáže ti konkrétny súbor a riadok. **Žiadny článok s rozbitým frontmatterom sa nedostane na produkciu.**
 
-Real-world test: blog s 50 článkami, jeden vývojár si neuvedomil, že zmenil `tags` na string namiesto array. Pred Content Collections by sa to prejavilo runtime errorom na článku, ktorý nikto neotvoril 3 dni. So Zod: build padol pri prvom commit-e.
+Príklad z praxe: blog s 50 článkami, jeden vývojár si neuvedomil, že zmenil `tags` z poľa na obyčajný reťazec. Pred Content Collections by sa to prejavilo chybou za behu na článku, ktorý nikto tri dni neotvoril. So Zod: build spadol hneď pri prvom commite.
 
-## Typesafe getCollection()
+## Typovo bezpečný getCollection()
 
-Z `getCollection()` dostaneš plne typed entries. TypeScript vie, že `entry.data.tags` je `string[]`, a IDE ti ponúkne autocomplete.
+Z `getCollection()` dostaneš plne otypované záznamy. TypeScript vie, že `entry.data.tags` je `string[]`, a IDE ti ponúkne automatické dopĺňanie.
 
 ```ts
 ---
@@ -98,7 +98,7 @@ articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 ```
 
-Pre tagované filtre:
+Na filtrovanie podľa tagu:
 
 ```ts
 const performanceArticles = await getCollection("articles", ({ data }) =>
@@ -106,9 +106,9 @@ const performanceArticles = await getCollection("articles", ({ data }) =>
 );
 ```
 
-## Render MDX s custom komponentmi
+## Renderovanie MDX s vlastnými komponentmi
 
-V starom prístupe si MDX renderoval cez globálnu `MDXProvider`. Content Collections to robí lokálne — per-render určíš, ktoré komponenty sú dostupné:
+V starom prístupe si MDX renderoval cez globálny `MDXProvider`. Content Collections to robia lokálne — pri každom renderovaní určíš, ktoré komponenty sú dostupné:
 
 ```astro
 ---
@@ -136,17 +136,17 @@ V `*.mdx` súbore potom môžeš písať:
 ## Úvod
 
 <Note type="warning">
-  Toto je vlastný komponent. Astro vie, že existuje, lebo sme ho importli.
+  Toto je vlastný komponent. Astro vie, že existuje, lebo sme ho importovali.
 </Note>
 
 Bežný odsek.
 ```
 
-`code: CodeBlock` override-uje default `<code>` element — tak môžeš dať syntax highlighting cez Shiki alebo Prism bez globálneho `rehype-pretty-code` config-u.
+`code: CodeBlock` prepíše štandardný `<code>` element — tak môžeš pridať zvýrazňovanie syntaxe cez Shiki alebo Prism bez globálnej `rehype-pretty-code` konfigurácie.
 
-## Image optimalizácia
+## Optimalizácia obrázkov
 
-Najlepšia ficka. Keď v schéme dáš `cover: image()`, vo frontmatteri uvedieš relatívnu cestu:
+Najlepšia vychytávka. Keď v schéme dáš `cover: image()`, vo frontmatteri uvedieš relatívnu cestu:
 
 ```yaml
 cover: ./images/cwv-cover.jpg
@@ -171,9 +171,9 @@ const entry = await getEntry("articles", slug);
 )}
 ```
 
-Astro vygeneruje WebP/AVIF varianty + správne `srcset`. Ak obrázok neexistuje na disku, build padne — žiadne broken images na produke.
+`<Image />` vygeneruje štandardne WebP variant a k nemu správny `srcset` pre zadané šírky. Ak potrebuješ aj AVIF s fallbackom, siahni po komponente `<Picture />` — ten vie vyrobiť viac formátov naraz (predvolene AVIF aj WebP). Ak obrázok na disku neexistuje, build padne — žiadne rozbité obrázky na produkcii.
 
-## getStaticPaths pre dynamické trasy
+## getStaticPaths pre dynamické cesty
 
 ```ts
 ---
@@ -192,18 +192,18 @@ const { Content } = await render(article);
 ---
 ```
 
-V Astre 5+ je `entry.id` (predtým bolo `entry.slug`). `id` je file path bez extensionu, presne to, čo chceš pre URL.
+V Astre 5+ je `entry.id` (predtým bolo `entry.slug`). Pri `glob()` loaderi je `id` URL-friendly slug, ktorý Astro vygeneruje z názvu súboru (kebab-case cez github-slugger) — presne to, čo chceš pre URL.
 
 ## Build performance
 
-Pre 50 článkov + image optimalizáciou (3 šírky každý) build trvá ~12s na M1 Mac. Pre 200 článkov ~35s. To je s `astro build`, žiadny incremental cache. Pre väčšie stránky skús `--mode=development` + persistent cache (Astro 5 má experimental incremental builds).
+Pre 50 článkov s optimalizáciou obrázkov (3 šírky na každý) build trvá ~12 s na M1 Macu. Pre 200 článkov ~35 s. To je s `astro build`, bez akejkoľvek cache. Pre väčšie stránky sa oplatí zapnúť perzistentnú cache: experimentálne cachovanie Content Collections existuje od Astra 3.5 (na dokumentácii Astra zrýchlilo daný krok buildu z 133 s na 10 s, teda o zhruba 92 %) a Astro 6 prinieslo nový cachovací systém, ktorý zrýchľuje najmä opakované (inkrementálne) buildy.
 
-## Externé linky
+## Externé odkazy
 
 - [Astro Content Collections docs](https://docs.astro.build/en/guides/content-collections/)
-- [Zod docs](https://zod.dev/) — schema validation
+- [Zod docs](https://zod.dev/) — validácia schém
 - [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/)
 
 ## TL;DR
 
-`defineCollection` + Zod schema = build-time validácia frontmatteru. `getCollection()` = typesafe queries. `render(entry)` + `<Content components={...} />` = MDX s custom komponentmi. `image()` schema helper = automaticky optimalizované obrázky s broken-link guardom. End-to-end typesafe od MDX súboru po finálne HTML, žiadny `any` po ceste.
+`defineCollection` + Zod schéma = validácia frontmatteru pri builde. `getCollection()` = typovo bezpečné dotazy. `render(entry)` + `<Content components={...} />` = MDX s vlastnými komponentmi. `image()` schema helper = automaticky optimalizované obrázky s poistkou proti rozbitým odkazom. Typovo bezpečné end-to-end od MDX súboru po finálne HTML, žiadny `any` po ceste.

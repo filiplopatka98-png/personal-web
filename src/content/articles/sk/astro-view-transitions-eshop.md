@@ -3,13 +3,13 @@ title: "Astro 5 + view transitions na e-commerce: čo už funguje"
 date: 2026-02-18
 read: 7
 tags: ["Astro", "UX", "Performance"]
-excerpt: "Astro 5 má stable view transitions API. SPA-feel bez React shell-u, persistent header a cart, smooth crossfade. Plus 3 gotchas, na ktoré narazíš pri reálnom eshope."
+excerpt: "Astro 5 má stabilné view transitions API. SPA pocit bez React shellu, persistentný header aj košík, plynulý crossfade. Plus 3 nástrahy, na ktoré narazíš pri reálnom eshope."
 featured: false
 ---
 
-Astro 5 má view transitions API stable (od Astro 4.5 stable, v 5.x doladené). Pre e-commerce to znamená, že môžeš mať SPA-like dojem (žiadny full reload, žiadny biely flash) bez toho, aby si bootstrapoval celý React shell. V praxi: rovnaká rýchlosť ako vanilla Astro, ale UX ako Next.js.
+Astro 5 má view transitions API stabilné (stabilné je od Astro 3.0, vo verzii 5.0 sa router `<ViewTransitions />` premenoval na `<ClientRouter />`). Pre e-commerce to znamená, že môžeš mať SPA dojem (žiadny full reload, žiadne biele bliknutie) bez toho, aby si musel bootstrapovať celý React shell. V praxi: rovnaká rýchlosť ako čisté Astro, ale UX ako z Next.js.
 
-Tu je čo som zistil po nasadení na 3 menších eshopov.
+Tu je to, čo som zistil po nasadení na 3 menších eshopoch.
 
 ## Setup je jeden import
 
@@ -29,11 +29,11 @@ import { ClientRouter } from "astro:transitions";
 </html>
 ```
 
-A je to. Defaultne dostaneš jemný crossfade medzi navigáciami. Browser support: Chromium 111+, Safari 18+, Firefox má stále len partial support — pre Firefox sa fallbackuje na plain navigation (full reload), čo je presne to, čo by si chcel — žiadne lámajúce sa polovičné riešenie.
+A je to. V predvolenom stave dostaneš jemný crossfade medzi navigáciami. Podpora v prehliadačoch: natívne View Transitions API bežia v Chromiu 111+ a Safari 18+; Firefox 144 (október 2025) doplnil same-document view transitions, ale cross-document navigáciu, ktorú `<ClientRouter />` používa, zatiaľ nepodporuje. Nič sa tým ale nepokazí — Astro má predvolený fallback `animate`, ktorý prechod odsimuluje aj bez natívneho API (do neho spadne aj Firefox). Prípadne si môžeš nastaviť `fallback="swap"` (okamžitá výmena bez animácie) alebo `fallback="none"` (klasická plná navigácia).
 
-## Persistent header a košík
+## Persistentný header a košík
 
-Tu sa to stáva užitočné. Header s košík counter-om nechceš znova vykresliť pri každej navigácii — counter by blikal a re-fetch požiadaviek by sa duplikoval.
+Tu sa to začína hodiť. Header s počítadlom položiek v košíku nechceš znova vykresľovať pri každej navigácii — počítadlo by blikalo a znova by sa duplikovali sieťové požiadavky.
 
 ```astro
 <header transition:persist="site-header">
@@ -42,13 +42,13 @@ Tu sa to stáva užitočné. Header s košík counter-om nechceš znova vykresli
 </header>
 ```
 
-`transition:persist` povie Astro: tento DOM uzol nediskartuj, znova ho použi po navigácii. React/Preact island vnútri pokračuje bežať bez remount-u. Cart counter teda drží svoj state aj keď user prejde z `/produkty/topanky-1` na `/produkty/topanky-2`.
+`transition:persist` povie Astru: tento DOM uzol nezahadzuj, po navigácii ho použi znova. React/Preact island vnútri beží ďalej bez remountu. Počítadlo košíka si teda drží svoj stav aj vtedy, keď používateľ prejde z `/produkty/topanky-1` na `/produkty/topanky-2`.
 
-Pozor: persisted island sa **nereinicializuje**. Ak v ňom chceš spustiť niečo na každej page (napr. analytics page view), nedrž to v island-e samom — počúvaj na `astro:page-load` event.
+Pozor na jeden detail: persistentný island sa **neremountne a drží si stav, ale prekreslí sa s novými props** z cieľovej stránky (ak chceš zachovať aj pôvodné props, pridaj `transition:persist-props`). A ak v ňom chceš spustiť niečo na každej stránke (napr. analytické zaznamenanie zobrazenia), nedrž to priamo v islande — počúvaj na udalosť `astro:page-load`.
 
-## Gotcha #1: form state sa stratí
+## Nástraha #1: stratí sa stav formulára
 
-Default behaviour: navigácia diskartuje formuláre. Ak má user napísanú adresu v checkout formulári a omylom klikne "Späť", text je preč.
+Predvolené správanie: navigácia formuláre zahodí. Ak má používateľ napísanú adresu v checkout formulári a omylom klikne „Späť“, text je preč.
 
 Riešenie:
 
@@ -60,23 +60,17 @@ Riešenie:
 </form>
 ```
 
-Persist na `<form>` element zachová DOM aj jeho children (vrátane vyplnených hodnôt) cez navigáciu.
+`transition:persist` na elemente `<form>` zachová cez navigáciu DOM aj jeho potomkov vrátane vyplnených hodnôt.
 
-## Gotcha #2: third-party widgets flashujú
+## Nástraha #2: blikajúce third-party widgety
 
-Smartsupp chat, Tawk.to, Google Ads pixel, GA4 — všetky sa pri navigácii unmountujú a remountujú. Chat widget zmizne na 200ms, potom sa znova načíta. Vyzerá to ako bug.
+Smartsupp chat, Tawk.to, Google Ads pixel, GA4 — všetky sa pri navigácii odpoja a znova pripoja. Chat widget zmizne na 200 ms a potom sa načíta odznova. Vyzerá to ako chyba.
 
-Riešenie pre script tagy:
-
-```astro
-<script is:persist src="https://www.smartsuppchat.com/loader.js?..."></script>
-```
-
-Pre inline scripty čo bootstrapujú third-party SDK:
+Dobrá správa: klasické (bundlované) skripty v Astre bežia iba raz. Po prvom spustení ich Astro pri ďalších navigáciách ignoruje, aj keď sú na novej stránke. Problém teda robia hlavne inline skripty, ktoré bootstrapujú third-party SDK. Pri nich stačí spustiť inicializáciu len raz cez stráž na `window`:
 
 ```astro
-<script is:persist>
-  // Bootstrap len raz, nie na každej navigation
+<script is:inline>
+  // Bootstrap len raz, nie na každej navigácii
   if (!window.__chatBooted) {
     window.__chatBooted = true;
     (function(d) {
@@ -88,9 +82,9 @@ Pre inline scripty čo bootstrapujú third-party SDK:
 </script>
 ```
 
-## Gotcha #3: vlastný JS sa nereinicializuje
+## Nástraha #3: vlastný JS sa znovu nespustí
 
-Klasický pattern:
+Klasický vzor:
 
 ```js
 document.addEventListener("DOMContentLoaded", () => {
@@ -98,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 ```
 
-Toto bežalo pri každom load-e. S view transitions `DOMContentLoaded` zazvoní len raz (pri prvom load-e). Na ďalšie navigácie použiješ `astro:page-load`:
+Toto bežalo pri každom načítaní stránky. S view transitions sa `DOMContentLoaded` spustí len raz (pri prvom načítaní). Na ďalšie navigácie použiješ `astro:page-load`:
 
 ```js
 document.addEventListener("astro:page-load", () => {
@@ -106,18 +100,18 @@ document.addEventListener("astro:page-load", () => {
 });
 ```
 
-`astro:page-load` zazvoní vždy — pri prvom načítaní aj po každej view transition. Žiadny `DOMContentLoaded` už nepotrebuješ.
+`astro:page-load` sa spustí vždy — pri prvom načítaní aj po každej view transition. `DOMContentLoaded` už nepotrebuješ.
 
-Ďalšie eventy ktoré sa zídia:
+Ďalšie udalosti, ktoré sa zídu:
 
-- `astro:before-preparation` — pred fetchom novej stránky
-- `astro:after-preparation` — nová stránka načítaná, ešte nezviditeľnená
-- `astro:before-swap` — DOM swap chvíľu pred
-- `astro:after-swap` — DOM swap dokončený
+- `astro:before-preparation` — pred stiahnutím novej stránky
+- `astro:after-preparation` — nová stránka stiahnutá, ešte nezobrazená
+- `astro:before-swap` — tesne pred výmenou DOM
+- `astro:after-swap` — výmena DOM dokončená
 
-## Custom transitions per element
+## Vlastné prechody pre konkrétny element
 
-Default crossfade je fine, ale produktová karta na list page → produktový detail vyzerá lepšie ako "shared element transition":
+Predvolený crossfade je fajn, ale prechod z produktovej karty vo výpise na produktový detail vyzerá lepšie ako „shared element transition“ (prechod zdieľaného prvku):
 
 ```astro
 <a href="/produkt/topanky-1">
@@ -139,11 +133,11 @@ A na detail page:
 />
 ```
 
-Rovnaké `transition:name` na oboch stranách → browser ich animuje ako shared element. Funguje to len v Chromium 111+, ale tam vyzerá premium.
+Rovnaké `transition:name` na oboch stranách → prehliadač ich zanimuje ako zdieľaný prvok. Funguje to len tam, kde beží natívne View Transitions API (Chromium 111+, Safari 18+), ale tam vyzerá prémiovo.
 
 ## Scroll restoration
 
-Astro view transitions handle-uje scroll restoration automaticky pre back/forward navigation. Pre forward navigáciu sa scrollne na top — čo je dobré default. Ak chceš custom (napr. obnoviť scroll na produkty list po návrate z detailu), použiješ `astro:before-swap`:
+Astro view transitions rieši obnovu pozície scrollu pri navigácii späť/vpred automaticky. Pri navigácii vpred odscrolluje na začiatok stránky — čo je rozumné predvolené správanie. Ak chceš vlastné (napr. obnoviť scroll vo výpise produktov po návrate z detailu), použiješ `astro:before-swap`:
 
 ```js
 document.addEventListener("astro:before-swap", (e) => {
@@ -157,13 +151,13 @@ document.addEventListener("astro:before-swap", (e) => {
 
 Eshop, ktorý som migroval z Astro 4 (bez transitions) na Astro 5 + ClientRouter:
 
-- LCP nezmenený (transitions nepriaľa LCP, prvý page load funguje rovnako)
-- **INP zlepšené z 240ms na 110ms** — žiadny full reload, browser nedebounce-uje pri klike na link
-- Bounce rate na produktovom katalógu **−14 %** (subjective: ľudia listia viac, lebo "čo si nič nenačítava")
-- Konverzia +8 % (ťažko pripísať len transitions, ale spoluhrá)
+- LCP nezmenené (transitions LCP neovplyvňujú, prvé načítanie stránky funguje rovnako)
+- **INP sa zlepšilo z 240 ms na 110 ms** — žiadny full reload, prehliadač pri kliku na odkaz nič nedebouncuje
+- Bounce rate na produktovom katalógu **−14 %** (subjektívne: ľudia listujú viac, lebo „veď sa nič nenačítava“)
+- Konverzia +8 % (ťažko pripísať len transitions, ale svoje k tomu prispeli)
 
 ## TL;DR
 
-`<ClientRouter />` + `transition:persist` na header/cart + `astro:page-load` namiesto `DOMContentLoaded` + `is:persist` na third-party scripty. Tri gotchas (form state, widget flash, JS init), všetky majú jednoriadkový fix. Pre Firefox plain navigation fallback — nič sa nepokazí.
+`<ClientRouter />` + `transition:persist` na header/košík + `astro:page-load` namiesto `DOMContentLoaded` + inicializačná stráž na `window` pri third-party skriptoch. Tri nástrahy (stav formulára, blikanie widgetov, inicializácia JS), všetky majú jednoriadkovú opravu. Firefox a ostatné prehliadače bez natívneho API spadnú do simulovaného fallbacku — nič sa nepokazí.
 
-Stojí to za to. Particulárne ak prechádzaš z čistého Astra a nechceš pridať React shell.
+Stojí to za to. Obzvlášť ak prechádzaš z čistého Astra a nechceš pridávať React shell.
