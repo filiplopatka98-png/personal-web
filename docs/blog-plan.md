@@ -83,3 +83,77 @@ Najprv témy s vysokým search intentom a silným odlíšením; „advanced/nich
 
 ## AI-for-web / proces
 20. **Ako používam AI pri stavbe webov — a kde mu neverím** — osobný, dôveryhodný, podporuje „AI integrácie" službu.
+
+
+---
+
+# Exaktný plán publikácie (všetkých 62 + 3 už live)
+
+Kadencia **2/týž (ut + št)**, štart **2026-07-14**. `[N]` = nová téma (treba napísať). Ostatné sú pripravené drafty.
+
+| # | Dátum | Slug | Nová? |
+|---|---|---|---|
+| 1 | 2026-07-14 | woocommerce-vs-shopify |  |
+| 2 | 2026-07-16 | hostingy-sk-vykon |  |
+| 3 | 2026-07-21 | plugin-dieta-z-28-na-9 |  |
+| 4 | 2026-07-23 | cwv-eshop-priorita |  |
+| 5 | 2026-07-28 | inp-pod-200ms-wordpress |  |
+| 6 | 2026-07-30 | server-response-200ms |  |
+| 7 | 2026-08-04 | ttfb-pod-200ms | 🆕 |
+| 8 | 2026-08-06 | sk-platobne-brany-2026 |  |
+| 9 | 2026-08-11 | wp-bezpecnost-2026 |  |
+| 10 | 2026-08-13 | wp-migracia-bez-vypadku |  |
+| 11 | 2026-08-18 | wp-theme-vyber-6-kriterii |  |
+| 12 | 2026-08-20 | acf-vs-metabox-vs-cf |  |
+| 13 | 2026-08-25 | seo-checklist-co-pomaha |  |
+| 14 | 2026-08-27 | internal-linking-topic-clusters |  |
+| 15 | 2026-09-01 | local-seo-bratislava |  |
+| 16 | 2026-09-03 | sitemapy-bez-chyb | 🆕 |
+| 17 | 2026-09-08 | schema-org-eshop-templates |  |
+| 18 | 2026-09-10 | faceted-filtre-bez-elasticsearch |  |
+| 19 | 2026-09-15 | doprava-sklad-pohoda |  |
+| 20 | 2026-09-17 | woo-admin-10000-produktov | 🆕 |
+| 21 | 2026-09-22 | woo-checkout-blocks-vs-classic | 🆕 |
+| 22 | 2026-09-24 | abandoned-cart-woocommerce | 🆕 |
+| 23 | 2026-09-29 | cenotvorba-eshop-models |  |
+| 24 | 2026-10-01 | brief-3-tyzdne |  |
+| 25 | 2026-10-06 | discovery-call-30-minut |  |
+| 26 | 2026-10-08 | redis-object-cache-wordpress | 🆕 |
+| 27 | 2026-10-13 | wp-cli-12-prikazov | 🆕 |
+| 28 | 2026-10-15 | cpt-taxonomie-bez-pluginu | 🆕 |
+| 29 | 2026-10-20 | wordpress-bez-page-builderu | 🆕 |
+| 30 | 2026-10-22 | gutenberg-blocks-marketeri |  |
+| 31 | 2026-10-27 | nextjs-app-vs-pages-router |  |
+| 32 | 2026-10-29 | nextjs-cache-revalidate |  |
+| 33 | 2026-11-03 | nextjs-form-actions |  |
+| 34 | 2026-11-05 | nextjs-middleware-prakticky | 🆕 |
+| 35 | 2026-11-10 | react-19-migracia |  |
+| 36 | 2026-11-12 | server-components-5-veci |  |
+| 37 | 2026-11-17 | streaming-suspense-app-router | 🆕 |
+| 38 | 2026-11-19 | parallel-intercepting-routes | 🆕 |
+| 39 | 2026-11-24 | isr-namiesto-cron |  |
+| 40 | 2026-11-26 | nextimage-vs-vlastne | 🆕 |
+| 41 | 2026-12-01 | astro-vs-nextjs-tabulka |  |
+| 42 | 2026-12-03 | astro-content-collections-mdx |  |
+| 43 | 2026-12-08 | astro-view-transitions-eshop |  |
+| 44 | 2026-12-10 | wp-rest-api-nextjs |  |
+| 45 | 2026-12-15 | font-loading-fout-foit | 🆕 |
+| 46 | 2026-12-17 | third-party-skripty-vykon | 🆕 |
+| 47 | 2026-12-22 | cls-mobil-banner |  |
+| 48 | 2026-12-24 | image-lazy-loading-native-vs-custom |  |
+| 49 | 2026-12-29 | bundle-audit-astro-nextjs |  |
+| 50 | 2026-12-31 | webpagetest-za-5-minut |  |
+| 51 | 2027-01-05 | ai-search-pre-malu-firmu |  |
+| 52 | 2027-01-07 | ai-content-eeat |  |
+| 53 | 2027-01-12 | ai-alt-text-seo |  |
+| 54 | 2027-01-14 | aeo-obsah-pre-ai | 🆕 |
+| 55 | 2027-01-19 | ai-pri-stavbe-webov | 🆕 |
+| 56 | 2027-01-21 | programmatic-seo-male-firmy | 🆕 |
+| 57 | 2027-01-26 | wcag-aa-80-20 |  |
+| 58 | 2027-01-28 | keyboard-only-test |  |
+| 59 | 2027-02-02 | focus-management-dialog |  |
+| 60 | 2027-02-04 | pristupne-formulare | 🆕 |
+| 61 | 2027-02-09 | kontrast-dizajn-aa | 🆕 |
+| 62 | 2027-02-11 | vercel-vs-cloudflare-vs-vps |  |
+
+**Publikuj klaster naraz** (rovnaký týždeň) nech crosslinky nemieria na nepublikované. Posledný článok vyjde **2027-02-11**.
