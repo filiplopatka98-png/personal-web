@@ -9,7 +9,7 @@ featured: false
 includes:
   - "Lighthouse + WebPageTest analysis"
   - "SEO audit (Search Console, Ahrefs)"
-  - "UX heuristics on 5 key flows"
+  - "Heuristic UX review of 5 key flows"
   - "Prioritized list of fixes"
   - "1h video call walkthrough"
 notFor: "Implementation of fixes (separate project)."

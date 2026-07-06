@@ -33,9 +33,9 @@ process:
   - title: "Launch"
     duration: "2 days"
     desc: "Content migration from the old site, URL redirects, GDPR consent, production rollout."
-  - title: "Speed optimisation"
+  - title: "Speed optimization"
     duration: "4 days"
-    desc: "Page caching, image lazy-loading, CDN for static assets, DB query optimisation in the admin panel."
+    desc: "Page caching, image lazy-loading, CDN for static assets, DB query optimization in the admin panel."
 stack:
   - "WordPress"
   - "ACF Pro"

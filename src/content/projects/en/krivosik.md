@@ -43,7 +43,7 @@ mobileCaption: "services and contact on mobile"
 secondaryCaption: "project detail · pool excavation & build"
 ---
 
-A company website for a sole trader in earthworks and excavation around Piešťany. The goal is simple — when someone in the region searches for excavation, utility connections or ground works, they find Ľubo and have his phone number within reach right away.
+A company website for a sole trader in earthworks and excavation around Piešťany. The goal is simple — when someone in the region searches for excavation, utility connections or ground works, they find Ľubo, with his phone number right there.
 
 The site also serves as a portfolio of completed jobs (excavation, utility connections, foundations, ground works) — real on-site photos instead of stock images build trust.
 

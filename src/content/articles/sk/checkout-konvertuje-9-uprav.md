@@ -3,7 +3,7 @@ title: "WooCommerce checkout, ktorý konvertuje: 9 mikro-úprav z reálneho audi
 date: 2026-03-18
 read: 9
 tags: ["WooCommerce", "UX", "Performance"]
-excerpt: "Audit checkoutu eshopu — z 71% cart abandonment na 48%. Devät konkrétnych úprav s code snippetmi: jednostránka, žiadny gating, autocomplete, mobile inputmode."
+excerpt: "Audit checkoutu eshopu — z 71% cart abandonment na 48%. Deväť konkrétnych úprav s code snippetmi: jednostránka, žiadny gating, autocomplete, mobile inputmode."
 featured: true
 ---
 
@@ -240,4 +240,4 @@ Najväčší impact malo (poradie podľa odhadu): #2 (gating), #1 (one-page), #4
 
 ## TL;DR
 
-Checkout konverzie nie sú o color tlačidla. Sú o znižovaní friction: žiadny login gate, jeden flow miesto troch, inline validation, mobile-friendly inputs, autocomplete adresy, sticky summary, transparent shipping, žiadne distractions. Devät malých zmien spravilo z 71% abandonment 48%. Otestuj na svojom Woo projekte aspoň prvých 5.
+Checkout konverzie nie sú o color tlačidla. Sú o znižovaní friction: žiadny login gate, jeden flow miesto troch, inline validation, mobile-friendly inputs, autocomplete adresy, sticky summary, transparent shipping, žiadne distractions. Deväť malých zmien spravilo z 71% abandonment 48%. Otestuj na svojom Woo projekte aspoň prvých 5.

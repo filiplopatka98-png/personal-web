@@ -30,7 +30,7 @@ process:
   - title: "Launch"
     duration: "1 day"
     desc: "Production deployment, Search Console, GA4, sitemap, technical SEO audit."
-  - title: "Speed optimisation"
+  - title: "Speed optimization"
     duration: "2 days"
     desc: "Gallery lazy-loading, WebP image compression, server caching — final LCP under 1.5s."
 stack:
@@ -44,8 +44,8 @@ mobileCaption: "project categories on mobile"
 secondaryCaption: "project portfolio split by category"
 ---
 
-Business website for a construction company specialising in new builds, renovations and engineering networks. Main goal is lead generation — first-scroll section shows project types with a free-consultation form within reach.
+Business website for a construction company specializing in new builds, renovations and engineering networks. The main goal is lead generation — the first-scroll section shows project types with a free-consultation form right there.
 
-Portfolio is organised by category (family houses, restaurants, garages) with before/after galleries. Local SEO targeting for regional construction inquiries.
+Portfolio is organized by category (family houses, restaurants, garages) with before/after galleries. Local SEO targeted at regional construction inquiries.
 
 Build took 3 weeks, and I've been **actively maintaining the site since** — adding new project entries, plugin updates, small UX tweaks based on analytics feedback.

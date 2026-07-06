@@ -33,9 +33,9 @@ process:
   - title: "Launch"
     duration: "2 days"
     desc: "Production deployment, GDPR consent, Google Merchant Center feed, sitemap + Search Console."
-  - title: "Speed optimisation"
+  - title: "Speed optimization"
     duration: "1 week"
-    desc: "Object cache, query optimisation for 17,000 SKUs, image lazy-loading — sub-0.5s load time with cache."
+    desc: "Object cache, query optimization for 17,000 SKUs, image lazy-loading — sub-0.5s load time with cache."
 stack:
   - "WordPress"
   - "WooCommerce"
@@ -49,4 +49,4 @@ secondaryCaption: "shop · 17,000+ products with 100+ filters"
 
 WooCommerce e-shop for B2B/B2C sales of agricultural machinery replacement parts. Custom product taxonomy by machine type, integration with local Slovak payment gateways, lazy-loaded product galleries and performance tuning for thousands of SKUs.
 
-The site serves farmers and machinery operators as a fast path to replacement parts — from hydraulic components through plows to front loaders. Key challenge was balancing the depth of product taxonomy with navigation clarity.
+The site serves farmers and machinery operators as a fast path to replacement parts — from hydraulic components through plows to front loaders. The key challenge was balancing the depth of the product taxonomy with navigation clarity.
