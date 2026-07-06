@@ -136,7 +136,7 @@
   "contact.altMethods.linkedin": "LinkedIn",
   "contact.altMethods.github": "GitHub",
 
-  "ticker.items": "WordPress,Next.js,React,PHP,WooCommerce,SEO & speed,Headless CMS",
+  "ticker.items": "WordPress,Next.js,Astro,WooCommerce,Core Web Vitals,Accessibility,SEO & speed",
 
   "nav.nowPill": "Available from August 2026",
   "nav.now": "now",
