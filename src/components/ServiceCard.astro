@@ -20,7 +20,7 @@ const num = String(index).padStart(2, '0');
     <div class="service-popular mono">{t('services.popular', lang)}</div>
   )}
   <div class="service-eyebrow mono">{num} · {data.duration}</div>
-  <h3 class="service-name display">{data.name}</h3>
+  <h2 class="service-name display">{data.name}</h2>
   <div class="service-price display">{data.price}</div>
   <p class="service-tagline">{data.tagline}</p>
   <p class="service-desc">{data.desc}</p>
@@ -96,11 +96,15 @@ const num = String(index).padStart(2, '0');
     margin: 12px 0 8px;
   }
 
-  /* Price — accent italic display, always accent regardless of featured. */
+  /* Price — accent italic display. Uses the AA-safe darker accent on the
+     light card; the bright accent stays on the dark featured card. */
   .service-price {
     font-family: var(--font-display);
     font-size: 24px;
     font-style: italic;
+    color: var(--accent-text);
+  }
+  .service-card.is-featured .service-price {
     color: var(--accent);
   }
 

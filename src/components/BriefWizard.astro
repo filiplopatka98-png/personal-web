@@ -333,6 +333,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     transition: all 0.2s;
   }
   .brief-radio input { position: absolute; opacity: 0; pointer-events: none; }
+  /* The real radio is visually hidden, so surface keyboard focus on the tile. */
+  .brief-radio:has(input:focus-visible),
+  .brief-tile:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
   .brief-radio:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
   .brief-radio:has(input:checked) {
     border-color: var(--accent);
@@ -477,7 +483,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   /* Submit error — shown inline when the Web3Forms POST fails. */
   .brief-error {
     margin: 0;
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: 13px;
     line-height: 1.5;
   }

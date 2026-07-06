@@ -105,19 +105,20 @@
  * --accent-text: darker variant of --accent for use as text color. The bare
  * --accent (#D2693A on warm) only hits ~3.4:1 on the cream bg — fine for
  * 120px hero text (WCAG Large), borderline for 14-18px body. The text
- * variant blends 80% accent + 20% ink → ~4.5:1, passes AA Normal.
+ * variant blends 65% accent + 35% ink → ≥4.5:1 on both --bg and --bg2,
+ * passes AA Normal.
  */
 :root[data-theme='warm'] {
   --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
   --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
-  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
+  --accent-text: color-mix(in srgb, var(--accent) 65%, var(--ink));
 }
 :root[data-theme='clay'],
 :root[data-theme='cream'],
 :root[data-theme='forest'] {
   --ink-muted: color-mix(in srgb, var(--ink) 65%, var(--bg));
   --ink-faint: color-mix(in srgb, var(--ink) 50%, var(--bg));
-  --accent-text: color-mix(in srgb, var(--accent) 80%, var(--ink));
+  --accent-text: color-mix(in srgb, var(--accent) 65%, var(--ink));
 }
 
 html {
