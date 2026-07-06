@@ -256,7 +256,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   }
   .brief-eyebrow {
     font-size: 13px;
-    opacity: 0.6;
+    opacity: 0.78;
     margin-bottom: 14px;
     font-family: var(--font-mono);
     letter-spacing: 0.06em;
@@ -308,7 +308,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     display: flex;
     align-items: center;
     gap: 10px;
-    opacity: 0.5;
+    opacity: 0.7;
     transition: opacity 0.2s;
   }
   .brief-progress-step[data-step-index="0"] { opacity: 1; }
@@ -684,7 +684,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       });
 
       progressSteps.forEach((el, i) => {
-        el.style.opacity = i <= step ? '1' : '0.3';
+        el.style.opacity = i <= step ? '1' : '0.7';
         const dot = el.querySelector<HTMLElement>('.brief-progress-dot');
         if (!dot) return;
         if (i < step) {
