@@ -123,7 +123,7 @@ const articles = visibleArticles((await getCollection('articles'))
      even when text sits visually over a decorative blob. */
   .small {
     font-size: 13px;
-    color: var(--ink-muted);
+    color: color-mix(in srgb, var(--ink) 84%, var(--bg));
     font-family: var(--font-mono);
   }
   :global(.home-hero-bottom) {
