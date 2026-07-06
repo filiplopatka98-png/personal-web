@@ -49,6 +49,36 @@ const timelines = lang === 'sk' ? [
   { k: 'flex', label: 'Flexible' },
 ];
 
+// Budget filter — if a project type's starting price exceeds the chosen
+// budget ceiling, a tactful non-blocking notice appears on the next step.
+// Data-driven: adjust prices/ceilings and the rule follows.
+const TYPE_MIN_PRICE: Record<string, number> = {
+  landing: 600, web: 1000, eshop: 2000, audit: 300, other: 0,
+};
+const BUDGET_CEILING: Record<string, number> = {
+  lt1500: 1500, '1500-3000': 3000, '3000-6000': 6000, gt6000: 1e9, unknown: 1e9,
+};
+
+const budgetWarn = lang === 'sk' ? {
+  title: 'Krátko a na rovinu.',
+  intro: 'V tomto rozpočte ti neviem dodať projekt v kvalite, za ktorú by som vedel ručiť — rýchly, spoľahlivý a poriadne postavený. Radšej to poviem hneď, než by som sľuboval niečo, čo by ťa neskôr mrzelo.',
+  options: [
+    { label: 'Fázovanie', text: 'spustíme menší funkčný základ a rozširujeme postupne.' },
+    { label: 'Jednoduchšie riešenie', text: 'napr. landing page alebo menší web, ktorý dá zmysel hneď.' },
+    { label: 'Ozvi sa aj tak', text: 'ak mám niečo pochopené inak, napíš a povieme si to narovinu.' },
+  ],
+  closer: 'Pokojne dokonči formulár — ozvem sa a nájdeme cestu, ktorá dáva zmysel.',
+} : {
+  title: 'Straight talk.',
+  intro: "On this budget I can't deliver a project at a quality I'd stand behind — fast, reliable, properly built. I'd rather say so upfront than promise something you'd regret later.",
+  options: [
+    { label: 'Phase it', text: 'launch a smaller working core and grow it step by step.' },
+    { label: 'Simpler solution', text: 'e.g. a landing page or a smaller site that makes sense right now.' },
+    { label: 'Reach out anyway', text: "if I've got something wrong, drop me a line and we'll talk it straight." },
+  ],
+  closer: "Feel free to finish the form — I'll get back to you and we'll find a way that makes sense.",
+};
+
 const stepLabels = [
   t('brief.step.0', lang),
   t('brief.step.1', lang),
@@ -70,6 +100,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   data-subject-prefix={t('brief.subject', lang)}
   data-sending={t('brief.btn.sending', lang)}
   data-error={t('brief.error', lang)}
+  data-price-check={JSON.stringify({ types: TYPE_MIN_PRICE, ceilings: BUDGET_CEILING })}
 >
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
   <section class="brief-header">
@@ -98,6 +129,19 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     <form class="brief-form" novalidate>
     <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
     <input type="checkbox" name="botcheck" class="brief-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    {/* Budget-vs-type notice — shown by JS on later steps when the chosen
+        budget can't realistically cover the selected project type. */}
+    <aside class="brief-budget-warn" data-budget-warn role="note" hidden>
+      <div class="brief-budget-warn-title mono">{budgetWarn.title}</div>
+      <p class="brief-budget-warn-intro">{budgetWarn.intro}</p>
+      <ul class="brief-budget-warn-list">
+        {budgetWarn.options.map((o) => (
+          <li><strong>{o.label}</strong> — {o.text}</li>
+        ))}
+      </ul>
+      <p class="brief-budget-warn-closer">{budgetWarn.closer}</p>
+    </aside>
 
     <!-- Step 0: Type -->
     <fieldset class="brief-step" data-step="0">
@@ -488,6 +532,43 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     line-height: 1.5;
   }
 
+  /* Budget-vs-type notice — soft accent card, deliberately not an alarm. */
+  .brief-budget-warn {
+    margin: 0 0 8px;
+    padding: 20px 24px;
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-card);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .brief-budget-warn-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-text);
+    margin-bottom: 10px;
+  }
+  .brief-budget-warn-intro { margin: 0 0 12px; }
+  .brief-budget-warn-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .brief-budget-warn-list li { padding-left: 18px; position: relative; }
+  .brief-budget-warn-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .brief-budget-warn-list strong { font-weight: 600; }
+  .brief-budget-warn-closer { margin: 0; opacity: 0.85; }
+
   /* Nav buttons */
   .brief-nav {
     margin-top: 16px;
@@ -573,12 +654,28 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     const navWrap = wizard.querySelector<HTMLElement>('[data-nav]');
     const charCounter = wizard.querySelector<HTMLElement>('[data-char-count]');
     const textarea = wizard.querySelector<HTMLTextAreaElement>('textarea[name="description"]');
+    const budgetWarnEl = wizard.querySelector<HTMLElement>('[data-budget-warn]');
+    let priceCheck: { types: Record<string, number>; ceilings: Record<string, number> } = { types: {}, ceilings: {} };
+    try { priceCheck = JSON.parse(wizard.dataset.priceCheck || '{}'); } catch { /* keep defaults */ }
 
     let step = 0;
     const lastInputStep = 4; // step 4 is last input, 5 is done
 
+    // Budget filter: the chosen budget can't realistically cover the chosen type.
+    function budgetMismatch(): boolean {
+      const type = (form.querySelector('input[name="type"]:checked') as HTMLInputElement | null)?.value;
+      const budget = (form.querySelector('input[name="budget"]:checked') as HTMLInputElement | null)?.value;
+      if (!type || !budget) return false;
+      return (priceCheck.types?.[type] ?? 0) > (priceCheck.ceilings?.[budget] ?? Infinity);
+    }
+
     function updateUI() {
       wizard!.dataset.step = String(step);
+
+      // Show the budget notice from the timeline step onward (not on the done step).
+      if (budgetWarnEl) {
+        budgetWarnEl.hidden = !(budgetMismatch() && step >= 2 && step <= lastInputStep);
+      }
 
       fieldsets.forEach((fs) => {
         const idx = parseInt(fs.dataset.step ?? '-1', 10);
