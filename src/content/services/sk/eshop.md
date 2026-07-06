@@ -1,7 +1,7 @@
 ---
 order: 3
 name: "Eshop / e-commerce"
-price: "od 8 000 €"
+price: "od 2 000 €"
 duration: "8–12 týždňov"
 tagline: "WooCommerce alebo headless. Postavené na rast."
 desc: "E-shop s checkoutom, platbami, integráciou skladu. Optimalizovaný na výkon a konverziu."

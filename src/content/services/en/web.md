@@ -1,7 +1,7 @@
 ---
 order: 2
 name: "Company website"
-price: "from €4,500"
+price: "from €1,000"
 duration: "4–6 weeks"
 tagline: "A site with a CMS you can manage yourself."
 desc: "A full website with admin panel. WordPress or headless WP + Next.js — as needed."

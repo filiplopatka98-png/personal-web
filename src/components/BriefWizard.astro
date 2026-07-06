@@ -9,30 +9,30 @@ const { lang } = Astro.props;
 const titleHtml = `${t('brief.title.before', lang)}<em class="brief-h1-em">${t('brief.title.em', lang)}</em>${t('brief.title.after', lang)}`;
 
 const types = lang === 'sk' ? [
-  { k: 'landing', name: 'Landing page', sub: '1.8k €+ · 2-3 týždne' },
-  { k: 'web', name: 'Firemný web', sub: '4.5k €+ · 4-6 týždňov' },
-  { k: 'eshop', name: 'Eshop', sub: '8k €+ · 8-12 týždňov' },
-  { k: 'audit', name: 'Audit / poradenstvo', sub: '600 €+ · 1 týždeň' },
+  { k: 'landing', name: 'Landing page', sub: '600 €+ · 2-3 týždne' },
+  { k: 'web', name: 'Firemný web', sub: '1k €+ · 4-6 týždňov' },
+  { k: 'eshop', name: 'Eshop', sub: '2k €+ · 8-12 týždňov' },
+  { k: 'audit', name: 'Audit / poradenstvo', sub: '300 €+ · 1 týždeň' },
   { k: 'other', name: 'Niečo iné', sub: 'Povedzme si' },
 ] : [
-  { k: 'landing', name: 'Landing page', sub: '€1.8k+ · 2-3 weeks' },
-  { k: 'web', name: 'Company site', sub: '€4.5k+ · 4-6 weeks' },
-  { k: 'eshop', name: 'E-shop', sub: '€8k+ · 8-12 weeks' },
-  { k: 'audit', name: 'Audit / consulting', sub: '€600+ · 1 week' },
+  { k: 'landing', name: 'Landing page', sub: '€600+ · 2-3 weeks' },
+  { k: 'web', name: 'Company site', sub: '€1k+ · 4-6 weeks' },
+  { k: 'eshop', name: 'E-shop', sub: '€2k+ · 8-12 weeks' },
+  { k: 'audit', name: 'Audit / consulting', sub: '€300+ · 1 week' },
   { k: 'other', name: 'Something else', sub: "Let's talk" },
 ];
 
 const budgets = lang === 'sk' ? [
-  { k: 'lt5k', label: 'Do 5 000 €' },
-  { k: '5-15k', label: '5 000 – 15 000 €' },
-  { k: '15-40k', label: '15 000 – 40 000 €' },
-  { k: 'gt40k', label: 'Nad 40 000 €' },
+  { k: 'lt1500', label: 'Do 1 500 €' },
+  { k: '1500-3000', label: '1 500 – 3 000 €' },
+  { k: '3000-6000', label: '3 000 – 6 000 €' },
+  { k: 'gt6000', label: 'Nad 6 000 €' },
   { k: 'unknown', label: 'Ešte neviem' },
 ] : [
-  { k: 'lt5k', label: 'Under €5,000' },
-  { k: '5-15k', label: '€5,000–15,000' },
-  { k: '15-40k', label: '€15,000–40,000' },
-  { k: 'gt40k', label: 'Over €40,000' },
+  { k: 'lt1500', label: 'Under €1,500' },
+  { k: '1500-3000', label: '€1,500–3,000' },
+  { k: '3000-6000', label: '€3,000–6,000' },
+  { k: 'gt6000', label: 'Over €6,000' },
   { k: 'unknown', label: 'Not sure yet' },
 ];
 

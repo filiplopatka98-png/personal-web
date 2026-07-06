@@ -1,7 +1,7 @@
 ---
 order: 3
 name: "E-shop / e-commerce"
-price: "from €8,000"
+price: "from €2,000"
 duration: "8–12 weeks"
 tagline: "WooCommerce or headless. Built to scale."
 desc: "E-shop with checkout, payments, inventory integration. Optimized for performance and conversion."

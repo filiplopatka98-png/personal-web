@@ -1,7 +1,7 @@
 ---
 order: 1
 name: "Landing page"
-price: "od 1 800 €"
+price: "od 600 €"
 duration: "2–3 týždne"
 tagline: "Jedna stránka, ktorá konvertuje."
 desc: "Statická landing page pre kampaň, produkt alebo službu. Návrh, copy review, build, nasadenie."

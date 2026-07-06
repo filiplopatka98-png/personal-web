@@ -1,7 +1,7 @@
 ---
 order: 1
 name: "Landing page"
-price: "from €1,800"
+price: "from €600"
 duration: "2–3 weeks"
 tagline: "One page that converts."
 desc: "Static landing page for a campaign, product, or service. Design, copy review, build, deploy."

@@ -1,7 +1,7 @@
 ---
 order: 2
 name: "Firemný web"
-price: "od 4 500 €"
+price: "od 1 000 €"
 duration: "4–6 týždňov"
 tagline: "Web s CMS, ktorý si sám spravuješ."
 desc: "Plnohodnotný web s administráciou. WordPress alebo headless WP + Next.js — podľa potreby."

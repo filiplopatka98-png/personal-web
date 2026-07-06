@@ -1,7 +1,7 @@
 ---
 order: 4
 name: "Audit & consulting"
-price: "from €600"
+price: "from €300"
 duration: "1 week"
 tagline: "I'll look at your site and tell you what to fix."
 desc: "Deep audit of an existing site — performance, SEO, accessibility, UX. Output: PDF + 1h video call."

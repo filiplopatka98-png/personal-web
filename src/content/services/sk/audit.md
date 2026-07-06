@@ -1,7 +1,7 @@
 ---
 order: 4
 name: "Audit & poradenstvo"
-price: "od 600 €"
+price: "od 300 €"
 duration: "1 týždeň"
 tagline: "Pozriem sa na váš web a poviem, čo opraviť."
 desc: "Hĺbkový audit existujúceho webu — výkon, SEO, prístupnosť, UX. Výstup: PDF + 1h video call."
