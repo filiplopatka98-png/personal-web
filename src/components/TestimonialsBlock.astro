@@ -9,11 +9,11 @@ export interface Props {
 const { lang } = Astro.props;
 
 const testimonials = lang === 'sk' ? [
-  { q: 'Filip nám prerobil eshop a tržby vyskočili o 38 % za tri mesiace. Najmä vďaka rýchlosti a čistému checkoutu.', a: 'Zuzana K., Pekáreň Veverka' },
-  { q: 'Komunikácia bola priama, deadliny dodržané, kód krásne čitateľný. Ďalší projekt už plánujeme.', a: 'Marek H., Tatra Apartmány' },
+  { q: 'Filip nám spravil novú stránku a odvtedy sa nám cez ňu ozývajú noví zákazníci. Stihol to načas a keď potrebujem niečo zmeniť, stačí napísať a vybaví to.', a: 'Adam Kolarovič, majiteľ Profi House s.r.o.' },
+  { q: 'Filip mi spravil web a naozaj mi cezeň chodí robota. Keď treba niečo upraviť, napíšem mu a hneď to vyrieši. Spoľahlivý chalan, odporúčam.', a: 'Ľubomír Krivošík, krivosik.sk' },
 ] : [
-  { q: 'Filip rebuilt our shop and revenue jumped 38% in three months. Speed + clean checkout did it.', a: 'Zuzana K., Pekáreň Veverka' },
-  { q: 'Direct comms, met every deadline, beautiful code. Already planning the next project.', a: 'Marek H., Tatra Apartmány' },
+  { q: 'Filip built us a new website and now new customers reach out through it. He delivered on time, and whenever I need a change I just message him and he handles it.', a: 'Adam Kolarovič, owner of Profi House s.r.o.' },
+  { q: 'Filip built my site and it genuinely brings me work. Whenever something needs tweaking I message him and he sorts it right away. Reliable guy — highly recommend.', a: 'Ľubomír Krivošík, krivosik.sk' },
 ];
 ---
 <section class="testimonials-section">

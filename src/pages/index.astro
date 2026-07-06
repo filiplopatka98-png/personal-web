@@ -12,6 +12,7 @@ import ExperienceList from '../components/ExperienceList.astro';
 import TestimonialsBlock from '../components/TestimonialsBlock.astro';
 import { t } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
+import { visibleArticles } from '../content/launch';
 
 const lang = 'sk';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -21,8 +22,8 @@ const projects = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 4);
 
-const articles = (await getCollection('articles'))
-  .filter((a) => a.slug.startsWith('sk/'))
+const articles = visibleArticles((await getCollection('articles'))
+  .filter((a) => a.slug.startsWith('sk/')))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 ---

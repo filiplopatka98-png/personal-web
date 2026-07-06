@@ -18,9 +18,7 @@ const spaceIdx = titleStr.indexOf(' ');
 const titleFirst = spaceIdx > 0 ? titleStr.slice(0, spaceIdx) : titleStr;
 const titleRest = spaceIdx > 0 ? titleStr.slice(spaceIdx + 1) : '';
 
-// TODO: replace FORMSPREE_FORM_ID after creating Formspree form
-const FORMSPREE_ID = 'FORMSPREE_FORM_ID';
-const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
+const CONTACT_EMAIL = t('menu.email', lang);
 ---
 <footer class="cd-footer">
   <div class="rotating-text" aria-hidden="true">
@@ -56,7 +54,7 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     </Reveal>
 
     <Reveal delay={0.1} class="footer-form-wrap">
-      <form action={formAction} method="POST" class="footer-form">
+      <form class="footer-form" data-mailto-form data-contact-email={CONTACT_EMAIL} novalidate>
         <div class="form-field">
           <label for="footer-form-name">{t('footer.formName', lang)}</label>
           <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
@@ -309,3 +307,35 @@ const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
     }
   }
 </style>
+
+<script>
+  function initFooterMailto() {
+    const forms = document.querySelectorAll<HTMLFormElement>('form[data-mailto-form]');
+    forms.forEach((form) => {
+      if ((form as any).__mailtoInit) return;
+      (form as any).__mailtoInit = true;
+      const email = form.getAttribute('data-contact-email') || '';
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        const data = new FormData(form);
+        const val = (k: string) => (data.get(k) ?? '').toString().trim();
+        const subject = `Správa z webu — ${val('name') || 'kontakt'}`;
+        const body = [
+          `Meno: ${val('name')}`,
+          `Email: ${val('email')}`,
+          '',
+          val('message'),
+        ].join('\n');
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        form.reset();
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooterMailto);
+  } else {
+    initFooterMailto();
+  }
+  document.addEventListener('astro:page-load', initFooterMailto);
+</script>

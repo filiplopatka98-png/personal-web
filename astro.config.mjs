@@ -7,8 +7,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://filiplopatka98-png.github.io',
-  base: '/personal-web/',
+  site: 'https://lopatka.sk',
+  base: '/',
   trailingSlash: 'always',
 
   build: {
