@@ -16,7 +16,7 @@ metrics:
   - value: "1. strana"
     label: "Google · „výkopové práce Piešťany“"
   - value: "1 500+"
-    label: "návštev za rok"
+    label: "návštev za pol roka"
 process:
   - title: "Analýza"
     duration: "1 deň"

@@ -16,7 +16,7 @@ metrics:
   - value: "1st page"
     label: "Google · “výkopové práce Piešťany”"
   - value: "1,500+"
-    label: "visits per year"
+    label: "visits per 6 months"
 process:
   - title: "Discovery"
     duration: "1 day"

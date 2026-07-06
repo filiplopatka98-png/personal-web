@@ -11,12 +11,12 @@ order: 2
 featured: false
 brief: "Construction company website for lead generation — services, project portfolio and inquiry contact forms."
 metrics:
-  - value: "8,000+"
-    label: "visits/month"
+  - value: "2,500+"
+    label: "visits per 6 months"
   - value: "2.4%"
     label: "lead conversion"
-  - value: "35+"
-    label: "leads/month"
+  - value: "60+"
+    label: "leads per 6 months"
 process:
   - title: "Analysis"
     duration: "2 days"
