@@ -4,12 +4,23 @@ import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 
 import sitemap from '@astrojs/sitemap';
+import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://lopatka.sk',
   base: '/',
   trailingSlash: 'always',
+
+  // Markdown/MDX article bodies: every external (absolute-URL) link gets
+  // rel="nofollow noopener noreferrer". Internal links are relative (/blog/…)
+  // so they're left untouched. Keeps citation/source links from passing link
+  // equity and hardens them (noopener/noreferrer). MDX inherits this config.
+  markdown: {
+    rehypePlugins: [
+      [rehypeExternalLinks, { rel: ['nofollow', 'noopener', 'noreferrer'] }],
+    ],
+  },
 
   build: {
     format: 'directory',
