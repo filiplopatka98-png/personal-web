@@ -661,6 +661,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     let step = 0;
     const lastInputStep = 4; // step 4 is last input, 5 is done
 
+    // Umami event tracking (analytics loads PROD-only, so guard with ?.).
+    const track = (name: string, data?: Record<string, string>) =>
+      (window as unknown as { umami?: { track: (n: string, d?: Record<string, string>) => void } })
+        .umami?.track(name, data);
+    let startedTracked = false;
+
     // Budget filter: the chosen budget can't realistically cover the chosen type.
     function budgetMismatch(): boolean {
       const type = (form.querySelector('input[name="type"]:checked') as HTMLInputElement | null)?.value;
@@ -747,6 +753,10 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       if (step < lastInputStep) {
         step++;
         updateUI();
+        if (step === 1 && !startedTracked) {
+          startedTracked = true;
+          track('brief-started');
+        }
       }
     });
 
@@ -801,6 +811,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
         if (!res.ok || !json.success) throw new Error(json.message || 'submit failed');
         step = lastInputStep + 1;
         updateUI();
+        // Non-PII props only (project type / budget bucket / timeline).
+        track('brief-submitted', {
+          type: val('type'),
+          budget: val('budget'),
+          timeline: val('timeline'),
+        });
       } catch {
         if (errorEl) {
           const email = wizard!.dataset.contactEmail || '';

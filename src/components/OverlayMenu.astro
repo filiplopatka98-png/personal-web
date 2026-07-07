@@ -75,7 +75,7 @@ const navOrder: NavItem[] = [
     <div class="menu-contact">
       <div class="menu-section-label">{t('menu.contact', lang)}</div>
       <div class="menu-links">
-        <a data-cursor="hover" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
+        <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
         <a data-cursor="hover" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
         <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn →</a>
         <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook →</a>

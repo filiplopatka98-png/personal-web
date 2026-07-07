@@ -41,7 +41,7 @@ const CONTACT_EMAIL = t('menu.email', lang);
       </h2>
       <p class="footer-lead">{t('footer.lead', lang)}</p>
       <div class="footer-links">
-        <a data-cursor="hover" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
+        <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
         <a data-cursor="hover" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
         <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn →</a>
         <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook →</a>

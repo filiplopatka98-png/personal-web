@@ -185,6 +185,20 @@ const websiteLd = isHome
     )}
     <slot name="head" />
 
+    {/* Umami — privacy-first, cookieless analytics (no consent banner needed).
+        PROD-only so localhost/preview don't pollute stats; data-domains pins it
+        to the live host. Auto-tracks pageviews incl. View Transitions navs via
+        the History API. */}
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="082f80b3-7d25-46e5-b47e-4a20bf11b4e8"
+        data-domains="lopatka.sk"
+      ></script>
+    )}
+
     <ViewTransitions />
   </head>
   <body>
