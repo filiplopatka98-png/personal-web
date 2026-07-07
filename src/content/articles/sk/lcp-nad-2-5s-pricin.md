@@ -50,7 +50,7 @@ Google Maps embed, YouTube fasáda, Tidio chat. Plugin natlačí `<script>` tesn
 
 1. **Page cache plugin** (WP Rocket, LiteSpeed Cache, FastCGI cache na nginxe). TTFB klesne z 1,2 s na 80 ms cez noc.
 2. **Object cache** (Redis) — pri WooCommerce kategóriách s 50+ produktmi rozdiel 200 ms+.
-3. **Lepší hosting** — 8–15 €/mes. (kvalitný shared) vs. 25 € (managed cloud). Detailne v článku [Hostingy v SK z pohľadu výkonu](/sk/articles/hostingy-sk-vykon).
+3. **Lepší hosting** — 8–15 €/mes. (kvalitný shared) vs. 25 € (managed cloud).
 
 ## 4. WebP/AVIF chýba, kompresia 90%+
 

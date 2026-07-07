@@ -44,6 +44,7 @@ Najprv témy s vysokým search intentom a silným odlíšením; „advanced/nich
 - Pridaj `sk/<slug>` **aj** `en/<slug>` do `ARTICLE_ALLOWLIST`, commit, deploy → článok je live v oboch jazykoch.
 - Sitemap sa dogeneruje automaticky (`@astrojs/sitemap`); po väčšej dávke zváž re-submit v Search Console.
 - Publikuj klaster naraz (v ten istý deň / týždeň), nech crosslinky nesmerujú na ešte-nepublikované (404).
+- **TODO pri publikovaní `hostingy-sk-vykon` (16.7.):** vrátiť crosslink v `sk/lcp-nad-2-5s-pricin.md`, bod „Lepší hosting" — pôvodne odkazoval na hostingy, dočasne odstránený (LCP je už live, cieľ ešte nie).
 - `article.next` (ďalší článok) sa generuje automaticky podľa dátumu — netreba riešiť.
 
 ---
