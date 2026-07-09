@@ -21,3 +21,9 @@ npm-debug.log*
 # planning docs (lokálne, NIE do gitu — viď CLAUDE.md memory)
 .superpowers/
 docs/superpowers/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
