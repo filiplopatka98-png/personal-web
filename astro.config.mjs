@@ -6,6 +6,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import rehypeExternalLinks from 'rehype-external-links';
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://lopatka.sk',
@@ -46,4 +48,7 @@ export default defineConfig({
     // Exclude 404 pages from the sitemap (they carry a page-level noindex).
     sitemap({ filter: (page) => !/\/404\/?$/.test(page) }),
   ],
+
+  output: "hybrid",
+  adapter: cloudflare()
 });
