@@ -3,7 +3,7 @@ title: "WooCommerce checkout, ktorý konvertuje: 9 mikro-úprav z reálneho audi
 date: 2026-03-18
 read: 9
 tags: ["WooCommerce", "UX", "Performance"]
-excerpt: "Audit checkoutu jedného eshopu — z 71 % opustených košíkov na 48 %. Deväť konkrétnych úprav s ukážkami kódu: jednostránkový checkout, žiadny login gate, autocomplete adresy, mobilný inputmode."
+excerpt: "Audit checkoutu jedného eshopu: z 71 % opustených košíkov na 48 %. Deväť konkrétnych úprav s kódom — jednostránkový checkout, žiadny login gate, autocomplete adresy."
 featured: true
 ---
 

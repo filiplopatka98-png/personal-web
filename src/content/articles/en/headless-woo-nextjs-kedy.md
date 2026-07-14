@@ -3,7 +3,7 @@ title: "Headless Woo + Next.js: when it's worth it (and when it isn't)"
 date: 2026-02-14
 read: 8
 tags: ["WooCommerce", "Next.js", "Headless"]
-excerpt: "Headless WooCommerce with Next.js sounds sexy, but it costs 3x more than a native store. A decision matrix across 4 axes for when it makes sense and when it doesn't."
+excerpt: "Headless WooCommerce with Next.js sounds sexy, but costs 3× more than a native store. A decision matrix across 4 axes: when it makes sense, and when it doesn't."
 featured: true
 ---
 

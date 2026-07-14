@@ -3,7 +3,7 @@ title: "The WooCommerce checkout that converts: 9 micro-fixes from a real audit"
 date: 2026-03-18
 read: 9
 tags: ["WooCommerce", "UX", "Performance"]
-excerpt: "A checkout audit for one online store — from 71% cart abandonment down to 48%. Nine concrete fixes with code snippets: single-page checkout, no login gate, address autocomplete, mobile inputmode."
+excerpt: "A checkout audit for one store: from 71% cart abandonment to 48%. Nine concrete fixes with code — single-page checkout, no login gate, address autocomplete."
 featured: true
 ---
 
