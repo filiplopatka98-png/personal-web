@@ -1,4 +1,58 @@
+# Search engines (Google, Bing, Applebot, DuckDuckGo…) — full access.
 User-agent: *
 Allow: /
+
+# AI answer engines that fetch and CITE sources in real time — welcome
+# (they surface links back to lopatka.sk, good for visibility / AEO).
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# AI TRAINING crawlers — disallowed (content is not offered for model training).
+# Note: Google-Extended controls only Gemini/Vertex AI training, NOT Google
+# Search — blocking it does not affect search rankings.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
 
 Sitemap: https://lopatka.sk/sitemap-index.xml
