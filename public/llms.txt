@@ -1,0 +1,23 @@
+# Filip Lopatka — Freelance Web Developer
+
+> Freelance web developer based in Veľké Kostoľany, Slovakia. Builds fast, custom websites and WooCommerce e-shops (WordPress, Next.js, Astro) for small and medium businesses, with a strong focus on performance (Core Web Vitals), SEO and accessibility. Works with Slovak and international/remote clients. Site is bilingual: Slovak at the root, English under /en/.
+
+## Services and pricing
+- [Services (EN)](https://lopatka.sk/en/services/) · [Služby (SK)](https://lopatka.sk/sluzby/)
+- Landing page — from €600, 2–3 weeks
+- Company website with CMS (WordPress or headless WP + Next.js) — from €1,000, 4–6 weeks
+- Online store / e-commerce (WooCommerce or headless) — from €2,000, 8–12 weeks; custom checkout, payment gateways (Stripe, GoPay, Tatra banka), stock/ERP integration (Pohoda, MoneyS3)
+- Audit & consulting (performance, SEO, accessibility, UX) — from €300, ~1 week
+
+## Expertise
+WordPress, WooCommerce, Next.js, React, Astro, headless CMS, web performance and Core Web Vitals, technical SEO, web accessibility (WCAG). Focus areas: fast websites, conversion-oriented e-shops, and speeding up / auditing existing sites.
+
+## Content
+- [Blog (EN)](https://lopatka.sk/en/blog/) · [Blog (SK)](https://lopatka.sk/blog/) — practical articles on WordPress, WooCommerce, Next.js, Astro, Core Web Vitals, performance, SEO and accessibility, from real projects.
+- [Selected work (EN)](https://lopatka.sk/en/work/) · [Realizácie (SK)](https://lopatka.sk/praca/) — case studies of delivered websites and e-shops.
+
+## Contact
+- Email: filip@lopatka.sk
+- WhatsApp/phone: +421 904 902 736
+- Project brief: [EN](https://lopatka.sk/en/brief/) · [SK](https://lopatka.sk/ponuka/)
+- LinkedIn: https://www.linkedin.com/in/filip-lopatka-wordpress-dev/

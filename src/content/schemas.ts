@@ -37,6 +37,7 @@ export const projectSchema = z.object({
 export const articleSchema = z.object({
   title: z.string().min(1),
   date: z.coerce.date(),
+  updated: z.coerce.date().optional(),
   read: z.number().int().min(1).default(5),
   tags: z.array(z.string()).default([]),
   excerpt: z.string().min(10),

@@ -54,11 +54,18 @@ const articleLd = {
   '@type': 'BlogPosting',
   headline: data.title,
   datePublished: data.date.toISOString(),
-  dateModified: data.date.toISOString(),
+  dateModified: (data.updated ?? data.date).toISOString(),
   author: {
     '@type': 'Person',
+    '@id': `${siteUrl}${baseUrl}/#person`,
     name: 'Filip Lopatka',
     url: `${siteUrl}${baseUrl}/`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${siteUrl}${baseUrl}/#organization`,
+    name: 'Filip Lopatka — Web Developer',
+    logo: { '@type': 'ImageObject', url: `${siteUrl}${baseUrl}/og-default.png` },
   },
   image: `${siteUrl}${baseUrl}/og-default.png`,
   mainEntityOfPage: { '@type': 'WebPage', '@id': fullArticleUrl },
@@ -78,7 +85,7 @@ const articleLd = {
   ogType="article"
   article={{
     publishedTime: data.date.toISOString(),
-    modifiedTime: data.date.toISOString(),
+    modifiedTime: (data.updated ?? data.date).toISOString(),
     author: 'Filip Lopatka',
     tags: data.tags,
   }}
