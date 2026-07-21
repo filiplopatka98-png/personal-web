@@ -41,6 +41,9 @@ export const articleSchema = z.object({
   read: z.number().int().min(1).default(5),
   tags: z.array(z.string()).default([]),
   excerpt: z.string().min(10),
+  // Optional SEO override: when set, used as <meta description> / BlogPosting
+  // description instead of the (often longer, editorial) excerpt. Keep ≤155.
+  metaDescription: z.string().max(160).optional(),
   featured: z.boolean().default(false),
 });
 

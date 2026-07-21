@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 <Blob color="var(--accent)" size={340} position="top: 60px; right: 80px;" />
 <Blob color="var(--accent2)" size={240} position="top: 200px; right: 300px;" delay={-4} />
 
-<Reveal as="h1" class="hero-title display">
+<Reveal as="h1" immediate class="hero-title display">
   {lang === 'sk' ? (
     <Fragment>
       Budujem <em class="hero-em">rýchle</em>,<br/>

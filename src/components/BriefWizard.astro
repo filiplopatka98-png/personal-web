@@ -100,6 +100,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   data-subject-prefix={t('brief.subject', lang)}
   data-sending={t('brief.btn.sending', lang)}
   data-error={t('brief.error', lang)}
+  data-validation={t('brief.validation', lang)}
   data-price-check={JSON.stringify({ types: TYPE_MIN_PRICE, ceilings: BUDGET_CEILING })}
 >
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
@@ -144,8 +145,8 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     </aside>
 
     <!-- Step 0: Type -->
-    <fieldset class="brief-step" data-step="0">
-      <h2 class="brief-q display">{t('brief.q.type', lang)}</h2>
+    <fieldset class="brief-step" data-step="0" aria-labelledby="brief-q-0">
+      <h2 class="brief-q display" id="brief-q-0" tabindex="-1">{t('brief.q.type', lang)}</h2>
       <div class="brief-options">
         {types.map((opt) => (
           <label class="brief-radio">
@@ -161,8 +162,8 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     </fieldset>
 
     <!-- Step 1: Budget -->
-    <fieldset class="brief-step" data-step="1" hidden>
-      <h2 class="brief-q display">{t('brief.q.budget', lang)}</h2>
+    <fieldset class="brief-step" data-step="1" aria-labelledby="brief-q-1" hidden>
+      <h2 class="brief-q display" id="brief-q-1" tabindex="-1">{t('brief.q.budget', lang)}</h2>
       <p class="brief-q-sub">{t('brief.q.budget.sub', lang)}</p>
       <div class="brief-grid">
         {budgets.map((opt) => (
@@ -175,8 +176,8 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     </fieldset>
 
     <!-- Step 2: Timeline -->
-    <fieldset class="brief-step" data-step="2" hidden>
-      <h2 class="brief-q display">{t('brief.q.timeline', lang)}</h2>
+    <fieldset class="brief-step" data-step="2" aria-labelledby="brief-q-2" hidden>
+      <h2 class="brief-q display" id="brief-q-2" tabindex="-1">{t('brief.q.timeline', lang)}</h2>
       <div class="brief-grid">
         {timelines.map((opt) => (
           <label class="brief-tile">
@@ -189,7 +190,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 
     <!-- Step 3: Description -->
     <fieldset class="brief-step" data-step="3" hidden>
-      <h2 class="brief-q display" id="brief-desc-label">{t('brief.q.desc', lang)}</h2>
+      <h2 class="brief-q display" id="brief-desc-label" tabindex="-1">{t('brief.q.desc', lang)}</h2>
       <textarea
         name="description"
         id="brief-desc"
@@ -200,12 +201,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
         placeholder={t('brief.placeholder.desc', lang)}
         class="brief-textarea"
       ></textarea>
-      <div class="brief-char-count mono"><span data-char-count>0</span> {t('brief.label.chars', lang)} (min. 10)</div>
+      <div class="brief-char-count mono" aria-live="polite"><span data-char-count>0</span> {t('brief.label.chars', lang)} (min. 10)</div>
     </fieldset>
 
     <!-- Step 4: Contact -->
     <fieldset class="brief-step" data-step="4" hidden>
-      <h2 class="brief-q display">{t('brief.q.contact', lang)}</h2>
+      <h2 class="brief-q display" id="brief-q-4" tabindex="-1">{t('brief.q.contact', lang)}</h2>
       <div class="brief-fields">
         <div class="brief-field">
           <label for="brief-name" class="brief-field-label mono">{t('brief.label.name', lang)}</label>
@@ -748,11 +749,38 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       return true;
     }
 
+    const errorEl = wizard.querySelector<HTMLElement>('[data-error]');
+
+    function clearError() {
+      if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
+    }
+
+    // Announce (role="alert") and focus the first missing field on this step,
+    // so a blocked "Continue" is never a silent no-op for keyboard/SR users.
+    function showStepValidation() {
+      const current = wizard!.querySelector<HTMLFieldSetElement>(`.brief-step[data-step="${step}"]`);
+      if (errorEl) {
+        errorEl.textContent = wizard!.dataset.validation || 'Please fill this in before continuing.';
+        errorEl.hidden = false;
+      }
+      const firstInvalid = current?.querySelector<HTMLElement>('input, textarea');
+      firstInvalid?.focus();
+    }
+
+    // Move focus to the newly shown step's heading so SR/keyboard users land on
+    // the new question instead of staying on the (now-changed) nav button.
+    function focusStepHeading() {
+      const heading = wizard!.querySelector<HTMLElement>(`.brief-step[data-step="${step}"] .brief-q`);
+      heading?.focus();
+    }
+
     nextBtn?.addEventListener('click', () => {
-      if (!canAdvance()) return;
+      if (!canAdvance()) { showStepValidation(); return; }
+      clearError();
       if (step < lastInputStep) {
         step++;
         updateUI();
+        focusStepHeading();
         if (step === 1 && !startedTracked) {
           startedTracked = true;
           track('brief-started');
@@ -762,12 +790,12 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 
     backBtn?.addEventListener('click', () => {
       if (step > 0) {
+        clearError();
         step--;
         updateUI();
+        focusStepHeading();
       }
     });
-
-    const errorEl = wizard.querySelector<HTMLElement>('[data-error]');
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();

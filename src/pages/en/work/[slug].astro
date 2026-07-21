@@ -5,6 +5,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Reveal from '../../../components/Reveal.astro';
 import Plate from '../../../components/Plate.astro';
 import { t } from '../../../i18n';
+import { jsonLd } from '../../../utils/jsonld';
 
 // Optimized project mockups, resolved from src/assets at build time.
 const projectImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -36,8 +37,9 @@ const allProjects = (await getCollection('projects'))
   .filter((p) => p.slug.startsWith('en/'))
   .sort((a, b) => a.data.order - b.data.order);
 const idx = allProjects.findIndex((p) => p.slug === entry.slug);
-const next = allProjects[(idx + 1) % allProjects.length];
-const nextSlug = next.slug.replace(/^en\//, '');
+// Null when this is the only project, so "Next" never links to itself.
+const next = allProjects.length > 1 ? allProjects[(idx + 1) % allProjects.length] : null;
+const nextSlug = next ? next.slug.replace(/^en\//, '') : '';
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const accentColor = `var(--${data.accent})`;
@@ -50,11 +52,14 @@ const projectUrlPath = `${baseUrl}/en/work/${cleanSlug}/`;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const fullProjectUrl = `${siteUrl}${projectUrlPath}`;
 
+const ogImage = `/og/work/en/${cleanSlug}.png`;
+
 const projectLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: data.name,
   description: data.brief,
+  image: `${siteUrl}${baseUrl}${ogImage}`,
   creator: {
     '@type': 'Person',
     name: 'Filip Lopatka',
@@ -70,17 +75,19 @@ const projectLd = {
 <BaseLayout
   lang={lang}
   canonicalPath={`/en/work/${cleanSlug}/`}
+  breadcrumbName={data.name}
+  ogImage={ogImage}
   altLangUrl={`/praca/${cleanSlug}/`}
   title={`${data.name} — case study | Filip Lopatka`}
   description={data.brief}
 >
-  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(projectLd)}></script>
+  <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(projectLd)}></script>
 
   <section class="proj-header">
     <Reveal>
       <a href={`${baseUrl}/en/work/`} class="back-link mono" data-cursor="hover">{t('cta.back', lang)}</a>
     </Reveal>
-    <Reveal delay={0.05} class="proj-header-grid">
+    <Reveal delay={0.05} immediate class="proj-header-grid">
       <div>
         <div class="proj-eyebrow mono">{t('project.caseStudy', lang)} · {data.year}</div>
         <h1 class="proj-name display">{data.name}</h1>
@@ -110,7 +117,7 @@ const projectLd = {
   </section>
 
   <section class="proj-hero">
-    <Reveal>
+    <Reveal immediate>
       <Plate
         label={`${data.name} · hero`}
         color={accentColor}
@@ -120,6 +127,7 @@ const projectLd = {
         image={heroImage ?? undefined}
         imageAlt={`${data.name} — desktop preview`}
         sizes="(max-width: 1024px) 100vw, 1100px"
+        priority
       />
     </Reveal>
   </section>
@@ -213,15 +221,17 @@ const projectLd = {
     )}
   </section>
 
-  <section class="proj-next">
-    <Reveal>
-      <div class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</div>
-      <a href={`${baseUrl}/en/work/${nextSlug}/`} class="next-link" data-cursor="hover">
-        <div class="next-name display">{next.data.name} <span class="next-arrow">→</span></div>
-        <div class="next-kind mono">{next.data.kind}</div>
-      </a>
-    </Reveal>
-  </section>
+  {next && (
+    <section class="proj-next">
+      <Reveal>
+        <div class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</div>
+        <a href={`${baseUrl}/en/work/${nextSlug}/`} class="next-link" data-cursor="hover">
+          <div class="next-name display">{next.data.name} <span class="next-arrow">→</span></div>
+          <div class="next-kind mono">{next.data.kind}</div>
+        </a>
+      </Reveal>
+    </section>
+  )}
 </BaseLayout>
 
 <style>

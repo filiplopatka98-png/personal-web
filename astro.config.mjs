@@ -44,6 +44,16 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
     // Exclude 404 pages from the sitemap (they carry a page-level noindex).
-    sitemap({ filter: (page) => !/\/404\/?$/.test(page) }),
+    // i18n emits <xhtml:link rel="alternate" hreflang> in the sitemap for pages
+    // that share a path across locales (home, /blog/<slug> ↔ /en/blog/<slug>).
+    // Translated static routes with different slugs (/praca/ vs /en/work/) don't
+    // auto-pair here — those still rely on the reciprocal hreflang in <head>.
+    sitemap({
+      filter: (page) => !/\/404\/?$/.test(page),
+      i18n: {
+        defaultLocale: 'sk',
+        locales: { sk: 'sk-SK', en: 'en-US' },
+      },
+    }),
   ],
 });

@@ -2,7 +2,7 @@
 
 Osobný web a portfólio. Astro + Tailwind, statický deploy na GitHub Pages.
 
-**Live:** https://filiplopatka98-png.github.io/personal-web/
+**Live:** https://lopatka.sk
 
 ## Lokálne spustenie
 
@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-Server na `http://localhost:4321/personal-web/`.
+Server na `http://localhost:4321/`.
 
 ## Príkazy
 
@@ -29,11 +29,12 @@ Server na `http://localhost:4321/personal-web/`.
 
 ```
 src/
-├── content/       # markdown — projekty, články, services, testimoniály
+├── content/       # markdown — projekty, články, services (testimoniály sú v komponente)
 ├── components/    # Astro komponenty
-├── layouts/       # BaseLayout, BlogLayout, ProjectLayout
+├── layouts/       # BaseLayout (jediný layout)
 ├── pages/         # routy — SK root, EN pod /en/
 ├── i18n/          # SK + EN UI texty
+├── utils/         # JSON-LD helpers, service catalog, item list
 └── styles/        # tokeny + global CSS
 ```
 
@@ -46,5 +47,5 @@ Push na `main` → GitHub Actions → GitHub Pages. Workflow: `.github/workflows
 - [Astro 4](https://astro.build) — static site generator
 - [Tailwind CSS 3](https://tailwindcss.com) — utility-first styling
 - TypeScript strict
-- Self-hosted variable fonts (Fraunces / Inter / JetBrains Mono)
+- Self-hosted fonts (Instrument Serif / Geist / Geist Mono)
 - Bilingválne SK + EN, default lokál SK bez prefixu

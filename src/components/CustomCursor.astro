@@ -70,6 +70,9 @@
   function initCustomCursor() {
     if (typeof window === 'undefined') return;
     if (!matchMedia('(pointer: fine)').matches) return;
+    // Vestibular safety: the ring's trailing lerp is motion. Skip the whole
+    // decorative cursor under reduced-motion — the native OS cursor stays.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const dot = document.getElementById('cd-cursor-dot');
     const ring = document.getElementById('cd-cursor-ring');
@@ -82,18 +85,29 @@
 
     let x = 0, y = 0, rx = 0, ry = 0;
     let raf = 0;
-
-    function onMove(e: MouseEvent) {
-      x = e.clientX;
-      y = e.clientY;
-      dot!.style.transform = `translate(${x}px, ${y}px)`;
-    }
+    let running = false;
 
     function tick() {
       rx += (x - rx) * 0.18;
       ry += (y - ry) * 0.18;
       ring!.style.transform = `translate(${rx}px, ${ry}px)`;
+      // Stop the loop once the ring has caught up to the pointer — no point
+      // burning frames while the mouse is idle. It restarts on the next move.
+      if (Math.abs(x - rx) < 0.1 && Math.abs(y - ry) < 0.1) {
+        running = false;
+        return;
+      }
       raf = requestAnimationFrame(tick);
+    }
+
+    function onMove(e: MouseEvent) {
+      x = e.clientX;
+      y = e.clientY;
+      dot!.style.transform = `translate(${x}px, ${y}px)`;
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(tick);
+      }
     }
 
     function onOver(e: MouseEvent) {
@@ -102,7 +116,6 @@
       ring!.classList.toggle('hover', !!interactive);
     }
 
-    raf = requestAnimationFrame(tick);
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseover', onOver);
 

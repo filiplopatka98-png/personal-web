@@ -9,6 +9,8 @@ import Blob from '../components/Blob.astro';
 import { t } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
 import { processSteps } from '../data/process';
+import { jsonLd } from '../utils/jsonld';
+import { buildServiceCatalog } from '../utils/serviceCatalog';
 
 const lang = 'sk';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,8 +21,16 @@ const services = (await getCollection('services'))
 
 const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;
 const steps = processSteps[lang];
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
+  name: 'Služby tvorby webov',
+  orgId: `${siteUrl}${baseUrl}/#organization`,
+  inLanguage: 'sk-SK',
+});
 ---
 <BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title="Služby — tvorba webov, eshopy, audit výkonu | Filip Lopatka" description="Balíčky a ceny: landing page, firemný web, eshop a audit. Návrh, build, nasadenie a podpora — s dôrazom na výkon, SEO a prístupnosť.">
+  <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
     titleHtml={titleHtml}

@@ -19,14 +19,14 @@ const fmt = new Intl.DateTimeFormat(lang === 'sk' ? 'sk-SK' : 'en-US', {
   year: 'numeric',
 });
 const dateStr = fmt.format(data.date);
-const readStr = lang === 'sk' ? `${data.read} min čítania` : `${data.read} min read`;
+const readStr = `${data.read} ${t('article.read', lang)}`;
 ---
 <a href={detailHref} class="article-card" data-cursor="hover">
   <div class="article-meta mono">
     <span>{dateStr}</span>
     <span>{readStr}</span>
   </div>
-  <div class="article-title display">{data.title}</div>
+  <h3 class="article-title display">{data.title}</h3>
   <div class="article-cta mono">{t('cta.read', lang)} →</div>
 </a>
 

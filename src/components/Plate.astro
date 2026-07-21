@@ -33,6 +33,12 @@ export interface Props {
   imageAlt?: string;
   /** Responsive `sizes` hint — how wide the image renders across breakpoints. */
   sizes?: string;
+  /**
+   * Above-the-fold LCP image (e.g. a project hero). Loads eagerly with
+   * fetchpriority="high" so it's discovered immediately instead of being
+   * deferred by lazy-loading. Leave false for below-the-fold plates.
+   */
+  priority?: boolean;
 }
 
 const {
@@ -45,14 +51,16 @@ const {
   image,
   imageAlt,
   sizes = '(max-width: 1024px) 100vw, 1000px',
+  priority = false,
 } = Astro.props;
 
 const styleStr = `aspect-ratio:${ratio};background:${color};background-image:repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--ink) 8%, transparent) 18px 19px);border-radius:${radius}px;`;
 
 // Responsive widths capped to the source width. Includes hi-DPI sizes up to
-// ~2560px so laptop-mockup screenshots stay crisp on retina/2x displays
-// (a ~1100px plate needs ~2200px on a 2x screen).
-const widthPool = [400, 640, 960, 1280, 1760, 2200, 2560];
+// ~2200px so laptop-mockup screenshots stay crisp on retina/2x displays
+// (a ~1100px plate needs ~2200px on a 2x screen). Capped at 2200 — the 2560
+// variant only added build bloat for a size no plate ever renders at.
+const widthPool = [400, 640, 960, 1280, 1760, 2200];
 const widths = image
   ? (() => {
       const w = widthPool.filter((x) => x <= image.width);
@@ -70,7 +78,8 @@ const widths = image
       formats={['avif', 'webp']}
       fallbackFormat="webp"
       class="plate-image"
-      loading="lazy"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
       decoding="async"
     />
     {caption && (

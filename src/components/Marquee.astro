@@ -9,7 +9,11 @@ const itemsRaw = t('ticker.items', lang);
 const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
 ---
 <div class="marquee-wrap">
-  <div class="marquee-inner">
+  {/* Decorative keyword ticker. Duplicated for a seamless loop and read twice
+      by screen readers, so hide it from AT — the keywords are surfaced as real
+      content elsewhere (services / hero). Motion pauses on hover and is fully
+      stopped under prefers-reduced-motion (global.css). */}
+  <div class="marquee-inner" aria-hidden="true">
     {Array.from({ length: 2 }).map(() => (
       <>
         {items.map((item) => (
@@ -45,6 +49,11 @@ const items = itemsRaw.split(',').map((s) => s.trim()).filter(Boolean);
 
   .marquee-sep {
     color: var(--accent);
+  }
+
+  /* WCAG 2.2.2 — let users stop the auto-scroll by hovering the ticker. */
+  .marquee-wrap:hover .marquee-inner {
+    animation-play-state: paused;
   }
 
   @media (max-width: 1024px) {

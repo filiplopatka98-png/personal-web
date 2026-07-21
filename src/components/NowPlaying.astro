@@ -56,6 +56,9 @@ const initial = items[0] ?? '';
 
 <script>
   function initNowPlaying() {
+    // Auto-rotating text is motion (WCAG 2.2.2 / 2.3): if the user prefers
+    // reduced motion, leave the first item shown and don't cycle.
+    if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const els = document.querySelectorAll<HTMLElement>('.now-playing');
     els.forEach((el) => {
       if ((el as any).__nowPlayingInitialized) return;

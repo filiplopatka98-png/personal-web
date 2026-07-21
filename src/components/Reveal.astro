@@ -6,16 +6,31 @@ export interface Props {
   as?: string;
   /** Extra classes to merge. */
   class?: string;
+  /**
+   * Above-the-fold / LCP content. Renders visible immediately and animates in
+   * via a pure-CSS keyframe (no JS/IntersectionObserver gate), so the element
+   * is painted on first paint and stays visible even if JS fails to run.
+   * Use for the hero heading and any critical first-viewport content.
+   */
+  immediate?: boolean;
   /** Any other HTML attributes (data-*, aria-*, id, etc.) are forwarded to the rendered tag. */
   [key: string]: unknown;
 }
 
-const { delay = 0, as: Tag = 'div', class: className = '', ...rest } = Astro.props;
-const delayStyle = delay > 0 ? `transition-delay:${delay}s;` : '';
+const { delay = 0, as: Tag = 'div', class: className = '', immediate = false, ...rest } = Astro.props;
+const delayStyle = delay > 0
+  ? `${immediate ? 'animation-delay' : 'transition-delay'}:${delay}s;`
+  : '';
 ---
-<Tag {...rest} class:list={['reveal', className]} style={delayStyle} data-reveal>
-  <slot />
-</Tag>
+{immediate ? (
+  <Tag {...rest} class:list={['reveal', 'reveal-immediate', className]} style={delayStyle}>
+    <slot />
+  </Tag>
+) : (
+  <Tag {...rest} class:list={['reveal', className]} style={delayStyle} data-reveal>
+    <slot />
+  </Tag>
+)}
 
 <script>
   function initReveals() {

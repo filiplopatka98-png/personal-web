@@ -30,7 +30,10 @@ const { eyebrow, titleHtml, lead, blobColor = 'var(--accent)' } = Astro.props;
   }
   .page-head-eyebrow {
     font-size: 13px;
-    opacity: 0.6;
+    /* Solid muted token (not opacity) — this text overlaps a decorative blob,
+       and opacity would bleed the blob colour through the glyphs and tank
+       contrast. See tokens.css. */
+    color: var(--ink-muted);
     margin-bottom: 14px;
     font-family: var(--font-mono);
     letter-spacing: 0.06em;
@@ -49,7 +52,7 @@ const { eyebrow, titleHtml, lead, blobColor = 'var(--accent)' } = Astro.props;
   .page-head-lead {
     font-size: 20px;
     line-height: 1.45;
-    opacity: 0.75;
+    color: var(--ink-muted);
     max-width: 560px;
     margin: 32px 0 0;
     position: relative;

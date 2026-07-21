@@ -32,6 +32,9 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       data-cursor="hover"
       data-menu-open
       aria-label={t('nav.openMenu', lang)}
+      aria-haspopup="dialog"
+      aria-controls="overlay-menu"
+      aria-expanded="false"
       class="nav-menu-btn"
     >
       <span class="nav-menu-bars" aria-hidden="true">

@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import OverlayMenu from '../components/OverlayMenu.astro';
 import CustomCursor from '../components/CustomCursor.astro';
 import { t, type Lang } from '../i18n';
+import { jsonLd } from '../utils/jsonld';
 
 /**
  * 🔒 SITE-WIDE INDEXATION TOGGLE — pre-launch state.
@@ -36,6 +37,8 @@ export interface Props {
   ogImage?: string;
   /** Emit a page-level noindex (e.g. 404). Independent of the global SITE_INDEXABLE gate. */
   noindex?: boolean;
+  /** Human-readable name for the final breadcrumb crumb (e.g. article/project title). */
+  breadcrumbName?: string;
   /** og:type — 'website' (default) or 'article' for blog posts. */
   ogType?: 'website' | 'article';
   /** Article metadata; emitted as article:* OG tags when ogType==='article'. */
@@ -55,6 +58,7 @@ const {
   canonicalPath,
   ogImage,
   noindex = false,
+  breadcrumbName,
   ogType = 'website',
   article,
 } = Astro.props;
@@ -121,6 +125,17 @@ const organizationLd = {
   knowsAbout: ['WordPress', 'WooCommerce', 'Next.js', 'Astro', 'Web Performance', 'Core Web Vitals', 'SEO'],
 };
 
+// Localized labels for known route segments — so breadcrumbs read "Práca"
+// not "praca" and "Services" not "services" in SERPs / AI answers.
+const SEGMENT_LABELS: Record<string, string> = {
+  praca: 'Práca', work: 'Work',
+  sluzby: 'Služby', services: 'Services',
+  blog: 'Blog',
+  ponuka: 'Ponuka', brief: 'Brief',
+  'ochrana-osobnych-udajov': 'Ochrana osobných údajov', privacy: 'Privacy',
+  impressum: 'Impressum', imprint: 'Imprint',
+};
+
 // JSON-LD: BreadcrumbList — built from canonicalPath segments (skip if root)
 function buildBreadcrumbs(): unknown | null {
   const segments = canonicalPath.split('/').filter(Boolean);
@@ -129,13 +144,19 @@ function buildBreadcrumbs(): unknown | null {
     { '@type': 'ListItem', position: 1, name: lang === 'sk' ? 'Domov' : 'Home', item: `${siteUrl}${baseUrl}/` },
   ];
   let pathSoFar = lang === 'sk' ? '' : '/en';
-  segments.forEach((seg, i) => {
-    if (lang === 'en' && i === 0 && seg === 'en') return; // skip EN prefix
+  const contentSegments = segments.filter((seg, i) => !(lang === 'en' && i === 0 && seg === 'en'));
+  contentSegments.forEach((seg, i) => {
     pathSoFar += `/${seg}`;
+    const isLeaf = i === contentSegments.length - 1;
+    // Prefer an explicit human name for the leaf (article/project title);
+    // otherwise a localized section label; otherwise de-slugify as a fallback.
+    const name = (isLeaf && breadcrumbName)
+      ? breadcrumbName
+      : SEGMENT_LABELS[seg] ?? decodeURIComponent(seg).replace(/-/g, ' ');
     items.push({
       '@type': 'ListItem',
       position: items.length + 1,
-      name: decodeURIComponent(seg).replace(/-/g, ' '),
+      name,
       item: `${siteUrl}${baseUrl}${pathSoFar}/`,
     });
   });
@@ -191,7 +212,8 @@ const websiteLd = isHome
       <>
         {article.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
         {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
-        {article.author && <meta property="article:author" content={article.author} />}
+        {/* OG spec: article:author is a profile URL, not a name. */}
+        {article.author && <meta property="article:author" content={socialProfiles[0]} />}
         {article.tags?.map((tag) => <meta property="article:tag" content={tag} />)}
       </>
     )}
@@ -208,19 +230,25 @@ const websiteLd = isHome
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={fullDesc} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={fullTitle} />
 
     <link rel="preload" href={`${baseUrl}/fonts/instrument-serif.woff2`} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={`${baseUrl}/fonts/geist-regular.woff2`} as="font" type="font/woff2" crossorigin />
 
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
 
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)}></script>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationLd)}></script>
+    {/* No-JS fallback: reveal-on-scroll elements start at opacity:0 and are
+        shown by JS. Without JS they'd stay invisible, so force them visible
+        (and skip the transform) when scripting is unavailable. */}
+    <noscript set:html={`<style>[data-reveal]{opacity:1 !important;transform:none !important}</style>`}></noscript>
+
+    <script is:inline type="application/ld+json" set:html={jsonLd(personLd)}></script>
+    <script is:inline type="application/ld+json" set:html={jsonLd(organizationLd)}></script>
     {breadcrumbLd && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)}></script>
+      <script is:inline type="application/ld+json" set:html={jsonLd(breadcrumbLd)}></script>
     )}
     {websiteLd && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteLd)}></script>
+      <script is:inline type="application/ld+json" set:html={jsonLd(websiteLd)}></script>
     )}
     <slot name="head" />
 
@@ -228,6 +256,9 @@ const websiteLd = isHome
         PROD-only so localhost/preview don't pollute stats; data-domains pins it
         to the live host. Auto-tracks pageviews incl. View Transitions navs via
         the History API. */}
+    {import.meta.env.PROD && (
+      <link rel="preconnect" href="https://cloud.umami.is" crossorigin />
+    )}
     {import.meta.env.PROD && (
       <script
         is:inline

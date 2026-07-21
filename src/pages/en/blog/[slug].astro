@@ -4,6 +4,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Reveal from '../../../components/Reveal.astro';
 import { t } from '../../../i18n';
 import { visibleArticles } from '../../../content/launch';
+import { jsonLd } from '../../../utils/jsonld';
 
 export async function getStaticPaths() {
   const all = await getCollection('articles');
@@ -26,8 +27,9 @@ const allArticles = visibleArticles((await getCollection('articles'))
   .filter((a) => a.slug.startsWith('en/')))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const idx = allArticles.findIndex((a) => a.slug === entry.slug);
-const next = allArticles[(idx + 1) % allArticles.length];
-const nextSlug = next.slug.replace(/^en\//, '');
+// Null when this is the only visible article, so "Next" never links to itself.
+const next = allArticles.length > 1 ? allArticles[(idx + 1) % allArticles.length] : null;
+const nextSlug = next ? next.slug.replace(/^en\//, '') : '';
 
 const fmt = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
@@ -47,6 +49,8 @@ const shareUrl = encodeURIComponent(fullArticleUrl);
 const xShareUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}`;
 const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
 
+const ogImage = `/og/blog/en/${cleanSlug}.png`;
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -65,7 +69,7 @@ const articleLd = {
     name: 'Filip Lopatka — Web Developer',
     logo: { '@type': 'ImageObject', url: `${siteUrl}${baseUrl}/og-default.png` },
   },
-  image: `${siteUrl}${baseUrl}/og-default.png`,
+  image: `${siteUrl}${baseUrl}${ogImage}`,
   mainEntityOfPage: { '@type': 'WebPage', '@id': fullArticleUrl },
   description: data.excerpt,
   inLanguage: 'en-US',
@@ -77,9 +81,11 @@ const articleLd = {
 <BaseLayout
   lang={lang}
   canonicalPath={`/en/blog/${cleanSlug}/`}
+  breadcrumbName={data.title}
   altLangUrl={`/blog/${cleanSlug}/`}
   title={data.title}
-  description={data.excerpt}
+  description={data.metaDescription ?? data.excerpt}
+  ogImage={ogImage}
   ogType="article"
   article={{
     publishedTime: data.date.toISOString(),
@@ -88,7 +94,7 @@ const articleLd = {
     tags: data.tags,
   }}
 >
-  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(articleLd)}></script>
+  <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(articleLd)}></script>
 
   <section class="article-header">
     <Reveal>
@@ -132,16 +138,18 @@ const articleLd = {
     </div>
   </section>
 
-  <section class="article-next">
-    <Reveal>
-      <div class="next-eyebrow mono">{t('article.next', lang).toUpperCase()}</div>
-      <a href={`${baseUrl}/en/blog/${nextSlug}/`} class="next-link" data-cursor="hover">
-        <h2 class="next-title display">
-          {next.data.title} <span class="next-arrow">→</span>
-        </h2>
-      </a>
-    </Reveal>
-  </section>
+  {next && (
+    <section class="article-next">
+      <Reveal>
+        <div class="next-eyebrow mono">{t('article.next', lang).toUpperCase()}</div>
+        <a href={`${baseUrl}/en/blog/${nextSlug}/`} class="next-link" data-cursor="hover">
+          <h2 class="next-title display">
+            {next.data.title} <span class="next-arrow">→</span>
+          </h2>
+        </a>
+      </Reveal>
+    </section>
+  )}
 </BaseLayout>
 
 <script>

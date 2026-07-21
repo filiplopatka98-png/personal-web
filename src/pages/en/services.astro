@@ -9,6 +9,8 @@ import Blob from '../../components/Blob.astro';
 import { t } from '../../i18n';
 import { getStaticRoute } from '../../i18n/routes';
 import { processSteps } from '../../data/process';
+import { jsonLd } from '../../utils/jsonld';
+import { buildServiceCatalog } from '../../utils/serviceCatalog';
 
 const lang = 'en';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,8 +21,16 @@ const services = (await getCollection('services'))
 
 const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;
 const steps = processSteps[lang];
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
+  name: 'Web development services',
+  orgId: `${siteUrl}${baseUrl}/#organization`,
+  inLanguage: 'en-US',
+});
 ---
 <BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title="Services — web development, e-commerce, performance audit" description="Packages and pricing: landing page, company website, e-shop and audit. Design, build, deploy and support — focused on performance, SEO and accessibility.">
+  <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
     titleHtml={titleHtml}

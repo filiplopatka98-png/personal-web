@@ -11,6 +11,9 @@ export interface Props {
 const { lang, altLangUrl } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
+// Current path (normalized to a trailing slash) so the active nav item can
+// carry aria-current="page".
+const currentPath = Astro.url.pathname.replace(/\/?$/, '/');
 const altUrl = altLangUrl ? `${baseUrl}${altLangUrl}` : null;
 const otherLang = lang === 'sk' ? 'en' : 'sk';
 const otherLangLabel = otherLang === 'en' ? 'English' : 'Slovenčina';
@@ -65,6 +68,7 @@ const navOrder: NavItem[] = [
           class="menu-link"
           style={`--menu-link-delay: ${0.1 + i * 0.06}s;`}
           data-cursor="hover"
+          aria-current={item.href.replace(/\/?$/, '/') === currentPath ? 'page' : undefined}
         >
           <span class="menu-link-num">0{i + 1}</span>
           {t(item.tKey, lang)}
@@ -297,6 +301,7 @@ const navOrder: NavItem[] = [
     (menu as any).__overlayInitialized = true;
 
     let lastFocused: HTMLElement | null = null;
+    const openers = Array.from(document.querySelectorAll<HTMLElement>('[data-menu-open]'));
 
     // Selector for "tabbable" descendants. Excludes negative tabindex and
     // disabled elements; intentionally simple — this menu has only links and
@@ -317,6 +322,7 @@ const navOrder: NavItem[] = [
       // the modern alternative to manually toggling tabindex on each child;
       // also fixes Lighthouse "aria-hidden contains focusable descendants".
       menu!.removeAttribute('inert');
+      openers.forEach((btn) => btn.setAttribute('aria-expanded', 'true'));
       document.body.style.overflow = 'hidden';
       // Defer to next frame so transition can start before we move focus.
       requestAnimationFrame(() => {
@@ -329,6 +335,7 @@ const navOrder: NavItem[] = [
       menu!.classList.remove('open');
       menu!.setAttribute('aria-hidden', 'true');
       menu!.setAttribute('inert', '');
+      openers.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
       document.body.style.overflow = '';
       // Restore focus to whatever opened the menu (typically the menu button).
       lastFocused?.focus();
@@ -363,17 +370,24 @@ const navOrder: NavItem[] = [
       btn.addEventListener('click', close);
     });
 
-    document.addEventListener('keydown', (e) => {
+    function onKeydown(e: KeyboardEvent) {
       if (e.key === 'Escape' && menu!.classList.contains('open')) close();
       else trapTab(e);
-    });
+    }
+    document.addEventListener('keydown', onKeydown);
 
     menu!.querySelectorAll('a').forEach((a) => {
       a.addEventListener('click', () => setTimeout(close, 0));
     });
 
+    // View Transitions swap the #overlay-menu element on every navigation, so
+    // init runs again per page. Remove the document-level keydown listener and
+    // reset the guard flag on swap, otherwise stale listeners (and the detached
+    // menu elements their closures capture) pile up unbounded.
     document.addEventListener('astro:before-swap', () => {
+      document.removeEventListener('keydown', onKeydown);
       document.body.style.overflow = '';
+      (menu as any).__overlayInitialized = false;
     }, { once: true });
   }
 

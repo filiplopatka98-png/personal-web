@@ -37,10 +37,12 @@
 
   ::selection { background: var(--accent); color: var(--bg); }
 
-  html.has-cursor, html.has-cursor * { cursor: none !important; }
-  @media (pointer: coarse) {
-    html.has-cursor, html.has-cursor * { cursor: auto !important; }
-  }
+  /*
+   * The custom cursor is decorative only: the dot/ring float ON TOP of the
+   * native OS cursor, which stays fully visible. We intentionally do NOT set
+   * `cursor: none` — hiding the native pointer and replacing it with a tiny
+   * lagging dot is a real usability/low-vision barrier (WCAG operability).
+   */
 }
 
 /* Screen-reader-only content (visually hidden but in the a11y tree). */
@@ -130,6 +132,20 @@
   transform: translateY(0);
 }
 
+/*
+ * `immediate` reveals (above-the-fold LCP content, e.g. the home hero h1).
+ * These animate in via a pure-CSS keyframe that runs on first paint — NOT
+ * gated behind JS/IntersectionObserver — so the LCP element is painted right
+ * away and the page is never blank if JS fails. See Reveal.astro `immediate`.
+ */
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translateY(var(--motion-reveal-distance)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal.reveal-immediate {
+  animation: reveal-rise var(--motion-reveal-duration) var(--motion-reveal-ease) both;
+}
+
 .proj {
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
@@ -144,6 +160,7 @@
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1; transform: none; }
+  .reveal.reveal-immediate { animation: none !important; }
   /* Per RESPONSIVE.md: hide blobs entirely on reduced-motion (decorative only). */
   .blob { display: none !important; }
   .pulse-dot, .float-y { animation: none !important; }
