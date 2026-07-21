@@ -1,9 +1,8 @@
 import { defineConfig } from 'astro/config';
 
-import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
@@ -40,8 +39,14 @@ export default defineConfig({
     },
   },
 
+  // Tailwind v4 is a Vite plugin now (the @astrojs/tailwind integration was
+  // dropped in Astro 6+). Theme config lives in tailwind.config.mjs, loaded via
+  // `@config` in src/styles/global.css.
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   integrations: [
-    tailwind({ applyBaseStyles: false }),
     mdx(),
     // Exclude 404 pages from the sitemap (they carry a page-level noindex).
     // i18n emits <xhtml:link rel="alternate" hreflang> in the sitemap for pages

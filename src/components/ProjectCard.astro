@@ -11,8 +11,8 @@ export interface Props {
 const { entry, lang, variant = 'home' } = Astro.props;
 const { data } = entry;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-// entry.slug is "sk/veverka" or "en/veverka" — strip locale prefix
-const cleanSlug = entry.slug.replace(/^(sk|en)\//, '');
+// entry.id is "sk/veverka" or "en/veverka" — strip locale prefix
+const cleanSlug = entry.id.replace(/^(sk|en)\//, '');
 const detailHref = lang === 'sk'
   ? `${baseUrl}/praca/${cleanSlug}/`
   : `${baseUrl}/en/work/${cleanSlug}/`;

@@ -6,7 +6,7 @@ import { buildOgSvg, renderOgPng } from '../../../../utils/ogImage';
 export async function getStaticPaths() {
   const all = await getCollection('projects');
   return all.map((entry) => {
-    const [lang, ...rest] = entry.slug.split('/');
+    const [lang, ...rest] = entry.id.split('/');
     return { params: { lang, slug: rest.join('/') }, props: { entry, lang } };
   });
 }

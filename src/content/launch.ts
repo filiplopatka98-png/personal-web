@@ -17,8 +17,8 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
 ];
 
 /** Vyfiltruje kolekciu článkov na povolené (ak je allowlist aktívny). */
-export function visibleArticles<T extends { slug: string }>(list: T[]): T[] {
+export function visibleArticles<T extends { id: string }>(list: T[]): T[] {
   if (!ARTICLE_ALLOWLIST || ARTICLE_ALLOWLIST.length === 0) return list;
   const allow = new Set(ARTICLE_ALLOWLIST);
-  return list.filter((a) => allow.has(a.slug));
+  return list.filter((a) => allow.has(a.id));
 }

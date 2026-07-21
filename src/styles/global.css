@@ -1,8 +1,10 @@
 @import './fonts.css';
 @import './tokens.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4: single import (includes preflight + utilities). Theme extensions
+   — custom colours, font families, max-widths — come from the legacy JS config
+   loaded via @config. */
+@import 'tailwindcss';
+@config '../../tailwind.config.mjs';
 
 @layer base {
   html, body { margin: 0; padding: 0; }

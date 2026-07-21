@@ -16,7 +16,7 @@ const lang = 'en';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const services = (await getCollection('services'))
-  .filter((s) => s.slug.startsWith('en/'))
+  .filter((s) => s.id.startsWith('en/'))
   .sort((a, b) => a.data.order - b.data.order);
 
 const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;

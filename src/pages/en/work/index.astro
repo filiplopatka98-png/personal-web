@@ -12,7 +12,7 @@ const lang = 'en';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const projects = (await getCollection('projects'))
-  .filter((p) => p.slug.startsWith('en/'))
+  .filter((p) => p.id.startsWith('en/'))
   .sort((a, b) => a.data.order - b.data.order);
 
 const projectCount = projects.length;
@@ -20,7 +20,7 @@ const projectCount = projects.length;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const itemListLd = buildItemList(
   projects.map((p) => ({
-    url: `${siteUrl}${baseUrl}/en/work/${p.slug.replace(/^en\//, '')}/`,
+    url: `${siteUrl}${baseUrl}/en/work/${p.id.replace(/^en\//, '')}/`,
     name: p.data.name,
   })),
   'Selected work',

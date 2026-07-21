@@ -9,7 +9,7 @@ export interface Props {
 const { entry, lang } = Astro.props;
 const { data } = entry;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const cleanSlug = entry.slug.replace(/^(sk|en)\//, '');
+const cleanSlug = entry.id.replace(/^(sk|en)\//, '');
 const detailHref = lang === 'sk'
   ? `${baseUrl}/blog/${cleanSlug}/`
   : `${baseUrl}/en/blog/${cleanSlug}/`;

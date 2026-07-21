@@ -12,7 +12,7 @@ const lang = 'sk';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const projects = (await getCollection('projects'))
-  .filter((p) => p.slug.startsWith('sk/'))
+  .filter((p) => p.id.startsWith('sk/'))
   .sort((a, b) => a.data.order - b.data.order);
 
 const projectCount = projects.length;
@@ -20,7 +20,7 @@ const projectCount = projects.length;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const itemListLd = buildItemList(
   projects.map((p) => ({
-    url: `${siteUrl}${baseUrl}/praca/${p.slug.replace(/^sk\//, '')}/`,
+    url: `${siteUrl}${baseUrl}/praca/${p.id.replace(/^sk\//, '')}/`,
     name: p.data.name,
   })),
   'Realizované projekty',

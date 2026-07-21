@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import OverlayMenu from '../components/OverlayMenu.astro';
@@ -269,7 +269,7 @@ const websiteLd = isHome
       ></script>
     )}
 
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main">{t('common.skipToContent', lang)}</a>

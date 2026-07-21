@@ -6,7 +6,7 @@ Osobný web a portfólio. Astro + Tailwind, statický deploy na GitHub Pages.
 
 ## Lokálne spustenie
 
-Vyžaduje Node 20 LTS (`.nvmrc`).
+Vyžaduje Node 22 LTS (`.nvmrc`) — Astro 7 vyžaduje Node ≥22.12.
 
 ```bash
 npm install
