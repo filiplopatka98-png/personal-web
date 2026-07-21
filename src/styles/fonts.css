@@ -50,3 +50,33 @@
   font-display: swap;
   src: url('/fonts/geist-mono-medium.woff2') format('woff2');
 }
+
+/*
+ * Metric-matched fallback faces — measured by scripts/measure-font-metrics.mjs.
+ * These make the system fallback (Georgia / Arial) occupy the SAME box as the
+ * web font during the swap window, so the big hero heading doesn't reflow when
+ * the web font loads (reduces CLS). Referenced in tokens.css font stacks, just
+ * before the generic fallback. If local() font is absent, the stack falls
+ * through gracefully to the next entry. Re-run the script if fonts change.
+ */
+@font-face {
+  font-family: 'Instrument Serif Fallback';
+  src: local('Georgia');
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 73.92%;
+  ascent-override: 133.92%;
+  descent-override: 41.94%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial');
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 101.65%;
+  ascent-override: 98.87%;
+  descent-override: 29.02%;
+  line-gap-override: 0%;
+}

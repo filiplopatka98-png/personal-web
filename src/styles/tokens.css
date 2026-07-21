@@ -42,8 +42,8 @@
 
 :root {
   /* Typography */
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-display: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
+  --font-body: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
   /* Type scale */
