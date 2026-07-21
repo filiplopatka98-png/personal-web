@@ -140,7 +140,6 @@
   "brief.subject": "Nový brief z lopatka.sk",
   "brief.error": "Nepodarilo sa odoslať. Skús to znova alebo napíš priamo na {email}.",
   "brief.validation": "Vyplň prosím túto možnosť, než budeš pokračovať.",
-  "form.captcha": "Potvrď prosím, že nie si robot.",
   "brief.done.title": "Ďakujem, mám to.",
   "brief.done.body": "Ozvem sa do 24 hodín s návrhom termínu hovoru.",
   "brief.done.back": "Späť na úvod",

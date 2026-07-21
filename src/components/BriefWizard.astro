@@ -101,7 +101,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   data-sending={t('brief.btn.sending', lang)}
   data-error={t('brief.error', lang)}
   data-validation={t('brief.validation', lang)}
-  data-captcha-msg={t('form.captcha', lang)}
   data-price-check={JSON.stringify({ types: TYPE_MIN_PRICE, ceilings: BUDGET_CEILING })}
 >
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
@@ -222,7 +221,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
           <input type="text" name="company" id="brief-company" autocomplete="organization" class="brief-input" />
         </div>
       </div>
-      <div class="h-captcha brief-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div>
     </fieldset>
 
     <!-- Step 5: Done -->
@@ -805,19 +803,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
 
       const data = new FormData(form);
       const val = (k: string) => (data.get(k) ?? '').toString().trim();
-
-      // hCaptcha: block only if the widget rendered but wasn't solved (fail-open
-      // if it never rendered, so a load/CSP glitch can't fully break the form).
-      const captchaEl = wizard!.querySelector('.h-captcha');
-      const captchaToken = (wizard!.querySelector('[name="h-captcha-response"]') as HTMLTextAreaElement | null)?.value || '';
-      if (captchaEl && !captchaToken) {
-        if (errorEl) {
-          errorEl.textContent = wizard!.dataset.captchaMsg || 'Please confirm you are not a robot.';
-          errorEl.hidden = false;
-        }
-        return;
-      }
-
       const subjectPrefix = wizard!.dataset.subjectPrefix || 'New brief from lopatka.sk';
       const payload = {
         access_key: wizard!.dataset.w3fKey || '',
@@ -826,7 +811,6 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
         replyto: val('email'),
         // Honeypot: present only when a bot checked it; Web3Forms rejects those.
         botcheck: (data.get('botcheck') ?? '').toString(),
-        'h-captcha-response': captchaToken,
         'Typ projektu': val('type'),
         'Rozpočet': val('budget'),
         Timeline: val('timeline'),

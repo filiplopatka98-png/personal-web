@@ -64,7 +64,6 @@ const CONTACT_EMAIL = t('menu.email', lang);
         data-sending={t('footer.formSending', lang)}
         data-success={t('footer.formSuccess', lang)}
         data-error={t('footer.formError', lang)}
-        data-captcha-msg={t('form.captcha', lang)}
         novalidate
       >
         <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
@@ -81,7 +80,6 @@ const CONTACT_EMAIL = t('menu.email', lang);
           <label for="footer-form-message">{t('footer.formDesc', lang)}</label>
           <textarea name="message" id="footer-form-message" rows="4" required></textarea>
         </div>
-        <div class="h-captcha footer-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div>
         <button type="submit" data-cursor="hover" class="footer-submit">
           {t('footer.formSend', lang)}
         </button>
@@ -374,20 +372,6 @@ const CONTACT_EMAIL = t('menu.email', lang);
 
         const data = new FormData(form);
         const val = (k: string) => (data.get(k) ?? '').toString().trim();
-
-        // hCaptcha: block only if the widget rendered but wasn't solved (fail-open
-        // if it never rendered, so a load/CSP glitch can't fully break the form).
-        const captchaEl = form.querySelector('.h-captcha');
-        const captchaToken = (form.querySelector('[name="h-captcha-response"]') as HTMLTextAreaElement | null)?.value || '';
-        if (captchaEl && !captchaToken) {
-          if (statusEl) {
-            statusEl.textContent = form.dataset.captchaMsg || 'Please confirm you are not a robot.';
-            statusEl.classList.add('is-error');
-            statusEl.hidden = false;
-          }
-          return;
-        }
-
         const subjectPrefix = form.dataset.subject || 'Message from lopatka.sk';
         const payload = {
           access_key: form.dataset.w3fKey || '',
@@ -395,7 +379,6 @@ const CONTACT_EMAIL = t('menu.email', lang);
           from_name: val('name') || 'lopatka.sk',
           replyto: val('email'),
           botcheck: (data.get('botcheck') ?? '').toString(),
-          'h-captcha-response': captchaToken,
           Meno: val('name'),
           Email: val('email'),
           Sprava: val('message'),
