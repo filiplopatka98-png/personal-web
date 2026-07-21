@@ -188,7 +188,7 @@ const websiteLd = isHome
         frame-ancestors still require real headers → Cloudflare proxy. */}
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloud.umami.is https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://*.hcaptcha.com; img-src 'self' data: https://*.hcaptcha.com; font-src 'self'; connect-src 'self' https://cloud.umami.is https://api.web3forms.com https://*.hcaptcha.com; frame-src https://*.hcaptcha.com https://hcaptcha.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="generator" content={Astro.generator} />
@@ -280,5 +280,32 @@ const websiteLd = isHome
     </main>
     <Footer lang={lang} />
     <OverlayMenu lang={lang} altLangUrl={altLangUrl} />
+
+    {/* hCaptcha (Web3Forms zero-config, shared sitekey). We load hCaptcha's own
+        api.js and render widgets ourselves — the Web3Forms client script would
+        hijack form submit and clash with our custom fetch + View Transitions.
+        Explicit render lets us re-render after each VT navigation. */}
+    <script is:inline async defer src="https://js.hcaptcha.com/1/api.js?render=explicit"></script>
+    <script>
+      const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+      function renderCaptchas() {
+        const api = (window as any).hcaptcha;
+        if (!api) return;
+        document.querySelectorAll<HTMLElement>('.h-captcha:not([data-hc-rendered])').forEach((el) => {
+          try {
+            api.render(el, { sitekey: el.dataset.sitekey || HCAPTCHA_SITEKEY });
+            el.setAttribute('data-hc-rendered', '');
+          } catch { /* already rendered or not ready */ }
+        });
+      }
+      // hCaptcha api.js loads async — poll briefly until the global is ready.
+      let tries = 0;
+      const poll = setInterval(() => {
+        if ((window as any).hcaptcha) { clearInterval(poll); renderCaptchas(); }
+        else if (++tries > 120) clearInterval(poll);
+      }, 100);
+      // Re-render after View Transitions swap in a fresh (unrendered) widget.
+      document.addEventListener('astro:page-load', renderCaptchas);
+    </script>
   </body>
 </html>

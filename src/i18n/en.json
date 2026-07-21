@@ -140,6 +140,7 @@
   "brief.subject": "New brief from lopatka.sk",
   "brief.error": "Couldn't send. Please try again or email {email} directly.",
   "brief.validation": "Please fill this in before continuing.",
+  "form.captcha": "Please confirm you're not a robot.",
   "brief.done.title": "Got it, thanks.",
   "brief.done.body": "I'll reply within 24h with a call slot.",
   "brief.done.back": "Back home",
