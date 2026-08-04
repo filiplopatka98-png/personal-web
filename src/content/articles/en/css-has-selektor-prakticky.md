@@ -24,7 +24,7 @@ This isn't a syntax primer. It's a list of cases where `:has()` genuinely replac
 
 `:has()` is a relational pseudo-class: `A:has(B)` selects `A` if `A` contains (or, depending on the combinator, is followed by) something matching `B`. The simplest example — `a:has(img)` selects a link that contains an image.
 
-Support is no longer up for debate. `:has()` has been **Baseline "Widely available"** since December 2023 ([developer.mozilla.org/.../:has](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)), with minimum support from Chrome/Edge 105, Firefox 121, and Safari 15.4 ([caniuse.com/css-has](https://caniuse.com/css-has)). If you don't need to support browsers from before 2023, you can write it without hesitation. If you do, there's a section below on the `@supports` fallback.
+Support is no longer up for debate. `:has()` has been **Baseline "Widely available"** since December 2023 ([developer.mozilla.org/.../:has](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)), with minimum support from Chrome/Edge 105, Firefox 121, and Safari 15.4 ([caniuse.com/css-has](https://caniuse.com/css-has)). If you don't need to support browsers from before 2023, you can write it without hesitation. If you do, there's a section below on the `@supports` fallback. I take the same "ship it and let older browsers fall back" approach with the [Speculation Rules API for near-instant navigation](/en/blog/speculation-rules-instant-navigacia/).
 
 ## 1. Form validation without a JS class
 

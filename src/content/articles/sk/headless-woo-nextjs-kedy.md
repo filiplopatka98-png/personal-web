@@ -5,9 +5,18 @@ read: 8
 tags: ["WooCommerce", "Next.js", "Headless"]
 excerpt: "Headless WooCommerce s Next.js znie sexy, ale stojí 3× viac ako natívny eshop. Rozhodovacia matica podľa 4 osí, kedy to dáva zmysel a kedy nie."
 featured: true
+faq:
+  - q: "Kedy sa oplatí headless WooCommerce s Next.js?"
+    a: "Headless dáva zmysel, keď súčasne platia štyri veci: viac ako 20 000 produktov (alebo aspoň 5 000+ s hybridným prístupom), viac ako 100k mesačných návštevníkov, tím s React/TypeScript skillami a plánovaná customizácia, ktorú natívny Woo nezvládne — napríklad multi-channel (web + appka + B2B portál) alebo vlastný checkout flow. Ak chýba čo i len jedna z týchto podmienok, headless sa neoplatí."
+  - q: "Kedy je lepšie zostať pri klasickom WooCommerce?"
+    a: "Klasický Woo je lepšia voľba pod 5 000 produktov, pod 30k MAU, keď má tím PHP background bez React/TypeScript skillov, alebo keď ide o štandardný eshop bez plánovaného multi-channelu či ťažkej customizácie. V reálnom prípade s 800 produktmi, 12k MAU a jedným PHP developerom ukazovali všetky štyri osi rozhodovania na Woo native."
+  - q: "Je headless WooCommerce rýchlejší ako klasický?"
+    a: "Pri vysokom trafficu áno — statický Next.js na CDN zvládne špičky (napríklad Black Friday s 10-násobkom bežného trafficu), pri ktorých PHP-FPM pri 1000 súbežných requestoch kolabuje. Pri nižšom trafficu (pod 30k MAU) je ale Woo s Redis object cache dostatočne rýchly a ROI z prechodu na headless je záporné."
+  - q: "Aký je rozdiel v cene a údržbe medzi headless a natívnym Woo?"
+    a: "Nový natívny WooCommerce eshop vyjde na €4 000 – €7 000 (s custom témou a perf optimalizáciou €7 000 – €12 000), zatiaľ čo headless WooCommerce + Next.js stojí €15 000 – €25 000 plus €20 – 50/mes. hosting. Údržba natívneho Woo je cca 2 – 4 hodiny mesačne (plugin updaty), pri headlesse je to 6 – 10 hodín mesačne kvôli monitoringu deploymentov, aktualizáciám Next.js závislostí a verzionovaniu API."
 ---
 
-Pred mesiacom sa ma pýtal klient, či mu mám prerobiť WooCommerce eshop s 800 produktmi na headless Next.js setup. Pozrel som mu Analytics: traffic 12k MAU, vlastný malý dev tím o jednom človeku. Povedal som **nie**. Tu je matica, podľa ktorej sa rozhodujem.
+Headless WooCommerce s Next.js sa oplatí len vtedy, keď súčasne platia štyri veci — vysoký počet produktov, vysoký traffic, tím so skillami v React/TypeScript a reálna plánovaná customizácia; inak vyjde 3× drahšie bez viditeľného benefitu. Pred mesiacom sa ma pýtal klient, či mu mám prerobiť WooCommerce eshop s 800 produktmi na headless Next.js setup. Pozrel som mu Analytics: traffic 12k MAU, vlastný malý dev tím o jednom človeku. Povedal som **nie**. Tu je matica, podľa ktorej sa rozhodujem.
 
 ## Os 1: Počet produktov
 

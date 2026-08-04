@@ -5,9 +5,18 @@ read: 8
 tags: ["Performance", "Core Web Vitals", "WordPress"]
 excerpt: "Vzorce z vyše 30 auditov za pol roka. Sedem konkrétnych príčin pomalého LCP — ku každej identifikácia cez WebPageTest filmstrip a fix s reálnym kódom."
 featured: true
+faq:
+  - q: "Aká je dobrá hodnota LCP?"
+    a: "Prah 2,5 sekundy platí pre 75. percentil reálnych návštevníkov — teda pre väčšinu ľudí na reálnom pripojení, nie pre test na rýchlom wifi zo stoličky. Ak je LCP nad touto hranicou, Core Web Vitals ho hodnotí ako problém, ktorý treba riešiť."
+  - q: "Čo najčastejšie spôsobuje pomalý LCP?"
+    a: "Z vyše 30 auditov je najčastejšou príčinou hero obrázok bez fetchpriority alebo preloadu — prehliadač ho objaví až po preparsovaní polovice CSS a JS. Ďalej nasleduje render-blocking JS pred zatvorením body, pomalý TTFB nad 800 ms z lacného hostingu, chýbajúce WebP/AVIF formáty, custom fonty bez font-display: swap, blokovanie hlavného vlákna reklamami a hero element ako React/Vue komponent, ktorý čaká na hydratáciu."
+  - q: "Ako zistím, ktorý element je môj LCP?"
+    a: "Najspoľahlivejšie cez Chrome DevTools → Performance → záznam stránky → klik na LCP marker v timeline, ktorý ukáže presný element. Doplnkovo pomáha WebPageTest filmstrip a waterfall (ukáže, kedy sa element sťahuje a čo ho blokuje) a PageSpeed Insights alebo CrUX dashboard pre reálne dáta z Chrome používateľov namiesto laboratórnych čísel."
+  - q: "Aký je najrýchlejší spôsob, ako zlepšiť LCP?"
+    a: "Podľa skúsenosti z auditov stačí často kombinácia 2 – 3 fixov: pridať fetchpriority=\"high\" na hero obrázok, skonvertovať ho do WebP/AVIF a zapnúť page cache plugin pri pomalom TTFB. Táto kombinácia zvyčajne postačí na presun z hodnotenia „Poor\" do „Good\" v priebehu pár hodín práce."
 ---
 
-Largest Contentful Paint je nemilosrdný. Prah 2,5 s je pre 75. percentil reálnych návštevníkov — nie pre tvoj test cez optiku zo stoličky. Za posledných šesť mesiacov som spravil vyše 30 LCP auditov, väčšinu na WordPresse a WooCommerce, časť na Astre/Next.js. Vzorce sa opakujú. Tu je sedem najčastejších, v poradí frekvencie, s identifikáciou aj fixom.
+Sedem najčastejších príčin pomalého LCP z vyše 30 reálnych auditov je: chýbajúci fetchpriority na hero obrázku, render-blocking JS, pomalý TTFB, chýbajúce WebP/AVIF, fonty bez font-display: swap, blokovanie od reklám a hero ako hydratujúci React/Vue komponent. Largest Contentful Paint je nemilosrdný. Prah 2,5 s je pre 75. percentil reálnych návštevníkov — nie pre tvoj test cez optiku zo stoličky. Za posledných šesť mesiacov som spravil vyše 30 LCP auditov, väčšinu na WordPresse a WooCommerce, časť na Astre/Next.js. Vzorce sa opakujú. Tu je sedem najčastejších, v poradí frekvencie, s identifikáciou aj fixom.
 
 ## 1. Hero image bez fetchpriority alebo preloadu
 

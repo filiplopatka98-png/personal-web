@@ -5,9 +5,18 @@ read: 9
 tags: ["WooCommerce", "UX", "Performance"]
 excerpt: "Audit checkoutu jedného eshopu: z 71 % opustených košíkov na 48 %. Deväť konkrétnych úprav s kódom — jednostránkový checkout, žiadny login gate, autocomplete adresy."
 featured: true
+faq:
+  - q: "Čo najviac škodí konverzii na checkoute?"
+    a: "Podľa reálneho auditu mal najväčší dopad gating prihlásením/registráciou — keď je prvé, čo používateľ vidí, výzva na prihlásenie, jednoducho odíde. Samotné odstránenie tohto gatingu a nahradenie guest checkoutom prinieslo +9 % konverzie. Hneď za ním nasledovali jednostránkový checkout, autocomplete adresy a numerická klávesnica na mobile."
+  - q: "Je jednostránkový checkout lepší ako viackrokový?"
+    a: "V tomto audite áno — trojkrokový checkout (Adresa → Doprava → Platba) strácal 18 % používateľov medzi prvým a druhým krokom. Po prechode na jednostránkový checkout, kde sa všetky polia postupne odhaľujú v jednom formulári, sa dokončenie checkoutu na mobile zvýšilo z 22 % na 41 %."
+  - q: "Musím povoliť guest checkout bez registrácie?"
+    a: "Áno, podľa tohto auditu to bola jedna z najúčinnejších zmien. Registrácia sa nastavila ako nepovinná (guest checkout predvolený) a možnosť vytvoriť si konto zostala len ako voliteľný, predvolene neoznačený checkbox po vyplnení e-mailu. Táto jedna zmena priniesla +9 % konverzie sama o sebe."
+  - q: "Ktorá z deviatich úprav mala najväčší dopad?"
+    a: "Podľa odhadu z auditu boli v poradí dopadu najsilnejšie: odstránenie login gatingu, jednostránkový checkout, autocomplete adresy cez API Slovenskej pošty a numerická klávesnica (inputmode=\"numeric\") pre telefón a PSČ. Spolu s ostatými zmenami sa vďaka nim znížila opustenosť košíka zo 71 % na 48 % a konverzia stúpla z 1,4 % na 2,6 %."
 ---
 
-Klient — stredne veľký slovenský eshop s ročným obratom okolo €1,2 mil. — mi prišiel s otázkou: „Tržby od mája rastú, ale opustenosť košíka je 71 %. Vieš s tým niečo urobiť?“ Po týždni auditu som pripravil prioritizovaný zoznam zmien. Tu je 9 z nich, ktoré sme implementovali počas 3 šprintov. Po nasadení **opustenosť košíka klesla na 48 %** a konverzný pomer vzrástol z 1,4 % na 2,6 %.
+Najväčší dopad na konverziu checkoutu mal v tomto audite gating prihlásením a jednostránkový formulár namiesto viackrokového — spolu s ďalšími siedmimi úpravami znížili opustenosť košíka zo 71 % na 48 %. Klient — stredne veľký slovenský eshop s ročným obratom okolo €1,2 mil. — mi prišiel s otázkou: „Tržby od mája rastú, ale opustenosť košíka je 71 %. Vieš s tým niečo urobiť?” Po týždni auditu som pripravil prioritizovaný zoznam zmien. Tu je 9 z nich, ktoré sme implementovali počas 3 šprintov. Po nasadení **opustenosť košíka klesla na 48 %** a konverzný pomer vzrástol z 1,4 % na 2,6 %.
 
 Anonymizované, ale čísla aj riešenia sú reálne.
 

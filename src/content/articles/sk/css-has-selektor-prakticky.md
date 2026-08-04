@@ -24,7 +24,7 @@ Tento článok nie je úvod do syntaxe. Je to zoznam prípadov, kde `:has()` sku
 
 `:has()` je relačný pseudo-selektor: `A:has(B)` vyberie `A`, ak `A` obsahuje (alebo je pred ním v DOM strome, podľa kombinátora) niečo, čo zodpovedá `B`. Najjednoduchší príklad — `a:has(img)` vyberie odkaz, ktorý obsahuje obrázok.
 
-Podpora už nie je téma na diskusiu. `:has()` je **Baseline „Widely available"** od decembra 2023 ([developer.mozilla.org/.../:has](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)), s minimálnou podporou od Chrome/Edge 105, Firefox 121 a Safari 15.4 ([caniuse.com/css-has](https://caniuse.com/css-has)). Ak nepodporuješ prehliadače spred roku 2023, môžeš ho písať bez váhania. Ak áno, nižšie je sekcia o `@supports` fallbacku.
+Podpora už nie je téma na diskusiu. `:has()` je **Baseline „Widely available"** od decembra 2023 ([developer.mozilla.org/.../:has](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)), s minimálnou podporou od Chrome/Edge 105, Firefox 121 a Safari 15.4 ([caniuse.com/css-has](https://caniuse.com/css-has)). Ak nepodporuješ prehliadače spred roku 2023, môžeš ho písať bez váhania. Ak áno, nižšie je sekcia o `@supports` fallbacku. Rovnaký prístup „nasaď a nechaj staršie prehliadače spadnúť na normálne správanie" používam aj pri [Speculation Rules API pre okamžitú navigáciu](/blog/speculation-rules-instant-navigacia/).
 
 ## 1. Validácia formulára bez JS triedy
 

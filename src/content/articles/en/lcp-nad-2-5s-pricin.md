@@ -5,9 +5,18 @@ read: 8
 tags: ["Performance", "Core Web Vitals", "WordPress"]
 excerpt: "Patterns from 30+ audits over six months. Seven concrete causes of slow LCP — each with a way to spot it in the WebPageTest filmstrip and a fix with real code."
 featured: true
+faq:
+  - q: "What is a good LCP value?"
+    a: "The 2.5-second threshold applies to the 75th percentile of real visitors — meaning most people on a real connection, not a test on fast wifi from your desk chair. If LCP sits above that threshold, Core Web Vitals flags it as a problem worth fixing."
+  - q: "What are the most common causes of slow LCP?"
+    a: "Across more than 30 audits, the most common cause is a hero image without fetchpriority or preload — the browser only discovers it after parsing half the page's CSS and JS. Next come render-blocking JS before the closing body tag, slow TTFB over 800ms from cheap hosting, missing WebP/AVIF formats, custom fonts without font-display: swap, main-thread blocking from ads, and a hero element built as a React/Vue component waiting on hydration."
+  - q: "How do I find my page's LCP element?"
+    a: "The most reliable way is Chrome DevTools → Performance → record the page → click the LCP marker in the timeline, which points to the exact element. WebPageTest's filmstrip and waterfall also help, showing when the element downloads and what's blocking it, along with PageSpeed Insights or the CrUX dashboard for real Chrome-user data instead of lab numbers."
+  - q: "What's the fastest way to improve LCP?"
+    a: "In practice, a combination of 2-3 fixes is usually enough: add fetchpriority=\"high\" to the hero image, convert it to WebP/AVIF, and add a page cache plugin if TTFB is slow. That combination is typically enough to move a page from a \"Poor\" to a \"Good\" rating within a couple of hours of work."
 ---
 
-Largest Contentful Paint is merciless. The 2.5-second threshold is for the 75th percentile of real visitors — not for your test over fiber from your desk chair. Over the past six months I've done more than 30 LCP audits, most on WordPress and WooCommerce, some on Astro/Next.js. The patterns repeat. Here are the seven most common, in order of frequency, with both identification and a fix.
+The seven most common causes of slow LCP from more than 30 real audits are: a hero image missing fetchpriority, render-blocking JS, slow TTFB, missing WebP/AVIF, fonts without font-display: swap, blocking from ads, and a hero built as a hydrating React/Vue component. Largest Contentful Paint is merciless. The 2.5-second threshold is for the 75th percentile of real visitors — not for your test over fiber from your desk chair. Over the past six months I've done more than 30 LCP audits, most on WordPress and WooCommerce, some on Astro/Next.js. The patterns repeat. Here are the seven most common, in order of frequency, with both identification and a fix.
 
 ## 1. Hero image without fetchpriority or preload
 

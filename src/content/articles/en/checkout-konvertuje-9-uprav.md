@@ -5,9 +5,18 @@ read: 9
 tags: ["WooCommerce", "UX", "Performance"]
 excerpt: "A checkout audit for one store: from 71% cart abandonment to 48%. Nine concrete fixes with code — single-page checkout, no login gate, address autocomplete."
 featured: true
+faq:
+  - q: "What hurts checkout conversion the most?"
+    a: "In this real audit, the biggest single hit was login/registration gating — when the first thing a user sees is a login prompt, they simply leave. Removing that gate and defaulting to guest checkout alone delivered +9% conversion. Right behind it came single-page checkout, address autocomplete, and a numeric keyboard on mobile."
+  - q: "Is a one-page checkout better than a multi-step one?"
+    a: "In this audit, yes — a 3-step checkout (Address → Shipping → Payment) lost 18% of users between the first and second steps. After switching to a single-page checkout, where fields are progressively revealed in one form, mobile checkout completion rose from 22% to 41%."
+  - q: "Do you need to allow guest checkout without registration?"
+    a: "Yes, this was one of the most effective changes in the audit. Registration was made optional (guest checkout by default), with account creation left as an opt-in, unchecked-by-default checkbox that appears after the email is entered. This single change delivered +9% conversion on its own."
+  - q: "Which of the nine tweaks mattered most?"
+    a: "By estimated impact, the audit ranked them: removing the login gate, single-page checkout, address autocomplete via the Slovak Post API, and numeric inputmode for the phone and postcode fields. Together with the rest of the changes, they helped cut cart abandonment from 71% to 48% and lifted conversion from 1.4% to 2.6%."
 ---
 
-A client — a mid-sized Slovak store with annual revenue around €1.2M — came to me with a question: "revenue has been growing since May, but cart abandonment is 71%. Can you do something about it?" After a week of auditing I produced a prioritized list of changes. Here are 9 of them that we shipped across 3 sprints. After deployment **abandonment dropped to 48%**, and conversion rate rose from 1.4% to 2.6%.
+The biggest driver of checkout conversion in this audit was removing the login gate and switching to a single-page form instead of a multi-step one — together with seven other fixes, they cut cart abandonment from 71% to 48%. A client — a mid-sized Slovak store with annual revenue around €1.2M — came to me with a question: "revenue has been growing since May, but cart abandonment is 71%. Can you do something about it?" After a week of auditing I produced a prioritized list of changes. Here are 9 of them that we shipped across 3 sprints. After deployment **abandonment dropped to 48%**, and conversion rate rose from 1.4% to 2.6%.
 
 Anonymized, but the numbers and solutions are real.
 

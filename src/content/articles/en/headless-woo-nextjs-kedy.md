@@ -5,9 +5,18 @@ read: 8
 tags: ["WooCommerce", "Next.js", "Headless"]
 excerpt: "Headless WooCommerce with Next.js sounds sexy, but costs 3× more than a native store. A decision matrix across 4 axes: when it makes sense, and when it doesn't."
 featured: true
+faq:
+  - q: "When is headless WooCommerce with Next.js worth it?"
+    a: "Headless makes sense when four things line up at once: more than 20,000 products (or at least 5,000+ with a hybrid approach), more than 100k monthly visitors, a team with React/TypeScript skills, and planned customization that native Woo can't handle — like multi-channel (web + app + B2B portal) or a custom checkout flow. If even one of these conditions is missing, headless isn't worth it."
+  - q: "When is classic WooCommerce the better choice?"
+    a: "Classic Woo is the better choice under 5,000 products, under 30k MAU, when the team has a PHP background without React/TypeScript skills, or for a standard store with no planned multi-channel or heavy customization. In a real case with 800 products, 12k MAU, and one PHP developer, all four decision axes pointed to Woo native."
+  - q: "Is headless WooCommerce faster than classic WooCommerce?"
+    a: "At high traffic, yes — static Next.js on a CDN handles spikes (like Black Friday at 10x normal traffic) that would collapse PHP-FPM at 1000 concurrent requests. At lower traffic (under 30k MAU), though, Woo with Redis object cache is fast enough, and the ROI from switching to headless is negative."
+  - q: "What's the difference in cost and maintenance between headless and native Woo?"
+    a: "A new native WooCommerce store costs €4,000-€7,000 (€7,000-€12,000 with a custom theme and perf optimization), while headless WooCommerce + Next.js costs €15,000-€25,000 plus €20-50/mo hosting. Native Woo maintenance runs about 2-4 hours a month for plugin updates; headless runs 6-10 hours a month due to deployment monitoring, Next.js dependency updates, and API versioning."
 ---
 
-A month ago a client asked me whether I should rebuild his WooCommerce store with 800 products into a headless Next.js setup. I looked at his Analytics: traffic of 12k MAU, a small in-house dev team of one person. I said **no**. Here's the matrix I use to decide.
+Headless WooCommerce with Next.js only pays off when four things line up at once — high product count, high traffic, a team with React/TypeScript skills, and real planned customization; otherwise it costs 3x more with no visible benefit. A month ago a client asked me whether I should rebuild his WooCommerce store with 800 products into a headless Next.js setup. I looked at his Analytics: traffic of 12k MAU, a small in-house dev team of one person. I said **no**. Here's the matrix I use to decide.
 
 ## Axis 1: Number of products
 
