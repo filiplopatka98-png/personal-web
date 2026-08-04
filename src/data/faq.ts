@@ -13,7 +13,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
   sk: [
     {
       q: 'Koľko stojí web alebo eshop?',
-      a: 'Landing page od 600 €, firemný web s CMS od 1 000 €, eshop (WooCommerce alebo headless) od 2 000 € a audit existujúceho webu od 300 €. Presnú cenu dostaneš po krátkom briefe podľa rozsahu projektu.',
+      a: 'Landing page od 600 €, firemný web s redakčným systémom od 1 000 €, eshop (WooCommerce alebo na mieru) od 2 000 € a audit existujúceho webu od 300 €. Presnú cenu dostaneš po krátkom briefe podľa rozsahu projektu.',
     },
     {
       q: 'Ako dlho trvá vytvorenie webu?',
@@ -25,11 +25,11 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Postavíš aj eshop na WooCommerce?',
-      a: 'Áno. Robím WooCommerce aj headless eshopy s custom checkoutom, platobnými bránami (Stripe, GoPay, Tatra banka) a napojením na sklad či ERP (Pohoda, MoneyS3), s dôrazom na rýchlosť a konverziu.',
+      a: 'Áno. Robím WooCommerce aj eshopy na mieru s vlastným objednávkovým procesom, platobnými bránami (Stripe, GoPay, Tatra banka) a napojením na sklad či účtovníctvo (Pohoda, MoneyS3), s dôrazom na rýchlosť a konverziu.',
     },
     {
       q: 'Zrýchliš alebo posúdiš môj existujúci web?',
-      a: 'Áno — audit od 300 € zahŕňa analýzu výkonu (Core Web Vitals), SEO, prístupnosti a UX, s prioritizovaným zoznamom opráv a hodinovým video callom. Samotná implementácia opráv je potom samostatný projekt.',
+      a: 'Áno — audit od 300 € zahŕňa analýzu rýchlosti a výkonu webu, SEO, prístupnosti a použiteľnosti, s prioritizovaným zoznamom opráv a hodinovým videohovorom. Samotná implementácia opráv je potom samostatný projekt.',
     },
     {
       q: 'Poskytuješ podporu po spustení?',
