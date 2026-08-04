@@ -91,6 +91,12 @@ const CONTACT_EMAIL = t('menu.email', lang);
   <div class="footer-bottom">
     <div>{t('footer.copy', lang)}</div>
     <nav class="footer-legal" aria-label={lang === 'sk' ? 'Právne informácie' : 'Legal'}>
+      {lang === 'sk' && (
+        <>
+          <a data-cursor="hover" href={`${baseUrl}/tvorba-webovych-stranok/`}>Tvorba webov · Trnavský kraj</a>
+          <span aria-hidden="true">·</span>
+        </>
+      )}
       <a data-cursor="hover" href={privacyHref}>{t('legal.privacy.nav', lang)}</a>
       <span aria-hidden="true">·</span>
       <a data-cursor="hover" href={imprintHref}>{t('legal.imprint.nav', lang)}</a>

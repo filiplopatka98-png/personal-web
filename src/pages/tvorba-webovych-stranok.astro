@@ -1,0 +1,199 @@
+---
+/**
+ * Local SEO landing page (SK-only) targeting the Trnava region:
+ * "tvorba webových stránok Piešťany / Trnava", "tvorba eshopu Trnavský kraj".
+ * One strong regional page (not thin per-city clones → doorway risk). Reuses
+ * the site's components + real local proof (Piešťany clients). No EN alternate.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import Reveal from '../components/Reveal.astro';
+import Blob from '../components/Blob.astro';
+import TrustStats from '../components/TrustStats.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ArticleFaq from '../components/ArticleFaq.astro';
+
+const lang = 'sk';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Real local proof: two delivered projects for businesses in Piešťany.
+const projects = await getCollection('projects');
+const localProof = ['sk/sona-estetic', 'sk/kukodetskysvet']
+  .map((id) => projects.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const whatIDo = [
+  { t: 'Webové stránky na mieru', d: 'Firemné weby a prezentácie s redakčným systémom, ktoré si sám spravuješ.' },
+  { t: 'Eshopy (WooCommerce)', d: 'Online obchody postavené na rast — platobné brány, doprava, napojenie na sklad.' },
+  { t: 'Landing pages', d: 'Jednostránkové weby, ktoré konvertujú — na kampaň alebo jeden produkt.' },
+  { t: 'Audit a zrýchlenie', d: 'Pozriem existujúci web (výkon, SEO, UX) a poviem, čo opraviť.' },
+];
+
+const steps = [
+  { n: '01', t: 'Brief', d: 'Pošleš pár viet o projekte, ozvem sa do 24 hodín.' },
+  { n: '02', t: 'Návrh', d: 'Dohodneme rozsah, cenu a termín. Žiadne prekvapenia.' },
+  { n: '03', t: 'Build', d: 'Postavím web — rýchly, dohľadateľný v Google, ľahký na správu.' },
+  { n: '04', t: 'Launch', d: 'Nasadenie, odovzdanie a podpora po spustení.' },
+];
+
+const faqItems = [
+  {
+    q: 'Robíš weby aj pre firmy mimo Piešťan a Trnavy?',
+    a: 'Áno. Sídlim v Trnavskom kraji, takže s firmami z Piešťan, Trnavy, Hlohovca a okolia sa rád stretnem aj osobne. Rovnako pracujem remote pre klientov z celého Slovenska — celý proces (brief, návrh, odovzdanie) zvládneme aj online.',
+  },
+  {
+    q: 'Koľko stojí webová stránka alebo eshop?',
+    a: 'Orientačne: jednoduchšia webová prezentácia od 600 €, firemný web s redakčným systémom od 1 000 € a eshop od 2 000 €. Presnú cenu dostaneš po krátkom briefe podľa rozsahu. Detailné balíčky nájdeš na stránke Služby.',
+  },
+  {
+    q: 'Ako dlho trvá vytvorenie webu?',
+    a: 'Landing page zvyčajne 2–3 týždne, firemný web 4–6 týždňov a eshop 8–12 týždňov. Presný termín potvrdíme na úvodnom hovore podľa rozsahu a pripravenosti podkladov.',
+  },
+  {
+    q: 'Na čom weby staviaš?',
+    a: 'Najčastejšie na WordPresse a WooCommerce, keď chceš obsah spravovať sám. Keď je prioritou maximálny výkon a špecifické funkcie, staviam na mieru v Next.js. Vyberáme podľa cieľov projektu, nie podľa módy.',
+  },
+  {
+    q: 'Stretneme sa osobne?',
+    a: 'Ak si z Piešťan, Trnavy či okolia, rád áno. Inak celý proces bez problémov zvládneme online — mailom, cez hovor a zdieľané náhľady.',
+  },
+];
+---
+<BaseLayout
+  lang={lang}
+  canonicalPath="/tvorba-webovych-stranok/"
+  breadcrumbName="Tvorba webových stránok"
+  title="Tvorba webov a eshopov — Piešťany, Trnava | Filip Lopatka"
+  description="Tvorba webových stránok a eshopov na mieru pre firmy v Piešťanoch, Trnave a okolí — WordPress, WooCommerce, Next.js. Rýchle, SEO-optimalizované weby. Aj remote."
+>
+  <PageHead
+    eyebrow="TVORBA WEBOV · TRNAVSKÝ KRAJ"
+    titleHtml={'Tvorba webových stránok a eshopov pre firmy v <em>Piešťanoch a Trnave</em>'}
+    lead="Postavím ti rýchly web alebo eshop, ktorý je dohľadateľný v Google a jednoduchý na správu. Pre firmy v Trnavskom kraji — osobne aj remote."
+    blobColor="var(--accent)"
+  />
+
+  <TrustStats locale="sk" />
+
+  {/* Čo robím */}
+  <section class="lp-section">
+    <Reveal>
+      <div class="lp-eyebrow mono">ČO PRE TEBA SPRAVÍM</div>
+    </Reveal>
+    <div class="lp-grid">
+      {whatIDo.map((it, i) => (
+        <Reveal delay={(i % 2) * 0.06}>
+          <div class="lp-card">
+            <h2 class="lp-card-title display">{it.t}</h2>
+            <p class="lp-card-desc">{it.d}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+    <Reveal>
+      <a href={`${baseUrl}/sluzby/`} class="lp-link mono" data-cursor="hover">Pozrieť balíčky a ceny →</a>
+    </Reveal>
+  </section>
+
+  {/* Lokálny dôkaz — reálne projekty z Piešťan */}
+  {localProof.length > 0 && (
+    <section class="lp-proof">
+      <Reveal>
+        <div class="lp-eyebrow mono">REALIZÁCIE</div>
+        <h2 class="lp-proof-title display">Weby, ktoré som robil pre firmy z Piešťan</h2>
+      </Reveal>
+      <div class="lp-proof-grid">
+        {localProof.map((p, i) => (
+          <Reveal delay={i * 0.08}>
+            <ProjectCard entry={p} lang={lang} variant="home" />
+          </Reveal>
+        ))}
+      </div>
+      <Reveal>
+        <a href={`${baseUrl}/praca/`} class="lp-link mono" data-cursor="hover">Všetky realizácie →</a>
+      </Reveal>
+    </section>
+  )}
+
+  {/* Proces */}
+  <section class="lp-section lp-process">
+    <Blob color="var(--accent3)" size={260} position="bottom: 40px; right: 80px; opacity: 0.5;" />
+    <Reveal>
+      <div class="lp-eyebrow mono">AKO TO PREBIEHA</div>
+    </Reveal>
+    <div class="lp-steps">
+      {steps.map((s, i) => (
+        <Reveal delay={i * 0.05}>
+          <div class="lp-step">
+            <div class="lp-step-num mono">{s.n}</div>
+            <div class="lp-step-title display">{s.t}</div>
+            <p class="lp-step-desc">{s.d}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <ArticleFaq items={faqItems} lang={lang} />
+
+  {/* CTA */}
+  <section class="lp-cta">
+    <Reveal>
+      <h2 class="lp-cta-title display">Máš projekt v Trnavskom kraji?</h2>
+      <p class="lp-cta-lead">Pošli mi pár viet o ňom a do 24 hodín sa ozvem s návrhom.</p>
+      <a href={`${baseUrl}/ponuka/`} class="lp-cta-btn mono" data-cursor="hover">Začnime brief →</a>
+    </Reveal>
+  </section>
+</BaseLayout>
+
+<style>
+  .lp-section { padding: 72px 56px; }
+  .lp-eyebrow {
+    font-family: var(--font-mono); font-size: 12px; opacity: 0.78;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 28px;
+  }
+  .lp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .lp-card {
+    padding: 28px; background: var(--bg2); border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+  .lp-card-title { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; margin: 0 0 10px; }
+  .lp-card-desc { margin: 0; font-size: 15px; line-height: 1.6; opacity: 0.82; }
+  .lp-link {
+    display: inline-block; margin-top: 28px; font-family: var(--font-mono);
+    font-size: 14px; color: var(--accent-text); text-decoration: none;
+  }
+  .lp-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  .lp-proof { padding: 72px 56px; background: var(--bg2);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
+  .lp-proof-title { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 32px; }
+  .lp-proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+  .lp-process { position: relative; overflow: hidden; }
+  .lp-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .lp-step-num { font-family: var(--font-mono); font-size: 13px; color: var(--accent-text); margin-bottom: 10px; }
+  .lp-step-title { font-family: var(--font-display); font-size: 22px; line-height: 1.1; margin-bottom: 8px; }
+  .lp-step-desc { margin: 0; font-size: 14px; line-height: 1.55; opacity: 0.8; }
+
+  .lp-cta { padding: 80px 56px; text-align: center; }
+  .lp-cta-title { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 12px; }
+  .lp-cta-lead { margin: 0 auto 28px; max-width: 46ch; font-size: 17px; line-height: 1.6; opacity: 0.82; }
+  .lp-cta-btn {
+    display: inline-block; padding: 14px 28px; background: var(--ink); color: var(--bg);
+    font-family: var(--font-mono); font-size: 14px; text-decoration: none; border-radius: 999px;
+  }
+  .lp-cta-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 1024px) {
+    .lp-section, .lp-proof, .lp-cta { padding-left: 32px; padding-right: 32px; }
+    .lp-steps { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  }
+  @media (max-width: 768px) {
+    .lp-section, .lp-proof, .lp-cta { padding: 56px 20px; }
+    .lp-grid, .lp-proof-grid { grid-template-columns: 1fr; }
+    .lp-proof-title, .lp-cta-title { font-size: 28px; }
+  }
+</style>

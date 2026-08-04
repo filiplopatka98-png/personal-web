@@ -35,6 +35,11 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'en/discovery-call-30-minut',
   'en/brief-3-tyzdne',
   'en/hostingy-sk-vykon',
+  // 2026-08 — nové buyer-intent články (cena, výber technológie)
+  'sk/kolko-stoji-web-eshop-2026',
+  'sk/wordpress-alebo-web-na-mieru',
+  'en/kolko-stoji-web-eshop-2026',
+  'en/wordpress-alebo-web-na-mieru',
 ];
 
 /** Vyfiltruje kolekciu článkov na povolené (ak je allowlist aktívny). */
