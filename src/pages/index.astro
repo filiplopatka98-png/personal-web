@@ -39,7 +39,7 @@ const articles = visibleArticles((await getCollection('articles'))
     <Reveal delay={0.2} class="home-hero-bottom">
       <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
       <div class="home-hero-ctas">
-        <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} data-cursor="hover" class="btn-primary">{t('cta.schedule', lang)} →</a>
+        <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} data-cursor="hover" data-umami-event="brief-start" class="btn-primary">{t('cta.schedule', lang)} →</a>
       </div>
     </Reveal>
   </section>

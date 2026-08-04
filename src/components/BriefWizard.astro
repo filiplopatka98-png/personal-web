@@ -237,7 +237,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     <div class="brief-nav" data-nav>
       <button type="button" data-cursor="hover" data-back class="brief-btn-back" disabled>← {t('brief.btn.back', lang)}</button>
       <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)} →</button>
-      <button type="submit" data-cursor="hover" data-submit class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
+      <button type="submit" data-cursor="hover" data-submit data-umami-event="brief-submit" class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
     </div>
     <p class="brief-error mono" data-error role="alert" hidden></p>
     </form>

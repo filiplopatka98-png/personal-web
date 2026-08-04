@@ -12,6 +12,7 @@ import { processSteps } from '../data/process';
 import { jsonLd } from '../utils/jsonld';
 import { buildServiceCatalog } from '../utils/serviceCatalog';
 import TrustStats from '../components/TrustStats.astro';
+import PriceCalculator from '../components/PriceCalculator.astro';
 
 const lang = 'sk';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -40,6 +41,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   />
 
   <TrustStats locale="sk" />
+
+  <PriceCalculator lang="sk" />
 
   <section class="services-section">
     <div class="services-grid">

@@ -42,13 +42,13 @@ const CONTACT_EMAIL = t('menu.email', lang);
       <p class="footer-lead">{t('footer.lead', lang)}</p>
       <div class="footer-links">
         <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
-        <a data-cursor="hover" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
+        <a data-cursor="hover" data-umami-event="whatsapp-click" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
         <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn →</a>
         <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook →</a>
         <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="me noopener noreferrer">Instagram →</a>
       </div>
       <div class="footer-cta">
-        <a href={briefHref} data-cursor="hover" class="footer-brief-btn">
+        <a href={briefHref} data-cursor="hover" data-umami-event="brief-start" class="footer-brief-btn">
           {t('footer.briefStart', lang)}
         </a>
       </div>
@@ -80,7 +80,7 @@ const CONTACT_EMAIL = t('menu.email', lang);
           <label for="footer-form-message">{t('footer.formDesc', lang)}</label>
           <textarea name="message" id="footer-form-message" rows="4" required></textarea>
         </div>
-        <button type="submit" data-cursor="hover" class="footer-submit">
+        <button type="submit" data-cursor="hover" data-umami-event="contact-submit" class="footer-submit">
           {t('footer.formSend', lang)}
         </button>
         <p class="footer-form-status" data-status role="alert" hidden></p>

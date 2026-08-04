@@ -1,0 +1,566 @@
+---
+/**
+ * PriceCalculator — interactive lead-gen tool answering the #1 buyer
+ * question on the services pages: "how much would my site cost?".
+ * Single self-contained card, vanilla JS (no framework), bilingual via a
+ * local locale map (same pattern as TrustStats.astro). All numbers below
+ * are orientačné (rough, non-binding) — tune freely.
+ */
+import Reveal from './Reveal.astro';
+
+export interface Props {
+  lang: 'sk' | 'en';
+}
+
+const { lang } = Astro.props;
+
+// ---- Pricing constants (EUR) — tunable, kept in one place on purpose ----
+const BASE_PRICE: Record<'landing' | 'web' | 'eshop', number> = {
+  landing: 600,
+  web: 1000,
+  eshop: 2000,
+};
+
+const ADDON_PRICE: Record<
+  'multilang' | 'blog' | 'booking' | 'stock' | 'migration' | 'content',
+  number
+> = {
+  multilang: 300,
+  blog: 200,
+  booking: 500,
+  stock: 400,
+  migration: 300,
+  content: 400,
+};
+
+const PRODUCT_COUNT_ADD: Record<'do50' | 'mid' | 'large', number> = {
+  do50: 0,
+  mid: 500,
+  large: 1500,
+};
+
+// [low, high] weeks per base project type. `high` gets +1 per 2 selected
+// add-ons (computed client-side) — naturally capped by the 6 add-ons on offer.
+const TIMELINE_WEEKS: Record<'landing' | 'web' | 'eshop', [number, number]> = {
+  landing: [2, 3],
+  web: [4, 6],
+  eshop: [8, 12],
+};
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const ctaHref = lang === 'sk' ? `${baseUrl}/ponuka/` : `${baseUrl}/en/brief/`;
+
+const L = lang === 'sk' ? {
+  heading: 'Koľko by stál váš web?',
+  sub: 'Orientačný odhad za pár klikov. Presnú cenu dostaneš po krátkom briefe — toto je len vodítko, nie záväzná ponuka.',
+  step1Title: 'Typ projektu',
+  step2Title: 'Doplnky',
+  step3Title: 'Počet produktov',
+  types: [
+    { key: 'landing', name: 'Landing page', priceLabel: 'od 600 €' },
+    { key: 'web', name: 'Firemný web', priceLabel: 'od 1 000 €' },
+    { key: 'eshop', name: 'Eshop', priceLabel: 'od 2 000 €' },
+  ],
+  addons: [
+    { key: 'multilang', label: 'Viacjazyčnosť' },
+    { key: 'blog', label: 'Blog / aktuality' },
+    { key: 'booking', label: 'Rezervačný alebo objednávkový systém' },
+    { key: 'stock', label: 'Napojenie na sklad či účtovníctvo' },
+    { key: 'migration', label: 'Prenos z existujúceho webu' },
+    { key: 'content', label: 'Texty a fotky na mieru' },
+  ],
+  products: [
+    { key: 'do50', label: 'do 50' },
+    { key: 'mid', label: '50 – 500' },
+    { key: 'large', label: '500+' },
+  ],
+  neutralPrompt: 'Vyber typ projektu',
+  estimatePrefix: 'Orientačne od',
+  weeksSuffix: 'týždňov',
+  ctaLabel: 'Chcem presnú ponuku',
+  disclaimer: 'Orientačný odhad — presnú cenu dostaneš po krátkom briefe, nejde o záväznú ponuku.',
+} : {
+  heading: 'How much would your website cost?',
+  sub: "A rough estimate in a few clicks. You'll get an exact price after a short brief — this is a guide, not a binding quote.",
+  step1Title: 'Project type',
+  step2Title: 'Add-ons',
+  step3Title: 'Number of products',
+  types: [
+    { key: 'landing', name: 'Landing page', priceLabel: 'from €600' },
+    { key: 'web', name: 'Company website', priceLabel: 'from €1,000' },
+    { key: 'eshop', name: 'Online store', priceLabel: 'from €2,000' },
+  ],
+  addons: [
+    { key: 'multilang', label: 'Multiple languages' },
+    { key: 'blog', label: 'Blog / news' },
+    { key: 'booking', label: 'Booking or ordering system' },
+    { key: 'stock', label: 'Stock or accounting integration' },
+    { key: 'migration', label: 'Migration from an existing site' },
+    { key: 'content', label: 'Custom copy & photos' },
+  ],
+  products: [
+    { key: 'do50', label: 'up to 50' },
+    { key: 'mid', label: '50–500' },
+    { key: 'large', label: '500+' },
+  ],
+  neutralPrompt: 'Pick a project type',
+  estimatePrefix: 'Estimated from',
+  weeksSuffix: 'weeks',
+  ctaLabel: 'Get an exact quote',
+  disclaimer: "Rough estimate only — you'll get an exact price after a short brief, not a binding quote.",
+};
+
+// Mirrored into a data attribute so the inline script (which re-runs on
+// astro:page-load, i.e. after a fresh DOM swap with no Astro props around)
+// has everything it needs without re-deriving strings.
+const calcConfig = JSON.stringify({
+  base: BASE_PRICE,
+  addons: ADDON_PRICE,
+  products: PRODUCT_COUNT_ADD,
+  weeks: TIMELINE_WEEKS,
+  lang,
+  i18n: {
+    neutral: L.neutralPrompt,
+    estimatePrefix: L.estimatePrefix,
+    weeksSuffix: L.weeksSuffix,
+  },
+});
+---
+<Reveal>
+  <section class="price-calc" aria-labelledby={`price-calc-title-${lang}`}>
+    <div class="price-calc-inner" data-calc-root data-calc-config={calcConfig}>
+      <div class="price-calc-head">
+        <h2 id={`price-calc-title-${lang}`} class="price-calc-title display">{L.heading}</h2>
+        <p class="price-calc-sub">{L.sub}</p>
+      </div>
+
+      <div class="price-calc-card">
+        <div class="price-calc-body">
+          <fieldset class="price-calc-step">
+            <legend class="price-calc-step-title mono">{L.step1Title}</legend>
+            <div class="price-calc-types">
+              {L.types.map((opt) => (
+                <label class="price-calc-type">
+                  <input type="radio" name={`calc-type-${lang}`} value={opt.key} data-calc-type />
+                  <span class="price-calc-type-content">
+                    <span class="price-calc-type-name display">{opt.name}</span>
+                    <span class="price-calc-type-price mono">{opt.priceLabel}</span>
+                  </span>
+                  <span class="price-calc-type-check" aria-hidden="true">✓</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="price-calc-step">
+            <legend class="price-calc-step-title mono">{L.step2Title}</legend>
+            <div class="price-calc-addons">
+              {L.addons.map((opt) => (
+                <label class="price-calc-addon">
+                  <input type="checkbox" value={opt.key} data-calc-addon />
+                  <span class="price-calc-addon-box" aria-hidden="true">✓</span>
+                  <span class="price-calc-addon-label">{opt.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="price-calc-step price-calc-step-eshop" data-calc-eshop-step hidden>
+            <legend class="price-calc-step-title mono">{L.step3Title}</legend>
+            <select class="price-calc-select" data-calc-products aria-label={L.step3Title}>
+              {L.products.map((opt) => (
+                <option value={opt.key}>{opt.label}</option>
+              ))}
+            </select>
+          </fieldset>
+        </div>
+
+        <div class="price-calc-output" aria-live="polite">
+          <div class="price-calc-output-number display is-neutral" data-calc-price>{L.neutralPrompt}</div>
+          <div class="price-calc-output-weeks mono" data-calc-weeks hidden></div>
+          <a
+            href={ctaHref}
+            class="price-calc-cta mono"
+            data-cursor="hover"
+            data-umami-event="calculator-cta"
+          >
+            {L.ctaLabel} →
+          </a>
+          <p class="price-calc-disclaimer">{L.disclaimer}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Reveal>
+
+<style>
+  .price-calc {
+    padding: 72px 56px;
+  }
+  .price-calc-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .price-calc-head {
+    max-width: 640px;
+    margin: 0 0 36px;
+  }
+  .price-calc-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw + 8px, 48px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+  }
+  .price-calc-sub {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.75;
+  }
+
+  .price-calc-card {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: start;
+    padding: 40px;
+    background: var(--bg2);
+    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    border-radius: var(--radius-large);
+  }
+
+  .price-calc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    min-width: 0;
+  }
+  .price-calc-step {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .price-calc-step-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+
+  /* Step 1 — project type, clickable cards */
+  .price-calc-types {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .price-calc-type {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    background: transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .price-calc-type input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .price-calc-type:hover {
+    border-color: color-mix(in srgb, var(--ink) 50%, transparent);
+  }
+  .price-calc-type:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+  .price-calc-type:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+  .price-calc-type-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .price-calc-type-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    line-height: 1.1;
+  }
+  .price-calc-type-price {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-text);
+  }
+  .price-calc-type-check {
+    color: var(--accent);
+    font-size: 18px;
+    opacity: 0;
+    flex-shrink: 0;
+  }
+  .price-calc-type:has(input:checked) .price-calc-type-check {
+    opacity: 1;
+  }
+
+  /* Step 2 — add-ons */
+  .price-calc-addons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .price-calc-addon {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 16%, transparent);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .price-calc-addon input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .price-calc-addon:hover {
+    border-color: color-mix(in srgb, var(--ink) 40%, transparent);
+  }
+  .price-calc-addon:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .price-calc-addon:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+  .price-calc-addon-box {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 32%, transparent);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: transparent;
+    transition: all 0.15s;
+  }
+  .price-calc-addon:has(input:checked) .price-calc-addon-box {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+  .price-calc-addon-label {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Step 3 — eshop product count (hidden unless eshop chosen) */
+  .price-calc-step-eshop[hidden] {
+    display: none;
+  }
+  .price-calc-select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-card);
+    border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+  }
+  .price-calc-select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Output panel */
+  .price-calc-output {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 26px;
+    text-align: center;
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+    border-radius: var(--radius-card);
+  }
+  .price-calc-output-number {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(26px, 3vw + 10px, 38px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--accent-text);
+  }
+  .price-calc-output-number.is-neutral {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+  .price-calc-output-weeks {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    opacity: 0.8;
+  }
+  .price-calc-cta {
+    display: inline-block;
+    margin-top: 4px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 14px 22px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .price-calc-cta:hover {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .price-calc-disclaimer {
+    margin: 4px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+    opacity: 0.6;
+    max-width: 28ch;
+  }
+
+  @media (max-width: 1024px) {
+    .price-calc { padding: 48px 32px; }
+    .price-calc-card {
+      grid-template-columns: 1fr;
+      padding: 32px 28px;
+      gap: 32px;
+    }
+    .price-calc-output {
+      position: static;
+    }
+  }
+  @media (max-width: 768px) {
+    .price-calc { padding: 40px 20px; }
+    .price-calc-title { font-size: 30px; }
+    .price-calc-card { padding: 24px 20px; gap: 28px; }
+    .price-calc-body { gap: 26px; }
+    .price-calc-type { padding: 14px 16px; }
+    .price-calc-type-name { font-size: 18px; }
+    .price-calc-output { padding: 26px 20px; }
+  }
+</style>
+
+<script>
+  interface CalcConfig {
+    base: Record<string, number>;
+    addons: Record<string, number>;
+    products: Record<string, number>;
+    weeks: Record<string, [number, number]>;
+    lang: 'sk' | 'en';
+    i18n: { neutral: string; estimatePrefix: string; weeksSuffix: string };
+  }
+
+  function initPriceCalculator() {
+    const roots = document.querySelectorAll<HTMLElement>('[data-calc-root]');
+    roots.forEach((root) => {
+      if (root.dataset.calcInitialized === 'true') return;
+      root.dataset.calcInitialized = 'true';
+
+      let config: CalcConfig;
+      try {
+        config = JSON.parse(root.dataset.calcConfig || '{}');
+      } catch {
+        return;
+      }
+      const { base, addons, products, weeks, lang, i18n } = config;
+
+      const typeInputs = root.querySelectorAll<HTMLInputElement>('[data-calc-type]');
+      const addonInputs = root.querySelectorAll<HTMLInputElement>('[data-calc-addon]');
+      const productSelect = root.querySelector<HTMLSelectElement>('[data-calc-products]');
+      const eshopStep = root.querySelector<HTMLElement>('[data-calc-eshop-step]');
+      const priceEl = root.querySelector<HTMLElement>('[data-calc-price]');
+      const weeksEl = root.querySelector<HTMLElement>('[data-calc-weeks]');
+      if (!priceEl) return;
+
+      const currencyFmt = new Intl.NumberFormat(lang === 'sk' ? 'sk' : 'en', {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0,
+      });
+
+      function selectedType(): string | null {
+        const checked = root.querySelector<HTMLInputElement>('[data-calc-type]:checked');
+        return checked ? checked.value : null;
+      }
+
+      function selectedAddonKeys(): string[] {
+        return Array.from(addonInputs)
+          .filter((i) => i.checked)
+          .map((i) => i.value);
+      }
+
+      function update() {
+        const type = selectedType();
+        const isEshop = type === 'eshop';
+        if (eshopStep) eshopStep.hidden = !isEshop;
+
+        if (!type) {
+          priceEl!.textContent = i18n.neutral;
+          priceEl!.classList.add('is-neutral');
+          if (weeksEl) weeksEl.hidden = true;
+          return;
+        }
+        priceEl!.classList.remove('is-neutral');
+
+        const chosenAddons = selectedAddonKeys();
+        let total = base[type] ?? 0;
+        for (const key of chosenAddons) total += addons[key] ?? 0;
+        // Product-count step only counts toward the total while it's the
+        // active (eshop) step — hidden state is ignored per spec.
+        if (isEshop && productSelect) {
+          total += products[productSelect.value] ?? 0;
+        }
+
+        priceEl!.textContent = `${i18n.estimatePrefix} ${currencyFmt.format(total)}`;
+
+        const range = weeks[type];
+        if (range && weeksEl) {
+          const [low, baseHigh] = range;
+          const extraWeeks = Math.floor(chosenAddons.length / 2);
+          const high = baseHigh + extraWeeks;
+          weeksEl.textContent = `${low}–${high} ${i18n.weeksSuffix}`;
+          weeksEl.hidden = false;
+        }
+      }
+
+      typeInputs.forEach((input) => input.addEventListener('change', update));
+      addonInputs.forEach((input) => input.addEventListener('change', update));
+      productSelect?.addEventListener('change', update);
+
+      update();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPriceCalculator);
+  } else {
+    initPriceCalculator();
+  }
+  document.addEventListener('astro:page-load', initPriceCalculator);
+</script>
