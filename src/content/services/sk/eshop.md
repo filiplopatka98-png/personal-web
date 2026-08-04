@@ -8,7 +8,7 @@ desc: "E-shop s checkoutom, platbami, integráciou skladu. Optimalizovaný na v�
 featured: false
 includes:
   - "Workshop k štruktúre a obsahu eshopu"
-  - "Custom checkout flow"
+  - "Vlastný objednávkový proces (checkout)"
   - "Platobné brány (Stripe, GoPay, Tatra)"
   - "Sklad/ERP integrácia (Pohoda, MoneyS3)"
   - "Garancia rýchleho načítania (do 1,5 s)"

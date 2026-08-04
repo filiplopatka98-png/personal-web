@@ -8,7 +8,7 @@ desc: "E-shop with checkout, payments, inventory integration. Optimized for perf
 featured: false
 includes:
   - "Structure & content workshop"
-  - "Custom checkout flow"
+  - "Their own checkout process"
   - "Payment gateways (Stripe, GoPay, Tatra)"
   - "Inventory/ERP integration (Pohoda, MoneyS3)"
   - "Guaranteed fast loading (under 1.5s)"
