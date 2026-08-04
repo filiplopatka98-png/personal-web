@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * *'   # denný refresh monitorix čísel na statickom webe
 
 permissions:
   contents: read
@@ -36,6 +38,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_MONITORIX_URL: ${{ secrets.PUBLIC_MONITORIX_URL }}
+          PUBLIC_MONITORIX_ANON_KEY: ${{ secrets.PUBLIC_MONITORIX_ANON_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
