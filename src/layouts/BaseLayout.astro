@@ -77,6 +77,9 @@ const ogImageUrl = `${siteUrl}${baseUrl}${ogImage ?? '/og-default.png'}`;
 const personId = `${siteUrl}${baseUrl}/#person`;
 const orgId = `${siteUrl}${baseUrl}/#organization`;
 const logoUrl = `${siteUrl}${baseUrl}/og-default.png`;
+// Square brand mark for schema.org logo (knowledge panel / Article rich result).
+// og-default.png (1200×630) is too wide for a logo; the favicon is the square mark.
+const logoSquareUrl = `${siteUrl}${baseUrl}/favicon.svg`;
 const postalAddress = {
   '@type': 'PostalAddress',
   addressLocality: 'Veľké Kostoľany',
@@ -119,7 +122,7 @@ const organizationLd = {
   '@id': orgId,
   name: 'Filip Lopatka — Web Developer',
   url: `${siteUrl}${baseUrl}/`,
-  logo: { '@type': 'ImageObject', url: logoUrl },
+  logo: { '@type': 'ImageObject', url: logoSquareUrl },
   image: logoUrl,
   description: fullDesc,
   email: 'mailto:filip@lopatka.sk',

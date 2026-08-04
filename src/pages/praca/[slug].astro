@@ -76,6 +76,7 @@ const projectLd = {
   url: fullProjectUrl,
   about: data.kind,
   inLanguage: 'sk-SK',
+  ...(data.stack.length > 0 && { keywords: data.stack.join(', ') }),
   ...(data.url && { sameAs: [`https://${data.url}`] }),
 };
 ---
