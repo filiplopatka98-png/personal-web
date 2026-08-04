@@ -14,6 +14,13 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'en/checkout-konvertuje-9-uprav',
   'en/lcp-nad-2-5s-pricin',
   'en/headless-woo-nextjs-kedy',
+  // 2026-08 — nové články (HPOS, Speculation Rules, CSS :has())
+  'sk/woocommerce-hpos-migracia',
+  'sk/speculation-rules-instant-navigacia',
+  'sk/css-has-selektor-prakticky',
+  'en/woocommerce-hpos-migracia',
+  'en/speculation-rules-instant-navigacia',
+  'en/css-has-selektor-prakticky',
 ];
 
 /** Vyfiltruje kolekciu článkov na povolené (ak je allowlist aktívny). */
