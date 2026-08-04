@@ -4,6 +4,39 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import rehypeExternalLinks from 'rehype-external-links';
+import { readdirSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+// ── Sitemap <lastmod> map ────────────────────────────────────────────────
+// @astrojs/sitemap omits <lastmod> by default. We parse `updated`/`date` from
+// article frontmatter and feed it back via `serialize` so search + AI crawlers
+// get a real freshness signal. Only matched URLs get a lastmod; others are
+// left untouched. (Projects use `year`, not a date, so they get none — fine.)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const SITE = 'https://lopatka.sk';
+
+function frontmatterISODate(file) {
+  const src = readFileSync(file, 'utf8');
+  const upd = src.match(/^updated:\s*['"]?(\d{4}-\d{2}-\d{2})/m);
+  const pub = src.match(/^date:\s*['"]?(\d{4}-\d{2}-\d{2})/m);
+  const d = upd?.[1] ?? pub?.[1];
+  return d ? new Date(`${d}T00:00:00Z`).toISOString() : null;
+}
+
+const lastmodByUrl = {};
+function mapContentDir(dir, toUrl) {
+  let names;
+  try { names = readdirSync(dir); } catch { return; }
+  for (const name of names) {
+    if (!/\.mdx?$/.test(name)) continue;
+    const iso = frontmatterISODate(join(dir, name));
+    if (iso) lastmodByUrl[toUrl(name.replace(/\.mdx?$/, ''))] = iso;
+  }
+}
+const CONTENT = join(__dirname, 'src/content');
+mapContentDir(join(CONTENT, 'articles/sk'), (s) => `${SITE}/blog/${s}/`);
+mapContentDir(join(CONTENT, 'articles/en'), (s) => `${SITE}/en/blog/${s}/`);
 
 // https://astro.build/config
 export default defineConfig({
@@ -58,6 +91,11 @@ export default defineConfig({
       i18n: {
         defaultLocale: 'sk',
         locales: { sk: 'sk-SK', en: 'en-US' },
+      },
+      serialize(item) {
+        const iso = lastmodByUrl[item.url];
+        if (iso) item.lastmod = iso;
+        return item;
       },
     }),
   ],

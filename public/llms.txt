@@ -16,6 +16,14 @@ WordPress, WooCommerce, Next.js, React, Astro, headless CMS, web performance and
 - [Blog (EN)](https://lopatka.sk/en/blog/) · [Blog (SK)](https://lopatka.sk/blog/) — practical articles on WordPress, WooCommerce, Next.js, Astro, Core Web Vitals, performance, SEO and accessibility, from real projects.
 - [Selected work (EN)](https://lopatka.sk/en/work/) · [Realizácie (SK)](https://lopatka.sk/praca/) — case studies of delivered websites and e-shops.
 
+## Selected articles
+- [WooCommerce checkout: 9 conversion tweaks](https://lopatka.sk/en/blog/checkout-konvertuje-9-uprav/)
+- [Fixing an LCP over 2.5s](https://lopatka.sk/en/blog/lcp-nad-2-5s-pricin/)
+- [Headless WooCommerce with Next.js — when it's worth it](https://lopatka.sk/en/blog/headless-woo-nextjs-kedy/)
+- [WooCommerce HPOS: migrating orders to the new tables safely](https://lopatka.sk/en/blog/woocommerce-hpos-migracia/)
+- [Speculation Rules API — near-instant navigation](https://lopatka.sk/en/blog/speculation-rules-instant-navigacia/)
+- [CSS :has() in practice — the parent selector without JS](https://lopatka.sk/en/blog/css-has-selektor-prakticky/)
+
 ## Contact
 - Email: filip@lopatka.sk
 - WhatsApp/phone: +421 904 902 736
