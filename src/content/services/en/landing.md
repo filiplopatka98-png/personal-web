@@ -13,5 +13,5 @@ includes:
   - "Hosting setup (Vercel/Cloudflare)"
   - "Analytics + form integration"
   - "1 month of support"
-notFor: "E-shops, multilingual sites, CMS administration."
+notFor: "E-shops, multilingual sites, managing large amounts of content."
 ---
