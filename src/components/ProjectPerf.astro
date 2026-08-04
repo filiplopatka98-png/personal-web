@@ -1,0 +1,60 @@
+---
+import rawData from '../data/monitorix.json';
+import { normalizeDomain } from '../utils/domain';
+import { coerceSitePerf, formatUptime, formatLcp, type SitePerf } from '../utils/monitorixStats';
+import Reveal from './Reveal.astro';
+
+interface Props { url?: string; locale?: 'sk' | 'en'; }
+const { url, locale = 'sk' } = Astro.props;
+
+const sites = rawData.sites as Record<string, unknown>;
+const perf: SitePerf | null = url ? coerceSitePerf(sites[normalizeDomain(url)]) : null;
+
+const L = {
+  sk: { eyebrow: 'Reálny výkon (monitorix)', perf: 'Performance', lcp: 'LCP', uptime: 'Dostupnosť 30 dní' },
+  en: { eyebrow: 'Live performance (monitorix)', perf: 'Performance', lcp: 'LCP', uptime: 'Uptime 30d' },
+}[locale];
+
+const lcp = perf ? formatLcp(perf.lcp_ms, locale) : null;
+const uptime = perf ? formatUptime(perf.uptime_30d, locale) : null;
+
+const items = perf ? [
+  perf.performance_score != null && { label: L.perf, value: `${perf.performance_score}/100` },
+  lcp && { label: L.lcp, value: lcp },
+  uptime && { label: L.uptime, value: uptime },
+].filter(Boolean) as { label: string; value: string }[] : [];
+---
+{items.length > 0 && (
+  <Reveal>
+    <section class="proj-perf">
+      <div class="proj-perf__eyebrow mono">{L.eyebrow}</div>
+      <dl class="proj-perf__grid">
+        {items.map((it) => (
+          <div class="proj-perf__cell">
+            <dt class="mono">{it.label}</dt>
+            <dd class="display">{it.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  </Reveal>
+)}
+
+<style>
+  .proj-perf { padding: 40px 56px; }
+  .proj-perf__eyebrow { font-family: var(--font-mono); font-size: 12px; opacity: 0.78;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .proj-perf__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 0; }
+  .proj-perf__cell dt { font-family: var(--font-mono); font-size: 12px; opacity: 0.78;
+    text-transform: uppercase; letter-spacing: 0.05em; }
+  .proj-perf__cell dd { margin: 6px 0 0; font-family: var(--font-display); font-size: 40px;
+    line-height: 0.95; color: var(--accent); }
+  @media (max-width: 1024px) {
+    .proj-perf { padding: 32px 32px; }
+  }
+  @media (max-width: 768px) {
+    .proj-perf { padding: 32px 20px; }
+    .proj-perf__grid { grid-template-columns: 1fr; gap: 16px; }
+    .proj-perf__cell dd { font-size: 32px; }
+  }
+</style>
