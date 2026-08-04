@@ -21,6 +21,20 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'en/woocommerce-hpos-migracia',
   'en/speculation-rules-instant-navigacia',
   'en/css-has-selektor-prakticky',
+  // 2026-08 — buyer-intent články (SK lokál + EN medzinárodne): cena, výber,
+  // porovnania, proces — ťahajú klientov, nie devov.
+  'sk/cenotvorba-eshop-models',
+  'sk/woocommerce-vs-shopify',
+  'sk/sk-platobne-brany-2026',
+  'sk/discovery-call-30-minut',
+  'sk/brief-3-tyzdne',
+  'sk/hostingy-sk-vykon',
+  'en/cenotvorba-eshop-models',
+  'en/woocommerce-vs-shopify',
+  'en/sk-platobne-brany-2026',
+  'en/discovery-call-30-minut',
+  'en/brief-3-tyzdne',
+  'en/hostingy-sk-vykon',
 ];
 
 /** Vyfiltruje kolekciu článkov na povolené (ak je allowlist aktívny). */
