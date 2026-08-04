@@ -7,9 +7,9 @@ tagline: "Pozriem sa na váš web a poviem, čo opraviť."
 desc: "Hĺbkový audit existujúceho webu — výkon, SEO, prístupnosť, UX. Výstup: PDF + 1h video call."
 featured: false
 includes:
-  - "Lighthouse + WebPageTest analýza"
-  - "SEO audit (Search Console, Ahrefs)"
-  - "UX heuristics na 5 kľúčových flow"
+  - "Analýza rýchlosti a technického stavu webu"
+  - "SEO analýza — dohľadateľnosť v Google"
+  - "Kontrola 5 najdôležitejších miest, kde návštevník niečo robí (napr. objednávka, formulár)"
   - "Prioritizovaný zoznam opráv"
   - "1h video call s vysvetlením"
 notFor: "Implementácia opráv (samostatný projekt)."

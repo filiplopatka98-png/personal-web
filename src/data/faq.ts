@@ -20,8 +20,8 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
       a: 'Landing page 2–3 týždne, firemný web 4–6 týždňov a eshop 8–12 týždňov. Audit býva hotový do týždňa. Presný termín potvrdíme na úvodnom hovore podľa rozsahu a pripravenosti podkladov.',
     },
     {
-      q: 'WordPress, alebo Next.js/headless — čo je pre mňa lepšie?',
-      a: 'Závisí od projektu. WordPress je ideálny, keď si chceš obsah spravovať sám a rýchlo publikovať. Next.js alebo headless volím pri dôraze na maximálny výkon a custom funkcie. Poradím ti podľa cieľov, nie podľa módy.',
+      q: 'WordPress, alebo riešenie na mieru — čo je pre mňa lepšie?',
+      a: 'Závisí od projektu. WordPress je ideálny, keď si chceš obsah spravovať sám a rýchlo publikovať. Riešenie na mieru volím pri dôraze na maximálny výkon a custom funkcie. Poradím ti podľa cieľov, nie podľa módy.',
     },
     {
       q: 'Postavíš aj eshop na WooCommerce?',
@@ -46,8 +46,8 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
       a: 'A landing page takes 2–3 weeks, a company website 4–6 weeks, and an online store 8–12 weeks. An audit is usually done within a week. We confirm the exact timeline on a kickoff call based on scope and how ready your content is.',
     },
     {
-      q: 'WordPress or Next.js/headless — which is right for me?',
-      a: 'It depends on the project. WordPress is ideal when you want to manage content yourself and publish quickly. I choose Next.js or headless when maximum performance and custom features matter most. I advise based on your goals, not hype.',
+      q: 'WordPress or a custom-built site — which is right for me?',
+      a: 'It depends on the project. WordPress is ideal when you want to manage content yourself and publish quickly. I choose a custom build when maximum performance and custom features matter most. I advise based on your goals, not hype.',
     },
     {
       q: 'Do you build WooCommerce online stores?',

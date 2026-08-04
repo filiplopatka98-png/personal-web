@@ -32,7 +32,7 @@
   "footer.formError": "Nepodarilo sa odoslať. Skús to znova alebo napíš priamo na {email}.",
   "footer.briefStart": "Začnime brief →",
   "footer.copy": "© 2026 Filip Lopatka",
-  "footer.made": "Vytvorené vo Veľkých Kostoľanoch · v3.2",
+  "footer.made": "Vytvorené vo Veľkých Kostoľanoch",
   "footer.rotating": "DOSTUPNÝ NA NOVÝ PROJEKT · DOSTUPNÝ NA NOVÝ PROJEKT · ",
 
   "site.title": "Tvorba webových stránok a eshopov | Filip Lopatka",
@@ -62,7 +62,7 @@
   "blog.lead": "Krátke poznámky z denného vývoja. Zameranie: WordPress výkon, headless setupy, AI nástroje, Core Web Vitals.",
 
   "home.intro": "Úvod",
-  "home.intro.lead": "Tvorba webových stránok a eshopov na mieru pre malé a stredné firmy. WordPress, WooCommerce, Next.js — s dôrazom na výkon a SEO. Pôsobím v Trnavskom kraji (Piešťany, Trnava) aj remote.",
+  "home.intro.lead": "Tvorba webových stránok a eshopov na mieru pre malé a stredné firmy. Na overených technológiách (WordPress, WooCommerce, Next.js), s dôrazom na rýchlosť webu a nájditeľnosť v Google. Pôsobím v Trnavskom kraji (Piešťany, Trnava) aj remote.",
   "home.workEyebrow": "Vybrané práce",
   "home.workTitle": "Posledné projekty",
   "home.aboutEyebrow": "O mne",
@@ -77,7 +77,7 @@
   "home.locationCity": "Veľké Kostoľany, SK",
   "home.locationTz": "UTC+1",
 
-  "ticker.items": "WordPress,Next.js,Astro,WooCommerce,Core Web Vitals,Prístupnosť,SEO & výkon",
+  "ticker.items": "WordPress,Next.js,Astro,WooCommerce,Rýchlosť webu,Prístupnosť,SEO & výkon",
 
   "nav.nowPill": "Voľný od augusta 2026",
   "nav.now": "teraz",
@@ -101,14 +101,14 @@
   "work.filter": "Filter:",
   "work.filterAll": "Všetko",
 
-  "project.caseStudy": "CASE STUDY",
+  "project.caseStudy": "PRÍPADOVÁ ŠTÚDIA",
   "project.client": "Klient",
   "project.role": "Rola",
   "project.duration": "Trvanie",
   "project.url": "URL",
   "project.brief": "Brief",
   "project.process": "Proces",
-  "project.stack": "Stack",
+  "project.stack": "Technológie",
   "project.next": "Ďalší projekt",
 
   "article.read": "min čítania",

@@ -32,7 +32,7 @@
   "footer.formError": "Couldn't send. Please try again or email {email} directly.",
   "footer.briefStart": "Start a brief →",
   "footer.copy": "© 2026 Filip Lopatka",
-  "footer.made": "Made in Veľké Kostoľany · v3.2",
+  "footer.made": "Made in Veľké Kostoľany",
   "footer.rotating": "AVAILABLE FOR A NEW PROJECT · AVAILABLE FOR A NEW PROJECT · ",
 
   "site.title": "Freelance WordPress & Next.js Developer | Filip Lopatka",
@@ -62,7 +62,7 @@
   "blog.lead": "Short notes from daily development. Focus: WordPress performance, headless setups, AI tools, Core Web Vitals.",
 
   "home.intro": "Intro",
-  "home.intro.lead": "Freelance web developer focused on performance, SEO and meaningful interfaces. WordPress, Next.js, React — from landing pages to large e-shops. Available for remote work worldwide.",
+  "home.intro.lead": "Freelance web developer focused on performance, SEO and meaningful interfaces. Built on proven technology (WordPress, Next.js, React), from landing pages to large e-shops. Available for remote work worldwide.",
   "home.workEyebrow": "Selected work",
   "home.workTitle": "Latest projects",
   "home.aboutEyebrow": "About",
@@ -77,7 +77,7 @@
   "home.locationCity": "Veľké Kostoľany, SK",
   "home.locationTz": "UTC+1",
 
-  "ticker.items": "WordPress,Next.js,Astro,WooCommerce,Core Web Vitals,Accessibility,SEO & speed",
+  "ticker.items": "WordPress,Next.js,Astro,WooCommerce,Site speed,Accessibility,SEO & speed",
 
   "nav.nowPill": "Available from August 2026",
   "nav.now": "now",
@@ -108,7 +108,7 @@
   "project.url": "URL",
   "project.brief": "Brief",
   "project.process": "Process",
-  "project.stack": "Stack",
+  "project.stack": "Built with",
   "project.next": "Next project",
 
   "article.read": "min read",

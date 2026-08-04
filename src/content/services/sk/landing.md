@@ -13,5 +13,5 @@ includes:
   - "Hosting setup (Vercel/Cloudflare)"
   - "Analytics + form integrácia"
   - "1 mesiac podpory"
-notFor: "Eshopy, viacjazyčné stránky, CMS administrácia."
+notFor: "Eshopy, viacjazyčné stránky, rozsiahla správa obsahu."
 ---

@@ -22,7 +22,7 @@ const accentColor = `var(--${data.accent})`;
   <div class="proj-cover" style={`background:${accentColor}`}>
     <div class="proj-cover-label">/{cleanSlug}.png</div>
     {variant === 'home' && (
-      <div class="proj-cover-badge float-y">case<br/>study</div>
+      <div class="proj-cover-badge float-y">{lang === 'sk' ? 'ukážka' : <>case<br/>study</>}</div>
     )}
     {variant === 'work' && (
       <div class="proj-cover-pill">↗ {data.year}</div>

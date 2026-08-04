@@ -11,8 +11,8 @@ const data = rawData as MonitorixData;
 const perf: SitePerf | null = url ? coerceSitePerf(data.sites[normalizeDomain(url)]) : null;
 
 const L = {
-  sk: { eyebrow: 'Reálny výkon (monitorix)', perf: 'Performance', lcp: 'LCP', uptime: 'Dostupnosť 30 dní' },
-  en: { eyebrow: 'Live performance (monitorix)', perf: 'Performance', lcp: 'LCP', uptime: 'Uptime 30d' },
+  sk: { eyebrow: 'Reálny výkon tohto webu', perf: 'Rýchlosť webu', lcp: 'Načítanie (LCP)', uptime: 'Dostupnosť (30 dní)' },
+  en: { eyebrow: "This site's real performance", perf: 'Site speed', lcp: 'Load time (LCP)', uptime: 'Uptime (30 days)' },
 }[locale];
 
 const lcp = perf ? formatLcp(perf.lcp_ms, locale) : null;
