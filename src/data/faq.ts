@@ -39,7 +39,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
   en: [
     {
       q: 'How much does a website or online store cost?',
-      a: 'A landing page starts at €600, a company website with a CMS at €1,000, an online store (WooCommerce or headless) at €2,000, and an audit of an existing site at €300. You get an exact quote after a short brief, based on scope.',
+      a: 'A landing page starts at €600, a company website with a content management system at €1,000, an online store (WooCommerce or custom-built) at €2,000, and an audit of an existing site at €300. You get an exact quote after a short brief, based on scope.',
     },
     {
       q: 'How long does it take to build a website?',
@@ -51,11 +51,11 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Do you build WooCommerce online stores?',
-      a: 'Yes. I build both WooCommerce and headless stores with a custom checkout, payment gateways (Stripe, GoPay, Tatra banka) and stock/ERP integration (Pohoda, MoneyS3), focused on speed and conversion.',
+      a: 'Yes. I build both WooCommerce and custom-built stores with their own checkout process, payment gateways (Stripe, GoPay, Tatra banka) and stock or accounting integration (Pohoda, MoneyS3), focused on speed and conversion.',
     },
     {
       q: 'Can you speed up or review my existing website?',
-      a: 'Yes — an audit from €300 covers performance (Core Web Vitals), SEO, accessibility and UX, with a prioritized fix list and a one-hour video call. Implementing the fixes is then a separate project.',
+      a: 'Yes — an audit from €300 covers site speed and technical performance, SEO, accessibility and usability, with a prioritized fix list and a one-hour video call. Implementing the fixes is then a separate project.',
     },
     {
       q: 'Do you provide support after launch?',
