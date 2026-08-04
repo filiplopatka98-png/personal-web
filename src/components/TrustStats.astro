@@ -10,14 +10,38 @@ const data = rawData as MonitorixData;
 const a = coerceAgencyStats(data.agency);
 const show = hasAgencyStats(a);
 
+// Framing matters: to a non-technical visitor "99% uptime" is meaningless
+// without context. The heading + lead make clear these are the CLIENT sites
+// Filip builds AND keeps running — i.e. proof he cares for a site after launch.
 const L = {
-  sk: { region: 'Spoľahlivosť webov v správe', uptime: 'priemerná dostupnosť', sites: 'webov pod 24/7 dohľadom', checks: 'kontrol dostupnosti' },
-  en: { region: 'Reliability of managed sites', uptime: 'average uptime', sites: 'sites monitored 24/7', checks: 'availability checks' },
+  sk: {
+    region: 'Spoľahlivosť webov, ktoré spravujem',
+    eyebrow: 'SPRÁVA & DOHĽAD',
+    title: 'Nielen postavím web — aj ho ustrážim',
+    lead: 'Weby, ktoré klientom spravujem, monitorujem nonstop 24/7. Toto sú reálne čísla priamo z monitoringu:',
+    uptime: 'priemerná dostupnosť',
+    sites: 'webov v mojej správe',
+    checks: 'automatických kontrol',
+  },
+  en: {
+    region: 'Reliability of the sites I manage',
+    eyebrow: 'CARE & MONITORING',
+    title: "I don't just build it — I keep it running",
+    lead: 'I monitor the client sites I manage around the clock. These are real numbers straight from monitoring:',
+    uptime: 'average uptime',
+    sites: 'sites I manage',
+    checks: 'automated checks',
+  },
 }[locale];
 ---
 {show && (
   <Reveal>
     <section class="trust-stats" aria-label={L.region}>
+      <div class="trust-stats__head">
+        <div class="trust-stats__eyebrow mono">{L.eyebrow}</div>
+        <h2 class="trust-stats__title display">{L.title}</h2>
+        <p class="trust-stats__lead">{L.lead}</p>
+      </div>
       <ul class="trust-stats__grid">
         <li>
           <span class="trust-stats__num">{formatUptime(a.avg_uptime_30d, locale)}</span>
@@ -37,9 +61,15 @@ const L = {
 )}
 
 <style>
-  .trust-stats { padding: 48px 56px; background: var(--bg2);
+  .trust-stats { padding: 56px; background: var(--bg2);
     border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
     border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+  .trust-stats__head { max-width: 640px; margin: 0 0 36px; }
+  .trust-stats__eyebrow { font-family: var(--font-mono); font-size: 12px; opacity: 0.78;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .trust-stats__title { font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(26px, 4vw, 38px); line-height: 1.06; letter-spacing: -0.02em; margin: 0 0 12px; }
+  .trust-stats__lead { margin: 0; font-size: 16px; line-height: 1.6; opacity: 0.82; max-width: 56ch; }
   .trust-stats__grid { list-style: none; margin: 0; padding: 0;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .trust-stats__num { display: block; font-family: var(--font-display); font-weight: 400;
@@ -47,10 +77,10 @@ const L = {
   .trust-stats__label { display: block; margin-top: 12px; font-family: var(--font-mono);
     font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.78; }
   @media (max-width: 1024px) {
-    .trust-stats { padding: 40px 32px; }
+    .trust-stats { padding: 48px 32px; }
   }
   @media (max-width: 768px) {
-    .trust-stats { padding: 32px 20px; }
+    .trust-stats { padding: 40px 20px; }
     .trust-stats__grid { grid-template-columns: 1fr; gap: 24px; }
     .trust-stats__num { font-size: 48px; }
   }
