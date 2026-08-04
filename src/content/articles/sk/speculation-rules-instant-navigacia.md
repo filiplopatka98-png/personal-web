@@ -5,9 +5,18 @@ read: 7
 tags: ["Performance"]
 excerpt: "Prehliadač vie stiahnuť a vykresliť ďalšiu stránku ešte predtým, než na ňu klikneš — bez SPA, bez frameworku. Ukážem reálnu konfiguráciu Speculation Rules API, kde sú riziká a ako to nasadiť na WordPress aj statický web."
 featured: false
+faq:
+  - q: "Čo robí Speculation Rules API?"
+    a: "Speculation Rules API umožňuje prehliadaču vopred stiahnuť (prefetch) alebo rovno vykresliť (prerender) stránku, na ktorú používateľ pravdepodobne klikne, ešte predtým, než k tomu dôjde. Pravidlá sa definujú deklaratívne v JSON bloku speculationrules alebo cez HTTP hlavičku, bez potreby SPA či frameworku. Vďaka tomu môže byť navigácia na ďalšiu stránku prakticky okamžitá."
+  - q: "Aký je rozdiel medzi prefetch a prerender?"
+    a: "Prefetch iba stiahne dokument do pamäte, ale nič nevykresľuje — je to bezpečnejšia a lacnejšia voľba. Prerender ide ďalej: skutočne otvorí stránku v skrytom pozadí, spustí jej JavaScript a plne ju vyrenderuje, takže po kliknutí prehliadač len prepne na hotovú kartu. Prerender prináša väčší zisk, ale aj väčšie riziko, lebo spúšťa cudziu stránku vrátane jej vedľajších efektov ešte pred samotným kliknutím."
+  - q: "Podporujú Speculation Rules všetky prehliadače?"
+    a: "Nie. Plná podpora (prerender aj document rules s eagerness) je od Chrome/Edge 109, pričom eagerness a where pravidlá pribudli až v Chrome/Edge 121. Firefox to zatiaľ nepodporuje a Safari to má od verzie 26.2 za experimentálnym prepínačom, vypnuté defaultne. Keďže API sa v nepodporujúcich prehliadačoch jednoducho ignoruje, ide o bezpečné progresívne vylepšenie bez nutnosti fallback kódu."
+  - q: "Aké sú riziká používania Speculation Rules API?"
+    a: "Hlavné riziká sú tri: plytvanie, keď sa prerender nepremení na návštevu; dvojité spustenie analytiky naviazanej na load event, keďže sa spustí už počas prerenderu; a vedľajšie efekty vlastného JS kódu (napríklad websockety alebo pýtanie notifikácií), ktoré treba ošetriť kontrolou document.prerendering. Prehliadač síce automaticky odkladá takzvané intrusive API ako notifikácie alebo fullscreen až po aktivácii stránky, ale vlastný kód si musí ošetriť vývojár sám."
 ---
 
-Klasická predstava „rýchleho webu" je: optimalizuj obrázky, skráť TTFB, znič blokujúci JavaScript. To všetko platí, ale rieši to len prvé načítanie. Každá ďalšia navigácia — klik na produkt, na článok, na ďalšiu stránku výpisu — znova čaká na DNS, TCP, TLS, request a render. Speculation Rules API rieši práve toto: prehliadač stránku **stiahne a vyrenderuje ešte predtým, než na odkaz klikneš**, takže samotná navigácia pôsobí, akoby prebehla za nula milisekúnd.
+Speculation Rules API rieši to tak, že prehliadač ďalšiu stránku **stiahne a vyrenderuje ešte predtým, než na odkaz klikneš** — deklaratívnymi JSON pravidlami, bez SPA a bez frameworku — takže samotná navigácia pôsobí, akoby prebehla za nula milisekúnd. Klasická predstava „rýchleho webu" je: optimalizuj obrázky, skráť TTFB, znič blokujúci JavaScript — to všetko platí, ale rieši to len prvé načítanie. Každá ďalšia navigácia — klik na produkt, na článok, na ďalšiu stránku výpisu — znova čaká na DNS, TCP, TLS, request a render.
 
 Nie je to nová myšlienka — `<link rel="prefetch">` a nechvalne známy (a dnes deprecated) `<link rel="prerender">` tu boli roky. Rozdiel je, že Speculation Rules API to robí poriadne: deklaratívne JSON pravidlá, kontrola nad tým, kedy sa má prehliadač „stávkovať" na odkaz, a vstavané poistky proti plytvaniu batériou a dátami ([developer.chrome.com/docs/web-platform/prerender-pages](https://developer.chrome.com/docs/web-platform/prerender-pages)).
 

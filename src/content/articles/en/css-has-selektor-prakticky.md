@@ -5,9 +5,18 @@ read: 7
 tags: ["CSS", "Accessibility"]
 excerpt: "For decades \"CSS can't select a parent\" was just true. :has() changed that, and it's been Baseline for two years now. Four real use-cases instead of toy demos, plus the gotchas that can quietly drop your whole rule."
 featured: false
+faq:
+  - q: "What does the CSS :has() selector do?"
+    a: "It's a relational pseudo-class that selects a parent or preceding element based on whether it contains something matching a given condition — for example, a:has(img) selects a link that contains an image. Previously this could only be solved with JavaScript manually toggling classes like has-error. :has() removes that limitation and enables CSS-only solutions for things like form validation, content-conditional layout, or reacting to a native open/checked state."
+  - q: "Does :has() work in all browsers?"
+    a: ":has() has been Baseline Widely available since December 2023, with minimum support from Chrome/Edge 105, Firefox 121, and Safari 15.4. If you don't need to support browsers from before 2023, you can use it without hesitation. For older browsers, a fallback can be added with @supports not selector(:has(...))."
+  - q: "Why can one mistake inside :has() break the entire CSS rule?"
+    a: "Unlike :is() and :where(), which use a forgiving selector list and simply ignore the unsupported part, :has() uses what MDN calls an unforgiving selector list. If even one argument inside :has() can't be parsed — a typo, an unsupported pseudo-element, future syntax — the entire rule is dropped, not just that part. :has() also can't be nested inside itself, and pseudo-elements aren't valid either as its argument or as its anchor."
+  - q: "Why can a selector like body:has(...) hurt performance?"
+    a: "A:has(B) has to walk the entire subtree of A looking for B every time it's evaluated, so the wider the anchor (like body, :root, or *) and the less constrained B is, the bigger the subtree the browser searches on every re-style. MDN recommends anchoring on a narrower container instead and constraining B with a direct-child or sibling combinator, such as :has(> .item) instead of :has(.item). For small components this is negligible, but for large lists of hundreds or thousands of elements it's worth measuring."
 ---
 
-"CSS can't select a parent based on its children" was true for decades, and we learned to live with it — working around it with JS classes like `.has-error` or `.is-active` that someone had to add and remove by hand. `:has()` removed that limitation. It's not a CodePen party trick — it's a selector I now use in production to replace dozens of lines of JS in places where there used to be no other option.
+`:has()` is CSS's relational parent selector — `A:has(B)` selects `A` if it contains something matching `B` — and it's been Baseline "Widely available" for two years now, so it's safe to ship in production without hesitation. For decades "CSS can't select a parent based on its children" was simply true, and we worked around it with JS classes like `.has-error` or `.is-active` that someone had to add and remove by hand. `:has()` removed that limitation — it's not a CodePen party trick, it's a selector I now use in production to replace dozens of lines of JS in places where there used to be no other option.
 
 This isn't a syntax primer. It's a list of cases where `:has()` genuinely replaced JavaScript in shipped code, plus the gotchas I've run into — including one that can silently drop your entire CSS rule.
 

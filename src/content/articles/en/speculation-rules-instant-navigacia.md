@@ -5,9 +5,18 @@ read: 7
 tags: ["Performance"]
 excerpt: "The browser can fetch and render your next page before you even click — no SPA, no framework needed. Here's a real Speculation Rules API config, where the risks are, and how to ship it on WordPress or a static site."
 featured: false
+faq:
+  - q: "What does the Speculation Rules API do?"
+    a: "The Speculation Rules API lets the browser prefetch or fully prerender a page the user is likely to click, before they actually click it. Rules are defined declaratively in a speculationrules JSON block or via an HTTP header, with no SPA or framework required. As a result, navigating to the next page can feel practically instant."
+  - q: "What's the difference between prefetch and prerender?"
+    a: "Prefetch only downloads the document into memory but renders nothing — it's the safer, cheaper option. Prerender goes further: it actually opens the page in a hidden background tab, runs its JavaScript, and fully renders it, so the browser just switches to the finished tab on click. Prerender delivers a bigger payoff but also carries more risk, since it runs someone else's page, side effects included, before the click happens."
+  - q: "Do all browsers support Speculation Rules?"
+    a: "No. Full support (prerender plus document rules with eagerness) landed in Chrome/Edge 109, with eagerness and where rules arriving later in Chrome/Edge 121. Firefox doesn't support it yet, and Safari has had it behind an experimental, off-by-default flag since version 26.2. Since browsers that don't recognize the API simply ignore it, it's a safe progressive enhancement that needs no fallback code."
+  - q: "What are the risks of using the Speculation Rules API?"
+    a: "There are three main risks: wasted speculations when a prerender never turns into a visit; analytics firing twice, since code hooked to the load event runs during the prerender itself; and JS side effects from custom code, like websockets or notification prompts, that need to be guarded with a document.prerendering check. The browser automatically defers so-called intrusive APIs like notifications or fullscreen until after activation, but custom code side effects are the developer's responsibility."
 ---
 
-The usual playbook for a "fast site" is: optimize images, cut TTFB, kill blocking JavaScript. All true, but it only fixes the first load. Every navigation after that — clicking a product, an article, the next page of a listing — waits on DNS, TCP, TLS, the request, and the render all over again. The Speculation Rules API attacks exactly that: the browser **fetches and renders the next page before you click the link**, so the navigation itself feels like it takes zero milliseconds.
+The Speculation Rules API solves this by letting the browser **fetch and render the next page before you even click the link** — via declarative JSON rules, no SPA or framework required — so the navigation itself feels like it takes zero milliseconds. The usual playbook for a "fast site" is: optimize images, cut TTFB, kill blocking JavaScript — all true, but it only fixes the first load. Every navigation after that — clicking a product, an article, the next page of a listing — waits on DNS, TCP, TLS, the request, and the render all over again.
 
 This isn't a new idea — `<link rel="prefetch">` and the now-deprecated `<link rel="prerender">` have existed for years. What's different is that the Speculation Rules API does it properly: declarative JSON rules, control over how confident the browser needs to be before it "bets" on a link, and built-in guardrails against wasting battery and data ([developer.chrome.com/docs/web-platform/prerender-pages](https://developer.chrome.com/docs/web-platform/prerender-pages)).
 

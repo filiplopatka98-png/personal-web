@@ -1,0 +1,105 @@
+---
+/**
+ * ArticleFaq — per-article FAQ accordion + FAQPage structured data
+ * (AEO / Google "People also ask" + AI answer extraction). Content comes from
+ * the article's `faq` frontmatter (src/content/schemas.ts → articleSchema).
+ * Mirrors FaqSection.astro visually but is prop-driven (per-article items) and
+ * sized to the article column (760px). Answers are plain text.
+ */
+import Reveal from './Reveal.astro';
+import { jsonLd } from '../utils/jsonld';
+
+export interface Props {
+  items: Array<{ q: string; a: string }>;
+  lang: 'sk' | 'en';
+}
+
+const { items, lang } = Astro.props;
+const heading = lang === 'sk' ? 'Časté otázky' : 'Frequently asked questions';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((it) => ({
+    '@type': 'Question',
+    name: it.q,
+    acceptedAnswer: { '@type': 'Answer', text: it.a },
+  })),
+};
+---
+{items.length > 0 && (
+  <section class="article-faq" aria-labelledby="article-faq-title">
+    <div class="article-faq-inner">
+      <Reveal>
+        <h2 id="article-faq-title" class="article-faq-title display">{heading}</h2>
+      </Reveal>
+      <div class="article-faq-list">
+        {items.map((it, i) => (
+          <Reveal delay={(i % 3) * 0.05}>
+            <details class="article-faq-item">
+              <summary class="article-faq-q">
+                <span>{it.q}</span>
+                <span class="article-faq-icon" aria-hidden="true"></span>
+              </summary>
+              <div class="article-faq-a"><p>{it.a}</p></div>
+            </details>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+    <script is:inline type="application/ld+json" set:html={jsonLd(faqLd)} />
+  </section>
+)}
+
+<style>
+  .article-faq { padding: 24px 56px 80px; }
+  .article-faq-inner { max-width: 760px; margin: 0 auto; }
+  .article-faq-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 28px;
+  }
+  .article-faq-list { display: flex; flex-direction: column; }
+  .article-faq-item { border-top: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); }
+  .article-faq-item:last-child { border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); }
+  .article-faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    cursor: pointer;
+    list-style: none;
+    padding: 20px 4px;
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .article-faq-q::-webkit-details-marker { display: none; }
+  .article-faq-icon { position: relative; flex: 0 0 18px; width: 18px; height: 18px; }
+  .article-faq-icon::before,
+  .article-faq-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--accent);
+    transition: transform 0.2s ease;
+  }
+  .article-faq-icon::before { top: 8px; left: 0; width: 18px; height: 2px; }
+  .article-faq-icon::after { top: 0; left: 8px; width: 2px; height: 18px; }
+  .article-faq-item[open] .article-faq-icon::after { transform: scaleY(0); }
+  .article-faq-a { padding: 0 4px 22px; max-width: 68ch; }
+  .article-faq-a p { margin: 0; font-size: 16px; line-height: 1.6; opacity: 0.8; }
+  .article-faq-q:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .article-faq { padding: 16px 20px 56px; }
+    .article-faq-title { font-size: 28px; margin-bottom: 20px; }
+    .article-faq-q { font-size: 17px; padding: 18px 2px; }
+  }
+</style>

@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
+import ArticleFaq from '../../components/ArticleFaq.astro';
 import { t } from '../../i18n';
 import { visibleArticles } from '../../content/launch';
 import { jsonLd } from '../../utils/jsonld';
@@ -142,6 +143,8 @@ const articleLd = {
       </div>
     </div>
   </section>
+
+  {data.faq && data.faq.length > 0 && <ArticleFaq items={data.faq} lang="sk" />}
 
   {/* Next article — handoff line 394: 60/56, bg2, top border ink1f */}
   {next && (

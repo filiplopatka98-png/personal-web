@@ -5,9 +5,18 @@ read: 7
 tags: ["CSS", "Accessibility"]
 excerpt: "Roky sme počúvali, že CSS nemá rodičovský selektor. :has() to zmenil — a je to už dva roky Baseline. Štyri reálne use-casy namiesto hračkárskych demos, plus gotchas, ktoré ťa môžu stáť celé pravidlo."
 featured: false
+faq:
+  - q: "Čo robí CSS selektor :has()?"
+    a: "Ide o relačný pseudo-selektor, ktorý vyberie rodičovský alebo predchádzajúci prvok na základe toho, či obsahuje iný prvok zodpovedajúci zadanej podmienke — napríklad a:has(img) vyberie odkaz, ktorý obsahuje obrázok. Predtým sa toto dalo riešiť len JavaScriptom, ktorý ručne pridával a odoberal triedy typu has-error. :has() túto limitáciu odstraňuje a umožňuje čisto CSS riešenia napríklad pri validácii formulárov, podmienenom layoute alebo reakcii na natívny open/checked stav."
+  - q: "Funguje :has() vo všetkých prehliadačoch?"
+    a: ":has() je Baseline Widely available od decembra 2023, s minimálnou podporou od Chrome/Edge 105, Firefox 121 a Safari 15.4. Ak nepodporuješ prehliadače spred roku 2023, dá sa písať bez váhania. Pre staršie prehliadače sa dá pridať fallback cez @supports not selector(:has(...))."
+  - q: "Prečo môže jedna chyba v :has() zhodiť celé CSS pravidlo?"
+    a: "Na rozdiel od :is() a :where(), ktoré používajú takzvaný forgiving selector list a ignorujú len nepodporovanú časť, je :has() podľa MDN unforgiving selector list. Ak čo i len jeden argument vnútri :has() prehliadač nevie spracovať — preklep, nepodporovaný pseudo-element, budúca syntax — padne celé pravidlo, nielen tá jedna časť. :has() sa navyše nedá vnoriť do seba a pseudo-elementy nie sú platné ani ako jeho argument, ani ako kotviaci prvok pred ním."
+  - q: "Prečo je selektor typu body:has(...) pomalý?"
+    a: "Selektor A:has(B) musí pri vyhodnocovaní prejsť celý podstrom A a hľadať v ňom B, takže čím širší je kotviaci prvok (napríklad body, :root alebo *) a čím menej obmedzený je B, tým väčší podstrom sa prehľadáva pri každom re-styli. MDN preto odporúča kotviť na užšom kontajneri a obmedzovať B kombinátorom priameho potomka alebo súrodenca, napríklad :has(> .item) namiesto :has(.item). Pri malých komponentoch je to zanedbateľné, pri veľkých zoznamoch stoviek či tisícok prvkov sa to už oplatí merať."
 ---
 
-„CSS nevie vybrať rodiča na základe potomka" bola desaťročia pravda, s ktorou sme sa naučili žiť — obchádzali sme to JS triedami typu `.has-error` alebo `.is-active`, ktoré niekto musel ručne pridávať a odoberať. `:has()` túto limitáciu odstránil. Nie je to hračka na CodePen demá — je to selektor, ktorým dnes reálne nahrádzam desiatky riadkov JS v projektoch, kde predtým nebola iná možnosť.
+`:has()` je CSS rodičovský (relačný) selektor — `A:has(B)` vyberie `A`, ak obsahuje niečo zodpovedajúce `B` — a je to už dva roky Baseline „Widely available", takže sa dá bez váhania nasadiť v produkcii. Roky pritom platilo, že „CSS nevie vybrať rodiča na základe potomka", a obchádzali sme to JS triedami typu `.has-error` alebo `.is-active`, ktoré niekto musel ručne pridávať a odoberať. `:has()` túto limitáciu odstránil — nie je to hračka na CodePen demá, je to selektor, ktorým dnes reálne nahrádzam desiatky riadkov JS v projektoch, kde predtým nebola iná možnosť.
 
 Tento článok nie je úvod do syntaxe. Je to zoznam prípadov, kde `:has()` skutočne nahradil JavaScript v produkčnom kóde, plus gotchas, na ktoré som narazil — vrátane jedného, ktorý ti vie potichu zhodiť celé CSS pravidlo.
 

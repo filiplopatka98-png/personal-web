@@ -45,6 +45,12 @@ export const articleSchema = z.object({
   // description instead of the (often longer, editorial) excerpt. Keep ≤155.
   metaDescription: z.string().max(160).optional(),
   featured: z.boolean().default(false),
+  // Optional per-article FAQ. Rendered as an accessible <details> accordion +
+  // FAQPage JSON-LD (AEO / People-also-ask / AI answers). Answers = plain text.
+  faq: z.array(z.object({
+    q: z.string().min(1),
+    a: z.string().min(1),
+  })).optional(),
 });
 
 // Service schema per CONTENT_SCHEMA.md
