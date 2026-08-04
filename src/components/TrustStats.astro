@@ -1,0 +1,56 @@
+---
+import rawData from '../data/monitorix.json';
+import { coerceAgencyStats, hasAgencyStats, formatUptime, formatCompact } from '../utils/monitorixStats';
+import Reveal from './Reveal.astro';
+
+interface Props { locale?: 'sk' | 'en'; }
+const { locale = 'sk' } = Astro.props;
+
+const a = coerceAgencyStats(rawData.agency);
+const show = hasAgencyStats(a);
+
+const L = {
+  sk: { region: 'Spoľahlivosť webov v správe', uptime: 'priemerná dostupnosť', sites: 'webov pod 24/7 dohľadom', checks: 'kontrol dostupnosti' },
+  en: { region: 'Reliability of managed sites', uptime: 'average uptime', sites: 'sites monitored 24/7', checks: 'availability checks' },
+}[locale];
+---
+{show && (
+  <Reveal>
+    <section class="trust-stats" aria-label={L.region}>
+      <ul class="trust-stats__grid">
+        <li>
+          <span class="trust-stats__num">{formatUptime(a.avg_uptime_30d, locale)}</span>
+          <span class="trust-stats__label">{L.uptime}</span>
+        </li>
+        <li>
+          <span class="trust-stats__num">{a.sites_monitored}</span>
+          <span class="trust-stats__label">{L.sites}</span>
+        </li>
+        <li>
+          <span class="trust-stats__num">{formatCompact(a.checks_total, locale)}</span>
+          <span class="trust-stats__label">{L.checks}</span>
+        </li>
+      </ul>
+    </section>
+  </Reveal>
+)}
+
+<style>
+  .trust-stats { padding: 48px 56px; background: var(--bg2);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+  .trust-stats__grid { list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .trust-stats__num { display: block; font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px); line-height: 0.9; color: var(--accent); letter-spacing: -0.02em; }
+  .trust-stats__label { display: block; margin-top: 12px; font-family: var(--font-mono);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.78; }
+  @media (max-width: 1024px) {
+    .trust-stats { padding: 40px 32px; }
+  }
+  @media (max-width: 768px) {
+    .trust-stats { padding: 32px 20px; }
+    .trust-stats__grid { grid-template-columns: 1fr; gap: 24px; }
+    .trust-stats__num { font-size: 48px; }
+  }
+</style>

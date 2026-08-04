@@ -11,6 +11,7 @@ import { getStaticRoute } from '../../i18n/routes';
 import { processSteps } from '../../data/process';
 import { jsonLd } from '../../utils/jsonld';
 import { buildServiceCatalog } from '../../utils/serviceCatalog';
+import TrustStats from '../../components/TrustStats.astro';
 
 const lang = 'en';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -37,6 +38,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
     lead={t('services.lead', lang)}
     blobColor="var(--accent2)"
   />
+
+  <TrustStats locale="en" />
 
   <section class="services-section">
     <div class="services-grid">

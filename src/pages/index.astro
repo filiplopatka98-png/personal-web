@@ -8,6 +8,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import ExperienceList from '../components/ExperienceList.astro';
 import TestimonialsBlock from '../components/TestimonialsBlock.astro';
+import TrustStats from '../components/TrustStats.astro';
 import { t } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
 import { visibleArticles } from '../content/launch';
@@ -61,6 +62,8 @@ const articles = visibleArticles((await getCollection('articles'))
       ))}
     </div>
   </section>
+
+  <TrustStats locale="sk" />
 
   <section class="home-about">
     <div class="about-grid">
