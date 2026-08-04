@@ -1,12 +1,13 @@
 ---
 import rawData from '../data/monitorix.json';
-import { coerceAgencyStats, hasAgencyStats, formatUptime, formatCompact } from '../utils/monitorixStats';
+import { coerceAgencyStats, hasAgencyStats, formatUptime, formatCompact, type MonitorixData } from '../utils/monitorixStats';
 import Reveal from './Reveal.astro';
 
 interface Props { locale?: 'sk' | 'en'; }
 const { locale = 'sk' } = Astro.props;
 
-const a = coerceAgencyStats(rawData.agency);
+const data = rawData as MonitorixData;
+const a = coerceAgencyStats(data.agency);
 const show = hasAgencyStats(a);
 
 const L = {

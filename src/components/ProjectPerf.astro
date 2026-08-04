@@ -1,14 +1,14 @@
 ---
 import rawData from '../data/monitorix.json';
 import { normalizeDomain } from '../utils/domain';
-import { coerceSitePerf, formatUptime, formatLcp, type SitePerf } from '../utils/monitorixStats';
+import { coerceSitePerf, formatUptime, formatLcp, type SitePerf, type MonitorixData } from '../utils/monitorixStats';
 import Reveal from './Reveal.astro';
 
 interface Props { url?: string; locale?: 'sk' | 'en'; }
 const { url, locale = 'sk' } = Astro.props;
 
-const sites = rawData.sites as Record<string, unknown>;
-const perf: SitePerf | null = url ? coerceSitePerf(sites[normalizeDomain(url)]) : null;
+const data = rawData as MonitorixData;
+const perf: SitePerf | null = url ? coerceSitePerf(data.sites[normalizeDomain(url)]) : null;
 
 const L = {
   sk: { eyebrow: 'Reálny výkon (monitorix)', perf: 'Performance', lcp: 'LCP', uptime: 'Dostupnosť 30 dní' },
