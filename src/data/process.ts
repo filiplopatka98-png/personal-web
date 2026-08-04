@@ -14,9 +14,9 @@ export const processSteps: Record<'sk' | 'en', ProcessStep[]> = {
     { num: '06', title: 'Launch', desc: 'Krátky pre-launch checklist (SEO, analytics, redirects). Po launchi 1–6 mesiacov podpory podľa balíčka.' },
   ],
   en: [
-    { num: '01', title: 'Discovery call', desc: '30 min free. I ask questions, you tell me what you need. If we click, I send a proposal.' },
+    { num: '01', title: 'Intro call', desc: '30 min free. I ask questions, you tell me what you need. If we click, I send a proposal.' },
     { num: '02', title: 'Proposal & contract', desc: 'Within 3 days you get a proposal with budget, schedule, and scope. 30% deposit on signing.' },
-    { num: '03', title: 'Discovery workshop', desc: '2-hour workshop mapping goals, audience, and content. Output: brief + sitemap.' },
+    { num: '03', title: 'Kickoff workshop', desc: '2-hour workshop mapping goals, audience, and content. Output: brief + sitemap.' },
     { num: '04', title: 'Design', desc: '1–2 design rounds in Figma. Weekly feedback as a short video every Friday.' },
     { num: '05', title: 'Build', desc: 'I work in weekly stages. From day one you get a link to the work-in-progress site, so you can follow along live.' },
     { num: '06', title: 'Launch', desc: 'Short pre-launch checklist (SEO, analytics, redirects). 1–6 months of support after launch depending on package.' },

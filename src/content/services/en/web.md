@@ -7,7 +7,7 @@ tagline: "A site with a content management system you can manage yourself."
 desc: "A full website with an admin panel. WordPress, or a custom build with Next.js, depending on your needs."
 featured: true
 includes:
-  - "Discovery workshop (2h)"
+  - "Kickoff workshop (2h)"
   - "2 design rounds, 1 copy round"
   - "Up to 12 subpages"
   - "Blog / news module"
