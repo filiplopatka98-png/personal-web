@@ -5,6 +5,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Reveal from '../../../components/Reveal.astro';
 import Plate from '../../../components/Plate.astro';
 import ProjectPerf from '../../../components/ProjectPerf.astro';
+import InlineCta from '../../../components/InlineCta.astro';
 import { t } from '../../../i18n';
 import { jsonLd } from '../../../utils/jsonld';
 
@@ -147,12 +148,15 @@ const projectLd = {
     </section>
   )}
 
+  {/* Inline conversion CTA — placed right after the strongest proof (metrics). */}
+  <InlineCta lang="en" />
+
   <ProjectPerf url={data.url} locale="en" />
 
   <section class="proj-body">
     <div class="proj-body-grid">
       <Reveal>
-        <div class="proj-section-eyebrow mono">{t('project.brief', lang)}</div>
+        <h2 class="proj-section-eyebrow mono">{t('project.brief', lang)}</h2>
         <div class="proj-brief-title display">{data.brief}</div>
       </Reveal>
       <Reveal delay={0.1} class="proj-body-prose">
@@ -164,7 +168,7 @@ const projectLd = {
   {data.process.length > 0 && (
     <section class="proj-process">
       <Reveal>
-        <div class="proj-section-eyebrow mono proj-process-eyebrow">{t('project.process', lang)}</div>
+        <h2 class="proj-section-eyebrow mono proj-process-eyebrow">{t('project.process', lang)}</h2>
       </Reveal>
       <div class="process-list">
         {data.process.map((p, i) => (
@@ -208,7 +212,7 @@ const projectLd = {
 
   <section class="proj-stack-live">
     <div class="stack-block">
-      <div class="stack-eyebrow mono">{t('project.stack', lang).toUpperCase()}</div>
+      <h2 class="stack-eyebrow mono">{t('project.stack', lang).toUpperCase()}</h2>
       <div class="stack-list mono">
         {data.stack.map((s, i) => (
           <Fragment>
@@ -228,7 +232,7 @@ const projectLd = {
   {next && (
     <section class="proj-next">
       <Reveal>
-        <div class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</div>
+        <h2 class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</h2>
         <a href={`${baseUrl}/en/work/${nextSlug}/`} class="next-link" data-cursor="hover">
           <div class="next-name display">{next.data.name} <span class="next-arrow">→</span></div>
           <div class="next-kind mono">{next.data.kind}</div>
@@ -293,7 +297,7 @@ const projectLd = {
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .proj-meta-cell dd { margin: 4px 0 0; }
+  .proj-meta-cell dd { margin: 4px 0 0; overflow-wrap: anywhere; }
 
   .proj-hero { padding: 0 56px 32px; }
 
@@ -311,7 +315,7 @@ const projectLd = {
   .metric-value {
     font-size: 80px;
     line-height: 0.9;
-    color: var(--accent);
+    color: var(--accent-text);
     font-family: var(--font-display);
   }
   .metric-label {
@@ -450,15 +454,20 @@ const projectLd = {
     font-size: 13px;
     opacity: 0.78;
     margin-bottom: 16px;
+    /* Promoted to <h2>; neutralize the base heading tracking to keep the
+       eyebrow visually identical to its former <div>. */
+    letter-spacing: normal;
   }
   .next-link {
     display: block;
     text-decoration: none;
     color: var(--ink);
   }
+  /* Sized below the page H1 (.proj-name, 96px) so it reads as a CTA, not a
+     competing title. */
   .next-name {
     font-family: var(--font-display);
-    font-size: 96px;
+    font-size: 64px;
     line-height: 0.95;
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -481,7 +490,7 @@ const projectLd = {
     .proj-stack-live { padding: 32px; }
     .proj-name { font-size: 72px; }
     .proj-brief-title { font-size: 28px; }
-    .next-name { font-size: 72px; }
+    .next-name { font-size: 52px; }
     .metric-value { font-size: 64px; }
     :global(.process-row) {
       grid-template-columns: 40px 1fr 140px 2fr;
@@ -504,7 +513,7 @@ const projectLd = {
 
     .proj-name { font-size: 56px; }
     .proj-brief-title { font-size: 26px; }
-    .next-name { font-size: 48px; }
+    .next-name { font-size: 40px; }
 
     .metrics-grid { grid-template-columns: 1fr; gap: 24px; }
     .metric-value { font-size: 56px; }
@@ -538,7 +547,7 @@ const projectLd = {
     }
     .proj-name { font-size: 44px; }
     .proj-brief-title { font-size: 22px; }
-    .next-name { font-size: 36px; }
+    .next-name { font-size: 32px; }
     .proj-meta-grid { grid-template-columns: 1fr; }
     .metric-value { font-size: 48px; }
   }

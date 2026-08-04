@@ -32,7 +32,9 @@
   }
 
   *:focus-visible {
-    outline: 2px solid var(--accent);
+    /* --accent-text (darker terracotta) clears WCAG 2.4.11 on both --bg and
+       --bg2; plain --accent was ~2.74:1 on --bg2. */
+    outline: 2px solid var(--accent-text);
     outline-offset: 4px;
     border-radius: 2px;
   }
@@ -176,8 +178,13 @@
   a[role='button'],
   [data-cursor='hover'],
   .btn-primary,
-  .btn-ghost {
+  .btn-ghost,
+  .nav-logo {
     min-height: 44px;
+    /* inline-flex so the 44px min-height actually applies to inline anchors
+       (min-height is ignored on display:inline). */
+    display: inline-flex;
+    align-items: center;
   }
 }
 

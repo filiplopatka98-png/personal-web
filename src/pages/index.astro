@@ -73,6 +73,7 @@ const articles = visibleArticles((await getCollection('articles'))
           {t('home.aboutTitle.before', lang)} <em class="about-em">{t('home.aboutTitle.em', lang)}</em>{t('home.aboutTitle.after', lang)}
         </h2>
         <p class="about-lead">{t('home.aboutLead', lang)}</p>
+        <a href={`${baseUrl}${getStaticRoute('services', lang)}`} class="mono about-services-link" data-cursor="hover" data-umami-event="services-view">{t('cta.services', lang)} →</a>
       </Reveal>
 
       <Reveal delay={0.1}>
@@ -155,6 +156,11 @@ const articles = visibleArticles((await getCollection('articles'))
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    color: var(--ink);
   }
   .btn-ghost {
     background: transparent;
@@ -177,7 +183,7 @@ const articles = visibleArticles((await getCollection('articles'))
   }
   /* Eyebrow above h2 inside section-header gets 8px gap (handoff inline style). */
   :global(.section-header .mono.small) { margin-bottom: 8px; }
-  :global(.section-header h2) { font-size: 64px; line-height: 1; margin: 0; font-family: var(--font-display); }
+  :global(.section-header h2) { font-size: 56px; line-height: 1; margin: 0; font-family: var(--font-display); }
   :global(.section-header .section-all) { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
   .work-grid {
     display: grid;
@@ -212,6 +218,15 @@ const articles = visibleArticles((await getCollection('articles'))
     opacity: 0.8;
     max-width: 540px;
   }
+  .about-services-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    text-decoration: none;
+    white-space: nowrap;
+  }
   .mb-6 { margin-bottom: 24px; }
 
   .home-blog { border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
@@ -220,14 +235,14 @@ const articles = visibleArticles((await getCollection('articles'))
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
   }
-  :global(.section-header h2.blog-h2) { font-size: 48px; }
+  :global(.section-header h2.blog-h2) { font-size: 56px; }
 
   /* Tablet — 32px section padding, 2-col grids stay 2-col with tighter gap. */
   @media (max-width: 1024px) {
     .home-hero { padding: 80px 32px 32px; }
     .home-work, .home-about, .home-blog { padding: 64px 32px; }
-    :global(.section-header h2) { font-size: 52px; }
-    :global(.section-header h2.blog-h2) { font-size: 44px; }
+    :global(.section-header h2) { font-size: 48px; }
+    :global(.section-header h2.blog-h2) { font-size: 48px; }
     .about-headline { font-size: 48px; }
     .blog-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
     .about-grid { gap: 36px; }
@@ -239,8 +254,8 @@ const articles = visibleArticles((await getCollection('articles'))
   @media (max-width: 768px) {
     .home-hero { padding: 56px 20px 32px; }
     .home-work, .home-about, .home-blog { padding: 56px 20px; }
-    :global(.section-header h2) { font-size: 38px; }
-    :global(.section-header h2.blog-h2) { font-size: 38px; }
+    :global(.section-header h2) { font-size: 40px; }
+    :global(.section-header h2.blog-h2) { font-size: 40px; }
     .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
     .about-headline { font-size: 40px; }
     /* Hero bottom: switch from row to column with left-aligned content. */
@@ -249,14 +264,22 @@ const articles = visibleArticles((await getCollection('articles'))
       align-items: flex-start;
       gap: 24px;
     }
+    /* Section header (eyebrow+h2 vs "all X" link) stacks instead of
+       staying a space-between row, which crowded the link against the
+       title on narrow screens. */
+    :global(.section-header) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
   }
 
   /* Small phone — tighten padding and headlines further. */
   @media (max-width: 480px) {
     .home-hero { padding: 48px 16px 28px; }
     .home-work, .home-about, .home-blog { padding: 48px 16px; }
-    :global(.section-header h2) { font-size: 32px; }
-    :global(.section-header h2.blog-h2) { font-size: 32px; }
+    :global(.section-header h2) { font-size: 36px; }
+    :global(.section-header h2.blog-h2) { font-size: 36px; }
     .about-headline { font-size: 36px; }
   }
 </style>

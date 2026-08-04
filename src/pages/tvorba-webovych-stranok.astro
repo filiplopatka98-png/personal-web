@@ -80,6 +80,7 @@ const faqItems = [
   <section class="lp-section">
     <Reveal>
       <div class="lp-eyebrow mono">ČO PRE TEBA SPRAVÍM</div>
+      <h2 class="lp-section-title display">Weby, eshopy a všetko okolo</h2>
     </Reveal>
     <div class="lp-grid">
       {whatIDo.map((it, i) => (
@@ -121,6 +122,7 @@ const faqItems = [
     <Blob color="var(--accent3)" size={260} position="bottom: 40px; right: 80px; opacity: 0.5;" />
     <Reveal>
       <div class="lp-eyebrow mono">AKO TO PREBIEHA</div>
+      <h2 class="lp-section-title display">Od nápadu k spusteniu</h2>
     </Reveal>
     <div class="lp-steps">
       {steps.map((s, i) => (
@@ -151,11 +153,15 @@ const faqItems = [
   .lp-section { padding: 72px 56px; }
   .lp-eyebrow {
     font-family: var(--font-mono); font-size: 12px; opacity: 0.78;
-    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 28px;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px;
+  }
+  .lp-section-title {
+    font-family: var(--font-display); font-weight: 400; font-size: 34px;
+    line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 32px;
   }
   .lp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .lp-card {
-    padding: 28px; background: var(--bg2); border-radius: 16px;
+    padding: 28px; background: var(--bg2); border-radius: var(--radius-large);
     border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
   }
   .lp-card-title { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; margin: 0 0 10px; }
@@ -194,6 +200,7 @@ const faqItems = [
   @media (max-width: 768px) {
     .lp-section, .lp-proof, .lp-cta { padding: 56px 20px; }
     .lp-grid, .lp-proof-grid { grid-template-columns: 1fr; }
-    .lp-proof-title, .lp-cta-title { font-size: 28px; }
+    .lp-steps { grid-template-columns: 1fr; }
+    .lp-proof-title, .lp-section-title, .lp-cta-title { font-size: 28px; }
   }
 </style>

@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import Reveal from '../../components/Reveal.astro';
+import InlineCta from '../../components/InlineCta.astro';
 import { t } from '../../i18n';
 import { jsonLd } from '../../utils/jsonld';
 import { buildItemList } from '../../utils/itemList';
@@ -68,6 +69,9 @@ for (const p of projects) {
       ))}
     </div>
   </section>
+
+  {/* Conversion CTA after the project grid, before the footer. */}
+  <InlineCta lang="sk" />
 </BaseLayout>
 
 <style>

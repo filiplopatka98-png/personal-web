@@ -188,6 +188,10 @@ const CONTACT_EMAIL = t('menu.email', lang);
     font-size: 13px;
     text-decoration: none;
     display: inline-block;
+    transition: opacity 0.2s;
+  }
+  .footer-brief-btn:hover {
+    opacity: 0.9;
   }
 
   .footer-form {
@@ -228,6 +232,12 @@ const CONTACT_EMAIL = t('menu.email', lang);
     border-bottom-color: var(--accent);
   }
 
+  .form-field input:focus-visible,
+  .form-field textarea:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 4px;
+  }
+
   .footer-submit {
     margin-top: 16px;
     background: var(--accent);
@@ -239,6 +249,10 @@ const CONTACT_EMAIL = t('menu.email', lang);
     font-size: 13px;
     letter-spacing: 0.04em;
     cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .footer-submit:hover:not(:disabled) {
+    opacity: 0.9;
   }
   .footer-submit:disabled {
     opacity: 0.6;

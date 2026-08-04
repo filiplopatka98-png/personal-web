@@ -155,7 +155,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
               <div class="brief-radio-name display">{opt.name}</div>
               <div class="brief-radio-sub mono">{opt.sub}</div>
             </div>
-            <div class="brief-radio-check">✓</div>
+            <div class="brief-radio-check" aria-hidden="true">✓</div>
           </label>
         ))}
       </div>
@@ -262,9 +262,9 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     font-family: var(--font-mono);
     letter-spacing: 0.06em;
   }
-  /* h1 — handoff line 445: 80px display, lineHeight 0.95, maxWidth 900 */
+  /* h1 — 108px to match every other interior page H1 (PageHead). */
   .brief-h1 {
-    font-size: 80px;
+    font-size: 108px;
     line-height: 0.95;
     margin: 0;
     font-family: var(--font-display);
@@ -448,6 +448,11 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     outline: none;
   }
   .brief-textarea:focus { border-color: var(--accent); }
+  /* Restore a visible keyboard-focus ring (outline was suppressed above). */
+  .brief-textarea:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+  }
   .brief-char-count {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -481,6 +486,11 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     outline: none;
   }
   .brief-input:focus { border-bottom-color: var(--accent); }
+  /* Restore a visible keyboard-focus ring (outline was suppressed above). */
+  .brief-input:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+  }
 
   /* Step 5 — done */
   .brief-done {
@@ -588,15 +598,22 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     cursor: pointer;
   }
   .brief-btn-back:disabled { opacity: 0.5; cursor: default; }
+  /* Primary action — ink background / cream text like every other primary CTA
+     on a light bg (.btn-primary / .final-cta-btn), accent on hover. */
   .brief-btn-next, .brief-btn-submit {
     padding: 14px 28px;
     border: 0;
-    background: var(--accent);
-    color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
     border-radius: var(--radius-pill);
     font-family: var(--font-mono);
     font-size: 13px;
     cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .brief-btn-next:hover, .brief-btn-submit:hover {
+    background: var(--accent);
+    color: var(--ink);
   }
   .brief-btn-next:disabled, .brief-btn-submit:disabled {
     background: color-mix(in srgb, var(--ink) 22%, transparent);
@@ -608,14 +625,14 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   @media (max-width: 1024px) {
     .brief-header { padding: 48px 32px 32px; }
     .brief-body { padding: 48px 32px; }
-    .brief-h1 { font-size: 64px; }
+    .brief-h1 { font-size: 86px; }
     .brief-q { font-size: 40px; }
     .brief-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
   }
   @media (max-width: 768px) {
     .brief-header { padding: 40px 20px 24px; }
     .brief-body { padding: 40px 20px; }
-    .brief-h1 { font-size: 44px; line-height: 0.98; }
+    .brief-h1 { font-size: 60px; line-height: 0.98; }
     .brief-lead { font-size: 16px; }
     .brief-q { font-size: 32px; }
     /* Progress wraps + lines hidden so dots stack cleanly. */
@@ -630,7 +647,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
   @media (max-width: 480px) {
     .brief-header { padding: 32px 16px 24px; }
     .brief-body { padding: 32px 16px; }
-    .brief-h1 { font-size: 36px; }
+    .brief-h1 { font-size: 48px; }
     .brief-q { font-size: 28px; }
     .brief-done-title { font-size: 32px; }
     .brief-tile { padding: 18px; }

@@ -291,7 +291,7 @@ const websiteLd = isHome
     <a class="skip-link" href="#main">{t('common.skipToContent', lang)}</a>
     <CustomCursor />
     <Nav lang={lang} />
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer lang={lang} />

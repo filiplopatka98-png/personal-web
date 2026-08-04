@@ -1,0 +1,97 @@
+---
+import Reveal from './Reveal.astro';
+
+export interface Props {
+  /** Language — drives localized defaults and the default brief link. */
+  lang: 'sk' | 'en';
+  /** Override heading (defaults localized). */
+  heading?: string;
+  /** Override supporting line (defaults localized). */
+  text?: string;
+  /** Override button href (defaults to the brief route for the language). */
+  href?: string;
+}
+
+const { lang, heading, text, href } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const defaults = lang === 'sk'
+  ? {
+      heading: 'Chceš podobný web?',
+      text: 'Napíš mi pár viet — ozvem sa do 24 hodín.',
+      cta: 'Začnime brief →',
+      href: `${baseUrl}/ponuka/`,
+    }
+  : {
+      heading: 'Want a site like this?',
+      text: "Drop me a few lines — I'll get back within 24 hours.",
+      cta: "Let's start a brief →",
+      href: `${baseUrl}/en/brief/`,
+    };
+
+const resolvedHeading = heading ?? defaults.heading;
+const resolvedText = text ?? defaults.text;
+const resolvedHref = href ?? defaults.href;
+---
+<section class="inline-cta">
+  <Reveal>
+    <h2 class="inline-cta-title display">{resolvedHeading}</h2>
+    <p class="inline-cta-lead">{resolvedText}</p>
+    <a
+      href={resolvedHref}
+      class="inline-cta-btn mono"
+      data-cursor="hover"
+      data-umami-event="brief-start"
+    >{defaults.cta}</a>
+  </Reveal>
+</section>
+
+<style>
+  /* Compact conversion block — matches the .lp-cta / .final-cta idiom:
+     centered, display heading, ink-bg pill button with accent on hover. */
+  .inline-cta {
+    padding: 72px 56px;
+    text-align: center;
+  }
+  .inline-cta-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .inline-cta-lead {
+    margin: 0 auto 28px;
+    max-width: 46ch;
+    font-size: 17px;
+    line-height: 1.6;
+    opacity: 0.82;
+  }
+  .inline-cta-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 16px 28px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .inline-cta-btn:hover {
+    background: var(--accent);
+    color: var(--ink);
+  }
+
+  @media (max-width: 1024px) {
+    .inline-cta { padding-left: 32px; padding-right: 32px; }
+  }
+  @media (max-width: 768px) {
+    .inline-cta { padding: 56px 20px; }
+    .inline-cta-title { font-size: 28px; }
+  }
+  @media (max-width: 480px) {
+    .inline-cta { padding: 48px 16px; }
+  }
+</style>

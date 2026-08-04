@@ -51,6 +51,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const ctaHref = lang === 'sk' ? `${baseUrl}/ponuka/` : `${baseUrl}/en/brief/`;
 
 const L = lang === 'sk' ? {
+  eyebrow: 'CENOVÁ KALKULAČKA',
   heading: 'Koľko by stál váš web?',
   sub: 'Orientačný odhad za pár klikov. Presnú cenu dostaneš po krátkom briefe — toto je len vodítko, nie záväzná ponuka.',
   step1Title: 'Typ projektu',
@@ -80,6 +81,7 @@ const L = lang === 'sk' ? {
   ctaLabel: 'Chcem presnú ponuku',
   disclaimer: 'Orientačný odhad — presnú cenu dostaneš po krátkom briefe, nejde o záväznú ponuku.',
 } : {
+  eyebrow: 'PRICE CALCULATOR',
   heading: 'How much would your website cost?',
   sub: "A rough estimate in a few clicks. You'll get an exact price after a short brief — this is a guide, not a binding quote.",
   step1Title: 'Project type',
@@ -130,6 +132,7 @@ const calcConfig = JSON.stringify({
   <section class="price-calc" aria-labelledby={`price-calc-title-${lang}`}>
     <div class="price-calc-inner" data-calc-root data-calc-config={calcConfig}>
       <div class="price-calc-head">
+        <div class="price-calc-eyebrow mono">{L.eyebrow}</div>
         <h2 id={`price-calc-title-${lang}`} class="price-calc-title display">{L.heading}</h2>
         <p class="price-calc-sub">{L.sub}</p>
       </div>
@@ -205,6 +208,14 @@ const calcConfig = JSON.stringify({
     max-width: 640px;
     margin: 0 0 36px;
   }
+  .price-calc-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
   .price-calc-title {
     font-family: var(--font-display);
     font-weight: 400;
@@ -247,7 +258,7 @@ const calcConfig = JSON.stringify({
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    opacity: 0.65;
+    color: var(--ink-muted);
     padding: 0;
     margin-bottom: 14px;
   }
@@ -439,9 +450,9 @@ const calcConfig = JSON.stringify({
   }
   .price-calc-disclaimer {
     margin: 4px 0 0;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.5;
-    opacity: 0.6;
+    color: var(--ink-muted);
     max-width: 28ch;
   }
 
