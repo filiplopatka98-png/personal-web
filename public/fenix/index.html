@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>FÉNIX — kozmetický salón · Banská Bystrica</title>
+<meta name="description" content="Prístrojová kozmetika v Banskej Bystrici — mezoterapia, Dermapen, rádiofrekvencia, oxygenoterapia a ďalšie ošetrenia pleti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+  body { margin: 0; background: #FCFAF9; }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: oklch(52% 0.10 12); text-decoration: none; }
+  a:hover { color: oklch(44% 0.11 12); }
+  input:focus, select:focus, textarea:focus { outline: 2px solid oklch(58% 0.11 14); outline-offset: 1px; }
+  .skiplink { position:absolute; left:-9999px; top:0; background:#FCFAF9; padding:12px 18px; z-index:60; }
+  .skiplink:focus { left:8px; top:8px; }
+  .tcard:hover { background: oklch(97% 0.014 16) !important; }
+  .btn-primary:hover { color:#fff; filter:brightness(1.06); }
+
+  [data-mobile-only] { display: none; }
+  @media (min-width: 1000px) { [data-footgrid] { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+  @media (max-width: 520px) { [data-footgrid] { grid-template-columns: minmax(0, 1fr) !important; } }
+  @media (max-width: 760px) {
+    [data-mobile-only] { display: flex; }
+    [data-desktop-only] { display: none; }
+    [data-navlinks] { display: none !important; }
+    [data-herobtns] { flex-direction: column !important; align-items: stretch !important; }
+    [data-herobtns] > a { width: 100%; text-align: center; }
+    [data-topbar] { display: none !important; }
+    [data-header] { padding: 10px 16px !important; flex-wrap: nowrap !important; gap: 10px !important; }
+    [data-pagebody] { padding-bottom: 76px; }
+  }
+
+  /* Overlays (menu / lightbox / popup) — hidden by default, shown via .open */
+  .overlay { display: none; }
+  .overlay.open { display: flex; }
+
+  /* Demo badge */
+  #demoBadge {
+    position: fixed; left: 14px; bottom: 14px; z-index: 45;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(252,250,249,0.94); backdrop-filter: blur(8px);
+    border: 1px solid oklch(80% 0.06 16); border-radius: 100px;
+    padding: 8px 10px 8px 16px; font-size: 13px; font-weight: 600;
+    color: oklch(46% 0.08 14); box-shadow: 0 6px 20px rgba(60,30,30,0.10);
+    font-family: 'Manrope', sans-serif;
+  }
+  #demoBadge button {
+    width: 22px; height: 22px; border-radius: 50%; border: none; cursor: pointer;
+    background: oklch(92% 0.03 16); color: oklch(40% 0.08 14); font-size: 15px; line-height: 1;
+    display: flex; align-items: center; justify-content: center; font-family: inherit;
+  }
+  @media (max-width: 760px) { #demoBadge { bottom: 84px; left: 12px; font-size: 12px; } }
+
+  /* Map placeholder */
+  .mapbox {
+    position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; cursor: pointer;
+    border: 1px solid oklch(91% 0.02 15); display: block;
+    background:
+      linear-gradient(oklch(93% 0.02 150 / 0.5) 1.5px, transparent 1.5px) 0 0/100% 34px,
+      linear-gradient(90deg, oklch(93% 0.02 150 / 0.5) 1.5px, transparent 1.5px) 0 0/44px 100%,
+      linear-gradient(115deg, oklch(90% 0.03 60) 0 8px, transparent 8px 60px) 0 40%/100% 100%,
+      oklch(95% 0.02 150);
+  }
+  .mapbox .pin {
+    position:absolute; left:50%; top:46%; transform:translate(-50%,-100%);
+    font-size: 30px; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25));
+  }
+  .mapbox .maplabel {
+    position:absolute; left:12px; bottom:12px; background:rgba(252,250,249,0.94);
+    border:1px solid oklch(88% 0.02 20); border-radius:8px; padding:8px 12px;
+    font-size:13.5px; font-weight:600; color:oklch(34% 0.012 20);
+  }
+</style>
+</head>
+<body>
+
+<div data-pagebody="true" style="font-family:'Manrope',sans-serif;background:#FCFAF9;color:oklch(26% 0.012 20);line-height:1.65;font-size:17px;overflow-x:hidden">
+
+  <a href="#osetrenia" class="skiplink">Preskočiť na obsah</a>
+
+  <div data-topbar="true" style="background:oklch(96% 0.018 15);border-bottom:1px solid oklch(91% 0.02 15);display:flex;justify-content:center;gap:clamp(12px,3vw,36px);flex-wrap:wrap;padding:9px 20px;font-size:14px;color:oklch(42% 0.02 20)">
+    <span>Po–Pi 8:30–19:00 · víkend po dohode</span>
+    <span style="color:oklch(80% 0.02 20)">·</span>
+    <a href="tel:+421918165908" class="js-demo" style="font-weight:600">+421 918 165 908</a>
+  </div>
+
+  <header data-header="true" style="position:sticky;top:0;z-index:30;background:rgba(252,250,249,0.94);backdrop-filter:blur(10px);border-bottom:1px solid oklch(92% 0.012 20);display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px clamp(18px,4vw,60px);flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;line-height:1.15">
+      <span style="font-family:'Petrona',serif;font-size:23px;letter-spacing:1px">FÉNIX</span>
+      <span style="font-size:10.5px;letter-spacing:3px;text-transform:uppercase;color:oklch(55% 0.03 20)">Kozmetický salón</span>
+    </div>
+    <nav data-navlinks="true" style="display:flex;gap:clamp(14px,2vw,28px);flex-wrap:wrap;font-size:15.5px;font-weight:500;align-items:center">
+      <a href="#osetrenia" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">Ošetrenia</a>
+      <a href="#cennik" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">Cenník</a>
+      <a href="#znacky" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">Značky</a>
+      <a href="#o-mne" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">O mne</a>
+      <a href="#galeria" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">Galéria</a>
+      <a href="#kontakt" style="color:oklch(30% 0.012 20);padding:11px 0;display:block">Kontakt</a>
+    </nav>
+    <a href="tel:+421918165908" class="js-demo btn-primary" data-desktop-only="true" style="background:oklch(58% 0.11 14);color:#fff;padding:12px 24px;border-radius:100px;font-size:15px;font-weight:600;white-space:nowrap">Objednať sa</a>
+    <a href="tel:+421918165908" class="js-demo btn-primary" data-mobile-only="true" style="align-items:center;background:oklch(58% 0.11 14);color:#fff;padding:0 18px;height:46px;border-radius:100px;font-size:16px;font-weight:600;white-space:nowrap;margin-left:auto">Zavolať</a>
+    <button type="button" data-mobile-only="true" onclick="openMenu()" aria-label="Menu" style="flex-direction:column;justify-content:center;gap:5px;width:46px;height:46px;align-items:center;background:none;border:1px solid oklch(88% 0.02 20);border-radius:10px;cursor:pointer;padding:0">
+      <span style="display:block;width:20px;height:1.5px;background:oklch(30% 0.012 20)"></span>
+      <span style="display:block;width:20px;height:1.5px;background:oklch(30% 0.012 20)"></span>
+      <span style="display:block;width:20px;height:1.5px;background:oklch(30% 0.012 20)"></span>
+    </button>
+  </header>
+
+  <!-- Mobile fullscreen menu -->
+  <div id="mobileMenu" class="overlay" style="position:fixed;inset:0;z-index:50;background:#FCFAF9;flex-direction:column;padding:20px clamp(18px,5vw,32px) 32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px">
+      <span style="font-family:'Petrona',serif;font-size:23px;letter-spacing:1px">FÉNIX</span>
+      <button type="button" onclick="closeMenu()" aria-label="Zavrieť menu" style="width:46px;height:46px;background:none;border:1px solid oklch(88% 0.02 20);border-radius:10px;font-size:22px;line-height:1;cursor:pointer;color:oklch(30% 0.012 20)">×</button>
+    </div>
+    <nav style="display:flex;flex-direction:column;font-family:'Petrona',serif;font-size:28px">
+      <a href="#osetrenia" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">Ošetrenia</a>
+      <a href="#cennik" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">Cenník</a>
+      <a href="#znacky" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">Značky</a>
+      <a href="#o-mne" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">O mne</a>
+      <a href="#galeria" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">Galéria</a>
+      <a href="#kontakt" style="color:oklch(26% 0.012 20);padding:16px 0;border-bottom:1px solid oklch(92% 0.012 20)">Kontakt</a>
+    </nav>
+    <a href="tel:+421918165908" class="js-demo" style="margin-top:auto;background:oklch(58% 0.11 14);color:#fff;padding:17px;border-radius:100px;font-weight:700;font-size:18px;text-align:center">Zavolať · +421 918 165 908</a>
+  </div>
+
+  <!-- Sticky mobile action bar -->
+  <div data-mobile-only="true" style="position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(252,250,249,0.97);backdrop-filter:blur(10px);border-top:1px solid oklch(90% 0.015 20);padding:10px 14px;gap:10px">
+    <a href="tel:+421918165908" class="js-demo" style="flex:2;background:oklch(58% 0.11 14);color:#fff;padding:15px;border-radius:100px;font-weight:700;font-size:17px;text-align:center">Zavolať</a>
+    <a href="#kontakt" style="flex:1;border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:15px;border-radius:100px;font-weight:600;font-size:16px;text-align:center">Napísať</a>
+  </div>
+
+  <!-- Hero -->
+  <section style="position:relative;min-height:min(76vh,660px);display:flex;align-items:center">
+    <div style="position:absolute;inset:0">
+      <img src="./images/hero.jpg" alt="Ošetrenie pleti v salóne Fénix" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    </div>
+    <div style="position:relative;width:100%;max-width:1180px;margin:0 auto;padding:clamp(32px,4vw,48px) clamp(18px,4vw,60px);pointer-events:none">
+      <div style="background:rgba(252,250,249,0.95);backdrop-filter:blur(4px);max-width:620px;padding:clamp(26px,4vw,48px);border-radius:4px;pointer-events:auto">
+        <p style="margin:0 0 16px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Prístrojová kozmetika · Banská Bystrica</p>
+        <h1 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(34px,4.6vw,60px);line-height:1.12;margin:0 0 20px">Starostlivosť o pleť, ktorá pracuje do hĺbky.</h1>
+        <p style="font-size:clamp(17px,1.4vw,19px);color:oklch(40% 0.015 20);margin:0 0 30px;max-width:560px">Mezoterapia elektroporáciou, Dermapen microneedling, rádiofrekvencia, oxygenoterapia, carboxy CO2 — prístrojové ošetrenia, ktoré bežná kozmetika neponúka. Venujem sa vám osobne, na objednávku.</p>
+        <div data-herobtns="true" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+          <a href="tel:+421918165908" class="js-demo btn-primary" style="background:oklch(58% 0.11 14);color:#fff;padding:17px 34px;border-radius:100px;font-weight:600;font-size:17px">Objednať sa</a>
+          <a href="#cennik" style="border:1px solid oklch(78% 0.04 18);color:oklch(30% 0.012 20);padding:16px 30px;border-radius:100px;font-weight:600;font-size:16px">Zobraziť cenník</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why me strip -->
+  <section style="background:oklch(96% 0.018 15);padding:clamp(28px,3.5vw,44px) clamp(18px,4vw,60px)">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(18px,3vw,44px)">
+      <div>
+        <p style="font-family:'Petrona',serif;font-size:22px;margin:0 0 4px">Pracujem sama</p>
+        <p style="margin:0;font-size:15.5px;color:oklch(45% 0.02 20)">Jedna klientka v jednom čase, vždy na objednávku.</p>
+      </div>
+      <div>
+        <p style="font-family:'Petrona',serif;font-size:22px;margin:0 0 4px">7 prístrojových ošetrení</p>
+        <p style="margin:0;font-size:15.5px;color:oklch(45% 0.02 20)">Od mezoterapie po carboxy CO2 na jednom mieste.</p>
+      </div>
+      <div>
+        <p style="font-family:'Petrona',serif;font-size:22px;margin:0 0 4px">DERMA 2.0 · ANESI LAB</p>
+        <p style="margin:0;font-size:15.5px;color:oklch(45% 0.02 20)">Profesionálna salónna kozmetika.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatments -->
+  <section id="osetrenia" style="padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px);max-width:1180px;margin:0 auto">
+    <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Ošetrenia</p>
+    <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(30px,4vw,48px);margin:0 0 16px;max-width:760px;line-height:1.15">Prístrojové ošetrenia pleti a doplnková starostlivosť.</h2>
+    <p style="margin:0 0 clamp(30px,4vw,50px);color:oklch(45% 0.02 20);max-width:620px;font-size:17px">Konkrétne ošetrenie vždy odporúčam až po konzultácii a podľa aktuálneho stavu pleti.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:oklch(90% 0.015 20);border:1px solid oklch(90% 0.015 20)">
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Neinvazívna mezoterapia" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">01</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Neinvazívna mezoterapia</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Vpravenie aktívnych látok elektroporáciou — výživa a hydratácia pleti.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Dermapen microneedling" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">02</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Dermapen microneedling</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Lifting, omladenie, korekcia jaziev a pigmentácií.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Rádiofrekvencia" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">03</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Rádiofrekvencia</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Spevnenie kontúr a stimulácia tvorby kolagénu.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Oxygenoterapia" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">04</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Oxygenoterapia</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Okysličenie a regenerácia pleti.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Diamantová mikrodermabrázia" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">05</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Diamantová mikrodermabrázia</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Hĺbková exfoliácia a redukcia jaziev.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Carboxy CO2" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">06</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Carboxy CO2</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Ošetrenie problematickej pleti a akné.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Masáž tváre, krku a dekoltu" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">07</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Masáž tváre, krku a dekoltu</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Uvoľnenie, prekrvenie a regenerácia pokožky.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick tcard" data-treatment="Obočie a mihalnice" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">08</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Obočie a mihalnice</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Laminácia, lash lifting, farbenie a úprava.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+    </div>
+  </section>
+
+  <!-- Prices -->
+  <section id="cennik" style="background:oklch(96% 0.018 15);padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px)">
+    <div style="max-width:900px;margin:0 auto">
+      <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Cenník</p>
+      <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(30px,4vw,48px);margin:0 0 clamp(28px,3.5vw,44px);line-height:1.15">Výber z cenníka.</h2>
+      <div style="background:#FCFAF9;border:1px solid oklch(91% 0.02 15);padding:clamp(20px,3vw,40px)">
+        <a href="#kontakt" class="js-pick" data-treatment="Neinvazívna mezoterapia" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Letný balík (3D kyselina hyalurónová + peptidy)</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">35 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Masáž tváre, krku a dekoltu" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Hydratačné ošetrenie s masážou</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 50 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Oxygenoterapia" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Oxygenoterapia</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 50 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Neinvazívna mezoterapia" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Mezoterapia</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 50 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Dermapen microneedling" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Dermapen</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 70 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Rádiofrekvencia" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Rádiofrekvencia + mezoterapia</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 70 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Masáž tváre, krku a dekoltu" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Masáž tváre</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">od 20 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Obočie a mihalnice" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Laminácia obočia</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">30 €</span></a>
+        <a href="#kontakt" class="js-pick" data-treatment="Obočie a mihalnice" style="display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid oklch(93% 0.012 20);color:inherit"><span style="font-size:17px">Lash lifting</span><span style="flex:1;border-bottom:1px dotted oklch(85% 0.02 20);transform:translateY(-4px)"></span><span style="font-family:'Petrona',serif;font-size:21px;white-space:nowrap;min-width:88px;text-align:right">35 €</span></a>
+        <div style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;padding-top:24px">
+          <p style="margin:0;font-size:15px;color:oklch(48% 0.02 20);max-width:430px">Ceny sú orientačné — konečná cena závisí od stavu pleti a rozsahu ošetrenia.</p>
+          <a href="tel:+421918165908" class="js-demo" style="font-weight:600;font-size:16px">Kompletný cenník — zavolajte mi →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands -->
+  <section id="znacky" style="padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,70px);align-items:center">
+    <div>
+      <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Značky</p>
+      <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(28px,3.4vw,42px);margin:0 0 16px;line-height:1.18">Pracujem s profesionálnou kozmetikou.</h2>
+      <p style="margin:0;color:oklch(45% 0.02 20);font-size:17px;max-width:480px">Prípravky DERMA 2.0 a ANESI LAB používam počas ošetrení aj pri odporúčaní domácej starostlivosti.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px">
+      <div style="border:1px solid oklch(91% 0.02 15);background:oklch(98% 0.008 20);padding:38px 20px;text-align:center;font-size:15px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;color:oklch(38% 0.02 20)">Derma 2.0</div>
+      <div style="border:1px solid oklch(91% 0.02 15);background:oklch(98% 0.008 20);padding:38px 20px;text-align:center;font-size:15px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;color:oklch(38% 0.02 20)">Anesi Lab</div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="o-mne" style="background:oklch(96% 0.018 15);padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px)">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,5vw,72px);align-items:center">
+      <img src="./images/about.jpg" alt="Jarmila Chochulová" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px">
+      <div>
+        <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">O mne</p>
+        <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(28px,3.4vw,42px);margin:0 0 20px;line-height:1.18">Jarmila Chochulová</h2>
+        <p style="font-size:18px;color:oklch(38% 0.015 20);max-width:520px;margin:0 0 20px">Prístrojovej kozmetike sa venujem preto, že spája jemný, osobný prístup s viditeľnými výsledkami. Každej klientke sa venujem individuálne — v pokoji, bez zhonu a s ošetrením zostaveným presne pre jej pleť. Verím, že starostlivosť o seba má byť príjemná skúsenosť, nie luxus.</p>
+        <p style="font-family:'Petrona',serif;font-style:italic;font-size:21px;color:oklch(52% 0.10 12);margin:0">... prebúdzanie krásy ...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="galeria" style="padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px);max-width:1180px;margin:0 auto">
+    <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Galéria</p>
+    <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(30px,4vw,48px);margin:0 0 clamp(26px,3.5vw,40px);line-height:1.15">Pozrite sa do salónu.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px">
+      <div style="position:relative"><img src="./images/g1.jpg" alt="Priestor salónu" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g1.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+      <div style="position:relative"><img src="./images/g2.jpg" alt="Ošetrenie pleti" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g2.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+      <div style="position:relative"><img src="./images/g3.jpg" alt="Ošetrenie v detaile" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g3.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+      <div style="position:relative"><img src="./images/g4.jpg" alt="Kozmetické prípravky" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g4.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+      <div style="position:relative"><img src="./images/g5.jpg" alt="V salóne" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g5.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+      <div style="position:relative"><img src="./images/g6.jpg" alt="Obočie a mihalnice" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g6.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="kontakt" style="background:oklch(96% 0.018 15);padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px)">
+    <div style="max-width:1180px;margin:0 auto">
+      <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Kontakt</p>
+      <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(30px,4vw,48px);margin:0 0 clamp(28px,3.5vw,44px);line-height:1.15">Nájdete ma na Belvederi v Banskej Bystrici.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,3vw,40px)">
+        <div style="background:#FCFAF9;border:1px solid oklch(91% 0.02 15);padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:20px">
+          <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">Adresa</span><br>Nad Plážou 17/A, Belveder<br>974 01 Banská Bystrica</div>
+          <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">Telefón</span><br><a href="tel:+421918165908" class="js-demo" style="font-size:22px;font-weight:600">+421 918 165 908</a></div>
+          <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">E-mail</span><br><a href="mailto:kozmetickysalonfenix@gmail.com" class="js-demo">kozmetickysalonfenix@gmail.com</a></div>
+          <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">Otváracie hodiny</span><br>Pondelok–Piatok: 8:30–19:00 (na objednávku)<br>Sobota–Nedeľa: po dohode</div>
+          <div class="mapbox js-demo" role="img" aria-label="Mapa — Nad Plážou 17/A, Banská Bystrica">
+            <span class="pin">📍</span>
+            <span class="maplabel">Nad Plážou 17/A · Belveder</span>
+          </div>
+          <a href="#" class="js-demo" style="align-self:flex-start;border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:12px 22px;border-radius:100px;font-weight:600;font-size:15px">Navigovať →</a>
+        </div>
+        <div style="background:#FCFAF9;border:1px solid oklch(91% 0.02 15);padding:clamp(24px,3vw,36px)">
+          <h3 style="font-family:'Petrona',serif;font-weight:400;font-size:26px;margin:0 0 8px">Objednať sa</h3>
+          <p style="margin:0 0 22px;color:oklch(48% 0.02 20);font-size:15.5px">Napíšte mi a ozvem sa vám s voľným termínom. Rýchlejšie to ide telefonicky.</p>
+          <form id="bookForm" style="display:flex;flex-direction:column;gap:16px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14.5px;font-weight:600;color:oklch(40% 0.02 20)">Meno a priezvisko *
+              <input name="meno" type="text" required style="padding:15px;border:1px solid oklch(88% 0.02 20);background:#fff;border-radius:3px;font-size:16px;font-family:inherit;color:inherit;font-weight:400">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14.5px;font-weight:600;color:oklch(40% 0.02 20)">Telefón *
+              <input name="telefon" type="tel" required style="padding:15px;border:1px solid oklch(88% 0.02 20);background:#fff;border-radius:3px;font-size:16px;font-family:inherit;color:inherit;font-weight:400">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14.5px;font-weight:600;color:oklch(40% 0.02 20)">Ošetrenie
+              <select id="selOsetrenie" name="osetrenie" style="padding:15px;border:1px solid oklch(88% 0.02 20);background:#fff;border-radius:3px;font-size:16px;font-family:inherit;color:inherit;font-weight:400">
+                <option value="">Neviem, poraďte mi</option>
+                <option value="Neinvazívna mezoterapia">Neinvazívna mezoterapia</option>
+                <option value="Dermapen microneedling">Dermapen microneedling</option>
+                <option value="Rádiofrekvencia">Rádiofrekvencia</option>
+                <option value="Oxygenoterapia">Oxygenoterapia</option>
+                <option value="Diamantová mikrodermabrázia">Diamantová mikrodermabrázia</option>
+                <option value="Carboxy CO2">Carboxy CO2</option>
+                <option value="Masáž tváre, krku a dekoltu">Masáž tváre, krku a dekoltu</option>
+                <option value="Obočie a mihalnice">Obočie a mihalnice</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14.5px;font-weight:600;color:oklch(40% 0.02 20)">Poznámka
+              <textarea name="poznamka" rows="3" placeholder="Napr. preferovaný deň alebo čas" style="padding:15px;border:1px solid oklch(88% 0.02 20);background:#fff;border-radius:3px;font-size:16px;font-family:inherit;color:inherit;font-weight:400;resize:vertical"></textarea>
+            </label>
+            <label style="display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:oklch(45% 0.02 20);line-height:1.5">
+              <input name="suhlas" type="checkbox" required style="width:22px;height:22px;margin:2px 0 0;flex-shrink:0;accent-color:oklch(58% 0.11 14)">
+              <span>Súhlasím so spracovaním osobných údajov na účel dohodnutia termínu. *</span>
+            </label>
+            <button type="submit" class="btn-primary" style="background:oklch(58% 0.11 14);color:#fff;border:none;padding:17px;border-radius:100px;font-weight:600;font-size:17px;cursor:pointer;font-family:inherit">Odoslať objednávku</button>
+            <p style="margin:0;font-size:14.5px;color:oklch(48% 0.02 20);text-align:center">Radšej telefonicky? <a href="tel:+421918165908" class="js-demo" style="font-weight:600">+421 918 165 908</a> · alebo <a href="mailto:kozmetickysalonfenix@gmail.com" class="js-demo" style="font-weight:600">e-mailom</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding:clamp(34px,4vw,52px) clamp(18px,4vw,60px);border-top:1px solid oklch(92% 0.012 20)">
+    <div data-footgrid="true" style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(22px,3vw,36px);font-size:15.5px;overflow-wrap:anywhere;word-break:break-word;color:oklch(45% 0.02 20)">
+      <div>
+        <p style="font-family:'Petrona',serif;font-size:21px;letter-spacing:1px;color:oklch(26% 0.012 20);margin:0 0 6px">FÉNIX</p>
+        <p style="margin:0">Kozmetický salón · Jarmila Chochulová</p>
+      </div>
+      <div>
+        <p style="margin:0 0 6px;color:oklch(26% 0.012 20);font-weight:600">Kde ma nájdete</p>
+        <p style="margin:0">Nad Plážou 17/A, Belveder<br>974 01 Banská Bystrica</p>
+      </div>
+      <div>
+        <p style="margin:0 0 6px;color:oklch(26% 0.012 20);font-weight:600">Kontakt</p>
+        <p style="margin:0"><a href="tel:+421918165908" class="js-demo">+421 918 165 908</a><br><a href="mailto:kozmetickysalonfenix@gmail.com" class="js-demo" style="font-size:14.5px">kozmetickysalonfenix@gmail.com</a></p>
+      </div>
+      <div>
+        <p style="margin:0 0 6px;color:oklch(26% 0.012 20);font-weight:600">Otváracie hodiny</p>
+        <p style="margin:0">Pondelok–Piatok 8:30–19:00<br>Víkend po dohode · vždy na objednávku</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="overlay" style="position:fixed;inset:0;z-index:60;background:rgba(35,25,25,0.86);align-items:center;justify-content:center;padding:clamp(16px,4vw,56px);cursor:zoom-out">
+  <img id="lightboxImg" alt="" style="max-width:100%;max-height:100%;object-fit:contain">
+  <button type="button" data-close aria-label="Zavrieť" style="position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;border:none;background:rgba(252,250,249,0.92);font-size:22px;line-height:1;cursor:pointer;color:oklch(26% 0.012 20)">×</button>
+</div>
+
+<!-- Demo popup -->
+<div id="demoPopup" class="overlay" style="position:fixed;inset:0;z-index:70;background:rgba(35,25,25,0.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:clamp(16px,5vw,40px)">
+  <div style="background:#FCFAF9;max-width:480px;width:100%;border-radius:8px;padding:clamp(28px,5vw,40px);box-shadow:0 24px 70px rgba(60,30,30,0.28);text-align:center;position:relative;font-family:'Manrope',sans-serif">
+    <button type="button" data-close aria-label="Zavrieť" style="position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:none;background:oklch(94% 0.02 16);font-size:20px;line-height:1;cursor:pointer;color:oklch(40% 0.06 14)">×</button>
+    <p style="margin:0 0 6px;font-size:12.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Ukážkový návrh</p>
+    <h3 style="font-family:'Petrona',serif;font-weight:400;font-size:27px;line-height:1.2;margin:0 0 14px">Toto je zatiaľ len ukážka ✨</h3>
+    <p style="margin:0 0 22px;color:oklch(40% 0.015 20);font-size:16px;line-height:1.6">Túto stránku som pripravil ako <strong>nezáväzný návrh</strong> pre salón Fénix — zadarmo. Nie je to živá stránka, preto tlačidlá zatiaľ nič neodošlú.<br><br>Ak sa vám páči, rád vám ju spravím <strong>naostro</strong> — funkčnú, rýchlu a na mieru.</p>
+    <p style="margin:0 0 18px;font-weight:600;font-size:15.5px;color:oklch(30% 0.012 20)">Filip Lopatka · web developer</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <a href="mailto:filip@lopatka.sk" style="background:oklch(58% 0.11 14);color:#fff;padding:13px 22px;border-radius:100px;font-weight:600;font-size:15px">Napíšte mi</a>
+      <a href="tel:+421904902736" style="border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:12px 22px;border-radius:100px;font-weight:600;font-size:15px">Zavolať</a>
+      <a href="https://lopatka.sk" target="_blank" rel="noopener" style="border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:12px 22px;border-radius:100px;font-weight:600;font-size:15px">lopatka.sk</a>
+    </div>
+  </div>
+</div>
+
+<!-- Demo badge -->
+<div id="demoBadge">
+  <span>Ukážkový návrh — nie je to živá stránka</span>
+  <button type="button" id="badgeClose" aria-label="Skryť">×</button>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  function lock() { body.style.overflow = 'hidden'; }
+  function unlock() { body.style.overflow = ''; }
+
+  var pop = document.getElementById('demoPopup');
+  function openPop() { pop.classList.add('open'); lock(); }
+  function closePop() { pop.classList.remove('open'); unlock(); }
+
+  // Terminal demo actions -> popup
+  document.querySelectorAll('.js-demo').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); openPop(); });
+  });
+  var form = document.getElementById('bookForm');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); openPop(); });
+  pop.addEventListener('click', function (e) {
+    if (e.target === pop || e.target.hasAttribute('data-close')) closePop();
+  });
+
+  // Mobile menu
+  var menu = document.getElementById('mobileMenu');
+  window.openMenu = function () { menu.classList.add('open'); lock(); };
+  window.closeMenu = function () { menu.classList.remove('open'); unlock(); };
+  menu.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function () { window.closeMenu(); });
+  });
+
+  // Lightbox
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightboxImg');
+  function closeLightbox() { lb.classList.remove('open'); lbImg.src = ''; unlock(); }
+  document.querySelectorAll('.js-zoom').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      lbImg.src = btn.getAttribute('data-src');
+      lb.classList.add('open'); lock();
+    });
+  });
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb || e.target.hasAttribute('data-close')) closeLightbox();
+  });
+
+  // Treatment / price -> prefill select (native anchor scroll to #kontakt)
+  var sel = document.getElementById('selOsetrenie');
+  document.querySelectorAll('.js-pick').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var t = el.getAttribute('data-treatment');
+      if (sel && t) {
+        for (var i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === t) { sel.selectedIndex = i; break; }
+        }
+      }
+    });
+  });
+
+  // Esc closes any overlay
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closePop(); window.closeMenu(); closeLightbox(); }
+  });
+
+  // Badge dismiss
+  var badge = document.getElementById('demoBadge');
+  var bc = document.getElementById('badgeClose');
+  if (bc) bc.addEventListener('click', function () { badge.style.display = 'none'; });
+})();
+</script>
+</body>
+</html>
