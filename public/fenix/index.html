@@ -56,25 +56,30 @@
   }
   @media (max-width: 760px) { #demoBadge { bottom: 84px; left: 12px; font-size: 12px; } }
 
-  /* Map placeholder */
-  .mapbox {
-    position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; cursor: pointer;
-    border: 1px solid oklch(91% 0.02 15); display: block;
-    background:
-      linear-gradient(oklch(93% 0.02 150 / 0.5) 1.5px, transparent 1.5px) 0 0/100% 34px,
-      linear-gradient(90deg, oklch(93% 0.02 150 / 0.5) 1.5px, transparent 1.5px) 0 0/44px 100%,
-      linear-gradient(115deg, oklch(90% 0.03 60) 0 8px, transparent 8px 60px) 0 40%/100% 100%,
-      oklch(95% 0.02 150);
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .gitem { position: relative; margin: 0; overflow: hidden; cursor: pointer; aspect-ratio: 3/4; border-radius: 2px; background: oklch(93% 0.012 20); }
+  .gitem img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+  .gitem:hover img, .gitem:focus-visible img { transform: scale(1.06); }
+  .gitem::after { content: ''; position: absolute; inset: 0; background: rgba(35,25,25,0); transition: background .3s; pointer-events: none; }
+  .gitem:hover::after, .gitem:focus-visible::after { background: rgba(35,25,25,0.14); }
+  .gitem .zoomhint { position: absolute; right: 12px; bottom: 12px; width: 40px; height: 40px; border-radius: 50%; background: rgba(252,250,249,0.94); color: oklch(40% 0.06 14); display: flex; align-items: center; justify-content: center; font-size: 17px; opacity: 0; transform: translateY(6px); transition: .3s; pointer-events: none; }
+  .gitem:hover .zoomhint, .gitem:focus-visible .zoomhint { opacity: 1; transform: none; }
+  @media (max-width: 760px) {
+    .gallery {
+      display: flex; overflow-x: auto; gap: 14px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      padding: 4px 20px 16px; margin: 0 -20px; scrollbar-width: none;
+    }
+    .gallery::-webkit-scrollbar { display: none; }
+    .gitem { flex: 0 0 80%; scroll-snap-align: center; }
   }
-  .mapbox .pin {
-    position:absolute; left:50%; top:46%; transform:translate(-50%,-100%);
-    font-size: 30px; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25));
-  }
-  .mapbox .maplabel {
-    position:absolute; left:12px; bottom:12px; background:rgba(252,250,249,0.94);
-    border:1px solid oklch(88% 0.02 20); border-radius:8px; padding:8px 12px;
-    font-size:13.5px; font-weight:600; color:oklch(34% 0.012 20);
-  }
+  /* Lightbox nav arrows */
+  .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(252,250,249,0.92); font-size: 24px; line-height: 1; cursor: pointer; color: oklch(26% 0.012 20); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .lb-nav.prev { left: 16px; }
+  .lb-nav.next { right: 16px; }
+  .lb-count { position: absolute; top: 20px; left: 20px; color: rgba(252,250,249,0.92); font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+  @media (max-width: 620px) { .lb-nav { width: 44px; height: 44px; } .lb-nav.prev { left: 8px; } .lb-nav.next { right: 8px; } }
 </style>
 </head>
 <body>
@@ -140,7 +145,7 @@
       <img src="./images/hero.jpg" alt="Ošetrenie pleti v salóne Fénix" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
     </div>
     <div style="position:relative;width:100%;max-width:1180px;margin:0 auto;padding:clamp(32px,4vw,48px) clamp(18px,4vw,60px);pointer-events:none">
-      <div style="background:rgba(252,250,249,0.95);backdrop-filter:blur(4px);max-width:620px;padding:clamp(26px,4vw,48px);border-radius:4px;pointer-events:auto">
+      <div style="background:rgba(252,250,249,0.96);backdrop-filter:blur(4px);max-width:680px;padding:clamp(28px,4vw,52px);border-radius:6px;box-shadow:0 24px 64px rgba(60,30,30,0.16);pointer-events:auto">
         <p style="margin:0 0 16px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Prístrojová kozmetika · Banská Bystrica</p>
         <h1 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(34px,4.6vw,60px);line-height:1.12;margin:0 0 20px">Starostlivosť o pleť, ktorá pracuje do hĺbky.</h1>
         <p style="font-size:clamp(17px,1.4vw,19px);color:oklch(40% 0.015 20);margin:0 0 30px;max-width:560px">Mezoterapia elektroporáciou, Dermapen microneedling, rádiofrekvencia, oxygenoterapia, carboxy CO2 — prístrojové ošetrenia, ktoré bežná kozmetika neponúka. Venujem sa vám osobne, na objednávku.</p>
@@ -184,6 +189,7 @@
       <a href="#kontakt" class="js-pick tcard" data-treatment="Carboxy CO2" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">06</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Carboxy CO2</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Ošetrenie problematickej pleti a akné.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
       <a href="#kontakt" class="js-pick tcard" data-treatment="Masáž tváre, krku a dekoltu" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">07</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Masáž tváre, krku a dekoltu</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Uvoľnenie, prekrvenie a regenerácia pokožky.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
       <a href="#kontakt" class="js-pick tcard" data-treatment="Obočie a mihalnice" style="background:#FCFAF9;padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:inherit"><span style="font-family:'Petrona',serif;font-size:15px;color:oklch(58% 0.11 14)">08</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25">Obočie a mihalnice</h3><p style="margin:0;color:oklch(45% 0.02 20);font-size:16px">Laminácia, lash lifting, farbenie a úprava.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:oklch(52% 0.10 12)">Objednať toto ošetrenie →</span></a>
+      <a href="#kontakt" class="js-pick" data-treatment="" style="background:oklch(58% 0.11 14);padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;color:#fff;justify-content:center"><span style="font-family:'Petrona',serif;font-size:15px;color:rgba(255,255,255,0.85)">Poradím vám</span><h3 style="font-family:'Petrona',serif;font-weight:400;font-size:24px;margin:0;line-height:1.25;color:#fff">Neviete si vybrať?</h3><p style="margin:0;color:rgba(255,255,255,0.9);font-size:16px">Napíšte mi a podľa aktuálneho stavu vašej pleti vám odporučím to pravé ošetrenie — nezáväzne.</p><span style="margin-top:auto;padding-top:14px;font-size:14.5px;font-weight:600;color:#fff">Objednať konzultáciu →</span></a>
     </div>
   </section>
 
@@ -240,13 +246,15 @@
   <section id="galeria" style="padding:clamp(52px,6.5vw,92px) clamp(18px,4vw,60px);max-width:1180px;margin:0 auto">
     <p style="margin:0 0 10px;font-size:13.5px;letter-spacing:2.6px;text-transform:uppercase;color:oklch(52% 0.10 12);font-weight:600">Galéria</p>
     <h2 style="font-family:'Petrona',serif;font-weight:400;font-size:clamp(30px,4vw,48px);margin:0 0 clamp(26px,3.5vw,40px);line-height:1.15">Pozrite sa do salónu.</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px">
-      <div style="position:relative"><img src="./images/g1.jpg" alt="Priestor salónu" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g1.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
-      <div style="position:relative"><img src="./images/g2.jpg" alt="Ošetrenie pleti" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g2.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
-      <div style="position:relative"><img src="./images/g3.jpg" alt="Ošetrenie v detaile" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g3.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
-      <div style="position:relative"><img src="./images/g4.jpg" alt="Kozmetické prípravky" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g4.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
-      <div style="position:relative"><img src="./images/g5.jpg" alt="V salóne" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g5.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
-      <div style="position:relative"><img src="./images/g6.jpg" alt="Obočie a mihalnice" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block"><button type="button" class="js-zoom" data-src="./images/g6.jpg" style="position:absolute;right:10px;bottom:10px;background:rgba(252,250,249,0.94);border:1px solid oklch(88% 0.02 20);border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;font-family:inherit;color:oklch(30% 0.012 20);cursor:pointer">Zväčšiť</button></div>
+    <div class="gallery">
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: priestor salónu" data-idx="0"><img src="./images/g1.jpg" alt="Priestor salónu" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: ošetrenie pleti" data-idx="1"><img src="./images/g2.jpg" alt="Ošetrenie pleti" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: ošetrenie v detaile" data-idx="2"><img src="./images/g3.jpg" alt="Ošetrenie v detaile" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: kozmetické prípravky" data-idx="3"><img src="./images/g4.jpg" alt="Kozmetické prípravky" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: v salóne" data-idx="4"><img src="./images/g5.jpg" alt="V salóne" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: obočie a mihalnice" data-idx="5"><img src="./images/g6.jpg" alt="Obočie a mihalnice" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: pleťová maska" data-idx="6"><img src="./images/g7.jpg" alt="Pleťová maska" loading="lazy"><span class="zoomhint">⤢</span></figure>
+      <figure class="gitem" tabindex="0" role="button" aria-label="Zväčšiť: ošetrenie maskou" data-idx="7"><img src="./images/g8.jpg" alt="Ošetrenie maskou" loading="lazy"><span class="zoomhint">⤢</span></figure>
     </div>
   </section>
 
@@ -261,11 +269,8 @@
           <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">Telefón</span><br><a href="tel:+421918165908" class="js-demo" style="font-size:22px;font-weight:600">+421 918 165 908</a></div>
           <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">E-mail</span><br><a href="mailto:kozmetickysalonfenix@gmail.com" class="js-demo">kozmetickysalonfenix@gmail.com</a></div>
           <div><span style="font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:oklch(55% 0.03 20);font-weight:600">Otváracie hodiny</span><br>Pondelok–Piatok: 8:30–19:00 (na objednávku)<br>Sobota–Nedeľa: po dohode</div>
-          <div class="mapbox js-demo" role="img" aria-label="Mapa — Nad Plážou 17/A, Banská Bystrica">
-            <span class="pin">📍</span>
-            <span class="maplabel">Nad Plážou 17/A · Belveder</span>
-          </div>
-          <a href="#" class="js-demo" style="align-self:flex-start;border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:12px 22px;border-radius:100px;font-weight:600;font-size:15px">Navigovať →</a>
+          <iframe title="Mapa — Nad Plážou 17/A, Banská Bystrica" src="https://www.google.com/maps?q=Nad%20Pl%C3%A1%C5%BEou%2017%2FA%2C%20974%2001%20Bansk%C3%A1%20Bystrica&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;aspect-ratio:16/10;border:1px solid oklch(91% 0.02 15);display:block"></iframe>
+          <a href="https://maps.google.com/?q=Nad+Pl%C3%A1%C5%BEou+17%2FA,+974+01+Bansk%C3%A1+Bystrica" target="_blank" rel="noopener" style="align-self:flex-start;border:1px solid oklch(80% 0.04 18);color:oklch(30% 0.012 20);padding:12px 22px;border-radius:100px;font-weight:600;font-size:15px">Navigovať →</a>
         </div>
         <div style="background:#FCFAF9;border:1px solid oklch(91% 0.02 15);padding:clamp(24px,3vw,36px)">
           <h3 style="font-family:'Petrona',serif;font-weight:400;font-size:26px;margin:0 0 8px">Objednať sa</h3>
@@ -330,9 +335,12 @@
 </div>
 
 <!-- Lightbox -->
-<div id="lightbox" class="overlay" style="position:fixed;inset:0;z-index:60;background:rgba(35,25,25,0.86);align-items:center;justify-content:center;padding:clamp(16px,4vw,56px);cursor:zoom-out">
+<div id="lightbox" class="overlay" style="position:fixed;inset:0;z-index:60;background:rgba(35,25,25,0.9);align-items:center;justify-content:center;padding:clamp(16px,4vw,56px);cursor:zoom-out">
+  <span id="lbCount" class="lb-count"></span>
+  <button type="button" id="lbPrev" class="lb-nav prev" aria-label="Predchádzajúca fotka">‹</button>
   <img id="lightboxImg" alt="" style="max-width:100%;max-height:100%;object-fit:contain">
-  <button type="button" data-close aria-label="Zavrieť" style="position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;border:none;background:rgba(252,250,249,0.92);font-size:22px;line-height:1;cursor:pointer;color:oklch(26% 0.012 20)">×</button>
+  <button type="button" id="lbNext" class="lb-nav next" aria-label="Ďalšia fotka">›</button>
+  <button type="button" data-close aria-label="Zavrieť" style="position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;border:none;background:rgba(252,250,249,0.92);font-size:22px;line-height:1;cursor:pointer;color:oklch(26% 0.012 20);z-index:2">×</button>
 </div>
 
 <!-- Demo popup -->
@@ -385,17 +393,30 @@
     a.addEventListener('click', function () { window.closeMenu(); });
   });
 
-  // Lightbox
+  // Lightbox gallery
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lightboxImg');
+  var lbCount = document.getElementById('lbCount');
+  var gitems = Array.prototype.slice.call(document.querySelectorAll('.gitem'));
+  var gsrcs = gitems.map(function (f) { return f.querySelector('img').getAttribute('src'); });
+  var lbIndex = 0;
+  function showLb(i) {
+    lbIndex = (i + gsrcs.length) % gsrcs.length;
+    lbImg.src = gsrcs[lbIndex];
+    if (lbCount) lbCount.textContent = (lbIndex + 1) + ' / ' + gsrcs.length;
+  }
+  function openLightbox(i) { showLb(i); lb.classList.add('open'); lock(); }
   function closeLightbox() { lb.classList.remove('open'); lbImg.src = ''; unlock(); }
-  document.querySelectorAll('.js-zoom').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      lbImg.src = btn.getAttribute('data-src');
-      lb.classList.add('open'); lock();
+  gitems.forEach(function (f, i) {
+    f.addEventListener('click', function () { openLightbox(i); });
+    f.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
     });
   });
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+  if (lbPrev) lbPrev.addEventListener('click', function (e) { e.stopPropagation(); showLb(lbIndex - 1); });
+  if (lbNext) lbNext.addEventListener('click', function (e) { e.stopPropagation(); showLb(lbIndex + 1); });
   lb.addEventListener('click', function (e) {
     if (e.target === lb || e.target.hasAttribute('data-close')) closeLightbox();
   });
@@ -413,9 +434,13 @@
     });
   });
 
-  // Esc closes any overlay
+  // Keyboard: Esc closes overlays; arrows navigate the open lightbox
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { closePop(); window.closeMenu(); closeLightbox(); }
+    if (lb.classList.contains('open')) {
+      if (e.key === 'ArrowLeft') showLb(lbIndex - 1);
+      if (e.key === 'ArrowRight') showLb(lbIndex + 1);
+    }
   });
 
   // Badge dismiss
