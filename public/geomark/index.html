@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GeoMarK — Ing. Martin Kubanka | Geodetické práce Prešov</title>
+<meta name="description" content="Geodetické a kartografické práce v Prešove a okolí — geometrické plány, vytýčenie pozemkov a geodetické zabezpečenie investičnej výstavby.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Ukážkový návrh (cold-mail) — nie je to živá stránka.
+  Fotografie: Pexels (voľná licencia, komerčné použitie povolené)
+    images/hero.jpg  — pexels.com/photo/36930873
+    images/praca.jpg — pexels.com/photo/5802827
+-->
+<style>
+  :root {
+    --ink: #0C1720;
+    --muted: #5A6673;
+    --line: #D8DEE4;
+    --line-soft: #E4E8EC;
+    --bg: #F2F4F6;
+    --surface: #ffffff;
+    --field: #F7F9FA;
+    --cyan: #1AA5C4;        /* plochy, rámy, text na tmavom (6.3:1) */
+    --cyan-hi: #38BBD8;     /* hover */
+    --cyan-ink: #0C7288;    /* cyan TEXT na svetlom podklade — AA 5.0:1 */
+    --dark: #0C1720;
+    --dark-2: #111F2B;
+    --on-dark: #D3D9DF;
+    --on-dark-mute: #8B98A5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 17px; line-height: 1.6; overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.1; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--ink); text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  input, textarea, button { font-family: inherit; }
+  section[id] { scroll-margin-top: 88px; }
+
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+
+  .skiplink { position: absolute; left: -9999px; top: 0; z-index: 90; background: var(--surface); color: var(--ink); padding: 12px 18px; border: 1px solid var(--cyan); }
+  .skiplink:focus { left: 8px; top: 8px; }
+
+  /* ---- focus + hover ------------------------------------------------ */
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  input:focus, textarea:focus { border-color: var(--cyan) !important; outline: 2px solid rgba(26,165,196,0.45); outline-offset: 0; }
+  .btn-cyan:hover { background: var(--cyan-hi) !important; }
+  .btn-dark-outline:hover { background: var(--ink) !important; color: #fff !important; }
+  .btn-light-outline:hover { border-color: var(--cyan) !important; color: var(--cyan) !important; }
+  .link-cyan { color: var(--cyan-ink); }
+  .link-cyan:hover { color: var(--ink); }
+  .link-ink:hover { color: var(--cyan-ink); }
+  .navlink { color: var(--on-dark); font-size: 15px; white-space: nowrap; }
+  .navlink:hover { color: var(--cyan); }
+  .footlink { color: var(--on-dark); }
+  .footlink:hover { color: var(--cyan); }
+
+  /* ---- layout: canvas matchMedia logic prepísaná na media queries ---- */
+  [data-hero-grid], [data-two-col], [data-cards], [data-steps],
+  [data-about], [data-refs], [data-contact] { grid-template-columns: 1fr; }
+  [data-branch="1"] { border-bottom: 1px solid var(--line); border-right: none; }
+
+  @media (min-width: 900px) {
+    [data-hero-grid] { grid-template-columns: 7fr 5fr; gap: 48px; }
+    [data-two-col]   { grid-template-columns: 1fr 1fr; }
+    [data-cards]     { grid-template-columns: repeat(3, 1fr); }
+    [data-steps]     { grid-template-columns: repeat(4, 1fr); }
+    [data-about]     { grid-template-columns: 8fr 4fr; gap: 48px; }
+    [data-refs]      { grid-template-columns: repeat(3, 1fr); }
+    [data-contact]   { grid-template-columns: 6fr 6fr; gap: 48px; }
+    [data-branch="1"] { border-bottom: none; border-right: 1px solid var(--line); }
+  }
+
+  /* ---- header: nav vs. hamburger ------------------------------------ */
+  .nav-desktop { display: none; gap: 22px; align-items: center; flex: none; }
+  .burger { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 46px; height: 46px; flex: none; background: none; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; padding: 0; }
+  .burger span { display: block; width: 20px; height: 1.5px; background: #fff; }
+  @media (min-width: 1120px) { .nav-desktop { display: flex; } .burger { display: none; } }
+
+  .hdr-phone-short { display: none; }
+  .logo-sub { display: inline; }
+  @media (max-width: 759px) {
+    .hdr-phone-full { display: none !important; }
+    .hdr-phone-short { display: inline-flex; }
+    body { padding-bottom: 88px; }
+    .stickybar { display: flex !important; }
+  }
+  @media (max-width: 620px) { .logo-sub { display: none; } }
+
+  /* ---- overlays ------------------------------------------------------ */
+  .overlay { display: none; }
+  .overlay.open { display: flex; }
+
+  .stickybar {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    gap: 10px; padding: 10px 14px; background: rgba(242,244,246,0.97);
+    backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+  }
+
+  /* ---- demo badge ---------------------------------------------------- */
+  #demoBadge {
+    position: fixed; left: 14px; bottom: 14px; z-index: 45;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(12,23,32,0.94); backdrop-filter: blur(8px);
+    border: 1px solid rgba(26,165,196,0.55);
+    padding: 8px 10px 8px 16px; font-size: 13px; font-weight: 500;
+    color: var(--on-dark); box-shadow: 0 8px 26px rgba(12,23,32,0.22);
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  #demoBadge button {
+    width: 22px; height: 22px; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.14); color: #fff; font-size: 15px; line-height: 1;
+    display: flex; align-items: center; justify-content: center; font-family: inherit;
+  }
+  @media (max-width: 759px) { #demoBadge { bottom: 84px; left: 12px; font-size: 12px; max-width: calc(100% - 24px); } }
+
+  /* ---- misc ---------------------------------------------------------- */
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-ink); }
+  .eyebrow-dark { color: var(--cyan); }
+  .rule { border-top: 2px solid var(--cyan); padding-top: 20px; }
+  .h2 { font-size: clamp(26px, 3.2vw, 36px); font-weight: 700; letter-spacing: -0.02em; }
+  .note { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.6; color: var(--muted); border-left: 2px solid var(--line); padding-left: 14px; }
+  .card-list li { padding: 13px 0; border-bottom: 1px solid var(--line-soft); display: flex; gap: 14px; }
+  .card-list li:last-child { border-bottom: none; }
+  .card-list .n { font-family: 'IBM Plex Mono', ui-monospace, monospace; color: var(--cyan-ink); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<a href="#vetvy" class="skiplink">Preskočiť na obsah</a>
+
+<header style="position:sticky;top:0;z-index:50;background:var(--dark);border-bottom:1px solid rgba(255,255,255,0.14)">
+  <div style="max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#hero" style="display:flex;align-items:baseline;gap:12px;color:#fff;flex:none">
+      <span style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.01em">GeoMarK</span>
+      <span class="mono logo-sub" style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--on-dark-mute)">Ing. Martin Kubanka</span>
+    </a>
+
+    <nav class="nav-desktop">
+      <a href="#vetvy" class="navlink">Pre koho</a>
+      <a href="#sluzby" class="navlink">Služby</a>
+      <a href="#postup" class="navlink">Postup</a>
+      <a href="#kancelaria" class="navlink">O kancelárii</a>
+      <a href="#referencie" class="navlink">Referencie</a>
+      <a href="#kontakt" class="navlink">Kontakt</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:10px;flex:none">
+      <a href="tel:+421905850452" class="js-demo btn-cyan hdr-phone-full mono" style="display:inline-flex;align-items:center;min-height:44px;padding:11px 20px;background:var(--cyan);color:var(--dark);font-size:14px;font-weight:500;letter-spacing:0.04em">+421 905 850 452</a>
+      <a href="tel:+421905850452" class="js-demo btn-cyan hdr-phone-short" style="align-items:center;min-height:46px;padding:0 18px;background:var(--cyan);color:var(--dark);font-size:15px;font-weight:600;white-space:nowrap">Zavolať</a>
+      <button type="button" class="burger" onclick="openMenu()" aria-label="Otvoriť menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobilné menu -->
+<div id="mobileMenu" class="overlay" style="position:fixed;inset:0;z-index:60;background:var(--dark);flex-direction:column;padding:18px 24px 28px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px">
+    <span style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:22px;font-weight:700;color:#fff">GeoMarK</span>
+    <button type="button" onclick="closeMenu()" aria-label="Zavrieť menu" style="width:46px;height:46px;background:none;border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:22px;line-height:1;cursor:pointer">×</button>
+  </div>
+  <nav style="display:flex;flex-direction:column;font-family:'Space Grotesk',system-ui,sans-serif;font-size:24px;font-weight:500">
+    <a href="#vetvy" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">Pre koho</a>
+    <a href="#sluzby" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">Služby</a>
+    <a href="#postup" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">Postup</a>
+    <a href="#kancelaria" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">O kancelárii</a>
+    <a href="#referencie" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">Referencie</a>
+    <a href="#kontakt" style="color:#fff;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.14)">Kontakt</a>
+  </nav>
+  <a href="tel:+421905850452" class="js-demo btn-cyan mono" style="margin-top:auto;background:var(--cyan);color:var(--dark);padding:18px;font-size:17px;font-weight:500;text-align:center">+421 905 850 452</a>
+</div>
+
+<!-- Sticky mobilná lišta -->
+<div class="stickybar">
+  <a href="tel:+421905850452" class="js-demo btn-cyan" style="flex:2;background:var(--cyan);color:var(--dark);padding:15px;font-weight:600;font-size:16px;letter-spacing:0.06em;text-transform:uppercase;text-align:center">Zavolať</a>
+  <a href="#kontakt" class="btn-dark-outline" style="flex:1;border:1px solid var(--ink);color:var(--ink);padding:15px;font-weight:600;font-size:15px;text-align:center">Dopyt</a>
+</div>
+
+<main>
+
+  <!-- Hero -->
+  <section id="hero" style="position:relative;background:var(--dark);color:#fff;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(to right, rgba(255,255,255,0.05) 0 1px, transparent 1px 62px), repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0 1px, transparent 1px 62px);pointer-events:none"></div>
+    <div data-hero-grid="1" style="position:relative;max-width:1240px;margin:0 auto;padding:64px 24px 72px;display:grid;gap:32px;align-items:center">
+      <div>
+        <div class="eyebrow eyebrow-dark" style="margin-bottom:22px">Geodézia a kartografia · Prešov</div>
+        <h1 style="font-size:clamp(34px, 5.6vw, 58px);font-weight:700;letter-spacing:-0.025em;margin-bottom:22px;text-wrap:balance">Geodetické práce pre pozemky aj pre stavby</h1>
+        <p style="margin:0 0 16px;font-size:19px;line-height:1.6;color:#C3CBD3;max-width:54ch;text-wrap:pretty">Geodetická kancelária GeoMarK vykonáva geodetické a kartografické práce v Prešove a okolí, na zákazku po celom Slovensku — od geometrických plánov pre kataster po geodetické zabezpečenie investičnej výstavby.</p>
+        <p class="mono" style="margin:0 0 34px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--on-dark-mute)">Spoľahlivo, kvalitne a efektívne</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:stretch">
+          <a href="tel:+421905850452" class="js-demo btn-cyan" style="display:inline-flex;align-items:center;gap:14px;min-height:58px;padding:16px 28px;background:var(--cyan);color:var(--dark)">
+            <span style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Zavolať</span>
+            <span class="mono" style="font-size:18px;font-weight:500">+421 905 850 452</span>
+          </a>
+          <a href="#kontakt" class="btn-light-outline" style="display:inline-flex;align-items:center;min-height:58px;padding:16px 26px;border:1px solid rgba(255,255,255,0.34);color:#fff;font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Napísať dopyt</a>
+        </div>
+      </div>
+      <div>
+        <div style="position:relative;aspect-ratio:4/3;border:1px solid rgba(255,255,255,0.2);background:var(--dark-2);overflow:hidden">
+          <img src="./images/hero.jpg" alt="Totálna stanica na statíve pri geodetickom meraní v teréne" style="width:100%;height:100%;object-fit:cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre koho -->
+  <section id="vetvy" style="max-width:1240px;margin:0 auto;padding:72px 24px 0">
+    <div class="rule" style="max-width:60ch;margin-bottom:36px">
+      <div class="eyebrow" style="margin-bottom:14px">Pre koho</div>
+      <h2 class="h2">Dve vetvy zákaziek</h2>
+    </div>
+    <div data-two-col="1" style="border:1px solid var(--line);background:var(--surface);display:grid">
+      <div data-branch="1" style="padding:36px 34px;display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div class="mono" style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan-ink);margin-bottom:12px">Vetva A</div>
+          <h3 style="font-size:25px;font-weight:700;letter-spacing:-0.015em;margin-bottom:12px">Súkromné osoby a pozemky</h3>
+          <p style="color:var(--muted);text-wrap:pretty">Zákazky okolo katastra nehnuteľností: prevod, rozdelenie alebo vytýčenie pozemku. Výstupom je overený elaborát použiteľný na úrade.</p>
+        </div>
+        <ul class="card-list" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--line-soft)">
+          <li><span class="n">01</span>Geometrický plán</li>
+          <li><span class="n">02</span>Vytýčenie hranice pozemku</li>
+          <li><span class="n">03</span>Rozdelenie a zameranie pozemku</li>
+          <li><span class="n">04</span>Podklady pre kataster nehnuteľností</li>
+          <li><span class="n">05</span>Podklady pre prevod nehnuteľnosti</li>
+        </ul>
+        <a href="#kontakt" class="btn-dark-outline" style="margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:16px 24px;border:1px solid var(--ink);color:var(--ink);font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Dopyt na geometrický plán</a>
+      </div>
+      <div data-branch="2" style="padding:36px 34px;display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div class="mono" style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan-ink);margin-bottom:12px">Vetva B</div>
+          <h3 style="font-size:25px;font-weight:700;letter-spacing:-0.015em;margin-bottom:12px">Firmy, stavby a projekty</h3>
+          <p style="color:var(--muted);text-wrap:pretty">Zákazky pre stavebné firmy, projektantov a investorov: geodetické zabezpečenie stavby v celom priebehu výstavby.</p>
+        </div>
+        <ul class="card-list" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--line-soft)">
+          <li><span class="n">01</span>Geodetické práce v investičnej výstavbe</li>
+          <li><span class="n">02</span>Vytyčovanie stavieb</li>
+          <li><span class="n">03</span>Účelové mapovanie</li>
+          <li><span class="n">04</span>Geodetické siete</li>
+          <li><span class="n">05</span>Špeciálne geodetické práce</li>
+        </ul>
+        <a href="#kontakt" class="btn-cyan" style="margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:16px 24px;background:var(--cyan);color:var(--dark);font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Dopyt na geodeta pre stavbu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Služby -->
+  <section id="sluzby" style="max-width:1240px;margin:0 auto;padding:72px 24px 0">
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;margin-bottom:36px">
+      <div class="rule" style="max-width:56ch">
+        <div class="eyebrow" style="margin-bottom:14px">Služby v detaile</div>
+        <h2 class="h2">Rozsah geodetických prác</h2>
+      </div>
+      <p class="note" style="max-width:34ch">Každá zákazka má vopred dohodnutý výstup — elaborát, protokol alebo digitálne dáta v požadovanom formáte.</p>
+    </div>
+    <div data-cards="1" style="display:grid;gap:1px;background:var(--line);border:1px solid var(--line)">
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:34px;font-weight:500;color:var(--cyan-ink);line-height:1">01</div>
+        <h3 style="font-size:21px;font-weight:700;letter-spacing:-0.01em">Kataster nehnuteľností</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Geometrické plány, vytýčenie hraníc a zamerania pre zápis do katastra. Zjednodušene: podklady, bez ktorých úrad zmenu na pozemku nezapíše.</p>
+      </div>
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:34px;font-weight:500;color:var(--cyan-ink);line-height:1">02</div>
+        <h3 style="font-size:21px;font-weight:700;letter-spacing:-0.01em">Účelové mapovanie</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Podrobné zameranie terénu, objektov a inžinierskych sietí. Zjednodušene: presná mapa územia ako podklad pre projekt stavby.</p>
+      </div>
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:34px;font-weight:500;color:var(--cyan-ink);line-height:1">03</div>
+        <h3 style="font-size:21px;font-weight:700;letter-spacing:-0.01em">Geodetické práce v investičnej výstavbe</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Vytýčenie stavby, kontrolné merania počas výstavby a zameranie skutočného vyhotovenia. Zjednodušene: stavba stojí presne tam, kde ju projekt určil.</p>
+      </div>
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:34px;font-weight:500;color:var(--cyan-ink);line-height:1">04</div>
+        <h3 style="font-size:21px;font-weight:700;letter-spacing:-0.01em">Geodetické siete</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Budovanie a meranie bodových polí v území alebo na stavbe. Zjednodušene: pevné body, na ktoré sa naväzujú všetky ďalšie merania.</p>
+      </div>
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:34px;font-weight:500;color:var(--cyan-ink);line-height:1">05</div>
+        <h3 style="font-size:21px;font-weight:700;letter-spacing:-0.01em">Špeciálne geodetické práce</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Merania posunov a deformácií, vytyčovanie technológií, netypické konštrukcie. Zjednodušene: zadania, ktoré bežná meračská výbava nepokryje.</p>
+      </div>
+      <div style="background:var(--surface);padding:32px 30px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+        <p style="color:var(--muted)">Zadanie mimo uvedeného rozsahu je možné konzultovať telefonicky.</p>
+        <a href="tel:+421905850452" class="js-demo mono link-cyan" style="font-size:19px;align-self:flex-start;border-bottom:1px solid var(--cyan);padding-bottom:2px">+421 905 850 452</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Postup -->
+  <section id="postup" style="max-width:1240px;margin:0 auto;padding:72px 24px 0">
+    <div class="rule" style="max-width:56ch;margin-bottom:36px">
+      <div class="eyebrow" style="margin-bottom:14px">Ako to prebieha</div>
+      <h2 class="h2">Priebeh zákazky v štyroch krokoch</h2>
+    </div>
+    <div data-steps="1" style="display:grid;gap:1px;background:var(--line);border:1px solid var(--line)">
+      <div style="background:var(--surface);padding:30px 28px">
+        <div class="mono" style="font-size:14px;color:var(--cyan-ink);letter-spacing:0.08em;margin-bottom:16px">KROK 01</div>
+        <h3 style="font-size:19px;font-weight:500;margin-bottom:10px">Zadanie</h3>
+        <p style="font-size:16px;color:var(--muted)">Telefonát alebo e-mail so zadaním. Kancelária upresní, aké podklady budú potrebné.</p>
+      </div>
+      <div style="background:var(--surface);padding:30px 28px">
+        <div class="mono" style="font-size:14px;color:var(--cyan-ink);letter-spacing:0.08em;margin-bottom:16px">KROK 02</div>
+        <h3 style="font-size:19px;font-weight:500;margin-bottom:10px">Obhliadka a zameranie</h3>
+        <p style="font-size:16px;color:var(--muted)">Meranie v teréne v dohodnutom termíne, v rozsahu podľa zadania.</p>
+      </div>
+      <div style="background:var(--surface);padding:30px 28px">
+        <div class="mono" style="font-size:14px;color:var(--cyan-ink);letter-spacing:0.08em;margin-bottom:16px">KROK 03</div>
+        <h3 style="font-size:19px;font-weight:500;margin-bottom:10px">Vypracovanie a overenie</h3>
+        <p style="font-size:16px;color:var(--muted)">Spracovanie elaborátu a úradné overenie na katastri tam, kde ho zákon vyžaduje.</p>
+      </div>
+      <div style="background:var(--surface);padding:30px 28px">
+        <div class="mono" style="font-size:14px;color:var(--cyan-ink);letter-spacing:0.08em;margin-bottom:16px">KROK 04</div>
+        <h3 style="font-size:19px;font-weight:500;margin-bottom:10px">Odovzdanie</h3>
+        <p style="font-size:16px;color:var(--muted)">Odovzdanie výstupu v dohodnutej podobe — tlačenej aj digitálnej.</p>
+      </div>
+    </div>
+    <p style="margin:20px 0 0;font-size:16px;color:var(--muted)">Nie ste si istí, ktorý výstup potrebujete? <a href="tel:+421905850452" class="js-demo link-cyan" style="font-weight:600">Zavolajte a poradíme — +421 905 850 452</a></p>
+  </section>
+
+  <!-- O kancelárii -->
+  <section id="kancelaria" style="max-width:1240px;margin:0 auto;padding:72px 24px 0">
+    <div data-about="1" style="display:grid;gap:32px;align-items:start">
+      <div class="rule">
+        <div class="eyebrow" style="margin-bottom:14px">O kancelárii</div>
+        <h2 class="h2" style="margin-bottom:22px">Ing. Martin Kubanka</h2>
+        <p style="margin:0 0 16px;color:var(--muted);max-width:60ch;text-wrap:pretty">Geodetická kancelária GeoMarK sídli v Prešove. Pracuje pre klientov v Prešove a okolí, na zákazku po celom Slovensku. Rozsah činnosti pokrýva kataster nehnuteľností aj geodéziu v investičnej výstavbe.</p>
+        <p style="margin:0 0 22px;color:var(--muted);max-width:60ch;text-wrap:pretty">Zákazky vedie jedna osoba od zadania po odovzdanie — klient komunikuje priamo s geodetom, ktorý meria v teréne aj spracúva elaborát. Menšie zadania sa dajú vybaviť rýchlo, pri väčších stavbách kancelária ostáva k dispozícii počas celej výstavby.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;border-top:1px solid var(--line);padding-top:20px">
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Sídlo</div>
+            <p style="font-size:16px">Októbrová 21, Prešov</p>
+          </div>
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Pôsobnosť</div>
+            <p style="font-size:16px">Prešov a okolie</p>
+          </div>
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Zákazky</div>
+            <p style="font-size:16px">Po celom Slovensku</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="position:relative;aspect-ratio:4/5;max-width:280px;border:1px solid var(--line);overflow:hidden;background:#E7EBEF">
+          <img src="./images/praca.jpg" alt="Geodet pri meraní totálnou stanicou na stavenisku" loading="lazy" style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <p class="mono" style="margin:10px 0 0;font-size:11px;color:var(--muted);max-width:280px">ilustračná fotografia</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Referencie -->
+  <section id="referencie" style="max-width:1240px;margin:0 auto;padding:72px 24px 0">
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;margin-bottom:32px">
+      <div class="rule" style="max-width:52ch">
+        <div class="eyebrow" style="margin-bottom:14px">Referencie</div>
+        <h2 class="h2">Realizované zákazky</h2>
+      </div>
+      <p class="note" style="max-width:36ch">ilustračné referencie — v ostrej verzii ich nahradia reálne zákazky</p>
+    </div>
+    <div data-refs="1" style="display:grid;gap:20px">
+      <div style="border:1px solid var(--line);background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan-ink)">Investičná výstavba</div>
+        <h3 style="font-size:19px;font-weight:700;letter-spacing:-0.01em">Stavebná spoločnosť Šariš, s.r.o.</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Vytýčenie bytového domu, kontrolné merania počas výstavby a zameranie skutočného vyhotovenia pre kolaudáciu.</p>
+        <p class="mono" style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--muted)">Prešov · 2024</p>
+      </div>
+      <div style="border:1px solid var(--line);background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan-ink)">Účelové mapovanie</div>
+        <h3 style="font-size:19px;font-weight:700;letter-spacing:-0.01em">Obec Ľubotice</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Polohopisné a výškopisné zameranie miestnej komunikácie vrátane inžinierskych sietí ako podklad pre projekt rekonštrukcie.</p>
+        <p class="mono" style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--muted)">Ľubotice · 2023</p>
+      </div>
+      <div style="border:1px solid var(--line);background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:14px">
+        <div class="mono" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan-ink)">Kataster nehnuteľností</div>
+        <h3 style="font-size:19px;font-weight:700;letter-spacing:-0.01em">Rodinný pozemok, Veľký Šariš</h3>
+        <p style="font-size:16px;color:var(--muted);text-wrap:pretty">Geometrický plán na rozdelenie pozemku medzi dvoch dedičov vrátane vytýčenia novej hranice v teréne.</p>
+        <p class="mono" style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--muted)">Veľký Šariš · 2024</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="kontakt" style="max-width:1240px;margin:0 auto;padding:72px 24px 80px">
+    <div class="rule" style="margin-bottom:8px">
+      <div class="eyebrow" style="margin-bottom:14px">Kontakt</div>
+      <h2 class="h2">Najrýchlejšie je telefonicky</h2>
+    </div>
+    <a href="tel:+421905850452" class="js-demo mono link-ink" style="display:inline-block;font-size:clamp(30px, 6.6vw, 62px);font-weight:500;letter-spacing:-0.02em;line-height:1.05;margin:16px 0 36px">+421 905 850 452</a>
+    <div data-contact="1" style="display:grid;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="border-top:1px solid var(--line);padding-top:18px">
+          <div class="mono" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Geodetická kancelária</div>
+          <p style="font-size:19px;font-weight:600;line-height:1.4">GeoMarK — Ing. Martin Kubanka</p>
+          <p style="margin-top:4px;color:var(--muted)">Októbrová 21, 080 01 Prešov</p>
+          <p style="font-size:16px;color:var(--muted)">Prešov a okolie · zákazky po celom Slovensku</p>
+        </div>
+        <div style="border-top:1px solid var(--line);padding-top:18px">
+          <div class="mono" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">E-mail</div>
+          <a href="mailto:geomarkpo@gmail.com" class="js-demo mono link-ink" style="font-size:19px;border-bottom:1px solid var(--line);padding-bottom:2px">geomarkpo@gmail.com</a>
+        </div>
+        <div>
+          <iframe title="Mapa — Októbrová 21, 080 01 Prešov" src="https://www.google.com/maps?q=Okt%C3%B3brov%C3%A1%2021%2C%20080%2001%20Pre%C5%A1ov&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;aspect-ratio:16/10;border:1px solid var(--line);display:block"></iframe>
+          <a href="https://maps.google.com/?q=Okt%C3%B3brov%C3%A1+21,+080+01+Pre%C5%A1ov" target="_blank" rel="noopener" class="btn-dark-outline" style="margin-top:14px;display:inline-flex;align-items:center;min-height:48px;padding:13px 22px;border:1px solid var(--ink);color:var(--ink);font-size:14px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase">Navigovať →</a>
+        </div>
+      </div>
+
+      <form id="demoForm" style="background:var(--surface);border:1px solid var(--line);padding:32px 30px;display:flex;flex-direction:column;gap:18px">
+        <div>
+          <h3 style="font-size:21px;font-weight:700;margin-bottom:6px">Dopyt</h3>
+          <p style="font-size:16px;color:var(--muted)">Kancelária sa ozve telefonicky.</p>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Meno
+          <input type="text" name="meno" placeholder="Meno a priezvisko" style="padding:14px;min-height:52px;font-size:17px;border:1px solid var(--line);background:var(--field);color:var(--ink);border-radius:0">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Telefón
+          <input type="tel" name="telefon" placeholder="+421" class="mono" style="padding:14px;min-height:52px;font-size:17px;border:1px solid var(--line);background:var(--field);color:var(--ink);border-radius:0">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Čo potrebujem
+          <textarea name="poziadavka" rows="4" placeholder="Napr. geometrický plán na rozdelenie pozemku v Prešove" style="padding:14px;font-size:17px;line-height:1.5;border:1px solid var(--line);background:var(--field);color:var(--ink);border-radius:0;resize:vertical"></textarea>
+        </label>
+        <button type="submit" class="btn-cyan" style="min-height:56px;padding:16px 24px;background:var(--cyan);color:var(--dark);font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:0;cursor:pointer">Poslať dopyt</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer style="background:var(--dark);color:var(--on-dark-mute)">
+  <div style="max-width:1240px;margin:0 auto;padding:36px 24px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <span style="font-family:'Space Grotesk',system-ui,sans-serif;color:#fff;font-weight:700;font-size:18px">GeoMarK — Ing. Martin Kubanka</span>
+      <span style="font-size:15px">Októbrová 21, 080 01 Prešov · Spoľahlivo, kvalitne a efektívne</span>
+    </div>
+    <div class="mono" style="display:flex;flex-wrap:wrap;gap:24px;font-size:14px">
+      <a href="tel:+421905850452" class="js-demo footlink">+421 905 850 452</a>
+      <a href="mailto:geomarkpo@gmail.com" class="js-demo footlink">geomarkpo@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Demo popup -->
+<div id="demoPopup" class="overlay" style="position:fixed;inset:0;z-index:70;background:rgba(12,23,32,0.62);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:clamp(16px,5vw,40px)">
+  <div role="dialog" aria-modal="true" aria-labelledby="popTitle" style="background:var(--bg);max-width:520px;width:100%;padding:clamp(28px,5vw,40px);border-top:3px solid var(--cyan);box-shadow:0 26px 70px rgba(12,23,32,0.34);position:relative">
+    <button type="button" data-close aria-label="Zavrieť" style="position:absolute;top:12px;right:12px;width:38px;height:38px;border:1px solid var(--line);background:var(--surface);font-size:20px;line-height:1;cursor:pointer;color:var(--ink)">×</button>
+    <div class="eyebrow" style="margin-bottom:10px">Ukážkový návrh</div>
+    <h3 id="popTitle" style="font-size:27px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;margin-bottom:14px">Toto je zatiaľ len ukážka</h3>
+    <p style="margin-bottom:14px;color:var(--muted);font-size:16px">Túto stránku som pripravil ako <strong style="color:var(--ink)">nezáväzný návrh</strong> pre geodetickú kanceláriu GeoMarK — zadarmo. Nie je to živá stránka, preto tlačidlá a formulár zatiaľ nič neodošlú.</p>
+    <p style="margin-bottom:22px;color:var(--muted);font-size:16px">Referencie aj fotografie sú <strong style="color:var(--ink)">ilustračné</strong> — v ostrej verzii ich nahradia skutočné zákazky a vlastné fotky.</p>
+    <p style="margin-bottom:18px;font-weight:600;font-size:15.5px">Filip Lopatka · web developer</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="mailto:filip@lopatka.sk" class="btn-cyan" style="display:inline-flex;align-items:center;min-height:48px;padding:13px 22px;background:var(--cyan);color:var(--dark);font-weight:600;font-size:14px;letter-spacing:0.08em;text-transform:uppercase">Napíšte mi</a>
+      <a href="tel:+421904902736" class="btn-dark-outline" style="display:inline-flex;align-items:center;min-height:48px;padding:13px 22px;border:1px solid var(--ink);color:var(--ink);font-weight:600;font-size:14px">Zavolať</a>
+      <a href="https://lopatka.sk" target="_blank" rel="noopener" class="btn-dark-outline" style="display:inline-flex;align-items:center;min-height:48px;padding:13px 22px;border:1px solid var(--ink);color:var(--ink);font-weight:600;font-size:14px">lopatka.sk</a>
+    </div>
+  </div>
+</div>
+
+<!-- Demo badge -->
+<div id="demoBadge">
+  <span>Ukážkový návrh — nie je to živá stránka</span>
+  <button type="button" id="badgeClose" aria-label="Skryť upozornenie">×</button>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  var pop = document.getElementById('demoPopup');
+  var menu = document.getElementById('mobileMenu');
+
+  function lock() { body.style.overflow = 'hidden'; }
+  function unlock() { body.style.overflow = ''; }
+
+  window.openMenu = function () { menu.classList.add('open'); lock(); };
+  window.closeMenu = function () { menu.classList.remove('open'); unlock(); };
+  menu.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function () { window.closeMenu(); });
+  });
+
+  function openPop() {
+    menu.classList.remove('open');
+    pop.classList.add('open');
+    lock();
+    var btn = pop.querySelector('[data-close]');
+    if (btn) btn.focus();
+  }
+  function closePop() { pop.classList.remove('open'); unlock(); }
+
+  // Každý tel:/mailto: odkaz a formulár otvorí demo popup namiesto akcie.
+  document.querySelectorAll('.js-demo').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); openPop(); });
+  });
+  var form = document.getElementById('demoForm');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); openPop(); });
+
+  pop.addEventListener('click', function (e) {
+    if (e.target === pop || e.target.closest('[data-close]')) closePop();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (pop.classList.contains('open')) closePop();
+    else if (menu.classList.contains('open')) window.closeMenu();
+  });
+
+  var badge = document.getElementById('demoBadge');
+  var bc = document.getElementById('badgeClose');
+  if (bc) bc.addEventListener('click', function () { badge.style.display = 'none'; });
+})();
+</script>
+
+</body>
+</html>
