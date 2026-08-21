@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>GEOREAL — Peter Kollár · geodet Košice</title>
+<meta name="description" content="Geodetické práce a geometrické plány v Košiciach a okolí. Zameranie stavby, rozdelenie pozemku, vytýčenie hranice — od telefonátu po odovzdanie plánu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:      #EDE9DD;
+    --cream-card: #F3F0E6;
+    --cream-alt:  #E7E2D2;
+    --rail-bg:    #E5E0D1;
+    --ink:        #171A14;
+    --ink-2:      #22241C;
+    --body:       #3A382E;
+    --body-2:     #4A4839;
+    --mute:       #5F5C50;
+    --line-soft:  #CFC9B6;
+    --line-dark:  #33372B;
+    --pink:       #D81E5B;
+    --pink-ink:   #C01450;
+    --pink-dark:  #B3164A;
+    --lime:       #C8D92E;
+    --on-dark:    #EDE9DD;
+    --on-dark-mu: #9A9C8A;
+    --on-dark-bd: #D6D2C4;
+    --map-red:    #C0392B;
+
+    --sans: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    --rail-w: 56px;
+    --pad-x: clamp(20px, 3.2vw, 40px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: var(--serif); -webkit-font-smoothing: antialiased;
+  }
+  img, iframe { max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3 { font-family: var(--sans); margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  :focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+
+  .skiplink { position: absolute; left: -9999px; top: 0; z-index: 80; background: var(--ink); color: var(--on-dark); font-family: var(--mono); font-size: 13px; padding: 12px 18px; }
+  .skiplink:focus { left: 8px; top: 8px; }
+
+  .mono { font-family: var(--mono); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* ── sheet + súradnicová lišta ─────────────────────────────────── */
+  /* pozn.: žiadny overflow na .sheet — clipujúci predok by zrušil sticky hlavičku */
+  .sheet { position: relative; max-width: 1280px; margin: 0 auto; background: var(--cream); }
+  .rail {
+    position: absolute; top: 0; bottom: 0; left: 0; width: var(--rail-w); z-index: 2; overflow: hidden;
+    border-right: 1px solid var(--line-soft); background: var(--rail-bg);
+    display: flex; flex-direction: column; align-items: center; padding-top: 22px;
+    pointer-events: none; user-select: none;
+  }
+  .rail-label { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: #6F6A5A; writing-mode: vertical-rl; text-orientation: mixed; white-space: nowrap; padding-bottom: 18px; }
+  .rail-ticks { width: 100%; flex: 1; }
+  .tick { width: 100%; height: 44px; border-top: 1px solid #D7D1BF; display: flex; align-items: flex-start; justify-content: center; }
+  .tick span { font-family: var(--mono); font-size: 9px; color: #75705F; padding-top: 3px; }
+  .body-col { margin-left: var(--rail-w); }
+
+  /* ── hlavička ──────────────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: grid; grid-template-columns: 1fr auto auto; align-items: stretch;
+    background: var(--ink); color: var(--on-dark); border-bottom: 1px solid var(--ink);
+  }
+  .brand { display: flex; flex-direction: column; gap: 2px; padding: 18px 26px; }
+  .brand b { font-family: var(--sans); font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
+  .brand span { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--lime); }
+  .topbar-prax { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 18px 26px; border-left: 1px solid var(--line-dark); }
+  .topbar-prax span { font-family: var(--mono); font-size: 11px; color: var(--on-dark-mu); }
+  .topbar-prax b { font-family: var(--sans); font-size: 20px; font-weight: 700; }
+  .topbar-call { display: flex; align-items: center; gap: 14px; padding: 18px 30px; background: var(--pink); color: #FFF; transition: background .2s; }
+  .topbar-call:hover, .topbar-call:focus-visible { background: var(--pink-dark); }
+  .topbar-call b { font-family: var(--sans); font-size: 19px; font-weight: 700; }
+  .topbar-call span { font-family: var(--mono); font-size: 19px; font-weight: 700; }
+
+  /* ── hero ──────────────────────────────────────────────────────── */
+  .hero { display: grid; grid-template-columns: 1fr 470px; align-items: stretch; border-bottom: 1px solid var(--ink); }
+  .hero-txt { display: flex; flex-direction: column; gap: 24px; padding: 64px var(--pad-x) 60px; }
+  .crosshair { position: relative; width: 18px; height: 18px; flex: none; }
+  .crosshair::before, .crosshair::after { content: ''; position: absolute; background: var(--pink); }
+  .crosshair::before { top: 8px; left: -4px; width: 26px; height: 2px; }
+  .crosshair::after { left: 8px; top: -4px; height: 26px; width: 2px; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; }
+  .eyebrow span { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--mute); }
+  .hero h1 { font-size: clamp(40px, 6vw, 76px); line-height: .94; font-weight: 800; letter-spacing: -.03em; }
+  .hero-lead { font-size: clamp(19px, 1.7vw, 24px); line-height: 1.55; max-width: 22em; color: #2A2C22; }
+  .hero-cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .call-block { display: flex; flex-direction: column; padding: 18px 28px; background: var(--ink); color: var(--on-dark); transition: background .2s; }
+  .call-block:hover, .call-block:focus-visible { background: #2A2E22; }
+  .call-block span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--lime); }
+  .call-block b { font-family: var(--sans); font-size: clamp(22px, 2.4vw, 26px); font-weight: 700; letter-spacing: -.01em; }
+  .maillink { font-family: var(--sans); font-size: 19px; font-weight: 500; border-bottom: 2px solid var(--pink); padding-bottom: 2px; transition: color .2s; }
+  .maillink:hover, .maillink:focus-visible { color: var(--pink-ink); }
+  .hero-foot { font-family: var(--mono); font-size: 12px; line-height: 1.6; letter-spacing: .06em; color: var(--mute); }
+
+  /* fotorámy */
+  .photo { position: relative; overflow: hidden; background: repeating-linear-gradient(135deg,#DFDACA 0 11px,#D8D2C0 11px 22px); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-tag { position: absolute; top: 20px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--ink); background: var(--lime); padding: 5px 8px; z-index: 2; }
+  .photo-tag.r { right: 20px; }
+  .photo-tag.l { left: 20px; }
+  .photo-cap { position: absolute; left: 20px; bottom: 20px; max-width: calc(100% - 40px); font-family: var(--mono); font-size: 11px; line-height: 1.5; color: var(--body); background: rgba(237,233,221,.94); padding: 9px 11px; z-index: 2; }
+  .hero-photo { border-left: 1px solid var(--ink); }
+
+  /* ── kótovacia linka ───────────────────────────────────────────── */
+  .dimline { display: flex; align-items: center; gap: 14px; padding: 22px var(--pad-x); border-bottom: 1px solid var(--line-soft); }
+  .dimline .rule { flex: 1; height: 1px; background: var(--ink); }
+  .dimline .dot { width: 7px; height: 7px; background: var(--pink); transform: rotate(45deg); flex: none; }
+  .dimline span { font-family: var(--mono); font-size: clamp(10px, 1.1vw, 12px); letter-spacing: .1em; color: var(--ink); text-align: center; }
+
+  /* ── čo potrebujete ────────────────────────────────────────────── */
+  .sec { padding: 56px var(--pad-x) 64px; }
+  .h2 { font-size: clamp(30px, 3.6vw, 46px); line-height: 1; font-weight: 800; letter-spacing: -.025em; }
+  .h2-lg { font-size: clamp(32px, 4vw, 52px); }
+  .sec-lead { margin-top: 10px; font-size: clamp(18px, 1.5vw, 21px); line-height: 1.6; color: var(--body-2); max-width: 40em; }
+
+  .cards { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+  .card { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--cream-card); transition: background .2s; }
+  .card:hover { background: #FFF; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; }
+  .card-top span { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--pink-ink); }
+  .card-top i { width: 9px; height: 9px; border: 1.5px solid var(--ink); border-radius: 50%; }
+  .card h3 { font-size: clamp(22px, 2.1vw, 27px); line-height: 1.08; font-weight: 700; letter-spacing: -.015em; }
+  .card p { font-size: 19px; line-height: 1.6; color: var(--body); }
+  .card-foot { margin-top: auto; padding-top: 16px; font-family: var(--mono); font-size: 11px; line-height: 1.5; letter-spacing: .05em; color: var(--mute); }
+  .card.dark { background: var(--ink); color: var(--on-dark); }
+  .card.dark:hover { background: var(--ink); }
+  .card.dark .card-top span { color: var(--lime); }
+  .card.dark .card-top i { border-color: var(--lime); }
+  .card.dark p { color: var(--on-dark-bd); }
+  .card.dark .card-foot { color: var(--on-dark-mu); }
+
+  /* ── geometrický plán ──────────────────────────────────────────── */
+  .planwrap { position: relative; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--cream-alt); overflow: hidden; }
+  .parcels { position: absolute; inset: 0; pointer-events: none; opacity: .5; }
+  .parcels i { position: absolute; background: var(--map-red); }
+  .parcels b { position: absolute; font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--map-red); }
+  .plangrid { position: relative; display: grid; grid-template-columns: 1fr 440px; align-items: start; gap: 56px; padding: 64px var(--pad-x); }
+  .plantxt { display: flex; flex-direction: column; gap: 22px; }
+  .plantxt p { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.6; color: var(--ink-2); max-width: 30em; text-wrap: pretty; }
+  .badge3 { display: flex; align-items: center; gap: 18px; align-self: flex-start; padding: 16px 22px; background: var(--ink); color: var(--on-dark); }
+  .badge3 b { font-family: var(--sans); font-size: clamp(32px, 3vw, 40px); font-weight: 800; color: var(--lime); line-height: 1; }
+  .badge3 span { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.5; }
+  .plan-photo { width: 100%; aspect-ratio: 3/2; border: 1px solid var(--ink); }
+
+  /* ── 1997 ──────────────────────────────────────────────────────── */
+  .year { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 48px; padding: 56px var(--pad-x); background: var(--ink); color: var(--on-dark); }
+  .year-n { font-family: var(--sans); font-size: clamp(88px, 13vw, 190px); line-height: .8; font-weight: 800; letter-spacing: -.05em; color: var(--lime); }
+  .year-txt { display: flex; flex-direction: column; gap: 12px; }
+  .year-txt p { font-size: clamp(20px, 2vw, 26px); line-height: 1.5; max-width: 18em; }
+  .year-txt span { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--on-dark-mu); }
+
+  /* ── ako to prebieha ───────────────────────────────────────────── */
+  .steps { position: relative; margin-top: 36px; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .steps::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 1px; background: var(--ink); }
+  .step { position: relative; padding-right: 28px; }
+  .step:last-child { padding-right: 0; }
+  .step-n { width: 31px; height: 31px; border-radius: 50%; background: var(--pink); color: #FFF; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+  .step:last-child .step-n { background: var(--ink); color: var(--lime); }
+  .step-h { font-family: var(--sans); font-size: clamp(20px, 1.9vw, 23px); font-weight: 700; line-height: 1.15; letter-spacing: -.015em; margin-bottom: 8px; }
+  .step p { font-size: clamp(18px, 1.6vw, 19px); line-height: 1.6; color: var(--body); }
+  .sec-kicker { margin-top: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--mute); }
+
+  /* ── o mne ─────────────────────────────────────────────────────── */
+  .about { display: grid; grid-template-columns: 520px 1fr; align-items: stretch; border-bottom: 1px solid var(--ink); }
+  .about-photo { border-right: 1px solid var(--ink); min-height: 600px; }
+  .about-txt { display: flex; flex-direction: column; gap: 20px; justify-content: center; padding: 64px var(--pad-x); }
+  .about-txt p { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+  .motto { display: flex; align-items: center; gap: 14px; padding-top: 6px; }
+  .motto i { width: 44px; height: 2px; background: var(--pink); flex: none; }
+  .motto span { font-family: var(--sans); font-size: clamp(22px, 2.2vw, 26px); font-weight: 700; letter-spacing: -.02em; }
+  .sig { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--mute); }
+
+  /* ── kontakt ───────────────────────────────────────────────────── */
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--mute); font-weight: 400; }
+  .bigphone { display: block; font-family: var(--sans); font-size: clamp(34px, 7.2vw, 92px); line-height: .95; font-weight: 800; letter-spacing: -.045em; color: var(--pink); margin: 14px 0 26px; transition: color .2s; }
+  .bigphone:hover, .bigphone:focus-visible { color: var(--ink); }
+  .contactgrid { display: grid; grid-template-columns: 1fr 400px; gap: 56px; align-items: start; }
+  .contact-left { display: flex; flex-direction: column; gap: 26px; }
+  .btn-dark { align-self: flex-start; padding: 18px 30px; background: var(--ink); color: var(--on-dark); font-family: var(--sans); font-size: 21px; font-weight: 700; transition: background .2s, color .2s; }
+  .btn-dark:hover, .btn-dark:focus-visible { background: var(--pink); color: #FFF; }
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 10px 28px; font-size: 20px; line-height: 1.55; }
+  .facts dt { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--mute); padding-top: 6px; }
+  .facts dd { margin: 0; }
+  .facts a { border-bottom: 2px solid var(--pink); }
+  .mapbox { position: relative; border: 1px solid var(--ink); }
+  .mapbox iframe { width: 100%; aspect-ratio: 16/9; border: 0; display: block; filter: saturate(.72) contrast(1.03); }
+  .mapfoot { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border-top: 1px solid var(--ink); background: var(--cream-card); padding: 12px 14px; }
+  .mapfoot span { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; color: var(--body); }
+  .mapfoot a { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; background: var(--ink); color: var(--on-dark); padding: 9px 14px; transition: background .2s; }
+  .mapfoot a:hover, .mapfoot a:focus-visible { background: var(--pink); color: #FFF; }
+
+  .form { display: flex; flex-direction: column; gap: 14px; padding: 30px; border: 1px solid var(--ink); background: var(--cream-card); }
+  .form-h { font-family: var(--sans); font-size: clamp(22px, 2.1vw, 26px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+  .form label { display: flex; flex-direction: column; gap: 6px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--mute); }
+  .form input, .form textarea { padding: 15px; font-size: 18px; line-height: 1.5; font-family: var(--serif); color: var(--ink); background: var(--cream); border: 1px solid var(--ink); outline: none; width: 100%; }
+  .form textarea { resize: vertical; }
+  .form input:focus-visible, .form textarea:focus-visible { outline: 3px solid var(--pink); outline-offset: -1px; }
+  .form button { padding: 17px; background: var(--pink); color: #FFF; font-family: var(--sans); font-size: 19px; font-weight: 700; border: none; cursor: pointer; transition: background .2s; }
+  .form button:hover, .form button:focus-visible { background: var(--ink); }
+
+  /* ── pätička ───────────────────────────────────────────────────── */
+  .foot { display: grid; grid-template-columns: 1fr 1fr 1fr auto; align-items: stretch; background: var(--ink); color: var(--on-dark-mu); }
+  .foot > div { display: flex; flex-direction: column; gap: 4px; padding: 22px 26px; }
+  .foot > div + div { border-left: 1px solid var(--line-dark); }
+  .foot small { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; }
+  .foot b { font-family: var(--sans); font-size: 18px; font-weight: 700; color: var(--on-dark); }
+  .foot em { font-style: normal; font-size: 17px; color: var(--on-dark); }
+  .foot .lime { color: var(--lime); font-size: 17px; }
+  .foot-call { display: flex; align-items: center; padding: 22px 30px; background: var(--lime); color: var(--ink); font-family: var(--mono); font-size: 17px; font-weight: 700; transition: filter .2s; }
+  .foot-call:hover, .foot-call:focus-visible { filter: brightness(.93); }
+
+  /* ── mobilná lišta / demo vrstva ───────────────────────────────── */
+  .callbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; gap: 10px; padding: 10px 14px; background: rgba(237,233,221,.97); backdrop-filter: blur(10px); border-top: 1px solid var(--ink); }
+  .callbar a { flex: 1; padding: 15px; text-align: center; font-family: var(--sans); font-size: 17px; font-weight: 700; }
+  .callbar .a { flex: 2; background: var(--pink); color: #FFF; }
+  .callbar .b { border: 1px solid var(--ink); color: var(--ink); }
+
+  #demoBadge {
+    position: fixed; left: 14px; bottom: 14px; z-index: 45;
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(237,233,221,.95); backdrop-filter: blur(8px);
+    border: 1px solid var(--ink); padding: 8px 10px 8px 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink);
+    box-shadow: 0 6px 20px rgba(23,26,20,.16);
+  }
+  #demoBadge button { width: 22px; height: 22px; border: none; cursor: pointer; background: var(--ink); color: var(--lime); font-size: 14px; line-height: 1; font-family: inherit; display: flex; align-items: center; justify-content: center; }
+
+  .overlay { display: none; position: fixed; inset: 0; z-index: 70; background: rgba(14,16,12,.62); backdrop-filter: blur(3px); align-items: center; justify-content: center; padding: clamp(16px, 5vw, 40px); }
+  .overlay.open { display: flex; }
+  .modal { position: relative; width: 100%; max-width: 500px; background: var(--cream); border: 1px solid var(--ink); box-shadow: 0 26px 70px rgba(14,16,12,.4); padding: clamp(26px, 5vw, 38px); }
+  .modal-close { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border: 1px solid var(--ink); background: var(--cream-card); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; font-family: var(--mono); }
+  .modal .kicker { display: block; color: var(--pink-ink); font-weight: 700; }
+  .modal h3 { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.05; font-weight: 800; letter-spacing: -.025em; margin: 10px 0 14px; }
+  .modal p { font-size: 18px; line-height: 1.6; color: var(--ink-2); }
+  .modal p + p { margin-top: 12px; }
+  .modal-me { margin: 20px 0 16px; display: flex; align-items: center; gap: 12px; }
+  .modal-me i { width: 36px; height: 2px; background: var(--pink); flex: none; }
+  .modal-me span { font-family: var(--sans); font-size: 19px; font-weight: 700; letter-spacing: -.015em; }
+  .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .modal-actions a { padding: 13px 20px; font-family: var(--sans); font-size: 16px; font-weight: 700; }
+  .modal-actions .p { background: var(--pink); color: #FFF; }
+  .modal-actions .p:hover, .modal-actions .p:focus-visible { background: var(--pink-dark); }
+  .modal-actions .s { border: 1px solid var(--ink); color: var(--ink); }
+  .modal-actions .s:hover, .modal-actions .s:focus-visible { background: var(--ink); color: var(--on-dark); }
+
+  /* ── responzívne ───────────────────────────────────────────────── */
+  @media (max-width: 1080px) {
+    .hero { grid-template-columns: 1fr 360px; }
+    .plangrid { grid-template-columns: 1fr 340px; gap: 36px; }
+    .about { grid-template-columns: 380px 1fr; }
+    .contactgrid { grid-template-columns: 1fr 340px; gap: 32px; }
+  }
+  @media (max-width: 1000px) {
+    .rail { display: none; }
+    .body-col { margin-left: 0; }
+  }
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); row-gap: 30px; }
+    .steps::before { display: none; }
+    .step:nth-child(2n) { padding-right: 0; }
+  }
+  @media (max-width: 760px) {
+    .topbar { grid-template-columns: 1fr auto; }
+    .brand { padding: 14px 18px; }
+    .brand b { font-size: 20px; }
+    .brand span { font-size: 10px; }
+    .topbar-prax { display: none; }
+    .topbar-call { padding: 0 20px; gap: 0; }
+    .topbar-call b { font-size: 17px; }
+    .topbar-call span { display: none; }
+
+    .hero { grid-template-columns: 1fr; }
+    .hero-txt { padding: 30px 22px 26px; gap: 18px; }
+    .hero-photo { border-left: 0; border-top: 1px solid var(--ink); aspect-ratio: 4/5; margin: 0 22px 34px; border: 1px solid var(--ink); }
+    .hero-lead { font-size: 20px; }
+    .hero-cta { flex-direction: column; align-items: stretch; gap: 14px; }
+    .call-block { align-items: flex-start; }
+    .maillink { align-self: flex-start; }
+
+    .dimline { padding: 18px 22px; gap: 10px; }
+    .dimline span { font-size: 10px; letter-spacing: .06em; }
+
+    .sec { padding: 34px 22px 38px; }
+    .cards { grid-template-columns: 1fr; margin-top: 24px; }
+    .card { padding: 20px; }
+    .card p { font-size: 18px; }
+
+    .plangrid { grid-template-columns: 1fr; gap: 18px; padding: 34px 22px 38px; }
+    .plantxt { gap: 18px; }
+    .plan-photo { aspect-ratio: 3/2; }
+
+    .year { grid-template-columns: 1fr; gap: 12px; padding: 32px 22px 36px; }
+    .year-txt p { font-size: 21px; }
+
+    .steps { grid-template-columns: 1fr; row-gap: 22px; margin-top: 22px; }
+    .step { display: grid; grid-template-columns: 38px 1fr; gap: 14px; align-items: start; padding-right: 0 !important; }
+    .step-n { margin-bottom: 0; }
+
+    .about { grid-template-columns: 1fr; }
+    .about-photo { border-right: 0; min-height: 0; aspect-ratio: 4/5; margin: 34px 22px 0; border: 1px solid var(--ink); }
+    .about-txt { padding: 22px 22px 38px; gap: 16px; }
+    .about-txt p { font-size: 19px; }
+
+    .contactgrid { grid-template-columns: 1fr; gap: 26px; }
+    .btn-dark { align-self: stretch; text-align: center; font-size: 19px; padding: 18px; }
+    .facts { grid-template-columns: 1fr; gap: 2px; font-size: 19px; }
+    .facts dt { padding-top: 12px; }
+    .mapbox iframe { aspect-ratio: 4/3; }
+    .form { padding: 22px; }
+
+    .foot { grid-template-columns: 1fr; }
+    .foot > div { padding: 18px 22px; }
+    .foot > div + div { border-left: 0; border-top: 1px solid var(--line-dark); }
+    .foot-call { padding: 18px 22px; }
+
+    .callbar { display: flex; }
+    .page { padding-bottom: 76px; }
+    #demoBadge { bottom: 84px; left: 12px; }
+
+    .photo-tag { top: 14px; }
+    .photo-tag.r { right: 14px; }
+    .photo-tag.l { left: 14px; }
+    .photo-cap { left: 14px; right: 14px; bottom: 14px; }
+  }
+  @media (max-width: 420px) {
+    .brand b { font-size: 18px; }
+    .topbar-call { padding: 0 16px; }
+    #demoBadge { font-size: 10px; padding: 7px 8px 7px 12px; }
+  }
+</style>
+</head>
+<body class="page">
+
+<a class="skiplink" href="#obsah">Preskočiť na obsah</a>
+
+<div class="sheet">
+
+  <!-- súradnicová lišta (S-JTSK) -->
+  <div class="rail" aria-hidden="true">
+    <div class="rail-label">S-JTSK</div>
+    <div class="rail-ticks" id="railTicks"></div>
+  </div>
+
+  <div class="body-col">
+
+    <!-- popisový blok / hlavička -->
+    <header class="topbar">
+      <div class="brand">
+        <b>GEOREAL</b>
+        <span>PETER KOLLÁR / GEODET / KOŠICE</span>
+      </div>
+      <div class="topbar-prax">
+        <span>PRAX</span>
+        <b>od 1997</b>
+      </div>
+      <a class="topbar-call js-demo" href="tel:+421903612798">
+        <b>Zavolať</b>
+        <span>+421 903 612 798</span>
+      </a>
+    </header>
+
+    <main id="obsah">
+
+      <!-- hero -->
+      <section class="hero">
+        <div class="hero-txt">
+          <div class="eyebrow">
+            <div class="crosshair"></div>
+            <span>GEODETICKÉ PRÁCE / GEOMETRICKÉ PLÁNY</span>
+          </div>
+          <h1>Zameriam vám<br>to dnes ešte<br>pred obedom.</h1>
+          <p class="hero-lead">Som Peter Kollár, geodet v Košiciach a okolí. Zameriam stavbu alebo pozemok, rozdelím parcelu, vytýčim hranicu a vyhotovím geometrický plán. Robím to sám — od telefonátu po odovzdanie plánu.</p>
+          <div class="hero-cta">
+            <a class="call-block js-demo" href="tel:+421903612798">
+              <span>ZAVOLAJTE MI</span>
+              <b>+421 903 612 798</b>
+            </a>
+            <a class="maillink js-demo" href="mailto:pekollar@gmail.com">pekollar@gmail.com</a>
+          </div>
+          <div class="hero-foot">SAMOSTATNÝ GEODET OD ROKU 1997 · 25 ROKOV PRAXE · KOŠICE A OKOLIE</div>
+        </div>
+        <div class="photo hero-photo">
+          <img src="images/hero.jpg" alt="Geodet s totálnou stanicou pri meraní v teréne za svitania" width="1000" height="1400" fetchpriority="high">
+          <div class="photo-tag r">V TERÉNE</div>
+          <div class="photo-cap">GEODET S TOTÁLNOU STANICOU<br>KOŠICE A OKOLIE</div>
+        </div>
+      </section>
+
+      <!-- kótovacia linka -->
+      <div class="dimline">
+        <div class="dot"></div>
+        <div class="rule"></div>
+        <span>06 SITUÁCIÍ, KTORÉ RIEŠIM NAJČASTEJŠIE</span>
+        <div class="rule"></div>
+        <div class="dot"></div>
+      </div>
+
+      <!-- čo potrebujete -->
+      <section class="sec" id="sluzby">
+        <h2 class="h2 h2-lg">Čo potrebujete?</h2>
+        <p class="sec-lead">Nájdite svoju situáciu. Ak si nie ste istý, ktorá je vaša, zavolajte a poviem vám to za minútu.</p>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-top"><span>BOD 01</span><i></i></div>
+            <h3>Staviam dom a chcú odo mňa geometrický plán</h3>
+            <p>Hotovú stavbu zameriam a vyhotovím plán, ktorý potrebujete ku kolaudácii a k zápisu do katastra.</p>
+            <div class="card-foot">ZAMERANIE STAVBY / POREALIZAČNÉ ZAMERANIE</div>
+          </article>
+
+          <article class="card">
+            <div class="card-top"><span>BOD 02</span><i></i></div>
+            <h3>Delím alebo predávam pozemok</h3>
+            <p>Oddelím časť pozemku alebo ho rozdelím a vyhotovím geometrický plán pre notára, banku aj kataster.</p>
+            <div class="card-foot">ROZDELENIE A ODDELENIE POZEMKU / GEOMETRICKÝ PLÁN</div>
+          </article>
+
+          <article class="card dark">
+            <div class="card-top"><span>BOD 03</span><i></i></div>
+            <h3>Neviem, kde presne vedie moja hranica</h3>
+            <p>Vytýčim hranicu vášho pozemku v teréne podľa údajov katastra a označím ju, aby bolo jasné, čo je vaše.</p>
+            <div class="card-foot">VYTÝČENIE HRANICE POZEMKU</div>
+          </article>
+
+          <article class="card">
+            <div class="card-top"><span>BOD 04</span><i></i></div>
+            <h3>Idem stavať a projektant odo mňa niečo chce</h3>
+            <p>Pripravím geodetické podklady, z ktorých projektant vychádza pri návrhu stavby. Stačí povedať, čo od vás žiada.</p>
+            <div class="card-foot">GEODETICKÉ PODKLADY PRE PROJEKTANTA</div>
+          </article>
+
+          <article class="card">
+            <div class="card-top"><span>BOD 05</span><i></i></div>
+            <h3>Potrebujem vytýčiť stavbu na pozemku</h3>
+            <p>Pred začiatkom stavby vytýčim jej polohu a výšku presne podľa projektu, aby ste stavali tam, kde máte.</p>
+            <div class="card-foot">VYTÝČENIE STAVBY</div>
+          </article>
+
+          <article class="card">
+            <div class="card-top"><span>BOD 06</span><i></i></div>
+            <h3>Potrebujem zameranie pozemku alebo domu</h3>
+            <p>Zameriam pozemok alebo objekt vrátane výšok a odovzdám podklad v podobe, akú od vás žiadajú.</p>
+            <div class="card-foot">VÝŠKOPISNÉ A POLOHOPISNÉ ZAMERANIE</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- čo je geometrický plán -->
+      <section class="planwrap" id="plan">
+        <div class="parcels" aria-hidden="true">
+          <i style="top:0;bottom:0;left:22%;width:1px"></i>
+          <i style="top:0;bottom:0;left:58%;width:1px"></i>
+          <i style="top:0;bottom:0;left:79%;width:1px"></i>
+          <i style="left:0;right:0;top:38%;height:1px"></i>
+          <i style="left:58%;right:0;top:72%;height:1px"></i>
+          <b style="top:calc(38% + 10px);left:calc(58% + 12px)">1247/3</b>
+          <b style="top:calc(38% + 10px);left:calc(79% + 12px)">1247/4</b>
+          <b style="top:12px;left:calc(22% + 12px)">1246</b>
+        </div>
+        <div class="plangrid">
+          <div class="plantxt">
+            <h2 class="h2">Čo je geometrický plán</h2>
+            <p>Je technický podklad na právne úkony a pre iné listiny. Slúži na vyznačenie zmien v katastri nehnuteľností a obsahuje grafické znázornenie nehnuteľnosti pred zmenou a po zmene s uvedením doterajších a nových parcelných čísiel a ich výmer.</p>
+            <div class="badge3">
+              <b>3×</b>
+              <span>Plán štandardne odovzdávam<br>v troch vyhotoveniach.</span>
+            </div>
+          </div>
+          <div class="photo plan-photo">
+            <img src="images/plan.jpg" alt="Detail technického výkresu s kótami a číslami parciel" width="1200" height="800" loading="lazy">
+            <div class="photo-tag r">GEOMETRICKÝ PLÁN</div>
+            <div class="photo-cap">VÝREZ VÝKRESU S KÓTAMI<br>A PARCELNÝMI ČÍSLAMI</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1997 -->
+      <section class="year">
+        <div class="year-n">1997</div>
+        <div class="year-txt">
+          <p>Od tohto roku meriam samostatne. 25 rokov v teréne v Košiciach a okolí — a stále to isté: prídem, zmeriam, odovzdám.</p>
+          <span>MERÁM, TEDA SOM.</span>
+        </div>
+      </section>
+
+      <!-- ako to prebieha -->
+      <section class="sec" id="postup" style="border-bottom:1px solid var(--ink)">
+        <h2 class="h2">Ako to prebieha</h2>
+        <p class="sec-kicker">ŠTYRI KROKY / OD TELEFONÁTU PO ODOVZDANIE</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">01</div>
+            <div>
+              <div class="step-h">Zavoláte a poviete, čo potrebujete</div>
+              <p>Stačí opísať situáciu vlastnými slovami. Odborný názov si nájdem ja.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">02</div>
+            <div>
+              <div class="step-h">Dohodneme sa na obhliadke a zameraní</div>
+              <p>Prídem na miesto, pozriem si pozemok alebo stavbu a zameriam ju v teréne.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">03</div>
+            <div>
+              <div class="step-h">Vypracujem plán a nechám ho overiť na katastri</div>
+              <p>Spracujem podklady, vyhotovím plán a zabezpečím jeho úradné overenie.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">04</div>
+            <div>
+              <div class="step-h">Odovzdám vám ho</div>
+              <p>Preberiete si hotový plán a vysvetlím vám, čo s ním ďalej urobíte.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- o mne -->
+      <section class="about" id="o-mne">
+        <div class="photo about-photo">
+          <img src="images/about.jpg" alt="Totálna stanica na statíve pripravená na meranie" width="900" height="1200" loading="lazy">
+          <div class="photo-tag l">TOTÁLNA STANICA</div>
+          <div class="photo-cap">ILUSTRAČNÁ FOTKA — SEM PRÍDE<br>VÁŠ PORTRÉT Z TERÉNU</div>
+        </div>
+        <div class="about-txt">
+          <h2 class="h2">O mne</h2>
+          <p>Som Peter Kollár, geodet. Samostatne pracujem od roku 1997, mám 25 rokov praxe a meriam v Košiciach a okolí. Zákazku vediem sám od prvého telefonátu po odovzdanie plánu — nikto vás neposiela ďalej a nikto vám nič neprepája.</p>
+          <p>Držím sa jednej zásady: „náš zákazník — náš pán“. Korektne, spoľahlivo a s presnosťou, ktorá obstojí na katastri.</p>
+          <div class="motto"><i></i><span>Merám, teda som.</span></div>
+          <span class="sig">PETER KOLLÁR, GEODET</span>
+        </div>
+      </section>
+
+      <!-- kontakt -->
+      <section class="sec" id="kontakt">
+        <h2 class="kicker">KONTAKT</h2>
+        <a class="bigphone js-demo" href="tel:+421903612798">+421 903 612 798</a>
+
+        <div class="contactgrid">
+          <div class="contact-left">
+            <a class="btn-dark js-demo" href="tel:+421903612798">Zavolať teraz</a>
+
+            <dl class="facts">
+              <dt>GEODET</dt><dd>Peter Kollár — GEOREAL</dd>
+              <dt>ADRESA</dt><dd>Južná trieda 36, 040 03 Košice</dd>
+              <dt>E-MAIL</dt><dd><a class="js-demo" href="mailto:pekollar@gmail.com">pekollar@gmail.com</a></dd>
+              <dt>PÔSOBNOSŤ</dt><dd>Košice a okolie</dd>
+            </dl>
+
+            <div class="mapbox">
+              <iframe title="Mapa — Južná trieda 36, 040 03 Košice" src="https://www.google.com/maps?q=Ju%C5%BEn%C3%A1%20trieda%2036%2C%20040%2003%20Ko%C5%A1ice&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <div class="mapfoot">
+                <span>JUŽNÁ TRIEDA 36 / 040 03 KOŠICE</span>
+                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ju%C5%BEn%C3%A1%20trieda%2036%2C%20040%2003%20Ko%C5%A1ice" target="_blank" rel="noopener">NAVIGOVAŤ →</a>
+              </div>
+            </div>
+          </div>
+
+          <form class="form" id="contactForm" novalidate>
+            <div class="form-h">Alebo napíšte a zavolám vám</div>
+            <label>MENO
+              <input type="text" name="meno" placeholder="Vaše meno" autocomplete="name">
+            </label>
+            <label>TELEFÓN
+              <input type="tel" name="telefon" placeholder="+421" autocomplete="tel">
+            </label>
+            <label>ČO POTREBUJEM
+              <textarea name="sprava" rows="4" placeholder="Napríklad: staviam dom v Košiciach a chcú odo mňa geometrický plán ku kolaudácii."></textarea>
+            </label>
+            <button type="submit">Odoslať</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- pätička ako popisové pole výkresu -->
+    <footer class="foot">
+      <div><small>GEODET</small><b>GEOREAL — Peter Kollár</b></div>
+      <div><small>MIESTO</small><em>Južná trieda 36, Košice</em></div>
+      <div><small>ZÁSADA</small><span class="lime">Merám, teda som.</span></div>
+      <a class="foot-call js-demo" href="tel:+421903612798">+421 903 612 798</a>
+    </footer>
+
+  </div>
+</div>
+
+<!-- sticky mobilná lišta -->
+<div class="callbar">
+  <a class="a js-demo" href="tel:+421903612798">Zavolať</a>
+  <a class="b" href="#kontakt">Napísať</a>
+</div>
+
+<!-- demo popup -->
+<div id="demoPopup" class="overlay" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+  <div class="modal">
+    <button type="button" class="modal-close" data-close aria-label="Zavrieť">×</button>
+    <span class="kicker">UKÁŽKOVÝ NÁVRH</span>
+    <h3 id="demoTitle">Toto je zatiaľ len ukážka</h3>
+    <p>Túto stránku som pripravil ako <strong>nezáväzný návrh</strong> pre GEOREAL — zadarmo a bez toho, aby ste o čokoľvek žiadali. Nie je to živá stránka, preto tlačidlá zatiaľ nikam nevolajú a formulár nič neodošle.</p>
+    <p>Fotky sú zatiaľ ilustračné (voľná licencia) — v ostrej verzii ich nahradia vaše vlastné.</p>
+    <p>Ak sa vám páči, rád vám ju spravím <strong>naostro</strong> — funkčnú, rýchlu a na mieru.</p>
+    <div class="modal-me"><i></i><span>Filip Lopatka · web developer</span></div>
+    <div class="modal-actions">
+      <a class="p" href="mailto:filip@lopatka.sk">Napíšte mi</a>
+      <a class="s" href="tel:+421904902736">Zavolať</a>
+      <a class="s" href="https://lopatka.sk" target="_blank" rel="noopener">lopatka.sk</a>
+    </div>
+  </div>
+</div>
+
+<!-- demo badge -->
+<div id="demoBadge">
+  <span>UKÁŽKOVÝ NÁVRH — NIE JE TO ŽIVÁ STRÁNKA</span>
+  <button type="button" id="badgeClose" aria-label="Skryť upozornenie">×</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── súradnicová lišta: ticky podľa skutočnej výšky hárku ──────────
+  var ticksHost = document.getElementById('railTicks');
+  var sheet = document.querySelector('.sheet');
+  var TICK_H = 44, START = 232400, STEP = 20;
+
+  function drawTicks() {
+    if (!ticksHost || getComputedStyle(ticksHost.parentNode).display === 'none') return;
+    var n = Math.ceil(ticksHost.getBoundingClientRect().height / TICK_H) + 1;
+    if (ticksHost.childElementCount === n) return;
+    var html = '';
+    for (var i = 0; i < n; i++) html += '<div class="tick"><span>' + (START + i * STEP) + '</span></div>';
+    ticksHost.innerHTML = html;
+  }
+  drawTicks();
+  if (window.ResizeObserver && sheet) new ResizeObserver(drawTicks).observe(sheet);
+  window.addEventListener('load', drawTicks);
+  window.addEventListener('resize', drawTicks);
+
+  // ── demo vrstva: každá „ostrá“ akcia otvorí popup ─────────────────
+  var pop = document.getElementById('demoPopup');
+  var lastFocus = null;
+
+  function openPop() {
+    lastFocus = document.activeElement;
+    pop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var btn = pop.querySelector('[data-close]');
+    if (btn) btn.focus();
+  }
+  function closePop() {
+    pop.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('.js-demo').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); openPop(); });
+  });
+
+  var form = document.getElementById('contactForm');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); openPop(); });
+
+  pop.addEventListener('click', function (e) {
+    if (e.target === pop || e.target.hasAttribute('data-close')) closePop();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (pop.classList.contains('open')) closePop();
+  });
+
+  // ── badge ────────────────────────────────────────────────────────
+  var badge = document.getElementById('demoBadge');
+  var bc = document.getElementById('badgeClose');
+  if (bc) bc.addEventListener('click', function () { badge.style.display = 'none'; });
+})();
+</script>
+
+</body>
+</html>
