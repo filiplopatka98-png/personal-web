@@ -14,7 +14,6 @@
     --cream:      #EDE9DD;
     --cream-card: #F3F0E6;
     --cream-alt:  #E7E2D2;
-    --rail-bg:    #E5E0D1;
     --ink:        #171A14;
     --ink-2:      #22241C;
     --body:       #3A382E;
@@ -35,8 +34,8 @@
     --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
     --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-    --rail-w: 56px;
-    --pad-x: clamp(20px, 3.2vw, 40px);
+    --maxw: 1680px;
+    --pad-x: clamp(20px, 4vw, 72px);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -61,20 +60,9 @@
   .mono { font-family: var(--mono); }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-  /* ── sheet + súradnicová lišta ─────────────────────────────────── */
+  /* ── sheet ─────────────────────────────────────────────────────── */
   /* pozn.: žiadny overflow na .sheet — clipujúci predok by zrušil sticky hlavičku */
-  .sheet { position: relative; max-width: 1280px; margin: 0 auto; background: var(--cream); }
-  .rail {
-    position: absolute; top: 0; bottom: 0; left: 0; width: var(--rail-w); z-index: 2; overflow: hidden;
-    border-right: 1px solid var(--line-soft); background: var(--rail-bg);
-    display: flex; flex-direction: column; align-items: center; padding-top: 22px;
-    pointer-events: none; user-select: none;
-  }
-  .rail-label { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: #6F6A5A; writing-mode: vertical-rl; text-orientation: mixed; white-space: nowrap; padding-bottom: 18px; }
-  .rail-ticks { width: 100%; flex: 1; }
-  .tick { width: 100%; height: 44px; border-top: 1px solid #D7D1BF; display: flex; align-items: flex-start; justify-content: center; }
-  .tick span { font-family: var(--mono); font-size: 9px; color: #75705F; padding-top: 3px; }
-  .body-col { margin-left: var(--rail-w); }
+  .sheet { position: relative; max-width: var(--maxw); margin: 0 auto; background: var(--cream); }
 
   /* ── hlavička ──────────────────────────────────────────────────── */
   .topbar {
@@ -94,8 +82,9 @@
   .topbar-call span { font-family: var(--mono); font-size: 19px; font-weight: 700; }
 
   /* ── hero ──────────────────────────────────────────────────────── */
-  .hero { display: grid; grid-template-columns: 1fr 470px; align-items: stretch; border-bottom: 1px solid var(--ink); }
-  .hero-txt { display: flex; flex-direction: column; gap: 24px; padding: 64px var(--pad-x) 60px; }
+  .hero { display: grid; grid-template-columns: 1fr minmax(360px, 40%); align-items: stretch; border-bottom: 1px solid var(--ink); }
+  /* na širokých displejoch je hero vyššie ako text (výšku určuje foto) — vycentruj */
+  .hero-txt { display: flex; flex-direction: column; justify-content: center; gap: 24px; padding: 64px var(--pad-x) 60px; }
   .crosshair { position: relative; width: 18px; height: 18px; flex: none; }
   .crosshair::before, .crosshair::after { content: ''; position: absolute; background: var(--pink); }
   .crosshair::before { top: 8px; left: -4px; width: 26px; height: 2px; }
@@ -155,7 +144,7 @@
   .parcels { position: absolute; inset: 0; pointer-events: none; opacity: .5; }
   .parcels i { position: absolute; background: var(--map-red); }
   .parcels b { position: absolute; font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--map-red); }
-  .plangrid { position: relative; display: grid; grid-template-columns: 1fr 440px; align-items: start; gap: 56px; padding: 64px var(--pad-x); }
+  .plangrid { position: relative; display: grid; grid-template-columns: 1fr minmax(320px, 34%); align-items: start; gap: 56px; padding: 64px var(--pad-x); }
   .plantxt { display: flex; flex-direction: column; gap: 22px; }
   .plantxt p { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.6; color: var(--ink-2); max-width: 30em; text-wrap: pretty; }
   .badge3 { display: flex; align-items: center; gap: 18px; align-self: flex-start; padding: 16px 22px; background: var(--ink); color: var(--on-dark); }
@@ -182,10 +171,10 @@
   .sec-kicker { margin-top: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--mute); }
 
   /* ── o mne ─────────────────────────────────────────────────────── */
-  .about { display: grid; grid-template-columns: 520px 1fr; align-items: stretch; border-bottom: 1px solid var(--ink); }
+  .about { display: grid; grid-template-columns: minmax(360px, 38%) 1fr; align-items: stretch; border-bottom: 1px solid var(--ink); }
   .about-photo { border-right: 1px solid var(--ink); min-height: 600px; }
   .about-txt { display: flex; flex-direction: column; gap: 20px; justify-content: center; padding: 64px var(--pad-x); }
-  .about-txt p { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+  .about-txt p { font-size: clamp(19px, 1.7vw, 23px); line-height: 1.6; color: var(--ink-2); max-width: 32em; text-wrap: pretty; }
   .motto { display: flex; align-items: center; gap: 14px; padding-top: 6px; }
   .motto i { width: 44px; height: 2px; background: var(--pink); flex: none; }
   .motto span { font-family: var(--sans); font-size: clamp(22px, 2.2vw, 26px); font-weight: 700; letter-spacing: -.02em; }
@@ -195,7 +184,7 @@
   .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--mute); font-weight: 400; }
   .bigphone { display: block; font-family: var(--sans); font-size: clamp(34px, 7.2vw, 92px); line-height: .95; font-weight: 800; letter-spacing: -.045em; color: var(--pink); margin: 14px 0 26px; transition: color .2s; }
   .bigphone:hover, .bigphone:focus-visible { color: var(--ink); }
-  .contactgrid { display: grid; grid-template-columns: 1fr 400px; gap: 56px; align-items: start; }
+  .contactgrid { display: grid; grid-template-columns: 1fr minmax(320px, 30%); gap: 56px; align-items: start; }
   .contact-left { display: flex; flex-direction: column; gap: 26px; }
   .btn-dark { align-self: flex-start; padding: 18px 30px; background: var(--ink); color: var(--on-dark); font-family: var(--sans); font-size: 21px; font-weight: 700; transition: background .2s, color .2s; }
   .btn-dark:hover, .btn-dark:focus-visible { background: var(--pink); color: #FFF; }
@@ -203,7 +192,7 @@
   .facts dt { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--mute); padding-top: 6px; }
   .facts dd { margin: 0; }
   .facts a { border-bottom: 2px solid var(--pink); }
-  .mapbox { position: relative; border: 1px solid var(--ink); }
+  .mapbox { position: relative; border: 1px solid var(--ink); max-width: 760px; }
   .mapbox iframe { width: 100%; aspect-ratio: 16/9; border: 0; display: block; filter: saturate(.72) contrast(1.03); }
   .mapfoot { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border-top: 1px solid var(--ink); background: var(--cream-card); padding: 12px 14px; }
   .mapfoot span { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; color: var(--body); }
@@ -266,14 +255,8 @@
 
   /* ── responzívne ───────────────────────────────────────────────── */
   @media (max-width: 1080px) {
-    .hero { grid-template-columns: 1fr 360px; }
-    .plangrid { grid-template-columns: 1fr 340px; gap: 36px; }
-    .about { grid-template-columns: 380px 1fr; }
-    .contactgrid { grid-template-columns: 1fr 340px; gap: 32px; }
-  }
-  @media (max-width: 1000px) {
-    .rail { display: none; }
-    .body-col { margin-left: 0; }
+    .plangrid { gap: 36px; }
+    .contactgrid { gap: 32px; }
   }
   @media (max-width: 900px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
@@ -357,64 +340,56 @@
 
 <div class="sheet">
 
-  <!-- súradnicová lišta (S-JTSK) -->
-  <div class="rail" aria-hidden="true">
-    <div class="rail-label">S-JTSK</div>
-    <div class="rail-ticks" id="railTicks"></div>
-  </div>
+<!-- popisový blok / hlavička -->
+  <header class="topbar">
+    <div class="brand">
+      <b>GEOREAL</b>
+      <span>PETER KOLLÁR / GEODET / KOŠICE</span>
+    </div>
+    <div class="topbar-prax">
+      <span>PRAX</span>
+      <b>od 1997</b>
+    </div>
+    <a class="topbar-call js-demo" href="tel:+421903612798">
+      <b>Zavolať</b>
+      <span>+421 903 612 798</span>
+    </a>
+  </header>
 
-  <div class="body-col">
+  <main id="obsah">
 
-    <!-- popisový blok / hlavička -->
-    <header class="topbar">
-      <div class="brand">
-        <b>GEOREAL</b>
-        <span>PETER KOLLÁR / GEODET / KOŠICE</span>
-      </div>
-      <div class="topbar-prax">
-        <span>PRAX</span>
-        <b>od 1997</b>
-      </div>
-      <a class="topbar-call js-demo" href="tel:+421903612798">
-        <b>Zavolať</b>
-        <span>+421 903 612 798</span>
-      </a>
-    </header>
-
-    <main id="obsah">
-
-      <!-- hero -->
-      <section class="hero">
-        <div class="hero-txt">
-          <div class="eyebrow">
-            <div class="crosshair"></div>
-            <span>GEODETICKÉ PRÁCE / GEOMETRICKÉ PLÁNY</span>
-          </div>
-          <h1>Zameriam vám<br>to dnes ešte<br>pred obedom.</h1>
-          <p class="hero-lead">Som Peter Kollár, geodet v Košiciach a okolí. Zameriam stavbu alebo pozemok, rozdelím parcelu, vytýčim hranicu a vyhotovím geometrický plán. Robím to sám — od telefonátu po odovzdanie plánu.</p>
-          <div class="hero-cta">
-            <a class="call-block js-demo" href="tel:+421903612798">
-              <span>ZAVOLAJTE MI</span>
-              <b>+421 903 612 798</b>
-            </a>
-            <a class="maillink js-demo" href="mailto:pekollar@gmail.com">pekollar@gmail.com</a>
-          </div>
-          <div class="hero-foot">SAMOSTATNÝ GEODET OD ROKU 1997 · 25 ROKOV PRAXE · KOŠICE A OKOLIE</div>
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-txt">
+        <div class="eyebrow">
+          <div class="crosshair"></div>
+          <span>GEODETICKÉ PRÁCE / GEOMETRICKÉ PLÁNY</span>
         </div>
-        <div class="photo hero-photo">
-          <img src="images/hero.jpg" alt="Geodet s totálnou stanicou pri meraní v teréne za svitania" width="1000" height="1400" fetchpriority="high">
-          <div class="photo-tag r">V TERÉNE</div>
-          <div class="photo-cap">GEODET S TOTÁLNOU STANICOU<br>KOŠICE A OKOLIE</div>
+        <h1>Zameriam vám<br>to dnes ešte<br>pred obedom.</h1>
+        <p class="hero-lead">Som Peter Kollár, geodet v Košiciach a okolí. Zameriam stavbu alebo pozemok, rozdelím parcelu, vytýčim hranicu a vyhotovím geometrický plán. Robím to sám — od telefonátu po odovzdanie plánu.</p>
+        <div class="hero-cta">
+          <a class="call-block js-demo" href="tel:+421903612798">
+            <span>ZAVOLAJTE MI</span>
+            <b>+421 903 612 798</b>
+          </a>
+          <a class="maillink js-demo" href="mailto:pekollar@gmail.com">pekollar@gmail.com</a>
         </div>
-      </section>
+        <div class="hero-foot">SAMOSTATNÝ GEODET OD ROKU 1997 · 25 ROKOV PRAXE · KOŠICE A OKOLIE</div>
+      </div>
+      <div class="photo hero-photo">
+        <img src="images/hero.jpg" alt="Geodet s totálnou stanicou pri meraní v teréne za svitania" width="1000" height="1400" fetchpriority="high">
+        <div class="photo-tag r">V TERÉNE</div>
+        <div class="photo-cap">GEODET S TOTÁLNOU STANICOU<br>KOŠICE A OKOLIE</div>
+      </div>
+    </section>
 
-      <!-- kótovacia linka -->
-      <div class="dimline">
-        <div class="dot"></div>
-        <div class="rule"></div>
-        <span>06 SITUÁCIÍ, KTORÉ RIEŠIM NAJČASTEJŠIE</span>
-        <div class="rule"></div>
-        <div class="dot"></div>
+    <!-- kótovacia linka -->
+    <div class="dimline">
+      <div class="dot"></div>
+      <div class="rule"></div>
+      <span>06 SITUÁCIÍ, KTORÉ RIEŠIM NAJČASTEJŠIE</span>
+      <div class="rule"></div>
+      <div class="dot"></div>
       </div>
 
       <!-- čo potrebujete -->
@@ -606,9 +581,8 @@
       <div><small>MIESTO</small><em>Južná trieda 36, Košice</em></div>
       <div><small>ZÁSADA</small><span class="lime">Merám, teda som.</span></div>
       <a class="foot-call js-demo" href="tel:+421903612798">+421 903 612 798</a>
-    </footer>
+  </footer>
 
-  </div>
 </div>
 
 <!-- sticky mobilná lišta -->
@@ -644,24 +618,6 @@
 <script>
 (function () {
   'use strict';
-
-  // ── súradnicová lišta: ticky podľa skutočnej výšky hárku ──────────
-  var ticksHost = document.getElementById('railTicks');
-  var sheet = document.querySelector('.sheet');
-  var TICK_H = 44, START = 232400, STEP = 20;
-
-  function drawTicks() {
-    if (!ticksHost || getComputedStyle(ticksHost.parentNode).display === 'none') return;
-    var n = Math.ceil(ticksHost.getBoundingClientRect().height / TICK_H) + 1;
-    if (ticksHost.childElementCount === n) return;
-    var html = '';
-    for (var i = 0; i < n; i++) html += '<div class="tick"><span>' + (START + i * STEP) + '</span></div>';
-    ticksHost.innerHTML = html;
-  }
-  drawTicks();
-  if (window.ResizeObserver && sheet) new ResizeObserver(drawTicks).observe(sheet);
-  window.addEventListener('load', drawTicks);
-  window.addEventListener('resize', drawTicks);
 
   // ── demo vrstva: každá „ostrá“ akcia otvorí popup ─────────────────
   var pop = document.getElementById('demoPopup');
