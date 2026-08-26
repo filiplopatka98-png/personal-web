@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ing. Peter Šulko — GEODET · Trnava</title>
+<meta name="description" content="Autorizovaný geodet a kartograf, reg. č. 1079. Geometrické plány, vytyčovanie a kataster nehnuteľností. Sídlo v Trnave, pracujem po celom Slovensku.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!--
+  Ukážkový návrh pre Ing. Petra Šulka — GEODET. Statická, samostatná stránka.
+  Fotografia: Pexels (voľná licencia, komerčné použitie povolené).
+-->
+<style>
+  :root {
+    --green:      #1F5F4B;
+    --green-dark: #163F33;
+    --green-mint: #9ED6C0;
+    --green-pale: #D6E7DF;
+    --green-wash: #EAF2EE;
+
+    --ink:        #16211D;
+    --ink-2:      #35443E;
+    --body:       #4A5854;
+    --mute:       #5A6864;
+    --mute-2:     #6A7772;  /* pôvodne #8A9691 — stmavené kvôli AA pri 11px */
+
+    --line:       #DFE5E2;
+    --line-2:     #E9EEEC;
+    --line-3:     #C9D3CF;
+
+    --bg:         #FFFFFF;
+    --bg-alt:     #F5F7F6;
+    --bg-hover:   #FAFCFB;
+
+    --foot-bg:    #16211D;
+    --foot-txt:   #A9B6B1;
+    --foot-hi:    #E7EDEA;
+
+    --sans: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    --maxw: 1120px;
+    --pad-x: 20px;
+    --sec-y: clamp(48px, 6vw, 84px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+  /* pozn.: žiadny overflow na obale stránky — clipujúci predok by zrušil sticky hlavičku */
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); text-wrap: pretty;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { color: var(--green-dark); text-decoration: underline; }
+  p { margin: 0; }
+  h1, h2 { margin: 0; letter-spacing: -.02em; font-weight: 600; text-wrap: balance; }
+  input, textarea, button { font: inherit; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  .on-dark :focus-visible, .callbar :focus-visible { outline-color: #FFFFFF; }
+
+  .skiplink { position: absolute; left: -9999px; top: 0; z-index: 80; background: var(--ink); color: #FFF; font-family: var(--mono); font-size: 13px; padding: 12px 18px; }
+  .skiplink:focus { left: 8px; top: 8px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
+  .mono { font-family: var(--mono); }
+
+  /* ── hlavička ─────────────────────────────────────────────────── */
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px var(--pad-x); max-width: var(--maxw); margin: 0 auto; }
+  .brand { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .brand b { font-size: 15px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+  .brand span { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--mute); text-transform: uppercase; }
+  .topbar-call { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #FFF; padding: 11px 16px; min-height: 44px; border-radius: 2px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .02em; white-space: nowrap; transition: background .18s; }
+  .topbar-call:hover, .topbar-call:focus-visible { background: var(--green-dark); color: #FFF; text-decoration: none; }
+  .topbar-call i { width: 6px; height: 6px; border-radius: 50%; background: #8FD3B8; flex: 0 0 auto; }
+
+  /* ── sekcie ───────────────────────────────────────────────────── */
+  .sec { border-bottom: 1px solid var(--line); }
+  section[id] { scroll-margin-top: 78px; }
+  .sec.alt { background: var(--bg-alt); }
+  .sec-in { max-width: var(--maxw); margin: 0 auto; padding: var(--sec-y) var(--pad-x) 52px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+  .h2 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; }
+  .lead { font-size: 16.5px; line-height: 1.55; color: var(--ink-2); max-width: 40em; }
+
+  /* ── hero ─────────────────────────────────────────────────────── */
+  .hero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 48px; align-items: center; }
+  .hero-txt { padding: 40px 0 8px; min-width: 0; }
+  .cert { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; border: 1px solid var(--green); padding: 7px 12px; border-radius: 2px; margin-bottom: 28px; }
+  .cert b { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--green); font-weight: 500; }
+  .cert span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--mute); }
+  .h1 { margin: 0 0 20px; font-size: clamp(38px, 6.5vw, 62px); line-height: 1.05; letter-spacing: -.025em; }
+  .h1 em { font-style: normal; color: var(--green); }
+  .hero-lead { margin: 0 0 28px; font-size: 18px; line-height: 1.5; color: var(--ink-2); max-width: 34em; }
+  .hero-cta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .cta-primary { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--green); color: #FFF; padding: 18px 20px; min-height: 56px; border-radius: 2px; transition: background .18s; }
+  .cta-primary:hover, .cta-primary:focus-visible { background: var(--green-dark); color: #FFF; text-decoration: none; }
+  .cta-primary b { font-size: 15px; font-weight: 500; }
+  .cta-primary span { font-family: var(--mono); font-size: 17px; font-weight: 500; letter-spacing: .01em; }
+  .cta-ghost { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid var(--line-3); color: var(--ink); padding: 15px 20px; min-height: 48px; border-radius: 2px; transition: border-color .18s, color .18s; }
+  .cta-ghost:hover, .cta-ghost:focus-visible { border-color: var(--green); color: var(--green); text-decoration: none; }
+  .cta-ghost b { font-size: 14px; font-weight: 400; }
+  .cta-ghost span { font-family: var(--mono); font-size: 13px; color: var(--mute); overflow-wrap: anywhere; }
+
+  .hero-media { padding-bottom: 40px; min-width: 0; }
+  .frame { position: relative; aspect-ratio: 4 / 3; width: 100%; border: 1px solid var(--line); background: repeating-linear-gradient(90deg, #F1F4F3 0 6px, #FFFFFF 6px 12px); overflow: hidden; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; }
+  .frame-cap { position: absolute; left: 16px; bottom: 16px; right: 16px; font-family: var(--mono); font-size: 11px; line-height: 1.4; letter-spacing: .06em; color: var(--mute); background: #FFFFFF; padding: 6px 8px; border: 1px solid var(--line); }
+  .hero-facts { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 14px; font-family: var(--mono); font-size: 11.5px; color: var(--mute); letter-spacing: .04em; }
+
+  /* ── register služieb ─────────────────────────────────────────── */
+  .reg-lead { margin: 0 0 36px; font-size: 16px; line-height: 1.55; color: var(--body); max-width: 40em; }
+  .reg { background: var(--bg); border: 1px solid var(--line); }
+  .reg + .reg { border-top: none; }
+  .reg-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--green); background: var(--bg); }
+  .reg + .reg .reg-head { border-top: 1px solid var(--line); }
+  .reg-head b { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--green); font-weight: 600; }
+  .reg-head span { font-family: var(--mono); font-size: 11px; color: var(--mute-2); white-space: nowrap; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: baseline; gap: 4px 20px; padding: 18px; border-bottom: 1px solid var(--line-2); transition: background .15s; }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: var(--bg-hover); }
+  .row-t { display: flex; gap: 12px; }
+  .row-t i { font-family: var(--mono); font-size: 12px; font-style: normal; color: var(--green); padding-top: 3px; }
+  .row-t b { font-size: 16.5px; font-weight: 600; line-height: 1.3; }
+  .row-d { font-size: 15px; line-height: 1.5; color: var(--body); padding-left: 24px; }
+  .reg-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 20px; font-size: 15px; color: var(--body); line-height: 1.5; }
+  .reg-foot a { font-family: var(--mono); font-size: 14px; font-weight: 500; }
+
+  /* ── oprávnenie ───────────────────────────────────────────────── */
+  .auth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px 48px; align-items: start; }
+  .auth-txt { font-size: 16.5px; line-height: 1.6; color: var(--ink-2); max-width: 46em; display: flex; flex-direction: column; gap: 14px; }
+  .card { border: 1px solid var(--green); padding: 20px; display: flex; flex-direction: column; gap: 14px; background: var(--bg); }
+  .card-row { display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line-2); }
+  .card-row:last-child { padding-bottom: 0; border-bottom: none; }
+  .card-row dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin: 0; }
+  .card-row dd { margin: 0; }
+  .card-big { font-family: var(--mono); font-size: 30px; font-weight: 600; color: var(--green); letter-spacing: .01em; }
+  .card-mono { font-family: var(--mono); font-size: 15px; color: var(--ink); }
+  .card-txt { font-size: 15px; line-height: 1.45; color: var(--ink); }
+
+  /* ── postup ───────────────────────────────────────────────────── */
+  .steps { border-top: 1px solid var(--green); margin-bottom: 24px; }
+  .step { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .step i { font-family: var(--mono); font-size: 13px; font-style: normal; font-weight: 600; color: var(--green); min-width: 28px; }
+  .step span { font-size: 16.5px; line-height: 1.45; }
+
+  /* ── pôsobnosť ────────────────────────────────────────────────── */
+  .scope { border: 1px solid var(--line); padding: 22px 20px; display: flex; flex-direction: column; gap: 18px; }
+  .scope-line { display: flex; align-items: center; gap: 0; }
+  .scope-line i { height: 1px; background: var(--line-3); }
+  .scope-line i.a { flex: 1 1 auto; }
+  .scope-line i.b { flex: 3 1 auto; }
+  .scope-line b { width: 9px; height: 9px; background: var(--green); border-radius: 50%; flex: 0 0 auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px 10px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--mute); }
+  .chips span { border: 1px solid var(--line); padding: 5px 9px; }
+  .chips span.on { border-color: var(--green); color: var(--green); }
+
+  /* ── kontakt ──────────────────────────────────────────────────── */
+  .contact { background: var(--green); color: #FFF; }
+  .contact .sec-in { padding-bottom: 56px; }
+  .contact .kicker { color: var(--green-mint); }
+  .contact .h2 { color: #FFF; margin-bottom: 12px; }
+  .contact-lead { margin: 0 0 32px; font-size: 17px; line-height: 1.5; color: var(--green-pale); max-width: 34em; }
+  .cta-white { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #FFF; color: var(--green); padding: 18px 20px; min-height: 56px; border-radius: 2px; margin-bottom: 28px; transition: background .18s, color .18s; }
+  .cta-white:hover, .cta-white:focus-visible { background: var(--green-wash); color: var(--green-dark); text-decoration: none; }
+  .cta-white b { font-size: 15px; font-weight: 600; }
+  .cta-white span { font-family: var(--mono); font-size: 17px; font-weight: 500; }
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px 48px; align-items: start; }
+  .facts { margin: 0; border-top: 1px solid rgba(255,255,255,.28); }
+  .facts div { display: flex; flex-direction: column; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.18); gap: 5px; }
+  .facts div:last-child { border-bottom: none; }
+  .facts dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--green-mint); margin: 0; }
+  .facts dd { margin: 0; font-size: 15.5px; line-height: 1.45; color: #FFF; }
+  .facts dd.m { font-family: var(--mono); font-size: 15px; }
+  .facts a { color: #FFF; font-family: var(--mono); font-size: 16px; overflow-wrap: anywhere; }
+  .facts a:hover { color: var(--green-pale); }
+  .facts a.sm { font-size: 15px; }
+
+  .form { background: rgba(0,0,0,.10); border: 1px solid rgba(255,255,255,.22); padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .form-h { font-size: 16.5px; font-weight: 600; color: #FFF; }
+  .form label { display: flex; flex-direction: column; gap: 6px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--green-mint); }
+  .form input, .form textarea { background: #FFF; border: 1px solid rgba(255,255,255,.4); border-radius: 2px; padding: 12px 14px; min-height: 48px; font-family: var(--sans); font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--ink); }
+  .form textarea { resize: vertical; min-height: 96px; }
+  .form ::placeholder { color: var(--mute-2); }
+  .form button { background: #FFF; color: var(--green); border: none; border-radius: 2px; padding: 15px 20px; min-height: 52px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .18s, color .18s; }
+  .form button:hover { background: var(--green-wash); color: var(--green-dark); }
+  .form-note { font-family: var(--mono); font-size: 11px; line-height: 1.5; letter-spacing: .04em; color: var(--green-mint); }
+
+  /* ── pätička ──────────────────────────────────────────────────── */
+  .foot { background: var(--foot-bg); color: var(--foot-txt); }
+  .foot-in { max-width: var(--maxw); margin: 0 auto; padding: 22px var(--pad-x) 28px; display: flex; flex-direction: column; gap: 6px; }
+  .foot b { font-size: 14px; color: var(--foot-hi); font-weight: 500; }
+  .foot span { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; }
+
+  /* ── demo vrstva ──────────────────────────────────────────────── */
+  .callbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+  .callbar a { flex: 1; padding: 14px; text-align: center; font-size: 16px; font-weight: 600; border-radius: 2px; }
+  .callbar .a { flex: 2; background: var(--green); color: #FFF; }
+  .callbar .a:hover { background: var(--green-dark); color: #FFF; text-decoration: none; }
+  .callbar .b { border: 1px solid var(--line-3); color: var(--ink); }
+  .callbar .b:hover { border-color: var(--green); color: var(--green); text-decoration: none; }
+
+  #demoBadge { position: fixed; left: 14px; bottom: 14px; z-index: 45; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--green); padding: 8px 10px 8px 14px; border-radius: 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink); box-shadow: 0 6px 20px rgba(22,33,29,.16); }
+  #demoBadge button { width: 22px; height: 22px; border: none; cursor: pointer; background: var(--green); color: #FFF; font-size: 14px; line-height: 1; font-family: inherit; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+
+  .overlay { display: none; position: fixed; inset: 0; z-index: 70; background: rgba(22,33,29,.62); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); align-items: center; justify-content: center; padding: clamp(16px, 5vw, 40px); }
+  .overlay.open { display: flex; }
+  .modal { position: relative; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; background: var(--bg); border: 1px solid var(--green); border-radius: 2px; box-shadow: 0 26px 70px rgba(22,33,29,.4); padding: clamp(26px, 5vw, 38px); }
+  .modal-close { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border: 1px solid var(--line-3); background: var(--bg-alt); color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; font-family: var(--mono); border-radius: 2px; }
+  .modal-close:hover { border-color: var(--green); color: var(--green); }
+  .modal .kicker { display: block; }
+  .modal h3 { margin: 10px 0 14px; font-size: clamp(24px, 3.4vw, 30px); line-height: 1.15; letter-spacing: -.02em; font-weight: 600; }
+  .modal p { font-size: 16px; line-height: 1.6; color: var(--ink-2); }
+  .modal p + p { margin-top: 12px; }
+  .modal-me { margin: 20px 0 16px; display: flex; align-items: center; gap: 12px; }
+  .modal-me i { width: 36px; height: 2px; background: var(--green); flex: none; }
+  .modal-me span { font-size: 17px; font-weight: 600; letter-spacing: -.015em; }
+  .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .modal-actions a { padding: 13px 18px; min-height: 46px; display: inline-flex; align-items: center; border-radius: 2px; font-size: 15px; font-weight: 500; }
+  .modal-actions .p { background: var(--green); color: #FFF; }
+  .modal-actions .p:hover { background: var(--green-dark); color: #FFF; text-decoration: none; }
+  .modal-actions .s { border: 1px solid var(--line-3); color: var(--ink); }
+  .modal-actions .s:hover { border-color: var(--green); color: var(--green); text-decoration: none; }
+
+  /* ── responzívne ──────────────────────────────────────────────── */
+  @media (max-width: 760px) {
+    .callbar { display: flex; }
+    body { padding-bottom: 72px; }
+    #demoBadge { bottom: 82px; left: 12px; right: 12px; }
+    .hero-txt { padding-top: 28px; }
+    .hero-media { padding-bottom: 32px; }
+    .cta-primary { flex-wrap: wrap; gap: 4px 12px; }
+    .cta-ghost { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .row-d { padding-left: 24px; }
+    .frame-cap { left: 12px; right: 12px; bottom: 12px; }
+  }
+  @media (max-width: 420px) {
+    .topbar-in { gap: 10px; }
+    .brand b { font-size: 14px; }
+    .topbar-call { padding: 11px 13px; font-size: 12px; }
+    .cta-primary span { font-size: 15px; }
+    .cta-white span { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skiplink" href="#obsah">Preskočiť na obsah</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <b>Ing. Peter Šulko &ndash; GEODET</b>
+      <span>Reg. č. 1079</span>
+    </div>
+    <a class="topbar-call js-demo" href="tel:+421908170745"><i></i>Zavolať</a>
+  </div>
+</header>
+
+<main id="obsah">
+
+  <!-- hero -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="hero-grid">
+
+        <div class="hero-txt">
+          <div class="cert">
+            <b>Autorizovaný geodet a kartograf</b>
+            <span>/ REG. Č. 1079</span>
+          </div>
+
+          <h1 class="h1">Ing. Peter Šulko<br><em>GEODET</em></h1>
+
+          <p class="hero-lead">Geodézia, kartografia a kataster nehnuteľností po celom Slovensku &ndash; so sídlom v Trnave.</p>
+
+          <div class="hero-cta">
+            <a class="cta-primary js-demo" href="tel:+421908170745">
+              <b>Zavolať</b>
+              <span>+421 908 170 745</span>
+            </a>
+            <a class="cta-ghost js-demo" href="mailto:peter.sulko77@gmail.com">
+              <b>Napísať e-mail</b>
+              <span>peter.sulko77@gmail.com</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="frame">
+            <img src="images/hero.jpg" alt="Nivelačný prístroj na statíve v teréne" width="1200" height="900" fetchpriority="high" decoding="async">
+            <span class="frame-cap">ILUSTRAČNÁ FOTKA &mdash; SEM PRÍDE VAŠA VLASTNÁ Z TERÉNU</span>
+          </div>
+          <div class="hero-facts">
+            <span>SZČO od 1. 8. 2017</span>
+            <span>Autorizácia od 9. 4. 2018</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 register služieb -->
+  <section class="sec alt" id="dokumenty">
+    <div class="sec-in" style="padding-bottom:56px">
+      <div class="kicker">01 &nbsp;/&nbsp; Register služieb</div>
+      <h2 class="h2" style="margin-bottom:10px">Aký dokument potrebujete?</h2>
+      <p class="reg-lead">Nemusíte poznať názov. Nájdite si, na čo dokument potrebujete &ndash; a zavolajte.</p>
+
+      <div class="reg">
+        <div class="reg-head">
+          <b>A &nbsp; Geometrické plány</b>
+          <span>5 položiek</span>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>01</i><b>Geometrický plán na zameranie stavby</b></div>
+          <div class="row-d">pre potreby kolaudácie stavby</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>02</i><b>Geometrický plán na zameranie rozostavanej stavby</b></div>
+          <div class="row-d">pre potreby poskytnutia hypotekárneho úveru</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>03</i><b>Geometrický plán na oddelenie alebo rozdelenie pozemku</b></div>
+          <div class="row-d">pri oddelení časti pozemku, prípadne odňatí časti pozemku z pôdneho fondu</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>04</i><b>Geometrický plán na určenie vlastníckych práv k nehnuteľnosti</b></div>
+          <div class="row-d">pri nesúlade právneho a užívacieho stavu katastra nehnuteľností</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>05</i><b>Geometrický plán na zriadenie vecného bremena</b></div>
+          <div class="row-d">pri vyznačení práva prejazdu cez pozemok, práva uloženia inžinierskych sietí a podobne</div>
+        </div>
+      </div>
+
+      <div class="reg">
+        <div class="reg-head">
+          <b>B &nbsp; Vytyčovanie a ďalšie práce</b>
+          <span>4 položky</span>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>06</i><b>Vytýčenie hraníc pozemku</b></div>
+          <div class="row-d">pri nevyznačených hraniciach pozemku v teréne</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>07</i><b>Vytýčenie stavby</b></div>
+          <div class="row-d">pred zahájením stavebných prác</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>08</i><b>Polohopisný a výškopisný plán</b></div>
+          <div class="row-d">pre potreby projektanta pri osadení stavby na pozemok</div>
+        </div>
+        <div class="row">
+          <div class="row-t"><i>09</i><b>Porealizačné zameranie inžinierskych sietí</b></div>
+          <div class="row-d">pre potreby kolaudácie inžinierskych sietí</div>
+        </div>
+      </div>
+
+      <div class="reg-foot">
+        <span>Nenašli ste svoj prípad?</span>
+        <a class="js-demo" href="tel:+421908170745">+421 908 170 745</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 oprávnenie -->
+  <section class="sec">
+    <div class="sec-in">
+      <div class="kicker">02 &nbsp;/&nbsp; Oprávnenie</div>
+      <h2 class="h2" style="margin-bottom:24px">Čo znamená autorizovaný geodet</h2>
+      <div class="auth-grid">
+        <div class="auth-txt">
+          <p>Autorizácia je odborná spôsobilosť overená Komorou geodetov a kartografov. Znamená, že geodet zložil skúšku a je zapísaný v zozname autorizovaných geodetov a kartografov.</p>
+          <p>Autorizovaný geodet svojím podpisom a pečiatkou ručí za správnosť a úplnosť vyhotovenej dokumentácie. Bez tohto overenia kataster nehnuteľností geometrický plán nezapíše.</p>
+          <p>Som autorizovaným geodetom a kartografom od 9. 4. 2018 pod registračným číslom 1079 a dlhodobo pracujem v oblasti katastra nehnuteľností.</p>
+        </div>
+        <dl class="card">
+          <div class="card-row">
+            <dt>Registračné číslo</dt>
+            <dd class="card-big">1079</dd>
+          </div>
+          <div class="card-row">
+            <dt>Autorizovaný od</dt>
+            <dd class="card-mono">9. 4. 2018</dd>
+          </div>
+          <div class="card-row">
+            <dt>Odbornosť</dt>
+            <dd class="card-txt">Geodézia, kartografia a kataster nehnuteľností</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 postup -->
+  <section class="sec alt">
+    <div class="sec-in">
+      <div class="kicker">03 &nbsp;/&nbsp; Postup</div>
+      <h2 class="h2" style="margin-bottom:32px">Ako to prebieha</h2>
+      <div class="steps">
+        <div class="step"><i>01</i><span>Ozvete sa telefonicky alebo mailom.</span></div>
+        <div class="step"><i>02</i><span>Dohodneme rozsah práce a termín.</span></div>
+        <div class="step"><i>03</i><span>Zameranie v teréne.</span></div>
+        <div class="step"><i>04</i><span>Odovzdanie dokumentácie a zápis do katastra nehnuteľností.</span></div>
+      </div>
+      <p class="lead" style="font-size:15px">Mojou prioritou je kvalitne odvedená práca, flexibilita a spokojný klient.</p>
+    </div>
+  </section>
+
+  <!-- 04 pôsobnosť -->
+  <section class="sec">
+    <div class="sec-in">
+      <div class="kicker">04 &nbsp;/&nbsp; Pôsobnosť</div>
+      <h2 class="h2" style="margin-bottom:16px">Pracujem po celom Slovensku</h2>
+      <p class="lead" style="margin-bottom:28px">Sídlo mám v Trnave-Modranke, zákazky realizujem na celom území Slovenskej republiky.</p>
+      <div class="scope">
+        <div class="scope-line" aria-hidden="true"><i class="a"></i><b></b><i class="b"></i></div>
+        <div class="chips">
+          <span class="on">TRNAVA &ndash; SÍDLO</span>
+          <span>ZÁPADNÉ SLOVENSKO</span>
+          <span>STREDNÉ SLOVENSKO</span>
+          <span>VÝCHODNÉ SLOVENSKO</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 kontakt -->
+  <section class="contact on-dark" id="kontakt">
+    <div class="sec-in">
+      <div class="kicker">05 &nbsp;/&nbsp; Kontakt</div>
+      <h2 class="h2">Ozvite sa</h2>
+      <p class="contact-lead">Individuálny prístup ku klientovi je samozrejmosťou.</p>
+
+      <a class="cta-white js-demo" href="tel:+421908170745">
+        <b>Zavolať</b>
+        <span>+421 908 170 745</span>
+      </a>
+
+      <div class="contact-grid">
+        <dl class="facts">
+          <div>
+            <dt>Telefón</dt>
+            <dd><a class="js-demo" href="tel:+421908170745">+421 908 170 745</a></dd>
+          </div>
+          <div>
+            <dt>E-mail</dt>
+            <dd><a class="sm js-demo" href="mailto:peter.sulko77@gmail.com">peter.sulko77@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt>Adresa</dt>
+            <dd>Tichá 4292/7, Trnava-Modranka, 917 05</dd>
+          </div>
+          <div>
+            <dt>Oprávnenie</dt>
+            <dd class="m">Autorizovaný geodet a kartograf, reg. č. 1079</dd>
+          </div>
+        </dl>
+
+        <form class="form" id="contactForm" novalidate>
+          <div class="form-h">Alebo napíšte a zavolám vám</div>
+          <label>Meno
+            <input type="text" name="meno" placeholder="Vaše meno" autocomplete="name">
+          </label>
+          <label>Telefón
+            <input type="tel" name="telefon" placeholder="+421" autocomplete="tel">
+          </label>
+          <label>Čo potrebujem
+            <textarea name="sprava" rows="4" placeholder="Napríklad: dokončil som dom pri Trnave a na kolaudáciu odo mňa chcú geometrický plán."></textarea>
+          </label>
+          <button type="submit">Odoslať</button>
+          <p class="form-note">Nemusíte poznať názov dokumentu &mdash; stačí opísať situáciu vlastnými slovami.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <b>Ing. Peter Šulko &ndash; GEODET</b>
+    <span>SZČO od 1. 8. 2017 &nbsp;·&nbsp; Autorizovaný geodet a kartograf, reg. č. 1079</span>
+  </div>
+</footer>
+
+<!-- sticky mobilná lišta -->
+<div class="callbar">
+  <a class="a js-demo" href="tel:+421908170745">Zavolať</a>
+  <a class="b" href="#kontakt">Napísať</a>
+</div>
+
+<!-- demo popup -->
+<div id="demoPopup" class="overlay" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+  <div class="modal">
+    <button type="button" class="modal-close" data-close aria-label="Zavrieť">×</button>
+    <span class="kicker">Ukážkový návrh</span>
+    <h3 id="demoTitle">Toto je zatiaľ len ukážka</h3>
+    <p>Túto stránku som pripravil ako <strong>nezáväzný návrh</strong> pre Ing. Petra Šulka &ndash; zadarmo a bez toho, aby ste o čokoľvek žiadali. Nie je to živá stránka, preto tlačidlá zatiaľ nikam nevolajú a formulár nič neodošle.</p>
+    <p>Fotka je zatiaľ ilustračná (voľná licencia) &ndash; v ostrej verzii ju nahradí vaša vlastná z terénu.</p>
+    <p>Ak sa vám páči, rád vám ju spravím <strong>naostro</strong> &ndash; funkčnú, rýchlu a na mieru.</p>
+    <div class="modal-me"><i></i><span>Filip Lopatka · web developer</span></div>
+    <div class="modal-actions">
+      <a class="p" href="mailto:filip@lopatka.sk">Napíšte mi</a>
+      <a class="s" href="tel:+421904902736">Zavolať</a>
+      <a class="s" href="https://lopatka.sk" target="_blank" rel="noopener">lopatka.sk</a>
+    </div>
+  </div>
+</div>
+
+<!-- demo badge -->
+<div id="demoBadge">
+  <span>UKÁŽKOVÝ NÁVRH — NIE JE TO ŽIVÁ STRÁNKA</span>
+  <button type="button" id="badgeClose" aria-label="Skryť upozornenie">×</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── demo vrstva: každá „ostrá“ akcia otvorí popup ─────────────────
+  var pop = document.getElementById('demoPopup');
+  var lastFocus = null;
+
+  function openPop() {
+    lastFocus = document.activeElement;
+    pop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var btn = pop.querySelector('[data-close]');
+    if (btn) btn.focus();
+  }
+  function closePop() {
+    pop.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('.js-demo').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); openPop(); });
+  });
+
+  var form = document.getElementById('contactForm');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); openPop(); });
+
+  pop.addEventListener('click', function (e) {
+    if (e.target === pop || e.target.hasAttribute('data-close')) closePop();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (pop.classList.contains('open')) closePop();
+  });
+
+  // ── badge ────────────────────────────────────────────────────────
+  var badge = document.getElementById('demoBadge');
+  var bc = document.getElementById('badgeClose');
+  if (bc) bc.addEventListener('click', function () { badge.style.display = 'none'; });
+})();
+</script>
+
+</body>
+</html>
