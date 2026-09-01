@@ -333,6 +333,15 @@
     #demoBadge { font-size: 10px; padding: 7px 8px 7px 12px; }
   }
 </style>
+<!-- Umami — cookieless analytika, rovnaké website ID ako lopatka.sk.
+     Tieto stránky sú surové HTML v public/, takže neprechádzajú cez
+     BaseLayout.astro a skript v nich treba mať priamo.
+     data-domains drží meranie na živej doméne — localhost ani preview
+     štatistiky nešpinia, čo na .astro stránkach robí import.meta.env.PROD. -->
+<link rel="preconnect" href="https://cloud.umami.is" crossorigin>
+<script defer src="https://cloud.umami.is/script.js"
+        data-website-id="082f80b3-7d25-46e5-b47e-4a20bf11b4e8"
+        data-domains="lopatka.sk"></script>
 </head>
 <body class="page">
 
@@ -656,6 +665,50 @@
   var badge = document.getElementById('demoBadge');
   var bc = document.getElementById('badgeClose');
   if (bc) bc.addEventListener('click', function () { badge.style.display = 'none'; });
+})();
+</script>
+
+<!-- meranie záujmu o ukážku -->
+<script>
+(function () {
+  'use strict';
+
+  var DEMO = 'georeal';
+
+  function track(name, extra) {
+    var d = { demo: DEMO }, k;
+    if (extra) { for (k in extra) { if (extra.hasOwnProperty(k)) d[k] = extra[k]; } }
+    // Umami sa načítava len na živej doméne, preto vždy cez guard.
+    if (window.umami && typeof window.umami.track === 'function') {
+      window.umami.track(name, d);
+    }
+  }
+
+  function closestLink(el) {
+    while (el && el.nodeType === 1 && el.tagName !== 'A') { el = el.parentNode; }
+    return (el && el.nodeType === 1) ? el : null;
+  }
+
+  // capture, aby sa event zapísal aj keď demo vrstva spraví preventDefault
+  document.addEventListener('click', function (e) {
+    var a = closestLink(e.target);
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+
+    // kontakty klienta — návštevník sa ozýva pohrebnej službe
+    if (a.className && a.className.indexOf('js-demo') > -1) {
+      if (href.indexOf('tel:') === 0) track('demo-call');
+      else if (href.indexOf('mailto:') === 0) track('demo-mail');
+      return;
+    }
+
+    // moje kontakty v popupe — toto je skutočný lead
+    if (href.indexOf('mailto:filip@lopatka.sk') === 0) track('demo-lead', { via: 'mail' });
+    else if (href.indexOf('tel:+421904902736') === 0) track('demo-lead', { via: 'call' });
+    else if (href.indexOf('//lopatka.sk') > -1) track('demo-lead', { via: 'web' });
+  }, true);
+
+  document.addEventListener('submit', function () { track('demo-form'); }, true);
 })();
 </script>
 
