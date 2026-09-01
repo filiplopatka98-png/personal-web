@@ -14,6 +14,10 @@
   Ukážkový návrh pre Pohrebnú službu Ján Štepanovský (Vieska 136, Radošovce).
   Statická, samostatná stránka — bez frameworku, bez buildu.
 
+  Layout je písaný desktop-first (šírka 1680 px), mobil sa skladá cez
+  max-width breakpointy — pôvodný canvas bol kreslený ako mobilná doska
+  a na veľkej obrazovke pôsobil ako úzky pruh.
+
   Fotografie: Pexels (voľná licencia, komerčné použitie povolené). Všetky sú
   ilustračné a v stránke sú aj takto označené. Ukážky parte sú zámerne
   schematické makety — bez mena, dátumu či fotografie skutočnej osoby.
@@ -44,9 +48,9 @@
     --sans:  'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --mono:  ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-    --maxw: 60rem;
-    --pad-x: clamp(18px, 5vw, 40px);
-    --sec-y: clamp(30px, 8vw, 52px);
+    --maxw:  1680px;
+    --pad-x: clamp(20px, 4vw, 72px);
+    --sec-y: clamp(44px, 5vw, 92px);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -62,7 +66,6 @@
     font-family: var(--sans);
     text-wrap: pretty;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: clamp(96px, 22vw, 132px);   /* miesto pre pevnú lištu s telefónom */
   }
   img { max-width: 100%; display: block; }
   a { color: var(--acc); }
@@ -78,174 +81,206 @@
   .skip:focus { left: 0; color: var(--ondark); }
 
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
+  .sec { padding: var(--sec-y) 0; }
+  .sec-tint { background: var(--tint); }
 
-  /* ── hlavička ─────────────────────────────────────────────────── */
-  .head {
-    max-width: var(--maxw); margin: 0 auto;
-    padding: 18px var(--pad-x) 6px;
-    display: flex; flex-wrap: wrap; gap: 6px 16px;
-    align-items: baseline; justify-content: space-between;
+  /* ── horná lišta ──────────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(246, 244, 240, .93);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
   }
-  .head-name { font-family: var(--serif); font-weight: 600; font-size: clamp(19px, 4.6vw, 24px); letter-spacing: -.01em; }
-  .head-addr { font-size: clamp(14px, 3.6vw, 16px); color: var(--mute); }
+  .topbar-in {
+    max-width: var(--maxw); margin: 0 auto; padding: 13px var(--pad-x);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px 28px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 6px 18px; flex-wrap: wrap; min-width: 0; }
+  .brand b { font-family: var(--serif); font-weight: 600; font-size: clamp(18px, 1.5vw, 23px); letter-spacing: -.01em; }
+  .brand span { font-size: 15px; color: var(--mute); }
+  .topbar-call {
+    display: inline-flex; align-items: baseline; gap: 12px; flex: none;
+    text-decoration: none; background: var(--acc); color: var(--ondark);
+    border-radius: 10px; padding: 10px 18px; transition: background .15s ease;
+  }
+  .topbar-call:hover { background: var(--acc-dark); color: var(--ondark); }
+  .topbar-call b { font-family: var(--serif); font-weight: 600; font-size: 21px; letter-spacing: -.01em; white-space: nowrap; }
+  .topbar-call span { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
 
   /* ── typografia ───────────────────────────────────────────────── */
   h1, h2, h3 { text-wrap: balance; }
-  .lede {
-    margin: 0 0 clamp(16px, 4vw, 22px);
-    font-family: var(--serif); font-weight: 400;
-    font-size: clamp(24px, 6.6vw, 40px); line-height: 1.25;
-    letter-spacing: -.015em; max-width: 22ch;
-  }
   .h2 {
-    margin: 0 0 clamp(10px, 3vw, 14px);
-    font-family: var(--serif); font-weight: 600;
-    font-size: clamp(24px, 6.2vw, 36px); line-height: 1.25; letter-spacing: -.015em;
+    margin: 0; font-family: var(--serif); font-weight: 600;
+    font-size: clamp(27px, 2.7vw, 42px); line-height: 1.2; letter-spacing: -.02em;
   }
-  .p { margin: 0 0 clamp(16px, 4vw, 22px); font-size: clamp(16px, 4.2vw, 19px); line-height: 1.6; color: var(--body); max-width: 48ch; }
-  .p-lg { font-size: clamp(17px, 4.4vw, 21px); line-height: 1.55; max-width: 34ch; }
+  .p { margin: 0; font-size: clamp(16px, 1.15vw, 19px); line-height: 1.65; color: var(--body); max-width: 46ch; }
+  .p + .p { margin-top: 14px; }
   .p a { text-decoration: underline; text-underline-offset: 3px; }
 
-  .sec { padding: var(--sec-y) 0 0; }
-  .rule { height: 1px; background: var(--line); }
+  /* nadpis vľavo, úvodný odsek vpravo — aby sekcia využila šírku */
+  .sechead {
+    display: grid; grid-template-columns: minmax(260px, 32%) 1fr;
+    gap: clamp(20px, 2.5vw, 56px); align-items: start;
+    margin-bottom: clamp(24px, 2.6vw, 44px);
+  }
 
-  /* ── telefónne karty ──────────────────────────────────────────── */
+  /* ── hero ─────────────────────────────────────────────────────── */
+  .hero {
+    display: grid; grid-template-columns: 1fr minmax(360px, 46%);
+    gap: clamp(28px, 3.5vw, 68px); align-items: center;
+    padding: clamp(36px, 4.5vw, 80px) 0 clamp(40px, 5vw, 88px);
+  }
+  .hero h1 {
+    margin: 0 0 clamp(18px, 1.6vw, 26px);
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(32px, 4.2vw, 62px); line-height: 1.14;
+    letter-spacing: -.025em; max-width: 15ch;
+  }
+  .hero-lead {
+    margin: 0 0 clamp(24px, 2.2vw, 34px);
+    font-size: clamp(18px, 1.35vw, 22px); line-height: 1.6; color: var(--body); max-width: 38ch;
+  }
+  .hero-photo {
+    position: relative; overflow: hidden; border-radius: 20px;
+    border: 1px solid var(--line); background: var(--tint); aspect-ratio: 4 / 3;
+  }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
   .call {
-    display: block; text-decoration: none;
+    display: inline-flex; flex-direction: column; align-items: center;
+    width: 100%; max-width: 520px; text-decoration: none;
     background: var(--acc); color: var(--ondark);
-    border-radius: 16px; padding: clamp(20px, 5.5vw, 30px) clamp(16px, 4vw, 28px);
+    border-radius: 16px; padding: clamp(18px, 1.6vw, 26px) clamp(20px, 2vw, 34px);
     text-align: center; box-shadow: 0 2px 0 rgba(29, 35, 32, .18);
     transition: background .15s ease;
   }
   .call:hover { background: var(--acc-dark); color: var(--ondark); }
-  .call-kicker { display: block; font-size: clamp(13px, 3.4vw, 15px); letter-spacing: .16em; text-transform: uppercase; opacity: .82; margin-bottom: 8px; }
-  .call-num { display: block; font-family: var(--serif); font-weight: 600; font-size: clamp(38px, 11.5vw, 68px); line-height: 1.05; letter-spacing: -.02em; white-space: nowrap; }
-  .call-hint { display: block; margin-top: 10px; font-size: clamp(15px, 4vw, 18px); opacity: .9; }
+  .call-kicker { display: block; font-size: clamp(12px, .95vw, 14px); letter-spacing: .16em; text-transform: uppercase; opacity: .82; margin-bottom: 8px; }
+  .call-num { display: block; font-family: var(--serif); font-weight: 600; font-size: clamp(36px, 3.6vw, 56px); line-height: 1.05; letter-spacing: -.02em; white-space: nowrap; }
+  .call-hint { display: none; margin-top: 8px; font-size: 16px; opacity: .9; }
+  /* „Ťuknutím zavoláte" dáva zmysel len na dotyku */
+  @media (hover: none) and (pointer: coarse) { .call-hint { display: block; } }
 
   .call-2 {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
-    text-decoration: none; background: var(--card);
-    border: 1px solid var(--line); border-radius: 14px;
-    padding: clamp(14px, 4vw, 18px) clamp(16px, 4vw, 22px);
-    color: var(--ink); transition: border-color .15s ease;
+    display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    margin-top: clamp(14px, 1.2vw, 20px); text-decoration: none;
+    color: var(--ink); border-bottom: 1px solid var(--line-2); padding-bottom: 4px;
+    transition: border-color .15s ease;
   }
   .call-2:hover { border-color: var(--acc); color: var(--ink); }
-  .call-2 b { font-family: var(--serif); font-weight: 600; font-size: clamp(22px, 6vw, 30px); letter-spacing: -.01em; white-space: nowrap; }
-  .call-2 span { font-size: clamp(15px, 3.9vw, 17px); color: var(--mute); }
+  .call-2 b { font-family: var(--serif); font-weight: 600; font-size: clamp(21px, 1.7vw, 27px); letter-spacing: -.01em; white-space: nowrap; }
+  .call-2 span { font-size: 16px; color: var(--mute); }
 
   /* ── postup (kroky) ───────────────────────────────────────────── */
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(18px, 4.5vw, 26px); }
-  .steps li { display: grid; grid-template-columns: clamp(38px, 10vw, 52px) 1fr; gap: clamp(12px, 3.5vw, 20px); align-items: start; }
-  .steps .n { font-family: var(--serif); font-size: clamp(22px, 5.6vw, 30px); color: var(--mute-3); line-height: 1.2; }
-  .steps h3 { margin: 0 0 6px; font-size: clamp(18px, 4.7vw, 22px); font-weight: 600; line-height: 1.3; }
-  .steps p { margin: 0; font-size: clamp(16px, 4.2vw, 19px); line-height: 1.6; color: var(--body); max-width: 52ch; }
+  .steps {
+    list-style: none; margin: 0; padding: 0; display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(26px, 2.6vw, 46px) clamp(28px, 2.8vw, 60px);
+  }
+  .steps li { display: grid; grid-template-columns: clamp(38px, 3vw, 54px) 1fr; gap: clamp(12px, 1.2vw, 20px); align-items: start; }
+  .steps .n { font-family: var(--serif); font-size: clamp(24px, 2.1vw, 32px); color: var(--mute-3); line-height: 1.15; }
+  .steps h3 { margin: 0 0 8px; font-size: clamp(18px, 1.35vw, 22px); font-weight: 600; line-height: 1.3; }
+  .steps p { margin: 0; font-size: clamp(16px, 1.1vw, 18px); line-height: 1.6; color: var(--body); }
 
-  /* ── pás s krajinou ───────────────────────────────────────────── */
-  .band { border-radius: 18px; overflow: hidden; background: var(--tint); border: 1px solid var(--line); }
-  .band .ph { border: none; border-radius: 0; }
-  .band img { width: 100%; height: clamp(150px, 42vw, 260px); object-fit: cover; }
-  .band p { margin: 0; padding: clamp(18px, 5vw, 26px); font-size: clamp(17px, 4.3vw, 20px); line-height: 1.6; color: var(--body); }
+  /* ── pás s krajinou / kde pôsobíme ────────────────────────────── */
+  .region { display: grid; grid-template-columns: minmax(320px, 46%) 1fr; gap: clamp(24px, 3vw, 64px); align-items: center; }
+  .region-photo { position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--line); background: var(--tint-2); aspect-ratio: 3 / 2; }
+  .region-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .region p { margin: 0; font-size: clamp(18px, 1.4vw, 23px); line-height: 1.6; color: var(--body); max-width: 34ch; }
 
   /* ── mriežky fotiek ───────────────────────────────────────────── */
-  .grid { display: grid; gap: clamp(10px, 2.6vw, 16px); }
-  .grid-43, .grid-11 { grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 42vw, 220px), 1fr)); }
-  .grid-34 { grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 44vw, 230px), 1fr)); }
+  .grid { display: grid; gap: clamp(12px, 1.2vw, 22px); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
-  .ph { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: var(--tint); }
+  .ph { position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--line); background: var(--tint); }
   .ph img { width: 100%; height: 100%; object-fit: cover; }
   .ph-43 { aspect-ratio: 4 / 3; }
   .ph-11 { aspect-ratio: 1 / 1; }
 
   .tag {
-    position: absolute; left: 8px; bottom: 8px; z-index: 2;
+    position: absolute; left: 10px; bottom: 10px; z-index: 2;
     font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
     color: #FFFFFF; background: rgba(29, 35, 32, .62);
     -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
     padding: 3px 7px; border-radius: 4px;
   }
 
-  .note { margin: clamp(14px, 3.5vw, 18px) 0 0; font-size: clamp(15px, 3.9vw, 17px); line-height: 1.6; color: var(--mute); }
-  .note-top { margin: 0 0 clamp(14px, 3.5vw, 18px); }
+  .note { margin: clamp(16px, 1.6vw, 24px) 0 0; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.6; color: var(--mute); }
+  .note a { text-decoration: underline; text-underline-offset: 3px; }
 
   /* ── ukážky parte (schematické makety, nie fotky) ─────────────── */
   .parte {
-    aspect-ratio: 3 / 4; border-radius: 12px; border: 1px solid var(--line);
-    background: #FCFBF8; padding: clamp(12px, 3vw, 18px);
+    aspect-ratio: 3 / 4; border-radius: 14px; border: 1px solid var(--line);
+    background: #FCFBF8; padding: clamp(14px, 1.4vw, 24px);
     display: flex; position: relative; overflow: hidden;
   }
   .parte-in {
-    flex: 1; border: 1px solid var(--ink); padding: clamp(10px, 2.6vw, 14px);
+    flex: 1; border: 1px solid var(--ink); padding: clamp(12px, 1.4vw, 22px);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 7px; text-align: center;
+    gap: 9px; text-align: center;
   }
-  .parte .cross { font-family: var(--serif); font-size: clamp(15px, 3.6vw, 19px); color: var(--ink); line-height: 1; }
-  .parte .nm { font-family: var(--serif); font-weight: 600; font-size: clamp(12px, 3vw, 15px); line-height: 1.25; color: var(--ink); }
-  .parte .bar { height: 5px; border-radius: 3px; background: var(--tint-2); width: 100%; }
+  .parte .cross { font-family: var(--serif); font-size: clamp(16px, 1.4vw, 22px); color: var(--ink); line-height: 1; }
+  .parte .nm { font-family: var(--serif); font-weight: 600; font-size: clamp(13px, 1.1vw, 18px); line-height: 1.25; color: var(--ink); }
+  .parte .bar { height: 6px; border-radius: 3px; background: var(--tint-2); width: 100%; }
   .parte .bar.s { width: 52%; }
   .parte .bar.m { width: 76%; }
   .parte .foto {
-    width: 46%; aspect-ratio: 3 / 4; border: 1px solid var(--line-2); border-radius: 3px;
+    width: 44%; aspect-ratio: 3 / 4; border: 1px solid var(--line-2); border-radius: 3px;
     background: repeating-linear-gradient(135deg, #E5E1D9 0 8px, #EDEAE4 8px 16px);
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono); font-size: 9px; letter-spacing: .06em; color: var(--mute-2);
+    font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--mute-2);
   }
-  .parte .rows { width: 100%; display: grid; gap: 5px; justify-items: center; margin-top: 2px; }
-  .parte-cap { margin: 8px 2px 0; font-size: clamp(13px, 3.3vw, 15px); color: var(--mute); line-height: 1.4; }
+  .parte .rows { width: 100%; display: grid; gap: 6px; justify-items: center; margin-top: 2px; }
+  .parte-cap { margin: 10px 2px 0; font-size: clamp(14px, 1vw, 16px); color: var(--mute); line-height: 1.4; }
   .parte .mark {
-    position: absolute; right: 8px; top: 8px;
+    position: absolute; right: 10px; top: 10px;
     font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
     color: var(--mute-2); background: var(--bg); border: 1px solid var(--line);
     padding: 2px 6px; border-radius: 4px;
   }
 
   /* ── citát ────────────────────────────────────────────────────── */
-  .quote { margin: 0; max-width: 40ch; border-left: 2px solid var(--line-2); padding-left: clamp(14px, 4vw, 20px); }
-  .quote p { margin: 0 0 10px; font-family: var(--serif); font-size: clamp(19px, 4.9vw, 24px); line-height: 1.55; color: var(--ink-2); }
-  .quote cite { font-style: normal; font-size: clamp(14px, 3.6vw, 16px); color: var(--mute); }
-
-  /* ── kontaktná karta ──────────────────────────────────────────── */
-  .contact { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: clamp(22px, 6vw, 36px); }
-  .contact .h2 { font-size: clamp(22px, 5.6vw, 32px); line-height: 1.3; margin-bottom: 10px; }
-  .contact .p { font-size: clamp(17px, 4.3vw, 20px); max-width: 44ch; margin-bottom: clamp(18px, 5vw, 26px); }
-  .call-wide {
-    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 6px 14px;
-    text-decoration: none; background: var(--acc); color: var(--ondark);
-    border-radius: 14px; padding: clamp(16px, 4.5vw, 22px); text-align: center;
-    transition: background .15s ease;
+  .quote { margin: 0 auto; max-width: 940px; text-align: center; }
+  .quote p {
+    margin: 0 0 18px; font-family: var(--serif); font-weight: 400;
+    font-size: clamp(22px, 2vw, 34px); line-height: 1.45; letter-spacing: -.015em; color: var(--ink-2);
   }
-  .call-wide:hover { background: var(--acc-dark); color: var(--ondark); }
-  .call-wide b { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 8vw, 44px); letter-spacing: -.02em; white-space: nowrap; }
-  .call-wide span { font-size: clamp(13px, 3.4vw, 15px); letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
-  .contact-rows { display: grid; gap: 12px; margin-top: clamp(16px, 4vw, 22px); }
+  .quote cite { font-style: normal; font-size: clamp(15px, 1.1vw, 17px); color: var(--mute); }
+
+  /* ── kontakt ──────────────────────────────────────────────────── */
+  .contactgrid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 3vw, 72px); align-items: start; }
+  .contact-side .h2 { margin-bottom: 14px; }
+  .contact-side .p { margin-bottom: clamp(22px, 2vw, 32px); max-width: 36ch; }
+  .contact-rows { display: grid; gap: 12px; margin-top: clamp(16px, 1.4vw, 22px); max-width: 520px; }
   .row {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px;
     text-decoration: none; color: var(--ink);
-    border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px;
-    transition: border-color .15s ease;
+    border: 1px solid var(--line); border-radius: 12px; padding: 15px 20px;
+    background: var(--card); transition: border-color .15s ease;
   }
   .row:hover { border-color: var(--acc); color: var(--ink); }
-  .row b { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 5.2vw, 26px); white-space: nowrap; }
-  .row .mail { font-size: clamp(17px, 4.4vw, 20px); font-weight: 500; word-break: break-word; }
-  .row span { font-size: clamp(15px, 3.9vw, 17px); color: var(--mute); }
+  .row b { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 1.5vw, 25px); white-space: nowrap; }
+  .row .mail { font-size: clamp(17px, 1.25vw, 20px); font-weight: 500; word-break: break-word; }
+  .row span { font-size: 16px; color: var(--mute); }
 
-  /* ── formulár (len na nesúrne veci) ───────────────────────────── */
-  .form-box { margin-top: clamp(20px, 5vw, 28px); padding-top: clamp(20px, 5vw, 28px); border-top: 1px solid var(--line); }
-  .form-box h3 { margin: 0 0 6px; font-family: var(--serif); font-weight: 600; font-size: clamp(19px, 4.8vw, 24px); line-height: 1.3; }
-  .form-box .p { font-size: clamp(16px, 4.1vw, 18px); margin-bottom: clamp(16px, 4vw, 20px); }
-  .f-row { display: grid; gap: 0; }
-  form label { display: block; font-size: 15px; color: var(--mute); margin-bottom: 14px; }
+  .form-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: clamp(24px, 2.4vw, 40px); }
+  .form-box h3 { margin: 0 0 8px; font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 1.7vw, 27px); line-height: 1.25; }
+  .form-box .p { margin-bottom: clamp(18px, 1.8vw, 26px); max-width: 40ch; }
+  .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  form label { display: block; font-size: 15px; color: var(--mute); margin-bottom: 16px; }
   form input, form textarea {
     display: block; width: 100%; margin-top: 6px;
     font: inherit; font-size: 16px; color: var(--ink);
     background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
-    padding: 13px 14px;
+    padding: 13px 15px;
   }
   form input::placeholder, form textarea::placeholder { color: var(--mute-2); }
   form input:focus, form textarea:focus { outline: 2px solid var(--acc); outline-offset: 1px; border-color: var(--acc); }
-  form textarea { min-height: 108px; resize: vertical; }
+  form textarea { min-height: 120px; resize: vertical; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
-    min-height: 50px; padding: 13px 22px; border: 1px solid var(--acc);
+    min-height: 50px; padding: 13px 24px; border: 1px solid var(--acc);
     background: var(--acc); color: var(--ondark);
     font: inherit; font-size: 16px; font-weight: 500; border-radius: 12px;
     cursor: pointer; text-decoration: none; transition: background .15s ease;
@@ -254,17 +289,20 @@
   .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
   .btn-ghost:hover { background: transparent; border-color: var(--acc); color: var(--ink); }
   .f-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-  .form-note { margin: 14px 0 0; font-size: 15px; line-height: 1.55; color: var(--mute); }
+  .form-note { margin: 16px 0 0; font-size: 15px; line-height: 1.55; color: var(--mute); }
 
   /* ── pätička ──────────────────────────────────────────────────── */
-  .foot { padding: clamp(28px, 7vw, 44px) 0 clamp(10px, 3vw, 18px); color: var(--mute-2); font-size: clamp(15px, 3.9vw, 17px); line-height: 1.7; }
-  .foot .nm { font-family: var(--serif); font-size: clamp(18px, 4.6vw, 22px); font-weight: 600; color: var(--ink); }
-  .foot a { text-decoration: underline; text-underline-offset: 3px; }
-  .foot .fine { margin-top: 14px; font-size: 14px; }
+  .foot { border-top: 1px solid var(--line); padding: clamp(32px, 3vw, 56px) 0 clamp(24px, 2vw, 36px); }
+  .footgrid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: clamp(20px, 2vw, 48px); }
+  .foot .nm { font-family: var(--serif); font-size: clamp(19px, 1.5vw, 24px); font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .foot div, .foot a { font-size: clamp(15px, 1.1vw, 17px); line-height: 1.7; color: var(--mute-2); }
+  .foot a { text-decoration: underline; text-underline-offset: 3px; color: var(--acc); }
+  .foot dt { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute-2); margin-bottom: 6px; }
+  .foot .fine { margin-top: clamp(24px, 2.4vw, 40px); padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--mute-2); }
 
-  /* ── pevná lišta s telefónom ──────────────────────────────────── */
+  /* ── pevná lišta s telefónom (len mobil) ──────────────────────── */
   .callbar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
     padding: 10px var(--pad-x) calc(10px + env(safe-area-inset-bottom));
     background: rgba(246, 244, 240, .94);
     -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
@@ -275,15 +313,13 @@
     max-width: 34rem; margin: 0 auto; text-decoration: none;
     background: var(--acc); color: var(--ondark);
     border-radius: 12px; min-height: 60px; padding: 10px 18px;
-    transition: background .15s ease;
   }
-  .callbar a:hover { background: var(--acc-dark); color: var(--ondark); }
   .callbar b { font-family: var(--serif); font-weight: 600; font-size: clamp(21px, 5.6vw, 26px); letter-spacing: -.01em; white-space: nowrap; }
   .callbar span { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
 
   /* ── demo vrstva ──────────────────────────────────────────────── */
   #demoBadge {
-    position: fixed; left: 14px; bottom: calc(86px + env(safe-area-inset-bottom)); z-index: 25;
+    position: fixed; left: 16px; bottom: 16px; z-index: 25;
     display: flex; align-items: center; gap: 10px;
     background: rgba(252, 251, 248, .95);
     -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
@@ -305,9 +341,9 @@
   }
   .overlay.open { display: flex; }
   .modal {
-    position: relative; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+    position: relative; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
     background: var(--card); border: 1px solid var(--ink); border-radius: 16px;
-    box-shadow: 0 26px 70px rgba(29, 35, 32, .4); padding: clamp(26px, 5vw, 38px);
+    box-shadow: 0 26px 70px rgba(29, 35, 32, .4); padding: clamp(26px, 3vw, 40px);
   }
   .modal-close {
     position: absolute; top: 10px; right: 10px; width: 38px; height: 38px;
@@ -316,7 +352,7 @@
   }
   .modal-close:hover { border-color: var(--ink); }
   .modal .kicker { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--acc); }
-  .modal h3 { margin: 10px 0 14px; font-family: var(--serif); font-weight: 600; font-size: clamp(23px, 3.4vw, 29px); line-height: 1.2; letter-spacing: -.015em; }
+  .modal h3 { margin: 10px 0 14px; font-family: var(--serif); font-weight: 600; font-size: clamp(23px, 2.2vw, 30px); line-height: 1.2; letter-spacing: -.015em; }
   .modal p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--body); }
   .modal p + p { margin-top: 12px; }
   .modal-me { margin: 20px 0 16px; display: flex; align-items: center; gap: 12px; }
@@ -330,12 +366,42 @@
   .modal-actions .s:hover { border-color: var(--acc); color: var(--ink); }
 
   /* ── responzívne ──────────────────────────────────────────────── */
-  @media (min-width: 640px) {
-    .f-row { grid-template-columns: 1fr 1fr; gap: 0 14px; }
-    #demoBadge { bottom: calc(98px + env(safe-area-inset-bottom)); }
+  @media (max-width: 1200px) {
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr minmax(320px, 44%); }
   }
-  @media (max-width: 400px) {
-    #demoBadge { left: 12px; right: 12px; font-size: 10px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; gap: clamp(24px, 4vw, 40px); padding: 32px 0 44px; }
+    .hero h1 { max-width: 18ch; }
+    .hero-photo { aspect-ratio: 16 / 9; order: -1; }
+    .sechead { grid-template-columns: 1fr; align-items: start; gap: 14px; }
+    .region { grid-template-columns: 1fr; }
+    .region-photo { aspect-ratio: 16 / 9; }
+    .contactgrid { grid-template-columns: 1fr; }
+    .footgrid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px) {
+    :root { --sec-y: clamp(36px, 8vw, 52px); }
+    body { padding-bottom: 84px; }
+    .callbar { display: block; }
+    #demoBadge { bottom: calc(86px + env(safe-area-inset-bottom)); left: 12px; right: 12px; }
+
+    .topbar-in { padding: 11px var(--pad-x); }
+    .brand { flex-direction: column; gap: 2px; }
+    .brand span { font-size: 13px; }
+    .topbar-call { display: none; }
+
+    .hero h1 { font-size: clamp(30px, 8vw, 42px); max-width: 100%; }
+    .call { max-width: 100%; }
+    .steps { grid-template-columns: 1fr; gap: 22px; }
+    .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .quote { max-width: 26ch; }
+    .f-row { grid-template-columns: 1fr; gap: 0; }
+    .footgrid { grid-template-columns: 1fr; gap: 22px; }
+  }
+  @media (max-width: 420px) {
+    #demoBadge { font-size: 10px; padding: 7px 8px 7px 12px; }
+    .grid-4 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -343,278 +409,342 @@
 
 <a class="skip" href="#obsah">Preskočiť na obsah</a>
 
-<header class="head">
-  <div class="head-name">Pohrebná služba Ján Štepanovský</div>
-  <div class="head-addr">Vieska 136, 908 63 Radošovce</div>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <b>Pohrebná služba Ján Štepanovský</b>
+      <span>Vieska 136, 908 63 Radošovce</span>
+    </div>
+    <a class="topbar-call js-demo" href="tel:+421910131601">
+      <b>0910 131 601</b>
+      <span>Nonstop</span>
+    </a>
+  </div>
 </header>
 
-<main id="obsah" class="wrap">
+<main id="obsah">
 
-  <!-- ── zavolajte ────────────────────────────────────────────── -->
-  <section style="padding: clamp(14px, 4vw, 26px) 0 clamp(28px, 7vw, 44px);">
-    <h1 class="lede">Zavolajte. Ďalej sa už postaráme my.</h1>
+  <!-- ── hero ─────────────────────────────────────────────────── -->
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Zavolajte. Ďalej sa už postaráme my.</h1>
+        <p class="hero-lead">Nemusíte nič pripravovať ani nikam chodiť. Povieme vám, čo treba urobiť teraz, a prídeme za vami.</p>
 
-    <a class="call js-demo" href="tel:+421910131601">
-      <span class="call-kicker">Nonstop — úmrtie a prevoz</span>
-      <span class="call-num">0910 131 601</span>
-      <span class="call-hint">Ťuknutím zavoláte</span>
-    </a>
+        <a class="call js-demo" href="tel:+421910131601">
+          <span class="call-kicker">Nonstop — úmrtie a prevoz</span>
+          <span class="call-num">0910 131 601</span>
+          <span class="call-hint">Ťuknutím zavoláte</span>
+        </a>
 
-    <p class="p p-lg" style="margin-top: clamp(16px, 4vw, 22px);">Nemusíte nič pripravovať ani nikam chodiť. Povieme vám, čo treba urobiť teraz, a prídeme za vami.</p>
+        <a class="call-2 js-demo" href="tel:+421948488421">
+          <b>0948 488 421</b>
+          <span>vence a kvety</span>
+        </a>
+      </div>
 
-    <a class="call-2 js-demo" href="tel:+421948488421">
-      <b>0948 488 421</b>
-      <span>vence a kvety</span>
-    </a>
-  </section>
-
-  <div class="rule"></div>
+      <div class="hero-photo">
+        <img src="images/hero.jpg" width="1200" height="900" alt="Osamelý strom v poli za hmlistého rána" fetchpriority="high" decoding="async">
+        <span class="tag">Ilustračné</span>
+      </div>
+    </section>
+  </div>
 
   <!-- ── postup ───────────────────────────────────────────────── -->
-  <section style="padding: clamp(30px, 8vw, 52px) 0;">
-    <h2 class="h2">Nemusíte vybavovať nič</h2>
-    <p class="p" style="font-size: clamp(17px, 4.3vw, 20px); max-width: 46ch; margin-bottom: clamp(22px, 6vw, 34px);">Od prvého telefonátu až po deň pohrebu ide všetko cez nás. Nižšie je jednoducho napísané, čo sa deje a v akom poradí.</p>
+  <section class="sec sec-tint">
+    <div class="wrap">
+      <div class="sechead">
+        <h2 class="h2">Nemusíte vybavovať nič</h2>
+        <p class="p">Od prvého telefonátu až po deň pohrebu ide všetko cez nás. Nižšie je jednoducho napísané, čo sa deje a v akom poradí.</p>
+      </div>
 
-    <ol class="steps">
-      <li>
-        <span class="n" aria-hidden="true">1</span>
-        <div>
-          <h3>Zavoláte nám, kedykoľvek</h3>
-          <p>Dvíhame v noci aj cez víkend. Poviete nám len, kde sa nachádzate — doma, v nemocnici alebo v zariadení. Zvyšok vysvetlíme my.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n" aria-hidden="true">2</span>
-        <div>
-          <h3>Prídeme a zabezpečíme prevoz</h3>
-          <p>Prevoz zosnulého vybavíme s úctou a bez toho, aby ste sa o čokoľvek starali. Vy zostanete pri rodine.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n" aria-hidden="true">3</span>
-        <div>
-          <h3>Doklady vybavíme za vás</h3>
-          <p>Vybavenie na matrike a papiere okolo úmrtia si berieme na starosť. Nemusíte obchádzať úrady ani stáť v radoch.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n" aria-hidden="true">4</span>
-        <div>
-          <h3>Spolu sa dohodneme na rozlúčke</h3>
-          <p>Termín a priebeh smútočného obradu, hudba, kvetinová výzdoba, vence a ikebany. V pokoji si vyberiete rakvu a smútočné doplnky — kríž, šerpy, urnu. Ukážeme vám možnosti, nič netreba riešiť naraz.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n" aria-hidden="true">5</span>
-        <div>
-          <h3>Parte napíšeme, vytlačíme aj rozvezieme</h3>
-          <p>Pomôžeme so znením, aby ste nemuseli hľadať slová. Tlač aj rozvoz parte zariadime.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n" aria-hidden="true">6</span>
-        <div>
-          <h3>V deň pohrebu je pripravené všetko</h3>
-          <p>Či ide o pochovanie do zeme alebo o kremáciu — vrátane výkopových prác na cintoríne. Vy prídete a máte priestor na rozlúčku.</p>
-        </div>
-      </li>
-    </ol>
+      <ol class="steps">
+        <li>
+          <span class="n" aria-hidden="true">1</span>
+          <div>
+            <h3>Zavoláte nám, kedykoľvek</h3>
+            <p>Dvíhame v noci aj cez víkend. Poviete nám len, kde sa nachádzate — doma, v nemocnici alebo v zariadení. Zvyšok vysvetlíme my.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">2</span>
+          <div>
+            <h3>Prídeme a zabezpečíme prevoz</h3>
+            <p>Prevoz zosnulého vybavíme s úctou a bez toho, aby ste sa o čokoľvek starali. Vy zostanete pri rodine.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">3</span>
+          <div>
+            <h3>Doklady vybavíme za vás</h3>
+            <p>Vybavenie na matrike a papiere okolo úmrtia si berieme na starosť. Nemusíte obchádzať úrady ani stáť v radoch.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">4</span>
+          <div>
+            <h3>Spolu sa dohodneme na rozlúčke</h3>
+            <p>Termín a priebeh smútočného obradu, hudba, kvetinová výzdoba, vence a ikebany. V pokoji si vyberiete rakvu a smútočné doplnky — kríž, šerpy, urnu. Ukážeme vám možnosti, nič netreba riešiť naraz.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">5</span>
+          <div>
+            <h3>Parte napíšeme, vytlačíme aj rozvezieme</h3>
+            <p>Pomôžeme so znením, aby ste nemuseli hľadať slová. Tlač aj rozvoz parte zariadime.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">6</span>
+          <div>
+            <h3>V deň pohrebu je pripravené všetko</h3>
+            <p>Či ide o pochovanie do zeme alebo o kremáciu — vrátane výkopových prác na cintoríne. Vy prídete a máte priestor na rozlúčku.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
   </section>
 
   <!-- ── kde pôsobíme ─────────────────────────────────────────── -->
-  <section class="band">
-    <div class="ph">
-      <img src="images/krajina.jpg" width="1200" height="520" alt="Osamelý strom v poli za hmlistého rána" loading="lazy" decoding="async">
-      <span class="tag">Ilustračné</span>
+  <section class="sec">
+    <div class="wrap">
+      <div class="region">
+        <div class="region-photo">
+          <img src="images/region.jpg" width="1200" height="800" alt="Borovice na lúke v rannej hmle" loading="lazy" decoding="async">
+          <span class="tag">Ilustračné</span>
+        </div>
+        <div>
+          <h2 class="h2" style="margin-bottom: 16px;">Radošovce a okolie</h2>
+          <p>Pôsobíme v Radošovciach a v okolitých obciach okresu Skalica. Ak si nie ste istí, či prídeme aj k vám, zavolajte — dohodneme sa.</p>
+        </div>
+      </div>
     </div>
-    <p>Pôsobíme v Radošovciach a v okolitých obciach okresu Skalica. Ak si nie ste istí, či prídeme aj k vám, zavolajte — dohodneme sa.</p>
   </section>
 
   <!-- ── rakvy ────────────────────────────────────────────────── -->
-  <section class="sec">
-    <h2 class="h2">Rakvy</h2>
-    <p class="p">Vyberáte si v pokoji a bez tlaku. Okrem rakiev vieme zabezpečiť aj smútočné doplnky — kríž, šerpy či urnu.</p>
+  <section class="sec sec-tint">
+    <div class="wrap">
+      <div class="sechead">
+        <h2 class="h2">Rakvy</h2>
+        <p class="p">Vyberáte si v pokoji a bez tlaku. Okrem rakiev vieme zabezpečiť aj smútočné doplnky — kríž, šerpy či urnu.</p>
+      </div>
 
-    <div class="grid grid-43">
-      <div class="ph ph-43"><img src="images/r1.jpg" width="700" height="525" alt="Leštené veko rakvy s bielymi kvetmi" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/r2.jpg" width="700" height="525" alt="Roh drevenej rakvy s kovaním" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/r3.jpg" width="700" height="525" alt="Mahagónová rakva s vencom z bielych ruží" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/r4.jpg" width="700" height="525" alt="Rakva s kvetmi počas rozlúčky" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/r5.jpg" width="700" height="525" alt="Rakva so sviecami a kvetinovou výzdobou" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/r6.jpg" width="700" height="525" alt="Biele kvety, smútočná stuha a ruženec s krížikom" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      <div class="grid grid-3">
+        <div class="ph ph-43"><img src="images/r1.jpg" width="700" height="525" alt="Leštené veko rakvy s bielymi kvetmi" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/r2.jpg" width="700" height="525" alt="Roh drevenej rakvy s kovaním" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/r3.jpg" width="700" height="525" alt="Mahagónová rakva s vencom z bielych ruží" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/r4.jpg" width="700" height="525" alt="Rakva s kvetmi počas rozlúčky" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/r5.jpg" width="700" height="525" alt="Rakva so sviecami a kvetinovou výzdobou" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/r6.jpg" width="700" height="525" alt="Biele kvety, smútočná stuha a ruženec s krížikom" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      </div>
+
+      <p class="note">Ak si neviete vybrať, zavolajte na <a class="js-demo" href="tel:+421910131601">0910 131 601</a> a prejdeme to spolu.</p>
     </div>
-
-    <p class="note">Ak si neviete vybrať, zavolajte na <a class="js-demo" href="tel:+421910131601">0910 131 601</a> a prejdeme to spolu.</p>
   </section>
 
   <!-- ── vence a ikebany ──────────────────────────────────────── -->
   <section class="sec">
-    <h2 class="h2">Vence a ikebany</h2>
-    <p class="p">Kvetinovú výzdobu viažeme na objednávku. Vence a ikebany si môžete dohodnúť na samostatnej linke <a class="js-demo" href="tel:+421948488421">0948 488 421</a>.</p>
+    <div class="wrap">
+      <div class="sechead">
+        <h2 class="h2">Vence a ikebany</h2>
+        <p class="p">Kvetinovú výzdobu viažeme na objednávku. Vence a ikebany si môžete dohodnúť na samostatnej linke <a class="js-demo" href="tel:+421948488421">0948 488 421</a>.</p>
+      </div>
 
-    <div class="grid grid-11">
-      <div class="ph ph-11"><img src="images/v1.jpg" width="620" height="620" alt="Biele kaly na tmavom pozadí" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-11"><img src="images/v2.jpg" width="620" height="620" alt="Biele chryzantémy" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-11"><img src="images/v3.jpg" width="620" height="620" alt="Bordové a biele chryzantémy" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-11"><img src="images/v4.jpg" width="620" height="620" alt="Viazanie stuhy na kvetinovú väzbu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-11"><img src="images/v5.jpg" width="620" height="620" alt="Príprava zelene na väzbu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-11"><img src="images/v6.jpg" width="620" height="620" alt="Kvetinárstvo s pripravenou väzbou" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      <div class="grid grid-3">
+        <div class="ph ph-11"><img src="images/v1.jpg" width="620" height="620" alt="Biele kaly na tmavom pozadí" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-11"><img src="images/v2.jpg" width="620" height="620" alt="Biele chryzantémy" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-11"><img src="images/v3.jpg" width="620" height="620" alt="Bordové a biele chryzantémy" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-11"><img src="images/v4.jpg" width="620" height="620" alt="Viazanie stuhy na kvetinovú väzbu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-11"><img src="images/v5.jpg" width="620" height="620" alt="Príprava zelene na väzbu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-11"><img src="images/v6.jpg" width="620" height="620" alt="Kvetinárstvo s pripravenou väzbou" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      </div>
     </div>
   </section>
 
   <!-- ── parte ────────────────────────────────────────────────── -->
-  <section class="sec">
-    <h2 class="h2">Parte</h2>
-    <p class="p">Smútočné oznámenia tlačíme priamo u nás a následne ich aj rozvezieme — vy nemusíte nič roznášať ani nikam voziť. Pomôžeme aj so znením textu.</p>
-    <p class="note note-top">Nižšie sú len ukážky rozvrhnutia — zámerne bez mena, dátumu aj fotografie. Text a úpravu doladíme podľa vás.</p>
-
-    <div class="grid grid-34">
-      <div>
-        <div class="parte">
-          <span class="mark">Ukážka</span>
-          <div class="parte-in">
-            <span class="cross" aria-hidden="true">†</span>
-            <span class="nm">Meno Priezvisko</span>
-            <div class="rows">
-              <span class="bar s"></span>
-              <span class="bar m"></span>
-              <span class="bar"></span>
-              <span class="bar m"></span>
-            </div>
-          </div>
+  <section class="sec sec-tint">
+    <div class="wrap">
+      <div class="sechead">
+        <h2 class="h2">Parte</h2>
+        <div>
+          <p class="p">Smútočné oznámenia tlačíme priamo u nás a následne ich aj rozvezieme — vy nemusíte nič roznášať ani nikam voziť. Pomôžeme aj so znením textu.</p>
+          <p class="p" style="color: var(--mute); font-size: clamp(15px, 1.05vw, 17px);">Nižšie sú len ukážky rozvrhnutia — zámerne bez mena, dátumu aj fotografie. Text a úpravu doladíme podľa vás.</p>
         </div>
-        <p class="parte-cap">Klasické</p>
       </div>
 
-      <div>
-        <div class="parte">
-          <span class="mark">Ukážka</span>
-          <div class="parte-in">
-            <span class="foto" aria-hidden="true">FOTO</span>
-            <span class="nm">Meno Priezvisko</span>
-            <div class="rows">
-              <span class="bar s"></span>
-              <span class="bar m"></span>
+      <div class="grid grid-4">
+        <div>
+          <div class="parte">
+            <span class="mark">Ukážka</span>
+            <div class="parte-in">
+              <span class="cross" aria-hidden="true">†</span>
+              <span class="nm">Meno Priezvisko</span>
+              <div class="rows">
+                <span class="bar s"></span>
+                <span class="bar m"></span>
+                <span class="bar"></span>
+                <span class="bar m"></span>
+              </div>
             </div>
           </div>
+          <p class="parte-cap">Klasické</p>
         </div>
-        <p class="parte-cap">S fotografiou</p>
-      </div>
 
-      <div>
-        <div class="parte">
-          <span class="mark">Ukážka</span>
-          <div class="parte-in">
-            <div class="rows" style="margin-bottom: 4px;">
-              <span class="bar m"></span>
-              <span class="bar"></span>
-              <span class="bar m"></span>
+        <div>
+          <div class="parte">
+            <span class="mark">Ukážka</span>
+            <div class="parte-in">
+              <span class="foto" aria-hidden="true">FOTO</span>
+              <span class="nm">Meno Priezvisko</span>
+              <div class="rows">
+                <span class="bar s"></span>
+                <span class="bar m"></span>
+              </div>
             </div>
-            <span class="cross" aria-hidden="true">†</span>
-            <span class="nm">Meno Priezvisko</span>
-            <div class="rows"><span class="bar s"></span></div>
           </div>
+          <p class="parte-cap">S fotografiou</p>
         </div>
-        <p class="parte-cap">So smútočným veršom</p>
-      </div>
 
-      <div>
-        <div class="parte">
-          <span class="mark">Ukážka</span>
-          <div class="parte-in">
-            <span class="nm">Meno Priezvisko</span>
-            <div class="rows"><span class="bar s"></span></div>
+        <div>
+          <div class="parte">
+            <span class="mark">Ukážka</span>
+            <div class="parte-in">
+              <div class="rows" style="margin-bottom: 6px;">
+                <span class="bar m"></span>
+                <span class="bar"></span>
+                <span class="bar m"></span>
+              </div>
+              <span class="cross" aria-hidden="true">†</span>
+              <span class="nm">Meno Priezvisko</span>
+              <div class="rows"><span class="bar s"></span></div>
+            </div>
           </div>
+          <p class="parte-cap">So smútočným veršom</p>
         </div>
-        <p class="parte-cap">Jednoduché</p>
+
+        <div>
+          <div class="parte">
+            <span class="mark">Ukážka</span>
+            <div class="parte-in">
+              <span class="nm">Meno Priezvisko</span>
+              <div class="rows"><span class="bar s"></span></div>
+            </div>
+          </div>
+          <p class="parte-cap">Jednoduché</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── fotogaléria ──────────────────────────────────────────── -->
   <section class="sec">
-    <h2 class="h2">Fotogaléria</h2>
-    <p class="note note-top">Fotografie sú zatiaľ ilustračné — v ostrej verzii ich nahradia vlastné zábery z obradov a z prevádzky.</p>
+    <div class="wrap">
+      <div class="sechead">
+        <h2 class="h2">Fotogaléria</h2>
+        <p class="p">Fotografie sú zatiaľ ilustračné — v ostrej verzii ich nahradia vlastné zábery z obradov a z prevádzky.</p>
+      </div>
 
-    <div class="grid grid-43">
-      <div class="ph ph-43"><img src="images/g1.jpg" width="700" height="525" alt="Nesenie rakvy počas obradu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/g2.jpg" width="700" height="525" alt="Horiace sviece pri kamennej stene" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/g3.jpg" width="700" height="525" alt="Rady zapálených kahancov v kostole" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/g4.jpg" width="700" height="525" alt="Strom na poli v rannom svetle" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/g5.jpg" width="700" height="525" alt="Lavice a dlažba v tichom kostole" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
-      <div class="ph ph-43"><img src="images/g6.jpg" width="700" height="525" alt="Východ slnka nad poľom" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      <div class="grid grid-3">
+        <div class="ph ph-43"><img src="images/g1.jpg" width="700" height="525" alt="Nesenie rakvy počas obradu" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/g2.jpg" width="700" height="525" alt="Horiace sviece pri kamennej stene" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/g3.jpg" width="700" height="525" alt="Rady zapálených kahancov v kostole" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/g4.jpg" width="700" height="525" alt="Strom na poli v rannom svetle" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/g5.jpg" width="700" height="525" alt="Lavice a dlažba v tichom kostole" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+        <div class="ph ph-43"><img src="images/g6.jpg" width="700" height="525" alt="Východ slnka nad poľom" loading="lazy" decoding="async"><span class="tag">Ilustračné</span></div>
+      </div>
     </div>
   </section>
 
   <!-- ── citát ────────────────────────────────────────────────── -->
-  <section style="padding: clamp(34px, 9vw, 60px) 0 clamp(6px, 2vw, 10px);">
-    <blockquote class="quote">
-      <p>„veľmi citlivý prístup a veľká spokojnosť so službami spojenými s poslednou rozlúčkou. ďakujeme“</p>
-      <cite>Veronika s rodinou</cite>
-    </blockquote>
+  <section class="sec sec-tint">
+    <div class="wrap">
+      <blockquote class="quote">
+        <p>„veľmi citlivý prístup a veľká spokojnosť so službami spojenými s poslednou rozlúčkou. ďakujeme“</p>
+        <cite>Veronika s rodinou</cite>
+      </blockquote>
+    </div>
   </section>
 
   <!-- ── kontakt ──────────────────────────────────────────────── -->
   <section class="sec">
-    <div class="contact">
-      <h2 class="h2">Nemusíte vedieť, čo povedať</h2>
-      <p class="p">Stačí, že zavoláte. Otázky položíme my a povieme vám, čo bude nasledovať.</p>
+    <div class="wrap">
+      <div class="contactgrid">
+        <div class="contact-side">
+          <h2 class="h2">Nemusíte vedieť, čo povedať</h2>
+          <p class="p">Stačí, že zavoláte. Otázky položíme my a povieme vám, čo bude nasledovať.</p>
 
-      <a class="call-wide js-demo" href="tel:+421910131601">
-        <b>0910 131 601</b>
-        <span>Nonstop — úmrtie a prevoz</span>
-      </a>
+          <a class="call js-demo" href="tel:+421910131601">
+            <span class="call-kicker">Nonstop — úmrtie a prevoz</span>
+            <span class="call-num">0910 131 601</span>
+            <span class="call-hint">Ťuknutím zavoláte</span>
+          </a>
 
-      <div class="contact-rows">
-        <a class="row js-demo" href="tel:+421948488421">
-          <b>0948 488 421</b>
-          <span>vence a kvety</span>
-        </a>
-        <a class="row js-demo" href="mailto:stepanovskyj@gmail.com">
-          <span class="mail">stepanovskyj@gmail.com</span>
-          <span>e-mail</span>
-        </a>
-      </div>
-
-      <div class="form-box">
-        <h3>Nesúrna otázka? Napíšte nám.</h3>
-        <p class="p">Na vence, parte alebo čokoľvek, čo neznesie čakanie na telefón — ozveme sa vám späť.</p>
-
-        <form id="contactForm" novalidate>
-          <div class="f-row">
-            <label>Meno
-              <input type="text" name="meno" autocomplete="name" placeholder="Vaše meno">
-            </label>
-            <label>Telefón alebo e-mail
-              <input type="text" name="kontakt" autocomplete="tel" placeholder="Kam sa vám ozvať">
-            </label>
+          <div class="contact-rows">
+            <a class="row js-demo" href="tel:+421948488421">
+              <b>0948 488 421</b>
+              <span>vence a kvety</span>
+            </a>
+            <a class="row js-demo" href="mailto:stepanovskyj@gmail.com">
+              <span class="mail">stepanovskyj@gmail.com</span>
+              <span>e-mail</span>
+            </a>
           </div>
-          <label>Čo potrebujete
-            <textarea name="sprava" placeholder="Napríklad: veniec na sobotu, alebo otázka k zneniu parte"></textarea>
-          </label>
-          <div class="f-actions">
-            <button type="submit" class="btn">Odoslať správu</button>
-            <a class="btn btn-ghost js-demo" href="tel:+421910131601">Radšej zavolám</a>
-          </div>
-          <p class="form-note">Pri úmrtí prosím radšej zavolajte — dvíhame nonstop, aj v noci a cez víkend.</p>
-        </form>
+        </div>
+
+        <div class="form-box">
+          <h3>Nesúrna otázka? Napíšte nám.</h3>
+          <p class="p">Na vence, parte alebo čokoľvek, čo neznesie čakanie na telefón — ozveme sa vám späť.</p>
+
+          <form id="contactForm" novalidate>
+            <div class="f-row">
+              <label>Meno
+                <input type="text" name="meno" autocomplete="name" placeholder="Vaše meno">
+              </label>
+              <label>Telefón alebo e-mail
+                <input type="text" name="kontakt" autocomplete="tel" placeholder="Kam sa vám ozvať">
+              </label>
+            </div>
+            <label>Čo potrebujete
+              <textarea name="sprava" placeholder="Napríklad: veniec na sobotu, alebo otázka k zneniu parte"></textarea>
+            </label>
+            <div class="f-actions">
+              <button type="submit" class="btn">Odoslať správu</button>
+              <a class="btn btn-ghost js-demo" href="tel:+421910131601">Radšej zavolám</a>
+            </div>
+            <p class="form-note">Pri úmrtí prosím radšej zavolajte — dvíhame nonstop, aj v noci a cez víkend.</p>
+          </form>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── pätička ──────────────────────────────────────────────── -->
   <footer class="foot">
-    <div class="nm">Pohrebná služba Ján Štepanovský</div>
-    <div>Vieska 136, 908 63 Radošovce</div>
-    <div><a class="js-demo" href="tel:+421910131601">0910 131 601</a> — nonstop, úmrtie a prevoz</div>
-    <div><a class="js-demo" href="tel:+421948488421">0948 488 421</a> — vence a kvety</div>
-    <div><a class="js-demo" href="mailto:stepanovskyj@gmail.com">stepanovskyj@gmail.com</a></div>
-    <p class="fine">Ukážkový návrh stránky. Fotografie sú ilustračné (voľná licencia), ukážky parte sú schematické makety.</p>
+    <div class="wrap">
+      <div class="footgrid">
+        <div>
+          <div class="nm">Pohrebná služba Ján Štepanovský</div>
+          <div>Vieska 136, 908 63 Radošovce</div>
+          <div>okres Skalica</div>
+        </div>
+        <div>
+          <dt>Nonstop</dt>
+          <div><a class="js-demo" href="tel:+421910131601">0910 131 601</a></div>
+          <div>úmrtie a prevoz</div>
+        </div>
+        <div>
+          <dt>Vence a kvety</dt>
+          <div><a class="js-demo" href="tel:+421948488421">0948 488 421</a></div>
+          <div><a class="js-demo" href="mailto:stepanovskyj@gmail.com">stepanovskyj@gmail.com</a></div>
+        </div>
+      </div>
+      <p class="fine">Ukážkový návrh stránky. Fotografie sú ilustračné (voľná licencia), ukážky parte sú schematické makety.</p>
+    </div>
   </footer>
 
 </main>
 
-<!-- pevná lišta s telefónom -->
+<!-- pevná lišta s telefónom (len mobil) -->
 <div class="callbar">
   <a class="js-demo" href="tel:+421910131601">
     <b>0910 131 601</b>
