@@ -32,11 +32,12 @@
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
 
   # Content Security Policy — MUST match the meta CSP in BaseLayout.astro and
-  # public/_headers. The site loads Umami analytics (cloud.umami.is) and POSTs
+  # public/_headers. The site loads Umami analytics (cloud.umami.is, beacons go
+  # to gateway.umami.is) and POSTs
   # both contact forms to api.web3forms.com via fetch(), so script-src/connect-src
   # MUST allow those hosts — a self-only policy here would silently break forms
   # and analytics the moment this host goes live. Keep the three configs in sync.
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloud.umami.is https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloud.umami.is https://gateway.umami.is https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 
   # HSTS — uncomment AFTER SSL is verified working on lopatka.sk for 24h+.
   # Once enabled, browsers refuse HTTP and remember the rule for 1 year.
