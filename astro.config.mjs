@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import rehypeExternalLinks from 'rehype-external-links';
+import rehypeHiddenArticleLinks from './src/content/hiddenArticleLinks.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -48,9 +49,13 @@ export default defineConfig({
   // rel="nofollow noopener noreferrer". Internal links are relative (/blog/…)
   // so they're left untouched. Keeps citation/source links from passing link
   // equity and hardens them (noopener/noreferrer). MDX inherits this config.
+  // Links to articles hidden by the launch allowlist (src/content/launch.ts)
+  // render as plain text instead of 404s, and come back once the article is
+  // allowlisted.
   markdown: {
     rehypePlugins: [
       [rehypeExternalLinks, { rel: ['nofollow', 'noopener', 'noreferrer'] }],
+      rehypeHiddenArticleLinks,
     ],
   },
 

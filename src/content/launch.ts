@@ -42,9 +42,12 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'en/wordpress-alebo-web-na-mieru',
 ];
 
+/** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
+export function isArticleVisible(id: string): boolean {
+  return !ARTICLE_ALLOWLIST || ARTICLE_ALLOWLIST.length === 0 || ARTICLE_ALLOWLIST.includes(id);
+}
+
 /** Vyfiltruje kolekciu článkov na povolené (ak je allowlist aktívny). */
 export function visibleArticles<T extends { id: string }>(list: T[]): T[] {
-  if (!ARTICLE_ALLOWLIST || ARTICLE_ALLOWLIST.length === 0) return list;
-  const allow = new Set(ARTICLE_ALLOWLIST);
-  return list.filter((a) => allow.has(a.id));
+  return list.filter((a) => isArticleVisible(a.id));
 }
