@@ -7,7 +7,7 @@ duration: "2 mesiace"
 client: "Vyder"
 url: "agrodielyvyder.sk"
 accent: accent2
-order: 1
+order: 2
 featured: true
 brief: "B2B/B2C eshop s náhradnými dielmi pre traktory, čelné nakladače, postrekovače a stroje na prípravu pôdy."
 metrics:

@@ -2,12 +2,12 @@
 name: "Profi House"
 kind: "Firemný web · WordPress"
 year: "2025"
-role: "WordPress Developer · stále spravujem"
+role: "WordPress Developer · priebežná správa"
 duration: "3 týždne build + ongoing"
 client: "Profi House"
 url: "profihouse.sk"
 accent: accent
-order: 2
+order: 10
 featured: false
 brief: "Web stavebnej spoločnosti pre lead generation — služby, portfólio realizácií a kontaktné formuláre pre dopyty."
 metrics:

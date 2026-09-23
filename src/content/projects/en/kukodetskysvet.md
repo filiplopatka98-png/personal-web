@@ -7,7 +7,7 @@ duration: "4 weeks"
 client: "KUKO detský svet"
 url: "kukodetskysvet.sk"
 accent: accent
-order: 8
+order: 1
 featured: false
 brief: "Custom-built site for a children's indoor playroom and café in Piešťany — own PHP + MySQL backend with a party booking system and a custom content management system."
 metrics:
@@ -18,6 +18,8 @@ stack:
   - "MySQL"
   - "JavaScript"
   - "PHPMailer"
+heroCaption: "homepage · party booking CTA in the hero"
+mobileCaption: "party booking on mobile"
 ---
 
 Custom-built site for a children's indoor playroom and café in Piešťany, built without WordPress or third-party services — its own PHP 8 and MySQL backend, with a vanilla HTML/CSS/JS frontend rendered through PHP templates. One-page design in a pastel color palette.

@@ -7,7 +7,7 @@ duration: "2 months"
 client: "Greek Catholic Archeparchy of Prešov"
 url: "grkatpo.sk"
 accent: accent3
-order: 3
+order: 13
 featured: false
 brief: "Official website of the Greek Catholic Archeparchy of Prešov — parish information, liturgical calendar, livestreams and the dobrodinec.online donation portal."
 metrics:

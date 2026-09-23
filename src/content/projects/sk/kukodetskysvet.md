@@ -7,7 +7,7 @@ duration: "4 týždne"
 client: "KUKO detský svet"
 url: "kukodetskysvet.sk"
 accent: accent
-order: 8
+order: 1
 featured: false
 brief: "Web na mieru pre detskú herňu a kaviareň v Piešťanoch — vlastný PHP + MySQL backend s rezerváciou osláv a vlastným redakčným systémom."
 metrics:
@@ -18,6 +18,8 @@ stack:
   - "MySQL"
   - "JavaScript"
   - "PHPMailer"
+heroCaption: "homepage · rezervácia oslavy v hero sekcii"
+mobileCaption: "rezervácia oslavy na mobile"
 ---
 
 Web na mieru pre detskú herňu a kaviareň v Piešťanoch, postavený bez WordPressu a bez závislosti na externých službách — vlastný backend v PHP 8 a MySQL, s vanilla HTML/CSS/JS frontendom cez PHP šablóny. Jednostránkový dizajn v pastelovej farebnej palete.

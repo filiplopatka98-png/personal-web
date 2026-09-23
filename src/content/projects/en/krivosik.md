@@ -2,12 +2,12 @@
 name: "Krivošík – Earthworks"
 kind: "Company website · WordPress"
 year: "2021"
-role: "WordPress Developer · still maintaining"
-duration: "Built 2021 + ongoing maintenance"
+role: "WordPress Developer · ongoing maintenance"
+duration: "Built 2021 + ongoing"
 client: "Ľubomír Krivošík"
 url: "krivosik.sk"
 accent: accent
-order: 4
+order: 29
 featured: false
 brief: "A company website with strong local SEO for a sole trader in earthworks and excavation near Piešťany — services, a portfolio of jobs, and the phone number within reach."
 metrics:

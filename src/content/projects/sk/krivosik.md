@@ -2,12 +2,12 @@
 name: "Krivošík – zemné práce"
 kind: "Firemný web · WordPress"
 year: "2021"
-role: "WordPress Developer · stále spravujem"
-duration: "Build 2021 + priebežná správa"
+role: "WordPress Developer · priebežná správa"
+duration: "Build 2021 + ongoing"
 client: "Ľubomír Krivošík"
 url: "krivosik.sk"
 accent: accent
-order: 4
+order: 29
 featured: false
 brief: "Firemný web so silným lokálnym SEO pre živnostníka v zemných a výkopových prácach v okolí Piešťan — služby, portfólio realizácií a telefón nadosah."
 metrics:

@@ -3,11 +3,11 @@ name: "Soňa Estetic"
 kind: "Web + rezervácie · WordPress"
 year: "2021"
 role: "Web Developer · priebežná správa"
-duration: "4 týždne"
+duration: "4 týždne build + ongoing"
 client: "Soňa Estetic s.r.o."
 url: "sona-estetic.sk"
 accent: accent3
-order: 7
+order: 30
 featured: false
 brief: "Web pre štúdio estetickej kozmetiky v Piešťanoch — prehľad ošetrení a možnosť rezervácie termínu."
 metrics: []
@@ -15,6 +15,9 @@ stack:
   - "WordPress"
   - "PHP"
   - "MySQL"
+heroCaption: "homepage · rezervácia v hlavnom menu"
+mobileCaption: "ponuka ošetrení na mobile"
+secondaryCaption: "naša práca · videoukážky ošetrení"
 ---
 
 Web pre štúdio estetickej kozmetiky v Piešťanoch, ktorý prezentuje ponuku ošetrení — klasické kozmetické ošetrenia, plazmatické omladenie, mezoterapia, biorepeel, enzymatické terapie, laserová fotoomladzovacia terapia a laserová epilácia — s možnosťou rezervácie termínu priamo na webe.

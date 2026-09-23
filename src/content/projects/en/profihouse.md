@@ -7,7 +7,7 @@ duration: "3 weeks build + ongoing"
 client: "Profi House"
 url: "profihouse.sk"
 accent: accent
-order: 2
+order: 10
 featured: false
 brief: "Construction company website for lead generation — services, project portfolio and inquiry contact forms."
 metrics:
