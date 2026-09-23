@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { buildOgSvg, renderOgPng } from '../../../../utils/ogImage';
+import { visibleProjects } from '../../../../content/launch';
 
 // Prerender one OG PNG per project, per language.
 export async function getStaticPaths() {
-  const all = await getCollection('projects');
+  const all = visibleProjects(await getCollection('projects'));
   return all.map((entry) => {
     const [lang, ...rest] = entry.id.split('/');
     return { params: { lang, slug: rest.join('/') }, props: { entry, lang } };

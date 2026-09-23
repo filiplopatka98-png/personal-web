@@ -13,15 +13,20 @@ import Blob from '../components/Blob.astro';
 import TrustStats from '../components/TrustStats.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArticleFaq from '../components/ArticleFaq.astro';
+import { visibleProjects } from '../content/launch';
 
 const lang = 'sk';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Real local proof: two delivered projects for businesses in Piešťany.
-const projects = await getCollection('projects');
-const localProof = ['sk/sona-estetic', 'sk/kukodetskysvet']
+// Real local proof: two delivered projects for businesses around Piešťany.
+// Listed in preference order and sliced to two, so hiding one (kukodetskysvet
+// is currently hidden — see HIDDEN_PROJECTS) still leaves a pair rather than
+// silently dropping the section to a single card.
+const projects = visibleProjects(await getCollection('projects'));
+const localProof = ['sk/sona-estetic', 'sk/kukodetskysvet', 'sk/krivosik']
   .map((id) => projects.find((p) => p.id === id))
-  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  .filter((p): p is NonNullable<typeof p> => Boolean(p))
+  .slice(0, 2);
 
 const whatIDo = [
   { t: 'Webové stránky na mieru', d: 'Firemné weby a prezentácie s redakčným systémom, ktoré si sám spravuješ.' },

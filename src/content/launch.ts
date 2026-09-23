@@ -51,3 +51,28 @@ export function isArticleVisible(id: string): boolean {
 export function visibleArticles<T extends { id: string }>(list: T[]): T[] {
   return list.filter((a) => isArticleVisible(a.id));
 }
+
+/**
+ * Skryté projekty (slug bez jazykového prefixu).
+ *
+ * Na rozdiel od článkov je tu denylist, nie allowlist — portfólio je
+ * publikované celé a skrývame len výnimky. Skrytý projekt sa nikde nelistuje
+ * a jeho stránka sa negeneruje; súbory ostávajú v repo.
+ *
+ * kukodetskysvet — 2026-09-22: kukodetskysvet.sk vracia HTTP 503 na všetkých
+ * URL (`retry-after: 3600`), takže odkaz z portfólia vedie na nedostupný web.
+ * Po obnovení webu stačí slug odtiaľto vymazať.
+ */
+export const HIDDEN_PROJECTS: string[] = [
+  'kukodetskysvet',
+];
+
+/** Je projekt (id `sk/slug` / `en/slug`) na webe? */
+export function isProjectVisible(id: string): boolean {
+  return !HIDDEN_PROJECTS.includes(id.replace(/^(sk|en)\//, ''));
+}
+
+/** Vyfiltruje kolekciu projektov na zverejnené. */
+export function visibleProjects<T extends { id: string }>(list: T[]): T[] {
+  return list.filter((p) => isProjectVisible(p.id));
+}

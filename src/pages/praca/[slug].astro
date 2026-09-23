@@ -8,6 +8,7 @@ import ProjectPerf from '../../components/ProjectPerf.astro';
 import InlineCta from '../../components/InlineCta.astro';
 import { t } from '../../i18n';
 import { jsonLd } from '../../utils/jsonld';
+import { visibleProjects } from '../../content/launch';
 
 // Optimized project mockups, resolved from src/assets at build time.
 const projectImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -19,7 +20,7 @@ function mockupImage(name: string): ImageMetadata | null {
 }
 
 export async function getStaticPaths() {
-  const all = await getCollection('projects');
+  const all = visibleProjects(await getCollection('projects'));
   return all
     .filter((p) => p.id.startsWith('sk/'))
     .map((entry) => ({
@@ -36,7 +37,7 @@ const lang = 'sk';
 const cleanSlug = entry.id.replace(/^sk\//, '');
 
 // Find next project (by order, wrap around)
-const allProjects = (await getCollection('projects'))
+const allProjects = (visibleProjects(await getCollection('projects')))
   .filter((p) => p.id.startsWith('sk/'))
   .sort((a, b) => a.data.order - b.data.order);
 const idx = allProjects.findIndex((p) => p.id === entry.id);
@@ -138,7 +139,7 @@ const projectLd = {
         radius={20}
         image={heroImage ?? undefined}
         imageAlt={`${data.name} — desktop náhľad`}
-        sizes="(max-width: 1024px) 100vw, 1100px"
+        sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 768px) calc(100vw - 40px), (max-width: 1024px) calc(100vw - 64px), calc(100vw - 112px)"
         priority
       />
     </Reveal>
@@ -209,7 +210,7 @@ const projectLd = {
           caption={mobileImage ? (data.mobileCaption ?? 'mobilný pohľad') : 'checkout flow'}
           image={mobileImage ?? undefined}
           imageAlt={`${data.name} — mobilný náhľad`}
-          sizes="(max-width: 768px) 100vw, 420px"
+          sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 768px) calc(100vw - 40px), calc((100vw - 144px) / 3.385)"
         />
       </Reveal>
       <Reveal delay={0.08}>
@@ -220,7 +221,7 @@ const projectLd = {
           caption={secondaryImage ? (data.secondaryCaption ?? '—') : 'product detail'}
           image={secondaryImage ?? undefined}
           imageAlt={`${data.name} — sekundárny náhľad`}
-          sizes="(max-width: 768px) 100vw, 640px"
+          sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 768px) calc(100vw - 40px), calc((100vw - 144px) * 0.705)"
         />
       </Reveal>
     </div>
