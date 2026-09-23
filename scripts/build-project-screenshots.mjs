@@ -5,6 +5,9 @@
  *   npm run shots <arg1> [arg2] ...
  *
  * Each <arg> is one of:
+ *   --all                      → every entry in scripts/project-shots.json
+ *                                (a manifest value may carry its own ::desktop
+ *                                 suffix — screen2 shots use that)
  *   URL                        → slug from hostname, both desktop + mobile
  *   SLUG=URL                   → custom slug, both desktop + mobile
  *   SLUG=URL::desktop          → custom slug, desktop only
@@ -13,10 +16,13 @@
  * Examples:
  *   npm run shots https://www.grkatpo.sk/
  *   npm run shots profihouse-screen2=https://profihouse.sk/realizacie/::desktop
+ *   npm run shots:all          (regenerates every project mockup, idempotent)
  *
  * Output:
- *   public/projects/<slug>-hero.png    (laptop mockup, 1600×1100 @ 1.5× DPR)
- *   public/projects/<slug>-mobile.png  (iPhone-ish mockup, 600×1100 @ 1.5× DPR)
+ *   src/assets/projects/<slug>-hero.png    (laptop mockup, 2610×1800)
+ *   src/assets/projects/<slug>-mobile.png  (phone mockup, 1140×1875)
+ *
+ * Re-running overwrites in place, so `npm run shots:all` is safe to repeat.
  *
  * Workflow per (slug, url, mode):
  *   1. Headless Chrome navigates to URL at desktop or mobile viewport
@@ -25,19 +31,19 @@
  *   4. Captures viewport screenshot as PNG
  *   5. Composites into HTML mockup template (laptop or phone frame)
  *   6. Re-screenshots the composition at retina DPR
- *   7. Writes final PNG to public/projects/<slug>-{hero,mobile}.png
+ *   7. Writes final PNG to src/assets/projects/<slug>-{hero,mobile}.png
  *
  * Slug derivation: when not given via SLUG=, hostname is used
  * (www.grkatpo.sk → "grkatpo").
  */
 import puppeteer from 'puppeteer';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-const OUT_DIR = join(root, 'public/projects');
+const OUT_DIR = join(root, 'src/assets/projects');
 
 // ── Desktop / laptop ─────────────────────────────────────────────────────
 // Final canvas dimensions — laptop is centered with enough padding that the
@@ -71,6 +77,11 @@ const MOBILE_VIEWPORT_H = 844;
 
 // ── Cookie banner dismissal ─────────────────────────────────────────────
 const COOKIE_SELECTORS = [
+  // Complianz (cmplz) — most common on these sites; on some (drevotech.sk)
+  // the page content only renders once consent is given.
+  '.cmplz-btn.cmplz-accept',
+  'button.cmplz-accept',
+  '#cmplz-cookiebanner-container .cmplz-accept',
   // Cookiebot
   '#CybotCookiebotDialogBodyLevelButtonAccept',
   '#CybotCookiebotDialogBodyButtonAccept',
@@ -90,6 +101,9 @@ const COOKIE_SELECTORS = [
   'button[class*="accept-all" i]',
 ];
 
+// Known gap: realitybardejov.sk renders a grey hero headless — its Elementor
+// background CSS is never applied, with or without consent — so that one
+// screenshot shows nav + headline on a flat grey block.
 const COOKIE_TEXTS = [
   // Slovak — single-word + variants (CookieYes "PRIJAŤ", custom plugins)
   'prijať', 'prijat', 'súhlasím', 'súhlasim', 'rozumiem', 'povoliť všetky',
@@ -103,36 +117,118 @@ const COOKIE_TEXTS = [
   'souhlasím', 'přijmout vše', 'přijmout', 'rozumím',
 ];
 
-async function dismissCookies(page) {
-  // Try CSS selectors first
-  for (const sel of COOKIE_SELECTORS) {
-    try {
-      const el = await page.$(sel);
-      if (el) {
-        await el.click().catch(() => {});
-        return `selector: ${sel}`;
-      }
-    } catch { /* ignore */ }
-  }
+/**
+ * Accept the cookie banner and confirm it is actually gone.
+ *
+ * Everything runs in-page and only *visible* candidates are clicked: Complianz
+ * ships a second, hidden "manage consent" dialog whose accept button matches
+ * the same selectors, and clicking that one leaves the real banner on screen.
+ */
+async function dismissCookies(page, selectors, texts) {
+  return page.evaluate(
+    (sels, txts) => {
+      const visible = (el) => {
+        if (!el || !el.isConnected) return false;
+        const r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) return false;
+        const cs = getComputedStyle(el);
+        return cs.visibility !== 'hidden' && cs.display !== 'none' && Number(cs.opacity) > 0.05;
+      };
 
-  // Fallback: find button/link by visible text (case-insensitive)
-  const clicked = await page.evaluate((texts) => {
-    const candidates = Array.from(
-      document.querySelectorAll('button, a, [role="button"], input[type="submit"]'),
-    );
-    for (const el of candidates) {
-      const txt = (el.textContent || el.value || '').trim().toLowerCase();
-      for (const target of texts) {
-        if (txt === target || (txt.length < 40 && txt.includes(target))) {
-          el.click();
-          return target;
+      for (const sel of sels) {
+        for (const el of document.querySelectorAll(sel)) {
+          if (visible(el)) {
+            el.click();
+            return `selector: ${sel}`;
+          }
+        }
+      }
+
+      const candidates = document.querySelectorAll(
+        'button, a, [role="button"], input[type="submit"]',
+      );
+      for (const el of candidates) {
+        if (!visible(el)) continue;
+        const txt = (el.textContent || el.value || '').trim().toLowerCase();
+        for (const target of txts) {
+          if (txt === target || (txt.length < 40 && txt.includes(target))) {
+            el.click();
+            return `text: "${target}"`;
+          }
+        }
+      }
+      return null;
+    },
+    selectors,
+    texts,
+  );
+}
+
+/**
+ * Last resort for banners that survive every accept click (some re-render
+ * themselves on a timer): hide the container outright. The banner is chrome,
+ * not part of the design we are showing off, so removing it is honest here.
+ */
+async function hideLeftoverConsent(page) {
+  return page.evaluate(() => {
+    const containers = [
+      '#cmplz-cookiebanner-container',
+      '.cmplz-cookiebanner',
+      '#cookiescript_injected',
+      '.cky-consent-container',
+      '.cky-overlay',
+      '#CybotCookiebotDialog',
+      '#CybotCookiebotDialogBodyUnderlay',
+    ];
+    let hidden = 0;
+    for (const sel of containers) {
+      for (const el of document.querySelectorAll(sel)) {
+        const r = el.getBoundingClientRect();
+        if (r.width > 2 && r.height > 2) {
+          el.style.setProperty('display', 'none', 'important');
+          hidden++;
         }
       }
     }
-    return null;
-  }, COOKIE_TEXTS);
+    return hidden;
+  });
+}
 
-  return clicked ? `text: "${clicked}"` : null;
+/**
+ * Trigger every lazy loader on the page, then return to the top.
+ *
+ * Elementor and friends load hero CSS *background* images through an
+ * IntersectionObserver that sometimes has not fired by capture time — the
+ * result is a grey block where the hero photo should be (realitybardejov.sk).
+ * A full scroll pass forces them all, and waitForImages covers the <img> side.
+ */
+async function primeLazyContent(page) {
+  await page.evaluate(async () => {
+    const step = window.innerHeight;
+    const max = Math.min(document.body.scrollHeight, step * 8);
+    for (let y = 0; y < max; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 180));
+    }
+    window.scrollTo(0, 0);
+  });
+  // Let sticky headers and scroll-triggered animations settle back.
+  await new Promise((r) => setTimeout(r, 1200));
+}
+
+/**
+ * Resolve once every <img> in the viewport has decoded (or after `timeout`).
+ * Without this, consent-gated hero media is still blank when we capture.
+ */
+async function waitForImages(page, timeout = 8000) {
+  await page
+    .waitForFunction(
+      () => Array.from(document.images).every((img) => img.complete),
+      { timeout, polling: 250 },
+    )
+    .catch(() => {});
+  // One more frame so decoded images are actually painted.
+  await new Promise((r) => setTimeout(r, 400));
 }
 
 // ── Site screenshot capture ─────────────────────────────────────────────
@@ -155,19 +251,51 @@ async function captureWebsite(browser, url, mode) {
   });
   await page.setUserAgent(isMobile ? MOBILE_UA : DESKTOP_UA);
 
+  // `domcontentloaded`, not `networkidle2`: sites with a chat widget or polling
+  // analytics never go idle, so networkidle2 burns the full timeout and then
+  // leaves the page mid-navigation — every later evaluate dies with "execution
+  // context was destroyed" (sona-estetic.sk/nasa-praca/). The settle and
+  // waitForImages below are what actually decide when the page is ready.
   try {
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
   } catch (e) {
     // Slow sites — keep going, may still have rendered enough
     console.warn(`  ⚠ slow load (${mode}): ${e.message.split('\n')[0]}`);
   }
 
-  // Cookie dismissal
-  const dismissed = await dismissCookies(page);
+  // Cookie dismissal, first pass.
+  const dismissed = await dismissCookies(page, COOKIE_SELECTORS, COOKIE_TEXTS);
   if (dismissed) console.log(`  → cookies dismissed [${mode}] (${dismissed})`);
 
-  // Settle: post-cookie animations, lazy images, fonts
-  await new Promise((r) => setTimeout(r, 1800));
+  // Settle: intro animations, lazy images, fonts.
+  //
+  // The wait must NOT be conditional on having dismissed a banner: several of
+  // these sites (drevotech.sk) play a full-screen intro animation before the
+  // real hero, and a site with no banner at all would otherwise be captured
+  // mid-intro.
+  //
+  // Pre-seeding consent cookies was tried here and removed: it fixed nothing
+  // (the realitybardejov.sk grey hero persisted either way) and pushed
+  // sona-estetic.sk into a Complianz reload loop, where the main frame
+  // navigates forever and every evaluate dies with "execution context was
+  // destroyed". Clicking the real, visible accept button is enough.
+  await new Promise((r) => setTimeout(r, dismissed ? 8000 : 6000));
+
+  // Second pass: sites that play an intro animation mount their consent banner
+  // only after it finishes, so the first click landed before the banner existed
+  // (or on a hidden copy of it) and the banner is back on screen by now.
+  const dismissedLate = await dismissCookies(page, COOKIE_SELECTORS, COOKIE_TEXTS);
+  if (dismissedLate) {
+    console.log(`  → late cookie banner dismissed [${mode}] (${dismissedLate})`);
+    await new Promise((r) => setTimeout(r, 1200));
+  }
+
+  await primeLazyContent(page);
+
+  const forced = await hideLeftoverConsent(page);
+  if (forced > 0) console.log(`  → ${forced} leftover consent element(s) hidden [${mode}]`);
+
+  await waitForImages(page);
 
   const buffer = await page.screenshot({ type: 'png', fullPage: false });
   await page.close();
@@ -398,11 +526,25 @@ async function main() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
     console.error('Usage: node scripts/build-project-screenshots.mjs <arg1> [arg2] ...');
-    console.error('  arg = URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile');
+    console.error('  arg = --all | URL | SLUG=URL | SLUG=URL::desktop | SLUG=URL::mobile');
     process.exit(1);
   }
 
-  const jobs = args.map(parseJob);
+  // `--all` expands scripts/project-shots.json into the same `SLUG=URL` args
+  // parseJob already understands, so both paths share one code path.
+  const expanded = [];
+  for (const arg of args) {
+    if (arg === '--all') {
+      const manifest = JSON.parse(
+        await readFile(join(__dirname, 'project-shots.json'), 'utf8'),
+      );
+      for (const [slug, url] of Object.entries(manifest)) expanded.push(`${slug}=${url}`);
+    } else {
+      expanded.push(arg);
+    }
+  }
+
+  const jobs = expanded.map(parseJob);
 
   await mkdir(OUT_DIR, { recursive: true });
 
@@ -410,6 +552,8 @@ async function main() {
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
+
+  const failed = [];
 
   for (const { slug, url, modes } of jobs) {
     console.log(`📸 ${slug} ← ${url} [${modes.join(', ')}]`);
@@ -424,12 +568,17 @@ async function main() {
         const kb = Math.round(final.length / 1024);
         console.log(`  ✓ ${outPath} (${kb} KB)`);
       } catch (e) {
-        console.error(`  ✗ ${slug} ${mode}: ${e.message}`);
+        console.warn(`  ⚠ ${slug} ${mode} unreachable: ${e.message}`);
+        failed.push(`${slug} (${mode})`);
       }
     }
   }
 
   await browser.close();
+
+  if (failed.length > 0) {
+    console.warn(`\n⚠ ${failed.length} not captured: ${failed.join(', ')}`);
+  }
 }
 
 main().catch((e) => {

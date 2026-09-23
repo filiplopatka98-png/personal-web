@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "og": "node scripts/build-og-image.mjs",
-    "shots": "node scripts/build-project-screenshots.mjs"
+    "shots": "node scripts/build-project-screenshots.mjs",
+    "shots:all": "node scripts/build-project-screenshots.mjs --all"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.3",
