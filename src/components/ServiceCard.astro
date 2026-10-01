@@ -14,8 +14,10 @@ const { data } = entry;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
 const num = String(index).padStart(2, '0');
+// Anchor from the file name (sk/udrzba → #udrzba) so pages can deep-link a package.
+const anchor = entry.id.split('/').pop();
 ---
-<article class:list={['service-card', data.featured && 'is-featured']}>
+<article id={anchor} class:list={['service-card', data.featured && 'is-featured']}>
   {data.featured && (
     <div class="service-popular mono">{t('services.popular', lang)}</div>
   )}
@@ -57,6 +59,7 @@ const num = String(index).padStart(2, '0');
     height: 100%;
     display: flex;
     flex-direction: column;
+    scroll-margin-top: 96px;
   }
 
   .service-card.is-featured {
