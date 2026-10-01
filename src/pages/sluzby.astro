@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import ServiceCard from '../components/ServiceCard.astro';
+import ServiceBand from '../components/ServiceBand.astro';
 import FaqSection from '../components/FaqSection.astro';
 import Reveal from '../components/Reveal.astro';
 import Blob from '../components/Blob.astro';
@@ -20,6 +21,11 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const services = (await getCollection('services'))
   .filter((s) => s.id.startsWith('sk/'))
   .sort((a, b) => a.data.order - b.data.order);
+
+// One-off project packages fill the 2×2 grid; recurring (monthly) services
+// render as the wide "after launch" band below it.
+const projectServices = services.filter((s) => !s.data.recurring);
+const recurringServices = services.filter((s) => s.data.recurring);
 
 const titleHtml = `${t('services.title.before', lang)}<em>${t('services.title.em', lang)}</em>${t('services.title.after', lang)}`;
 const steps = processSteps[lang];
@@ -46,12 +52,22 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
 
   <section class="services-section">
     <div class="services-grid">
-      {services.map((s, i) => (
+      {projectServices.map((s, i) => (
         <Reveal delay={(i % 2) * 0.08}>
           <ServiceCard entry={s} lang={lang} index={i + 1} />
         </Reveal>
       ))}
     </div>
+    {recurringServices.length > 0 && (
+      <div class="services-after">
+        <div class="services-after-eyebrow mono">{t('services.afterLaunch', lang)}</div>
+        {recurringServices.map((s, i) => (
+          <Reveal>
+            <ServiceBand entry={s} lang={lang} index={projectServices.length + i + 1} />
+          </Reveal>
+        ))}
+      </div>
+    )}
   </section>
 
   <section class="process-section">
@@ -112,6 +128,34 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
     max-width: 1200px;
     margin: 0 auto;
     align-items: stretch;
+  }
+
+  /* "After launch" band — same max-width as the grid, eyebrow with a rule
+     that separates monthly care from the one-off project packages. */
+  .services-after {
+    max-width: 1200px;
+    margin: 56px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .services-after-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+  }
+  .services-after-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+  @media (max-width: 768px) {
+    .services-after { margin-top: 40px; gap: 16px; }
   }
 
   /* Process — handoff line 268: 80px 56px, bg2 (NO top/bottom borders). */

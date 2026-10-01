@@ -6,6 +6,10 @@ duration: "mesačne"
 tagline: "Web, ktorý zostane rýchly a bezpečný aj po spustení."
 desc: "Pravidelná starostlivosť o WordPress a WooCommerce — aktualizácie, zálohy, bezpečnosť a rýchlosť, s meraním po každom zásahu."
 featured: false
+recurring: true
+caseStudy:
+  label: "natur-life.sk — skóre na mobile 27 → 83"
+  href: "/praca/natur-life/"
 includes:
   - "Kontrola dostupnosti každých 5 minút — o výpadku viem skôr než ty"
   - "Mesačné aktualizácie WordPressu, pluginov a témy"

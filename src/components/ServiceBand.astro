@@ -1,0 +1,214 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { t, type Lang } from '../i18n';
+import { getStaticRoute } from '../i18n/routes';
+
+// Wide horizontal variant of ServiceCard for recurring (monthly) services —
+// sits under the project grid as the "after launch" band. Same tokens and
+// type scale as ServiceCard so the two read as one family.
+export interface Props {
+  entry: CollectionEntry<'services'>;
+  lang: Lang;
+  /** 1-based index for the "0X · duration" eyebrow line. */
+  index: number;
+}
+const { entry, lang, index } = Astro.props;
+const { data } = entry;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
+const num = String(index).padStart(2, '0');
+const anchor = entry.id.split('/').pop();
+// Keep score transitions like "27 → 83" on one line.
+const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
+---
+<article id={anchor} class="service-band">
+  <div class="band-main">
+    <div class="band-eyebrow mono">{num} · {data.duration}</div>
+    <h2 class="band-name display">{data.name}</h2>
+    <div class="band-price display">{data.price}</div>
+    <p class="band-tagline">{data.tagline}</p>
+    <p class="band-desc">{data.desc}</p>
+    <a href={briefHref} class="band-cta mono" data-cursor="hover" data-umami-event="service-quote">
+      {t('services.requestQuote', lang)} →
+    </a>
+  </div>
+
+  <div class="band-side">
+    <div class="band-label mono">{t('services.includes', lang)}</div>
+    <ul class="band-includes">
+      {data.includes.map((item) => (
+        <li><span class="band-check" aria-hidden="true">✓</span>{item}</li>
+      ))}
+    </ul>
+
+    {data.notFor && (
+      <div class="band-notfor">
+        <strong class="mono">{t('services.notFor', lang)}:</strong> {data.notFor}
+      </div>
+    )}
+
+    {data.caseStudy && (
+      <a href={`${baseUrl}${data.caseStudy.href}`} class="band-case" data-cursor="hover" data-umami-event="service-case-study">
+        <span class="band-label mono">{t('services.caseStudy', lang)}</span>
+        <span class="band-case-link display">{caseLabel} <span aria-hidden="true">→</span></span>
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .service-band {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+    border-radius: 18px;
+    background: var(--bg2);
+    color: var(--ink);
+    scroll-margin-top: 96px;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .band-main {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+  }
+  .band-side {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .band-eyebrow,
+  .band-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .band-name {
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    margin: 12px 0 8px;
+  }
+  .band-price {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-style: italic;
+    color: var(--accent-text);
+  }
+  .band-tagline {
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin: 16px 0 0;
+  }
+  .band-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.7;
+    margin: 8px 0 0;
+  }
+  /* Pinned to the bottom of the left column (margin-top:auto); the desc
+     margin keeps a minimum gap when the column is short. */
+  .band-desc { margin-bottom: 24px; }
+  .band-cta {
+    display: inline-block;
+    margin-top: auto;
+    align-self: flex-start;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 22px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .band-cta:hover { opacity: 0.85; }
+
+  .band-label { margin-bottom: 12px; }
+  .band-includes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .band-includes li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .band-check {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .band-notfor {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .band-notfor strong {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* Proof link — a quiet inset tile, not a second CTA button. */
+  .band-case {
+    margin-top: 24px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: var(--radius-card);
+    background: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .band-case .band-label { margin-bottom: 4px; }
+  .band-case-link {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--accent-text);
+  }
+  .band-case:hover { border-color: var(--accent); }
+
+  @media (max-width: 1024px) {
+    .band-includes { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .service-band { grid-template-columns: 1fr; }
+    .band-main {
+      padding: 28px 22px 0;
+      border-right: 0;
+    }
+    .band-side {
+      padding: 20px 22px 28px;
+      margin-top: 24px;
+      border-top: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+    }
+    .band-name { font-size: 38px; }
+    .band-price { font-size: 22px; }
+    .band-case-link { font-size: 20px; }
+  }
+  @media (max-width: 480px) {
+    .band-name { font-size: 32px; }
+    .band-price { font-size: 20px; }
+  }
+</style>

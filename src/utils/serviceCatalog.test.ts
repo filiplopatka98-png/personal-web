@@ -10,6 +10,7 @@ const base: Service = {
   tagline: 'Tagline',
   desc: 'Description text',
   featured: false,
+  recurring: false,
   includes: ['a'],
 };
 const opts = { name: 'Služby', orgId: 'https://lopatka.sk/#org', inLanguage: 'sk-SK' };

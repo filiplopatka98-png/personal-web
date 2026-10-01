@@ -64,6 +64,14 @@ export const serviceSchema = z.object({
   featured: z.boolean().default(false),
   includes: z.array(z.string()).min(1),
   notFor: z.string().optional(),
+  // Recurring (monthly) service — rendered as the wide "after launch" band
+  // under the project grid instead of a grid card.
+  recurring: z.boolean().default(false),
+  // Optional proof link shown in the band (e.g. a case study).
+  caseStudy: z.object({
+    label: z.string().min(1),
+    href: z.string().min(1),
+  }).optional(),
 });
 
 // Inferred types for consumer use
