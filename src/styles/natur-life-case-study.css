@@ -1,0 +1,324 @@
+/*
+ * natur-life.sk case study (/praca/natur-life/, /en/work/natur-life/).
+ * Every selector is scoped under .nlcs so this sheet can't touch the rest of
+ * the site. Values mirror the blog article layout (blog/[slug].astro):
+ * header 880px, prose 760px, h1 72/56/40/32, h2 36/28/24, body 18/17.
+ */
+
+.nlcs {
+  --nlcs-line: color-mix(in srgb, var(--ink) 12%, transparent);
+  --nlcs-line-soft: color-mix(in srgb, var(--ink) 8%, transparent);
+  --nlcs-band-red: #e5484d;
+  --nlcs-band-orange: #e8a33d;
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.nlcs .nlcs-head {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 60px 56px 40px;
+}
+.nlcs .nlcs-back {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.nlcs .nlcs-back:hover { color: var(--ink); }
+.nlcs .nlcs-eyebrow {
+  margin: 32px 0 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.nlcs .nlcs-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.nlcs .nlcs-perex {
+  margin: 24px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.nlcs .nlcs-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 40px 0 0;
+  border-top: 1px solid var(--nlcs-line);
+}
+.nlcs .nlcs-meta > div {
+  padding: 16px 16px 0 0;
+}
+.nlcs .nlcs-meta dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0 0 6px;
+}
+.nlcs .nlcs-meta dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* ── Key numbers ────────────────────────────────────────────────────── */
+.nlcs .nlcs-stats {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 8px 56px 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  list-style: none;
+}
+.nlcs .nlcs-stat {
+  margin: 0;
+  padding: 24px 24px 22px;
+  background: var(--bg2);
+  border: 1px solid var(--nlcs-line);
+  border-radius: var(--radius-card);
+}
+.nlcs .nlcs-stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.nlcs .nlcs-stat-value .nlcs-accent { color: var(--accent-text); }
+.nlcs .nlcs-stat-label {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+/* ── Prose ──────────────────────────────────────────────────────────── */
+.nlcs .nlcs-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 56px 32px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.nlcs .nlcs-body h2 {
+  margin: 56px 0 16px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 96px;
+}
+.nlcs .nlcs-body > section:first-child h2 { margin-top: 24px; }
+.nlcs .nlcs-body p { margin: 0 0 20px; }
+.nlcs .nlcs-body strong { font-weight: 600; }
+.nlcs .nlcs-nowrap { white-space: nowrap; }
+.nlcs .nlcs-body code {
+  padding: 2px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--nlcs-line-soft);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.nlcs .nlcs-body ul {
+  margin: 0 0 24px;
+  padding-left: 26px;
+  list-style: square;
+}
+.nlcs .nlcs-body li { margin: 10px 0; padding-left: 6px; }
+.nlcs .nlcs-body li::marker { color: var(--accent); font-weight: 600; }
+.nlcs .nlcs-body a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* "Dve chyby" — marked with an accent rule, same idiom as article blockquotes,
+   but upright text: it's the core of the story, not an aside. */
+.nlcs .nlcs-errors {
+  margin: 56px 0 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--accent);
+}
+.nlcs .nlcs-errors h2 { margin-top: 0; }
+.nlcs .nlcs-errors p:last-child { margin-bottom: 0; }
+
+/* ── Data tables (the core of the page) ─────────────────────────────── */
+.nlcs .nlcs-table-wrap {
+  margin: 32px 0 28px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--nlcs-line);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+}
+.nlcs .nlcs-table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.nlcs .nlcs-table-wrap--result {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.nlcs table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 16px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.nlcs thead tr {
+  border-bottom: 2px solid color-mix(in srgb, var(--ink) 20%, transparent);
+}
+.nlcs th[scope='col'] {
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--bg2);
+}
+.nlcs th[scope='row'] {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.nlcs td {
+  padding: 14px 16px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.nlcs tbody tr { border-bottom: 1px solid var(--nlcs-line-soft); }
+.nlcs tbody tr:last-child { border-bottom: 0; }
+.nlcs tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+.nlcs .nlcs-score {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1;
+}
+.nlcs .nlcs-score strong { font-weight: 400; color: var(--accent-text); }
+.nlcs .nlcs-was { color: var(--ink-faint); }
+.nlcs .nlcs-arrow {
+  margin: 0 0.25em;
+  font-family: var(--font-body);
+  font-size: 0.6em;
+  color: var(--ink-faint);
+  vertical-align: 0.2em;
+}
+/* Lighthouse score band dot: <50 red, 50–89 orange. */
+.nlcs .nlcs-band {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  border-radius: 50%;
+  vertical-align: 0.3em;
+}
+.nlcs .nlcs-band--red { background: var(--nlcs-band-red); }
+.nlcs .nlcs-band--orange { background: var(--nlcs-band-orange); }
+
+/* ── Closing CTA — quiet, matches the share/next footer idiom ───────── */
+.nlcs .nlcs-cta {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 56px 88px;
+}
+.nlcs .nlcs-cta-inner {
+  padding-top: 32px;
+  border-top: 1px solid var(--nlcs-line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.nlcs .nlcs-cta-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+}
+.nlcs .nlcs-cta-text span {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ink-muted);
+}
+.nlcs .nlcs-cta-link {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
+.nlcs .nlcs-cta-link:hover { text-decoration-thickness: 2px; }
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .nlcs .nlcs-head { padding: 48px 32px 32px; }
+  .nlcs .nlcs-stats { padding: 8px 32px 24px; }
+  .nlcs .nlcs-body { padding: 24px 32px 32px; }
+  .nlcs .nlcs-cta { padding: 0 32px 72px; }
+  .nlcs .nlcs-title { font-size: 56px; }
+  .nlcs .nlcs-perex { font-size: 20px; }
+  .nlcs .nlcs-stat-value { font-size: 38px; }
+}
+@media (max-width: 768px) {
+  .nlcs .nlcs-head { padding: 40px 20px 24px; }
+  .nlcs .nlcs-stats { padding: 4px 20px 16px; grid-template-columns: 1fr; gap: 10px; }
+  .nlcs .nlcs-body { padding: 16px 20px 24px; font-size: 17px; }
+  .nlcs .nlcs-cta { padding: 0 20px 56px; }
+  .nlcs .nlcs-title { font-size: 40px; line-height: 1.05; }
+  .nlcs .nlcs-perex { font-size: 18px; }
+  .nlcs .nlcs-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nlcs .nlcs-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 20px; }
+  .nlcs .nlcs-stat-label { margin-top: 0; text-align: right; }
+  .nlcs .nlcs-body h2 { font-size: 28px; margin-top: 44px; }
+  .nlcs .nlcs-errors { margin-top: 44px; padding-left: 18px; }
+}
+@media (max-width: 480px) {
+  .nlcs .nlcs-head { padding: 32px 16px 20px; }
+  .nlcs .nlcs-stats { padding: 4px 16px 12px; }
+  .nlcs .nlcs-body { padding: 12px 16px 16px; }
+  .nlcs .nlcs-cta { padding: 0 16px 48px; }
+  .nlcs .nlcs-title { font-size: 32px; }
+  .nlcs .nlcs-perex { font-size: 16px; }
+  .nlcs .nlcs-meta { grid-template-columns: 1fr; }
+  .nlcs .nlcs-stat { flex-direction: column; gap: 8px; }
+  .nlcs .nlcs-stat-value { font-size: 34px; }
+  .nlcs .nlcs-stat-label { text-align: left; }
+  .nlcs .nlcs-body h2 { font-size: 24px; }
+  .nlcs .nlcs-cta-text { font-size: 22px; }
+}

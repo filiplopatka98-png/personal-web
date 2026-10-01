@@ -92,7 +92,8 @@ export default defineConfig({
     // Translated static routes with different slugs (/praca/ vs /en/work/) don't
     // auto-pair here — those still rely on the reciprocal hreflang in <head>.
     sitemap({
-      filter: (page) => !/\/404\/?$/.test(page),
+      // natur-life case study is direct-link only (not listed, not in sitemap).
+      filter: (page) => !/\/404\/?$/.test(page) && !/\/(praca|en\/work)\/natur-life\/$/.test(page),
       i18n: {
         defaultLocale: 'sk',
         locales: { sk: 'sk-SK', en: 'en-US' },

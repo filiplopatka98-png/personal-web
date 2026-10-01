@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/natur-life-case-study.css';
+
+// Case study page — direct link only: not in the /praca/ listing and excluded
+// from the sitemap (astro.config.mjs). Copy is verbatim from the measured
+// study; don't round or edit the numbers.
+const titul = 'Z 27 na 83 bodov: zrýchlenie WooCommerce e-shopu natur-life.sk';
+const perex = 'E-shop s bio kozmetikou mal na mobile skóre 27 zo 100 a hlavný obsah sa zobrazoval až po osemnástich sekundách. Po dvoch týždňoch práce je na 83 bodoch — bez výmeny témy, bez prepisovania webu.';
+---
+<BaseLayout
+  lang="sk"
+  canonicalPath="/praca/natur-life/"
+  altLangUrl="/en/work/natur-life/"
+  title={`${titul} | Filip Lopatka`}
+  description={perex}
+  breadcrumbName="natur-life.sk"
+>
+<article class="nlcs">
+  <header class="nlcs-head">
+    <a href="/praca/" class="nlcs-back">← Práca</a>
+    <p class="nlcs-eyebrow">Prípadová štúdia · 2026</p>
+    <h1 class="nlcs-title">Z 27 na 83 bodov: zrýchlenie WooCommerce e-shopu <span class="nlcs-nowrap">natur-life.sk</span></h1>
+    <p class="nlcs-perex">{perex}</p>
+    <dl class="nlcs-meta">
+      <div><dt>Klient</dt><dd>natur-life.sk — Zuffa &amp; Co.</dd></div>
+      <div><dt>Obdobie</dt><dd>18. 9. – 1. 10. 2026</dd></div>
+      <div><dt>Služba</dt><dd>Optimalizácia rýchlosti v rámci mesačnej údržby</dd></div>
+      <div><dt>Stack</dt><dd>WordPress · WooCommerce · Impreza · WPBakery</dd></div>
+    </dl>
+  </header>
+
+  <ul class="nlcs-stats" aria-label="Kľúčové výsledky">
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value">27 → <span class="nlcs-accent">83</span></span>
+      <span class="nlcs-stat-label">skóre detailu produktu na mobile</span>
+    </li>
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value"><span class="nlcs-accent">−52 až −73 %</span></span>
+      <span class="nlcs-stat-label">veľkosť stránok</span>
+    </li>
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value"><span class="nlcs-accent">120–250 ms</span></span>
+      <span class="nlcs-stat-label">odozva servera namiesto takmer troch sekúnd</span>
+    </li>
+  </ul>
+
+  <div class="nlcs-body">
+    <section>
+      <h2>Východisko</h2>
+      <p>natur-life.sk je e-shop s bio kozmetikou, ayurvédskymi olejmi a potravinami. Beží na WooCommerce a téme Impreza a funguje dobre — len bol pomalý.</p>
+      <p>Meranie z 18. septembra ukázalo, ako veľmi:</p>
+      <div class="nlcs-table-wrap" role="region" aria-label="Východisko: meranie z 18. septembra" tabindex="0">
+        <table>
+          <thead>
+            <tr><th scope="col">Stránka</th><th scope="col">Skóre na mobile</th><th scope="col">Hlavný obsah (LCP)</th><th scope="col">Veľkosť</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Detail produktu</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>27</td><td>18,3 s</td><td>5,0 MB</td></tr>
+            <tr><th scope="row">Kategória</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>32</td><td>17,2 s</td><td>4,6 MB</td></tr>
+            <tr><th scope="row">Homepage</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>31</td><td>18,6 s</td><td>6,1 MB</td></tr>
+            <tr><th scope="row">Košík</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span>54</td><td>14,7 s</td><td>4,4 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Dôležitejšie než laboratórne čísla boli dáta od reálnych návštevníkov: hlavný obsah sa im zobrazoval za <strong>3,7 sekundy</strong> a v 65 % prípadov čakali na odpoveď servera dlhšie ako 1,8 s. Google považuje za dobré zobrazenie do 2,5 sekundy.</p>
+      <p>Zadanie bolo jednoduché: zrýchliť to bez výmeny témy a bez prepisovania webu. Téma aj page builder sú na takomto projekte dané — kto ich mení, robí nový web, nie optimalizáciu.</p>
+    </section>
+
+    <section>
+      <h2>Čo sa robilo</h2>
+      <p><strong>Najprv diagnóza, až potom zásahy.</strong> Prvé meranie ukázalo, že na mobile web nedržal dole obrázky, ako by sa čakalo, ale JavaScript. To zmenilo poradie prác.</p>
+      <p>Tri štvrtiny zisku priniesli štyri veci:</p>
+      <ul>
+        <li><strong>Skripty tretích strán až po prvej interakcii.</strong> Chat, newsletterový formulár a vyskakovacie okná sa načítajú, až keď návštevník scrolluje alebo klikne. Dovtedy ich telefón nesťahuje vôbec.</li>
+        <li><strong>Knižnice len tam, kde sa používajú.</strong> reCAPTCHA sa načítavala na každej stránke vrátane kategórií — dokopy 1,8 MB. Slider sa načítaval aj tam, kde žiadny slider nie je.</li>
+        <li><strong>Poradie načítania obrázkov.</strong> Hlavný obrázok sa načíta prednostne, zvyšok výpisu až pri scrollovaní. Celá knižnica sa doručuje vo formáte WebP — tá istá fotka má namiesto 862 kB len 59 kB.</li>
+        <li><strong>Stránky sa predgenerovávajú dopredu.</strong> Návštevník nečaká, kým ich server poskladá; dostane hotovú odpoveď za 120 až 250 ms.</li>
+      </ul>
+      <p>Popri tom prišla údržba, ktorá sa roky odkladala: vyčistená databáza (údaje načítavané pri každom požiadavku klesli o 77 %), zrušené zvyšky po pluginoch a téme, ktoré na webe už roky neboli, a zníženie počtu pluginov zo 41 na 35. Tri z odstránených boli bezpečnostné riziko — správca súborov a databázová konzola prístupné priamo z administrácie.</p>
+    </section>
+
+    <section class="nlcs-errors">
+      <h2>Dve chyby, ktoré našlo meranie</h2>
+      <p>Toto je časť, ktorú väčšina prípadových štúdií vynecháva.</p>
+      <p><strong>Prvá:</strong> vypnutie globálnych knižníc slidera vyzeralo ako čistá úspora. Na stránkach z vyrovnávacej pamäte to fungovalo — ale na novo vygenerovanej homepage sa hero rozsypal na holý text. Prejavilo by sa to až pri najbližšom vyprázdnení cache, teda možno o týždeň, možno pri objednávke. Zmena šla späť v ten istý deň.</p>
+      <p><strong>Druhá:</strong> po nasadení ďalšieho kola úprav skóre detailu produktu kleslo na 56 a poskakovanie obsahu vyskočilo z nuly na 0,386. Príčina bola v jedinom kľúčovom slove: skript <code>mobile-detect</code> leží vo vnútri priečinka iného pluginu, takže ho oneskorovalo pravidlo, ktoré naň vôbec nemalo mieriť. Téma podľa neho rozhoduje o rozložení, takže stránka sa po načítaní prekreslila. Po oprave <strong class="nlcs-nowrap">56 → 83</strong>.</p>
+      <p>Ani jedna z nich by sa bez merania po každom kroku neukázala. Presne preto sa meria.</p>
+    </section>
+
+    <section>
+      <h2>Výsledok</h2>
+      <div class="nlcs-table-wrap nlcs-table-wrap--result" role="region" aria-label="Výsledok: pred a po optimalizácii" tabindex="0">
+        <table>
+          <thead>
+            <tr><th scope="col">Stránka</th><th scope="col">Skóre na mobile</th><th scope="col">Hlavný obsah (LCP)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Detail produktu</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">27</span><span class="nlcs-arrow">→</span><strong>83</strong></td><td>18,3 → 3,6 s</td></tr>
+            <tr><th scope="row">Košík</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">54</span><span class="nlcs-arrow">→</span><strong>80</strong></td><td>14,7 → 2,3 s</td></tr>
+            <tr><th scope="row">Kategória</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">32</span><span class="nlcs-arrow">→</span><strong>79</strong></td><td>17,2 → 3,8 s</td></tr>
+            <tr><th scope="row">Homepage</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">31</span><span class="nlcs-arrow">→</span><strong>69</strong></td><td>18,6 → 2,9 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Stránky sú o <strong>52 až 73 % ľahšie</strong>. Poskakovanie obsahu na detaile produktu aj v kategóriách kleslo na <strong>nulu</strong>. Odozva servera je 120 až 250 ms namiesto pôvodných takmer troch sekúnd.</p>
+      <p>Žiadna zo stránok už nie je v červenom pásme.</p>
+    </section>
+
+    <section>
+      <h2>Kde sa to zastavilo</h2>
+      <p>Dve veci sa vyriešiť nedali a patria sem rovnako ako tie ostatné.</p>
+      <p><strong>Hosting.</strong> Balík, na ktorom e-shop beží, neponúka zrýchlenie PHP ani pamäťovú cache. Stránky, ktoré sa z princípu nedajú pripraviť dopredu — košík, pokladňa, prihlásený účet — preto server skladá vyše dvoch sekúnd a na tomto hostingu s tým neurobí nič ani ten najlepší kód. Zákazník čaká najdlhšie práve vtedy, keď sa rozhoduje o nákupe. Ďalší krok je presun.</p>
+      <p><strong>Úvodný slider.</strong> Drží homepage najťažšiu zo všetkých stránok a spôsobuje poskakovanie obsahu. Odporúčanie bolo nahradiť ho statickým bannerom; klient si ho chce ponechať. To je legitímne rozhodnutie — a dôvod, prečo má homepage 69 a nie viac.</p>
+    </section>
+
+    <section>
+      <h2>Ako sa meralo</h2>
+      <p>Google Lighthouse, tri behy na stránku, medián každej metriky zvlášť. Rovnaká metodika pred aj po, rovnaké štyri stránky, vždy odhlásený návštevník s mobilným profilom. Každý zásah je zapísaný s dátumom, výsledkom overenia a — pri tých dvoch neúspešných — aj s dôvodom, prečo sa vrátil späť.</p>
+    </section>
+  </div>
+
+  <aside class="nlcs-cta">
+    <div class="nlcs-cta-inner">
+      <p class="nlcs-cta-text">Aj tvoj web potrebuje zrýchliť?<span>Napíš mi pár viet — ozvem sa do 24 hodín.</span></p>
+      <a href="/ponuka/" class="nlcs-cta-link" data-umami-event="brief-start">Začnime brief →</a>
+    </div>
+  </aside>
+</article>
+</BaseLayout>

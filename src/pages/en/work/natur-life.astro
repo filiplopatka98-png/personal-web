@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/natur-life-case-study.css';
+
+// English version of /praca/natur-life/. Direct link only: not in the
+// /en/work/ listing and excluded from the sitemap (astro.config.mjs).
+// Numbers match the Slovak study exactly (English decimal points only).
+const title = 'From 27 to 83 points: speeding up the natur-life.sk WooCommerce shop';
+const perex = 'An organic cosmetics shop scored 27 out of 100 on mobile, and its main content took eighteen seconds to appear. After two weeks of work it scores 83 — without changing the theme and without rewriting the site.';
+---
+<BaseLayout
+  lang="en"
+  canonicalPath="/en/work/natur-life/"
+  altLangUrl="/praca/natur-life/"
+  title={`${title} | Filip Lopatka`}
+  description={perex}
+  breadcrumbName="natur-life.sk"
+>
+<article class="nlcs">
+  <header class="nlcs-head">
+    <a href="/en/work/" class="nlcs-back">← Work</a>
+    <p class="nlcs-eyebrow">Case study · 2026</p>
+    <h1 class="nlcs-title">From 27 to 83 points: speeding up the <span class="nlcs-nowrap">natur-life.sk</span> WooCommerce shop</h1>
+    <p class="nlcs-perex">{perex}</p>
+    <dl class="nlcs-meta">
+      <div><dt>Client</dt><dd>natur-life.sk — Zuffa &amp; Co.</dd></div>
+      <div><dt>Period</dt><dd>18 Sep – 1 Oct 2026</dd></div>
+      <div><dt>Service</dt><dd>Speed optimisation as part of monthly maintenance</dd></div>
+      <div><dt>Stack</dt><dd>WordPress · WooCommerce · Impreza · WPBakery</dd></div>
+    </dl>
+  </header>
+
+  <ul class="nlcs-stats" aria-label="Key results">
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value">27 → <span class="nlcs-accent">83</span></span>
+      <span class="nlcs-stat-label">mobile score, product page</span>
+    </li>
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value"><span class="nlcs-accent">−52 to −73 %</span></span>
+      <span class="nlcs-stat-label">page weight</span>
+    </li>
+    <li class="nlcs-stat">
+      <span class="nlcs-stat-value"><span class="nlcs-accent">120–250 ms</span></span>
+      <span class="nlcs-stat-label">server response, down from almost three seconds</span>
+    </li>
+  </ul>
+
+  <div class="nlcs-body">
+    <section>
+      <h2>Starting point</h2>
+      <p>natur-life.sk is an online shop selling organic cosmetics, Ayurvedic oils and food. It runs on WooCommerce with the Impreza theme and works well — it was just slow.</p>
+      <p>A measurement on 18 September showed how slow:</p>
+      <div class="nlcs-table-wrap" role="region" aria-label="Starting point: measurement on 18 September" tabindex="0">
+        <table>
+          <thead>
+            <tr><th scope="col">Page</th><th scope="col">Mobile score</th><th scope="col">Main content (LCP)</th><th scope="col">Weight</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Product page</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>27</td><td>18.3 s</td><td>5.0 MB</td></tr>
+            <tr><th scope="row">Category</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>32</td><td>17.2 s</td><td>4.6 MB</td></tr>
+            <tr><th scope="row">Homepage</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--red" aria-hidden="true"></span>31</td><td>18.6 s</td><td>6.1 MB</td></tr>
+            <tr><th scope="row">Cart</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span>54</td><td>14.7 s</td><td>4.4 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>More important than the lab numbers was the data from real visitors: the main content appeared after <strong>3.7 seconds</strong>, and in 65 % of cases they waited longer than 1.8 s for the server to respond. Google considers anything up to 2.5 seconds good.</p>
+      <p>The brief was simple: make it faster without changing the theme and without rewriting the site. On a project like this, the theme and the page builder are a given — whoever replaces them is building a new site, not optimising one.</p>
+    </section>
+
+    <section>
+      <h2>What was done</h2>
+      <p><strong>Diagnosis first, changes second.</strong> The first measurement showed that on mobile the site wasn't held back by images, as you'd expect, but by JavaScript. That changed the order of the work.</p>
+      <p>Three quarters of the gain came from four things:</p>
+      <ul>
+        <li><strong>Third-party scripts only after the first interaction.</strong> The chat, newsletter form and pop-ups load only once the visitor scrolls or clicks. Until then the phone doesn't download them at all.</li>
+        <li><strong>Libraries only where they're used.</strong> reCAPTCHA was loading on every page, categories included — 1.8 MB in total. The slider was loading even where there is no slider.</li>
+        <li><strong>Image loading order.</strong> The main image loads first, the rest of the listing only on scroll. The whole library is served as WebP — the same photo is 59 kB instead of 862 kB.</li>
+        <li><strong>Pages are pre-generated in advance.</strong> Visitors don't wait for the server to assemble them; they get a finished response in 120 to 250 ms.</li>
+      </ul>
+      <p>Alongside that came maintenance that had been put off for years: a cleaned-up database (data loaded on every request dropped by 77 %), leftovers removed from plugins and a theme that hadn't been on the site for years, and the plugin count cut from 41 to 35. Three of the removed plugins were a security risk — a file manager and a database console reachable straight from the admin.</p>
+    </section>
+
+    <section class="nlcs-errors">
+      <h2>Two mistakes the measurements caught</h2>
+      <p>This is the part most case studies leave out.</p>
+      <p><strong>The first:</strong> switching off the slider's global libraries looked like a pure saving. On cached pages it worked — but on a freshly generated homepage the hero fell apart into bare text. It would only have shown up at the next cache purge, so maybe in a week, maybe during an order. The change was reverted the same day.</p>
+      <p><strong>The second:</strong> after the next round of changes went live, the product page score dropped to 56 and layout shift jumped from zero to 0.386. The cause was a single keyword: the <code>mobile-detect</code> script sits inside another plugin's folder, so it was being delayed by a rule that was never meant to target it. The theme uses it to decide the layout, so the page re-rendered after loading. After the fix: <strong class="nlcs-nowrap">56 → 83</strong>.</p>
+      <p>Neither would have shown up without measuring after every step. That is exactly why we measure.</p>
+    </section>
+
+    <section>
+      <h2>Result</h2>
+      <div class="nlcs-table-wrap nlcs-table-wrap--result" role="region" aria-label="Result: before and after optimisation" tabindex="0">
+        <table>
+          <thead>
+            <tr><th scope="col">Page</th><th scope="col">Mobile score</th><th scope="col">Main content (LCP)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Product page</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">27</span><span class="nlcs-arrow">→</span><strong>83</strong></td><td>18.3 → 3.6 s</td></tr>
+            <tr><th scope="row">Cart</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">54</span><span class="nlcs-arrow">→</span><strong>80</strong></td><td>14.7 → 2.3 s</td></tr>
+            <tr><th scope="row">Category</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">32</span><span class="nlcs-arrow">→</span><strong>79</strong></td><td>17.2 → 3.8 s</td></tr>
+            <tr><th scope="row">Homepage</th><td class="nlcs-score"><span class="nlcs-band nlcs-band--orange" aria-hidden="true"></span><span class="nlcs-was">31</span><span class="nlcs-arrow">→</span><strong>69</strong></td><td>18.6 → 2.9 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Pages are <strong>52 to 73 % lighter</strong>. Layout shift on the product page and in categories dropped to <strong>zero</strong>. Server response is 120 to 250 ms instead of the original almost three seconds.</p>
+      <p>None of the pages is in the red zone any more.</p>
+    </section>
+
+    <section>
+      <h2>Where it stopped</h2>
+      <p>Two things couldn't be solved, and they belong here just as much as the rest.</p>
+      <p><strong>Hosting.</strong> The plan the shop runs on offers neither PHP acceleration nor an in-memory cache. Pages that by their nature can't be prepared in advance — cart, checkout, logged-in account — therefore take the server over two seconds to assemble, and on this hosting not even the best code can change that. Customers wait longest exactly when they're deciding to buy. The next step is a move.</p>
+      <p><strong>Homepage slider.</strong> It keeps the homepage the heaviest of all pages and causes layout shift. The recommendation was to replace it with a static banner; the client wants to keep it. That's a legitimate decision — and the reason the homepage is at 69 and not higher.</p>
+    </section>
+
+    <section>
+      <h2>How it was measured</h2>
+      <p>Google Lighthouse, three runs per page, median of each metric separately. Same methodology before and after, same four pages, always a logged-out visitor with a mobile profile. Every change is logged with its date, verification result and — for the two unsuccessful ones — the reason it was reverted.</p>
+    </section>
+  </div>
+
+  <aside class="nlcs-cta">
+    <div class="nlcs-cta-inner">
+      <p class="nlcs-cta-text">Does your site need to get faster?<span>Drop me a few lines — I'll get back within 24 hours.</span></p>
+      <a href="/en/brief/" class="nlcs-cta-link" data-umami-event="brief-start">Let's start a brief →</a>
+    </div>
+  </aside>
+</article>
+</BaseLayout>
