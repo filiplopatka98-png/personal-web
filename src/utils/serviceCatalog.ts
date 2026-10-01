@@ -15,6 +15,15 @@ export function parseStartingPrice(price: string): number | null {
   return match[2] === 'k' ? Math.round(n * 1000) : Math.round(n);
 }
 
+/**
+ * True for recurring monthly prices ("od 39 € / mesiac", "from €39 / month").
+ * Those are emitted as a UnitPriceSpecification with unitCode MON so answer
+ * engines don't quote them as a one-off package price.
+ */
+export function isMonthlyPrice(price: string): boolean {
+  return /\b(mesiac|mes\.|month|mo\.)/i.test(price);
+}
+
 interface CatalogOpts {
   /** Localized catalog name. */
   name: string;
@@ -48,11 +57,18 @@ export function buildServiceCatalog(services: Service[], opts: CatalogOpts): Rec
           provider: { '@id': opts.orgId },
         },
         ...(price !== null && {
-          priceSpecification: {
-            '@type': 'PriceSpecification',
-            minPrice: price,
-            priceCurrency: 'EUR',
-          },
+          priceSpecification: isMonthlyPrice(s.price)
+            ? {
+                '@type': 'UnitPriceSpecification',
+                minPrice: price,
+                priceCurrency: 'EUR',
+                unitCode: 'MON',
+              }
+            : {
+                '@type': 'PriceSpecification',
+                minPrice: price,
+                priceCurrency: 'EUR',
+              },
         }),
       };
     }),

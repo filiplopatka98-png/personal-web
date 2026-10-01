@@ -31,7 +31,7 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   inLanguage: 'en-US',
 });
 ---
-<BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title="Services — web development, e-commerce, performance audit" description="Packages and pricing: landing page, company website, e-shop and audit. Design, build, deploy and support — focused on performance, SEO and accessibility.">
+<BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title="Services — web development, e-commerce, performance audit" description="Packages and pricing: landing page, company website, e-shop, audit and monthly maintenance. Design, build, deploy and support — focused on performance, SEO and accessibility.">
   <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
