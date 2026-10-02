@@ -8,7 +8,7 @@ client: "Ľubomír Krivošík"
 url: "krivosik.sk"
 accent: accent
 order: 29
-featured: false
+featured: true
 brief: "A company website with strong local SEO for a sole trader in earthworks and excavation near Piešťany — services, a portfolio of jobs, and the phone number within reach."
 metrics:
   - value: "1st page"

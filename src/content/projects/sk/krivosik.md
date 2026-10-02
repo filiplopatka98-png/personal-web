@@ -8,7 +8,7 @@ client: "Ľubomír Krivošík"
 url: "krivosik.sk"
 accent: accent
 order: 29
-featured: false
+featured: true
 brief: "Firemný web so silným lokálnym SEO pre živnostníka v zemných a výkopových prácach v okolí Piešťan — služby, portfólio realizácií a telefón nadosah."
 metrics:
   - value: "1. strana"

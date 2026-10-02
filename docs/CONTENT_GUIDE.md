@@ -19,7 +19,7 @@ client: "Meno klienta"
 url: "web.sk"
 accent: accent        # accent | accent2 | accent3
 order: 2
-featured: false
+featured: false       # true = na úvodnej stránke (max. 4, podľa `order`)
 brief: "Jedna-dve vety, čo to je (min. 10 znakov)."
 metrics:
   - value: "10 000+"

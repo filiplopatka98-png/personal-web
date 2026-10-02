@@ -8,7 +8,7 @@ client: "Zuffa & Co."
 url: "natur-life.sk"
 accent: accent2
 order: 0
-featured: false
+featured: true
 brief: "Speeding up an organic cosmetics WooCommerce shop without changing the theme or rewriting the site — mobile product-page score from 27 to 83."
 metrics:
   - value: "27 → 83"

@@ -8,7 +8,7 @@ client: "Profi House"
 url: "profihouse.sk"
 accent: accent
 order: 10
-featured: false
+featured: true
 brief: "Web stavebnej spoločnosti pre lead generation — služby, portfólio realizácií a kontaktné formuláre pre dopyty."
 metrics:
   - value: "2 500+"

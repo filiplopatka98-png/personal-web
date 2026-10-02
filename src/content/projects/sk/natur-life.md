@@ -8,7 +8,7 @@ client: "Zuffa & Co."
 url: "natur-life.sk"
 accent: accent2
 order: 0
-featured: false
+featured: true
 brief: "Zrýchlenie WooCommerce e-shopu s bio kozmetikou bez výmeny témy a bez prepisovania webu — skóre detailu produktu na mobile z 27 na 83 bodov."
 metrics:
   - value: "27 → 83"

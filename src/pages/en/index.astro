@@ -17,7 +17,9 @@ const lang = 'en';
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const projects = (visibleProjects(await getCollection('projects')))
-  .filter((p) => p.id.startsWith('en/'))
+  // Home shows the hand-picked `featured: true` projects (one maintenance, one
+  // e-shop, two websites), in `order`.
+  .filter((p) => p.id.startsWith('en/') && p.data.featured)
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 4);
 
