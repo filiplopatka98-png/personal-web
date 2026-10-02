@@ -2,8 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import '../../../styles/natur-life-case-study.css';
 
-// English version of /praca/natur-life/. Direct link only: not in the
-// /en/work/ listing and excluded from the sitemap (astro.config.mjs).
+// English version of /praca/natur-life/. Listed via its collection entry
+// (src/content/projects/en/natur-life.md); [slug].astro skips it.
 // Numbers match the Slovak study exactly (English decimal points only).
 const title = 'From 27 to 83 points: speeding up the natur-life.sk WooCommerce shop';
 const perex = 'An organic cosmetics shop scored 27 out of 100 on mobile, and its main content took eighteen seconds to appear. After two weeks of work it scores 83 — without changing the theme and without rewriting the site.';

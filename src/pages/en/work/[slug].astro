@@ -21,8 +21,10 @@ function mockupImage(name: string): ImageMetadata | null {
 
 export async function getStaticPaths() {
   const all = visibleProjects(await getCollection('projects'));
+  // natur-life has its own standalone page (natur-life.astro) at the same URL;
+  // its collection entry only feeds the listings.
   return all
-    .filter((p) => p.id.startsWith('en/'))
+    .filter((p) => p.id.startsWith('en/') && p.id !== 'en/natur-life')
     .map((entry) => ({
       params: { slug: entry.id.replace(/^en\//, '') },
       props: { entry },
