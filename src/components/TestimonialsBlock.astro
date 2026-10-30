@@ -31,9 +31,25 @@ const testimonials = lang === 'sk' ? [
       </Reveal>
     ))}
   </div>
+  <Reveal>
+    <a class="testimonials-proof mono" href="https://www.jaspravim.sk/lopatkafilip" target="_blank" rel="noopener noreferrer" data-cursor="hover">
+      ★★★★★ {lang === 'sk' ? '32 hodnotení · 100 % spokojnosť na Jaspravim.sk' : '32 reviews · 100 % satisfaction on Jaspravim.sk'} →
+    </a>
+  </Reveal>
 </section>
 
 <style>
+  .testimonials-proof {
+    display: inline-block;
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    position: relative;
+  }
+  .testimonials-proof:hover { color: var(--accent-text); }
+
   .testimonials-section {
     padding: 96px 56px;
     position: relative;

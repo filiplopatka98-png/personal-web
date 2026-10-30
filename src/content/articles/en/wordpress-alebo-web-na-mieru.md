@@ -7,7 +7,7 @@ excerpt: "WordPress wins on price and speed to launch, a custom build wins on pe
 featured: false
 faq:
   - q: "Is WordPress a good choice for a company website?"
-    a: "Yes, for most company websites WordPress is a solid choice — especially if you want to manage content yourself, need a fast start, and have a budget that typically starts around €1,000. It's less suited to projects that need very specific functionality standard plugins don't cover, or extreme performance under heavy load."
+    a: "Yes, for most company websites WordPress is a solid choice — especially if you want to manage content yourself, need a fast start, and have a budget that starts, in my case, at €390. It's less suited to projects that need very specific functionality standard plugins don't cover, or extreme performance under heavy load."
   - q: "When is a custom-built website worth it?"
     a: "A custom (or headless) build is worth it when you need functionality an off-the-shelf CMS can't offer without dozens of plugins, when performance is business-critical (e.g. a large store with thousands of products), or when you're planning to grow into multi-channel scenarios like a website, app, and B2B portal at once."
   - q: "Is a custom website faster than WordPress?"
@@ -16,7 +16,7 @@ faq:
     a: "WordPress is cheaper to maintain in most cases, because the client can handle content changes and small edits themselves through the CMS without a developer. A custom build costs more per change, since almost every edit goes through a developer — but it compensates by aging better under growth and needing far fewer security patches than a WordPress site loaded with plugins."
 ---
 
-If you want to manage content yourself, need a fast launch, and your budget sits around €1,000–2,000, WordPress is usually the right call. If you need performance under heavy load, very specific functionality, or you're planning to grow into multiple channels at once, a custom or headless build is worth the extra cost. Choose based on the project's goal — not on what's trendy right now.
+If you want to manage content yourself, need a fast launch, and your budget starts at €390 for a website or €1,490 for a store, WordPress is usually the right call. If you need performance under heavy load, very specific functionality, or you're planning to grow into multiple channels at once, a custom or headless build is worth the extra cost. Choose based on the project's goal — not on what's trendy right now.
 
 I get this question in almost every first conversation with a client. "It depends" is true, but it doesn't move anyone forward. So let's get practical.
 
@@ -28,7 +28,7 @@ WordPress powers a large share of the web today, and that's not an accident — 
 
 **You need a fast start.** The basic structure of a site (pages, blog, contact form) comes together faster than a custom build, because most common features are already covered by an existing plugin.
 
-**Budget is limited.** A company website on WordPress starts, in my case, from €1,000 (4–6 weeks) — that includes a discovery workshop, two design rounds, up to 12 subpages, a blog module, multiple languages, and admin training. With a custom build, the upfront investment is typically higher, since it isn't built on existing building blocks.
+**Budget is limited.** A company website on WordPress starts, in my case, from €390 (2–4 weeks) — on a custom theme without page builders, with domain and hosting for the first year and admin training. With a custom build, the upfront investment is typically higher, since it isn't built on existing building blocks.
 
 The downsides deserve an honest mention: WordPress with a large number of plugins can get slower over time and harder to keep secure — every plugin is a potential vulnerability that needs maintaining. And for very specific requirements (an unusual checkout flow, complex logic outside typical e-commerce), you'll eventually hit the ceiling of what "just a plugin" can solve.
 
@@ -44,7 +44,7 @@ A custom solution — a build with no CMS dependency, or a headless architecture
 
 I've written a detailed decision matrix specifically for headless WooCommerce + Next.js — when it's worth it and when it isn't, across four axes (product count, traffic, team skills, planned customization) — in a [separate article](/en/blog/headless-woo-nextjs-kedy/). The short version: headless makes sense once at least three of those four conditions line up at the same time. If several are missing, it's an unnecessarily expensive route.
 
-Pricing for a custom build starts similarly to an online store — from €2,000 for e-commerce projects with a custom checkout, or is scoped individually for a purely presentational custom site depending on requirements.
+Pricing for a custom build (Next.js) is scoped individually — for comparison, a WordPress company website starts at €390 and a WooCommerce store at €1,490.
 
 ## There's also a middle path
 

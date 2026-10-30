@@ -4,10 +4,10 @@
 
 ## Services and pricing
 - [Services (EN)](https://lopatka.sk/en/services/) · [Služby (SK)](https://lopatka.sk/sluzby/)
-- Landing page — from €600, 2–3 weeks
-- Company website with CMS (WordPress or headless WP + Next.js) — from €1,000, 4–6 weeks
-- Online store / e-commerce (WooCommerce or headless) — from €2,000, 8–12 weeks; custom checkout, payment gateways (Stripe, GoPay, Tatra banka), stock/ERP integration (Pohoda, MoneyS3)
-- Audit & consulting (performance, SEO, accessibility, UX) — from €300, ~1 week
+- Company website on a custom WordPress theme — from €390, 2–4 weeks; domain and hosting for the first year included
+- WooCommerce online store — from €1,490, 4–8 weeks; payment gateways (GoPay, Stripe, Tatra banka), shipping, invoicing, optional stock/ERP integration (Pohoda, Money S3)
+- Website & store speed-up (Core Web Vitals) — from €390, 1–2 weeks, fixed price after audit
+- Free website check (mobile speed, SEO, 3 key fixes) — within 2 business days; consulting €30/h
 
 ## Expertise
 WordPress, WooCommerce, Next.js, React, Astro, headless CMS, web performance and Core Web Vitals, technical SEO, web accessibility (WCAG). Focus areas: fast websites, conversion-oriented e-shops, and speeding up / auditing existing sites.

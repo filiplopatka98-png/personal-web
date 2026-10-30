@@ -7,7 +7,7 @@ excerpt: "WordPress vyhráva na cene a rýchlosti štartu, web na mieru na výko
 featured: false
 faq:
   - q: "Je WordPress dobrá voľba pre firemný web?"
-    a: "Áno, pre väčšinu firemných webov je WordPress dobrá voľba — najmä ak chceš obsah spravovať sám, potrebuješ rýchly štart a rozpočet, ktorý sa pohybuje typicky od 1 000 €. Menej sa oplatí, ak potrebuješ veľmi špecifickú funkcionalitu, ktorú štandardné pluginy nepokrývajú, alebo extrémny výkon pod veľkou záťažou."
+    a: "Áno, pre väčšinu firemných webov je WordPress dobrá voľba — najmä ak chceš obsah spravovať sám, potrebuješ rýchly štart a rozpočet, ktorý sa u mňa začína od 390 €. Menej sa oplatí, ak potrebuješ veľmi špecifickú funkcionalitu, ktorú štandardné pluginy nepokrývajú, alebo extrémny výkon pod veľkou záťažou."
   - q: "Kedy sa oplatí web na mieru?"
     a: "Web na mieru (custom alebo headless) sa oplatí, keď potrebuješ funkcie, ktoré hotové riešenie nevie ponúknuť bez desiatok pluginov, keď výkon je kritický pre biznis (napr. veľký eshop s tisíckami produktov), alebo keď plánuješ rásť do multi-channel scenárov ako web + appka + B2B portál naraz."
   - q: "Je web na mieru rýchlejší ako WordPress?"
@@ -16,7 +16,7 @@ faq:
     a: "WordPress je vo väčšine prípadov lacnejší na údržbu, pretože zmeny obsahu a drobné úpravy zvládne klient sám cez CMS bez zásahu vývojára. Web na mieru je drahší na zmeny, lebo takmer každá úprava ide cez vývojára — kompenzuje to tým, že menej „hnije“ pri raste a nepotrebuje toľko bezpečnostných záplat ako WordPress s množstvom pluginov."
 ---
 
-Ak chceš obsah spravovať sám, rýchlo štartovať a rozpočet ti sedí okolo 1 000 – 2 000 €, WordPress je väčšinou správna voľba. Ak potrebuješ výkon pod veľkou záťažou, veľmi špecifickú funkcionalitu alebo plánuješ rásť do viacerých kanálov naraz, web na mieru (alebo headless) sa oplatí, aj keď stojí viac. Rozhodni sa podľa cieľa projektu — nie podľa toho, čo je práve trendy.
+Ak chceš obsah spravovať sám, rýchlo štartovať a rozpočet ti sedí od 390 € pri webe a od 1 490 € pri e-shope, WordPress je väčšinou správna voľba. Ak potrebuješ výkon pod veľkou záťažou, veľmi špecifickú funkcionalitu alebo plánuješ rásť do viacerých kanálov naraz, web na mieru (alebo headless) sa oplatí, aj keď stojí viac. Rozhodni sa podľa cieľa projektu — nie podľa toho, čo je práve trendy.
 
 Túto otázku dostávam skoro pri každom prvom rozhovore s klientom. Odpoveď „závisí“ je pravdivá, ale nikoho neposunie ďalej. Tak poďme na to prakticky.
 
@@ -28,7 +28,7 @@ WordPress dnes poháňa výraznú väčšinu webov na internete, a to nie je ná
 
 **Potrebuješ rýchly štart.** Základná štruktúra webu (stránky, blog, kontaktný formulár) sa dá poskladať rýchlejšie než pri custom builde, lebo väčšinu bežných funkcií pokrýva existujúci plugin.
 
-**Rozpočet je obmedzený.** Firemný web na WordPress-e sa u mňa začína od 1 000 € (4 – 6 týždňov) — obsahuje discovery workshop, dve kolá dizajnu, až 12 podstránok, blog modul, viacjazyčnosť a tréning administrácie. Pri custom builde je vstupná investícia typicky vyššia, lebo sa nestavia na existujúcich stavebných blokoch.
+**Rozpočet je obmedzený.** Firemný web na WordPress-e sa u mňa začína od 390 € (2 – 4 týždne) — na vlastnej téme bez builderov, s doménou a hostingom na prvý rok a zaškolením do administrácie. Pri custom builde je vstupná investícia typicky vyššia, lebo sa nestavia na existujúcich stavebných blokoch.
 
 Nevýhody si treba priznať otvorene: WordPress s veľkým počtom pluginov sa môže časom stať pomalším a náročnejším na bezpečnostné aktualizácie — každý plugin je potenciálna zraniteľnosť, ktorú treba udržiavať. Pri veľmi špecifických požiadavkách (nezvyčajný checkout flow, komplexná logika mimo bežného e-commerce) narazíš skôr či neskôr na strop toho, čo sa dá vyriešiť „len pluginom“.
 
@@ -44,7 +44,7 @@ Custom riešenie — vlastný build bez CMS závislosti, alebo headless architek
 
 Detailnú rozhodovaciu maticu práve pre headless WooCommerce + Next.js — kedy sa to oplatí a kedy nie, podľa štyroch osí (počet produktov, návštevnosť, tímové skilly, plánovaná customizácia) — mám rozpísanú v [samostatnom článku](/blog/headless-woo-nextjs-kedy/). Skrátená verzia: headless dáva zmysel, až keď platia súčasne aspoň tri zo štyroch podmienok. Ak chýbajú viaceré naraz, je to zbytočne drahá cesta.
 
-Cena za web na mieru u mňa začína podobne ako pri eshope — od 2 000 € pri e-commerce projektoch s custom checkoutom, alebo sa rieši individuálne pri čisto prezentačnom custom webe podľa rozsahu.
+Cena za web na mieru (Next.js) sa u mňa rieši individuálne podľa rozsahu — pre porovnanie, firemný web na WordPresse začína od 390 € a e-shop na WooCommerce od 1 490 €.
 
 ## Existuje aj stredná cesta
 
