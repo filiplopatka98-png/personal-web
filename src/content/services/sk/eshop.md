@@ -1,18 +1,18 @@
 ---
-order: 3
-name: "Eshop / e-commerce"
-price: "od 2 000 €"
-duration: "8–12 týždňov"
-tagline: "WooCommerce alebo riešenie na mieru. Postavené na rast."
-desc: "E-shop s checkoutom, platbami, integráciou skladu. Optimalizovaný na výkon a konverziu."
+order: 2
+name: "E-shop na WooCommerce"
+price: "od 1 490 €"
+duration: "4–8 týždňov"
+tagline: "Rýchly, prehľadný e-shop pripravený predávať."
+desc: "E-shop na WooCommerce s platobnou bránou, dopravou a napojením na fakturáciu. Cenu poznáte vopred podľa rozsahu."
 featured: false
 includes:
-  - "Workshop k štruktúre a obsahu eshopu"
-  - "Vlastný objednávkový proces (checkout)"
-  - "Platobné brány (Stripe, GoPay, Tatra)"
-  - "Sklad/ERP integrácia (Pohoda, MoneyS3)"
-  - "Garancia rýchleho načítania (do 1,5 s)"
-  - "Analytics + e-commerce events"
+  - "Návrh štruktúry kategórií a produktov"
+  - "Platobné brány (GoPay, Stripe, Tatra banka)"
+  - "Doprava (Packeta, kuriéri) a výpočet poštovného"
+  - "Napojenie na fakturáciu, voliteľne sklad (Pohoda, Money S3)"
+  - "Rýchle načítanie aj pri stovkách produktov"
+  - "Meranie objednávok v Google Analytics"
   - "6 mesiacov podpory"
 notFor: "Trhovisko s viacerými predajcami (marketplace)."
 ---

@@ -1,18 +1,18 @@
 ---
-order: 3
-name: "E-shop / e-commerce"
-price: "from €2,000"
-duration: "8–12 weeks"
-tagline: "WooCommerce or a custom-built solution. Built to scale."
-desc: "E-shop with checkout, payments, inventory integration. Optimized for performance and conversion."
+order: 2
+name: "WooCommerce online store"
+price: "from €1,490"
+duration: "4–8 weeks"
+tagline: "A fast, clear online store ready to sell."
+desc: "A WooCommerce store with payment gateway, shipping and invoicing integration. You know the price upfront."
 featured: false
 includes:
-  - "Structure & content workshop"
-  - "Their own checkout process"
-  - "Payment gateways (Stripe, GoPay, Tatra)"
-  - "Inventory/ERP integration (Pohoda, MoneyS3)"
-  - "Guaranteed fast loading (under 1.5s)"
-  - "Analytics + e-commerce events"
+  - "Category and product structure"
+  - "Payment gateways (GoPay, Stripe, Tatra banka)"
+  - "Shipping (Packeta, couriers) and shipping rates"
+  - "Invoicing integration, optional stock sync (Pohoda, Money S3)"
+  - "Fast loading even with hundreds of products"
+  - "Order tracking in Google Analytics"
   - "6 months of support"
 notFor: "Multi-vendor marketplaces."
 ---

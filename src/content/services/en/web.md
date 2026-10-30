@@ -1,19 +1,18 @@
 ---
-order: 2
+order: 1
 name: "Company website"
-price: "from €1,000"
-duration: "4–6 weeks"
-tagline: "A site with a content management system you can manage yourself."
-desc: "A full website with an admin panel. WordPress, or a custom build with Next.js, depending on your needs."
+price: "from €390"
+duration: "2–4 weeks"
+tagline: "A fast site on a custom WordPress theme you manage yourself."
+desc: "A business website without heavy page builders — so it loads fast and ranks well on Google. You know the price upfront."
 featured: true
 includes:
-  - "Kickoff workshop (2h)"
-  - "2 design rounds, 1 copy round"
-  - "Up to 12 subpages"
-  - "Blog / news module"
-  - "Multi-language ready (SK/EN)"
-  - "SEO basics + sitemap"
-  - "Admin training (1h)"
+  - "Custom WordPress theme — original design, no template"
+  - "Domain and hosting for the first year included"
+  - "Responsive for mobile and desktop"
+  - "SEO basics, sitemap, Google Search Console"
+  - "Contact form and analytics"
+  - "Admin training"
   - "3 months of support"
-notFor: "E-shops, custom ERP integrations."
+notFor: "Online stores (separate package), ERP integrations."
 ---

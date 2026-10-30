@@ -4,19 +4,19 @@ name: "Údržba a starostlivosť"
 price: "od 39 € / mesiac"
 duration: "mesačne"
 tagline: "Web, ktorý zostane rýchly a bezpečný aj po spustení."
-desc: "Pravidelná starostlivosť o WordPress a WooCommerce — aktualizácie, zálohy, bezpečnosť a rýchlosť, s meraním po každom zásahu."
+desc: "Pravidelná starostlivosť o WordPress a WooCommerce — aktualizácie, zálohy, bezpečnosť a rýchlosť. Weby od 39 €/mesiac, e-shopy od 79 €/mesiac, úpravy navyše 30 €/h."
 featured: false
 recurring: true
 caseStudy:
   label: "natur-life.sk — skóre na mobile 27 → 83"
   href: "/praca/natur-life/"
 includes:
-  - "Kontrola dostupnosti každých 5 minút — o výpadku viem skôr než ty"
+  - "Kontrola dostupnosti každých 5 minút — o výpadku viem skôr než vy"
   - "Mesačné aktualizácie WordPressu, pluginov a témy"
   - "Pravidelné zálohy a kontrola, že naozaj bežia"
   - "Sledovanie známych zraniteľností v pluginoch"
   - "Stráženie expirácie domény a SSL certifikátu"
   - "Pravidelné meranie rýchlosti (Lighthouse)"
   - "Mesačný report a verejná stavová stránka webu"
-notFor: "Nové funkcie, redizajn a väčšie úpravy obsahu (samostatná objednávka)."
+notFor: "Nové funkcie a redizajn (samostatná objednávka). Úpravy navyše 30 €/h."
 ---

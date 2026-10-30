@@ -5,61 +5,61 @@ export interface FaqItem {
 
 /**
  * Services-page FAQ. Answers are grounded in the real service packages
- * (src/content/services/*): landing od 600 €, firemný web od 1 000 €,
- * eshop od 2 000 €, audit od 300 €. Rendered visibly by FaqSection.astro
+ * (src/content/services/*): web od 390 €, e-shop od 1 490 €, zrýchlenie od 390 €,
+ * kontrola webu zadarmo (ceny podľa Google profilu, 30. 10. 2026). Rendered visibly by FaqSection.astro
  * and emitted as FAQPage structured data (AEO / People-also-ask).
  */
 export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
   sk: [
     {
-      q: 'Koľko stojí web alebo eshop?',
-      a: 'Landing page od 600 €, firemný web s redakčným systémom od 1 000 €, eshop (WooCommerce alebo na mieru) od 2 000 € a audit existujúceho webu od 300 €. Presnú cenu dostaneš po krátkom briefe podľa rozsahu projektu.',
+      q: 'Koľko stojí web alebo e-shop?',
+      a: 'Firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie existujúceho webu od 390 € a údržba od 39 € mesačne. Kontrola webu je zadarmo, konzultácie 30 €/h. Presnú cenu poznáte vopred podľa rozsahu.',
     },
     {
       q: 'Ako dlho trvá vytvorenie webu?',
-      a: 'Landing page 2–3 týždne, firemný web 4–6 týždňov a eshop 8–12 týždňov. Audit býva hotový do týždňa. Presný termín potvrdíme na úvodnom hovore podľa rozsahu a pripravenosti podkladov.',
+      a: 'Firemný web 2–4 týždne, e-shop 4–8 týždňov, zrýchlenie 1–2 týždne. Presný termín potvrdím pred začatím podľa rozsahu a pripravenosti podkladov.',
     },
     {
-      q: 'WordPress, alebo riešenie na mieru — čo je pre mňa lepšie?',
-      a: 'Závisí od projektu. WordPress je ideálny, keď si chceš obsah spravovať sám a rýchlo publikovať. Riešenie na mieru volím pri dôraze na maximálny výkon a custom funkcie. Poradím ti podľa cieľov, nie podľa módy.',
+      q: 'Prečo vlastná WordPress téma a nie builder?',
+      a: 'Weby staviam na vlastnej téme bez ťažkých builderov. Sú preto rýchlejšie, originálne a lepšie sa umiestňujú na Googli — a obsah si stále jednoducho spravujete sami vo WordPresse.',
     },
     {
-      q: 'Postavíš aj eshop na WooCommerce?',
-      a: 'Áno. Robím WooCommerce aj eshopy na mieru s vlastným objednávkovým procesom, platobnými bránami (Stripe, GoPay, Tatra banka) a napojením na sklad či účtovníctvo (Pohoda, MoneyS3), s dôrazom na rýchlosť a konverziu.',
+      q: 'Postavíte aj e-shop na WooCommerce?',
+      a: 'Áno. E-shop dostane platobnú bránu (GoPay, Stripe, Tatra banka), dopravu, napojenie na fakturáciu a podľa potreby aj na sklad či účtovníctvo (Pohoda, Money S3).',
     },
     {
-      q: 'Zrýchliš alebo posúdiš môj existujúci web?',
-      a: 'Áno — audit od 300 € zahŕňa analýzu rýchlosti a výkonu webu, SEO, prístupnosti a použiteľnosti, s prioritizovaným zoznamom opráv a hodinovým videohovorom. Samotná implementácia opráv je potom samostatný projekt.',
+      q: 'Zrýchlite alebo skontrolujete môj existujúci web?',
+      a: 'Áno — kontrola webu je zadarmo: do 2 pracovných dní dostanete rýchlosť na mobile, SEO a 3 najdôležitejšie opravy. Samotné zrýchlenie robím za fixnú cenu od 390 € s výsledkom v číslach pred a po.',
     },
     {
-      q: 'Poskytuješ podporu po spustení?',
-      a: 'Áno. Každý balíček obsahuje podporu — 1 mesiac pri landing page, 3 mesiace pri firemnom webe a 6 mesiacov pri eshope. Po jej skončení sa vieme dohodnúť na priebežnej údržbe.',
+      q: 'Poskytujete podporu po spustení?',
+      a: 'Áno. Firemný web má 3 mesiace podpory, e-shop 6 mesiacov. Potom môžete pokračovať s údržbou od 39 € mesačne (e-shopy od 79 €), úpravy navyše 30 €/h.',
     },
   ],
   en: [
     {
       q: 'How much does a website or online store cost?',
-      a: 'A landing page starts at €600, a company website with a content management system at €1,000, an online store (WooCommerce or custom-built) at €2,000, and an audit of an existing site at €300. You get an exact quote after a short brief, based on scope.',
+      a: 'A company website starts at €390, a WooCommerce store at €1,490, speeding up an existing site at €390 and maintenance at €39/month. A website check is free, consulting €30/h. You know the exact price upfront.',
     },
     {
       q: 'How long does it take to build a website?',
-      a: 'A landing page takes 2–3 weeks, a company website 4–6 weeks, and an online store 8–12 weeks. An audit is usually done within a week. We confirm the exact timeline on a kickoff call based on scope and how ready your content is.',
+      a: 'A company website takes 2–4 weeks, an online store 4–8 weeks, a speed-up 1–2 weeks. I confirm the exact timeline before we start.',
     },
     {
-      q: 'WordPress or a custom-built site — which is right for me?',
-      a: 'It depends on the project. WordPress is ideal when you want to manage content yourself and publish quickly. I choose a custom build when maximum performance and custom features matter most. I advise based on your goals, not hype.',
+      q: 'Why a custom WordPress theme instead of a page builder?',
+      a: 'I build on a custom theme without heavy page builders, so sites are faster, original and rank better on Google — while you still manage content easily in WordPress.',
     },
     {
       q: 'Do you build WooCommerce online stores?',
-      a: 'Yes. I build both WooCommerce and custom-built stores with their own checkout process, payment gateways (Stripe, GoPay, Tatra banka) and stock or accounting integration (Pohoda, MoneyS3), focused on speed and conversion.',
+      a: 'Yes — with payment gateways (GoPay, Stripe, Tatra banka), shipping, invoicing integration and, if needed, stock or accounting sync (Pohoda, Money S3).',
     },
     {
       q: 'Can you speed up or review my existing website?',
-      a: 'Yes — an audit from €300 covers site speed and technical performance, SEO, accessibility and usability, with a prioritized fix list and a one-hour video call. Implementing the fixes is then a separate project.',
+      a: 'Yes — the website check is free: within 2 business days you get mobile speed, SEO and the 3 most important fixes. The speed-up itself is a fixed price from €390 with before/after numbers.',
     },
     {
       q: 'Do you provide support after launch?',
-      a: 'Yes. Every package includes support — 1 month for a landing page, 3 months for a company website and 6 months for an online store. After that, we can arrange ongoing maintenance.',
+      a: 'Yes. A company website includes 3 months of support, an online store 6 months. After that, maintenance starts at €39/month (stores from €79), extra changes €30/h.',
     },
   ],
 };

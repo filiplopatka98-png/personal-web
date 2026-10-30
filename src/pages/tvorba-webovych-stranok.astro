@@ -29,39 +29,39 @@ const localProof = ['sk/sona-estetic', 'sk/kukodetskysvet', 'sk/krivosik']
   .slice(0, 2);
 
 const whatIDo = [
-  { t: 'Webové stránky na mieru', d: 'Firemné weby a prezentácie s redakčným systémom, ktoré si sám spravuješ.' },
-  { t: 'Eshopy (WooCommerce)', d: 'Online obchody postavené na rast — platobné brány, doprava, napojenie na sklad.' },
-  { t: 'Landing pages', d: 'Jednostránkové weby, ktoré konvertujú — na kampaň alebo jeden produkt.' },
-  { t: 'Audit a zrýchlenie', d: 'Pozriem existujúci web (rýchlosť, SEO, použiteľnosť) a poviem, čo opraviť.' },
+  { t: 'Firemné weby od 390 €', d: 'Weby na vlastnej WordPress téme, ktoré si sami spravujete. Doména a hosting na prvý rok v cene.' },
+  { t: 'E-shopy od 1 490 €', d: 'WooCommerce s platobnou bránou, dopravou a napojením na fakturáciu.' },
+  { t: 'Zrýchlenie od 390 €', d: 'Pomalý web alebo e-shop zrýchlim za fixnú cenu — výsledok v číslach pred a po.' },
+  { t: 'Kontrola webu zadarmo', d: 'Pozriem rýchlosť na mobile a SEO a do 2 pracovných dní pošlem 3 najdôležitejšie opravy.' },
 ];
 
 const steps = [
-  { n: '01', t: 'Brief', d: 'Pošleš pár viet o projekte, ozvem sa do 24 hodín.' },
-  { n: '02', t: 'Návrh', d: 'Dohodneme rozsah, cenu a termín. Žiadne prekvapenia.' },
+  { n: '01', t: 'Brief', d: 'Pošlete pár viet o projekte, ozvem sa do 24 hodín.' },
+  { n: '02', t: 'Návrh', d: 'Dohodneme rozsah, cenu a termín. Cenu poznáte vopred.' },
   { n: '03', t: 'Build', d: 'Postavím web — rýchly, dohľadateľný v Google, ľahký na správu.' },
   { n: '04', t: 'Launch', d: 'Nasadenie, odovzdanie a podpora po spustení.' },
 ];
 
 const faqItems = [
   {
-    q: 'Robíš weby aj pre firmy mimo Piešťan a Trnavy?',
+    q: 'Robíte weby aj pre firmy mimo Piešťan a Trnavy?',
     a: 'Áno. Sídlim v Trnavskom kraji, takže s firmami z Piešťan, Trnavy, Hlohovca a okolia sa rád stretnem aj osobne. Rovnako pracujem remote pre klientov z celého Slovenska — celý proces (brief, návrh, odovzdanie) zvládneme aj online.',
   },
   {
     q: 'Koľko stojí webová stránka alebo eshop?',
-    a: 'Orientačne: jednoduchšia webová prezentácia od 600 €, firemný web s redakčným systémom od 1 000 € a eshop od 2 000 €. Presnú cenu dostaneš po krátkom briefe podľa rozsahu. Detailné balíčky nájdeš na stránke Služby.',
+    a: 'Firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie existujúceho webu od 390 € a údržba od 39 € mesačne. Presnú cenu poznáte vopred podľa rozsahu. Detailné balíčky nájdete na stránke Služby.',
   },
   {
     q: 'Ako dlho trvá vytvorenie webu?',
-    a: 'Landing page zvyčajne 2–3 týždne, firemný web 4–6 týždňov a eshop 8–12 týždňov. Presný termín potvrdíme na úvodnom hovore podľa rozsahu a pripravenosti podkladov.',
+    a: 'Firemný web zvyčajne 2–4 týždne, e-shop 4–8 týždňov a zrýchlenie 1–2 týždne. Presný termín potvrdím pred začatím podľa rozsahu a pripravenosti podkladov.',
   },
   {
-    q: 'Na čom weby staviaš?',
-    a: 'Najčastejšie na WordPresse a WooCommerce, keď chceš obsah spravovať sám. Keď je prioritou maximálny výkon a špecifické funkcie, staviam na mieru v Next.js. Vyberáme podľa cieľov projektu, nie podľa módy.',
+    q: 'Na čom weby staviate?',
+    a: 'Na vlastnej WordPress téme bez ťažkých builderov a e-shopy na WooCommerce — weby sú rýchle a obsah si spravujete sami. Pri špecifických aplikáciách (kalkulačky, konfigurátory) staviam na mieru v Next.js.',
   },
   {
     q: 'Stretneme sa osobne?',
-    a: 'Ak si z Piešťan, Trnavy či okolia, rád áno. Inak celý proces bez problémov zvládneme online — mailom, cez hovor a zdieľané náhľady.',
+    a: 'Ak ste z Piešťan, Trnavy či okolia, rád áno. Inak celý proces bez problémov zvládneme online — mailom, cez hovor a zdieľané náhľady.',
   },
 ];
 ---
@@ -75,7 +75,7 @@ const faqItems = [
   <PageHead
     eyebrow="TVORBA WEBOV · TRNAVSKÝ KRAJ"
     titleHtml={'Tvorba webových stránok a eshopov pre firmy v <em>Piešťanoch a Trnave</em>'}
-    lead="Postavím ti rýchly web alebo eshop, ktorý je dohľadateľný v Google a jednoduchý na správu. Pre firmy v Trnavskom kraji — osobne aj remote."
+    lead="Postavím vám rýchly web alebo e-shop, ktorý je dohľadateľný v Google a jednoduchý na správu. Pre firmy v Trnavskom kraji — osobne aj remote."
     blobColor="var(--accent)"
   />
 
@@ -147,8 +147,8 @@ const faqItems = [
   {/* CTA */}
   <section class="lp-cta">
     <Reveal>
-      <h2 class="lp-cta-title display">Máš projekt v Trnavskom kraji?</h2>
-      <p class="lp-cta-lead">Pošli mi pár viet o ňom a do 24 hodín sa ozvem s návrhom.</p>
+      <h2 class="lp-cta-title display">Máte projekt v Trnavskom kraji?</h2>
+      <p class="lp-cta-lead">Pošlite mi pár viet o ňom a do 24 hodín sa ozvem s návrhom.</p>
       <a href={`${baseUrl}/ponuka/`} class="lp-cta-btn mono" data-cursor="hover" data-umami-event="brief-start">Začnime brief →</a>
     </Reveal>
   </section>

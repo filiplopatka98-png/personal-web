@@ -10,30 +10,30 @@ const { lang } = Astro.props;
 const titleHtml = `${t('brief.title.before', lang)}<em class="brief-h1-em">${t('brief.title.em', lang)}</em>${t('brief.title.after', lang)}`;
 
 const types = lang === 'sk' ? [
-  { k: 'landing', name: 'Landing page', sub: '600 €+ · 2-3 týždne' },
-  { k: 'web', name: 'Firemný web', sub: '1k €+ · 4-6 týždňov' },
-  { k: 'eshop', name: 'Eshop', sub: '2k €+ · 8-12 týždňov' },
-  { k: 'audit', name: 'Audit / poradenstvo', sub: '300 €+ · 1 týždeň' },
+  { k: 'web', name: 'Firemný web', sub: 'od 390 € · 2–4 týždne' },
+  { k: 'eshop', name: 'E-shop na WooCommerce', sub: 'od 1 490 € · 4–8 týždňov' },
+  { k: 'speed', name: 'Zrýchlenie webu', sub: 'od 390 € · 1–2 týždne' },
+  { k: 'audit', name: 'Kontrola webu zadarmo', sub: 'do 2 pracovných dní' },
   { k: 'other', name: 'Niečo iné', sub: 'Povedzme si' },
 ] : [
-  { k: 'landing', name: 'Landing page', sub: '€600+ · 2-3 weeks' },
-  { k: 'web', name: 'Company site', sub: '€1k+ · 4-6 weeks' },
-  { k: 'eshop', name: 'E-shop', sub: '€2k+ · 8-12 weeks' },
-  { k: 'audit', name: 'Audit / consulting', sub: '€300+ · 1 week' },
+  { k: 'web', name: 'Company website', sub: 'from €390 · 2–4 weeks' },
+  { k: 'eshop', name: 'WooCommerce store', sub: 'from €1,490 · 4–8 weeks' },
+  { k: 'speed', name: 'Website speed-up', sub: 'from €390 · 1–2 weeks' },
+  { k: 'audit', name: 'Free website check', sub: 'within 2 business days' },
   { k: 'other', name: 'Something else', sub: "Let's talk" },
 ];
 
 const budgets = lang === 'sk' ? [
-  { k: 'lt1500', label: 'Do 1 500 €' },
+  { k: 'lt500', label: 'Do 500 €' },
+  { k: '500-1500', label: '500 – 1 500 €' },
   { k: '1500-3000', label: '1 500 – 3 000 €' },
-  { k: '3000-6000', label: '3 000 – 6 000 €' },
-  { k: 'gt6000', label: 'Nad 6 000 €' },
+  { k: 'gt3000', label: 'Nad 3 000 €' },
   { k: 'unknown', label: 'Ešte neviem' },
 ] : [
-  { k: 'lt1500', label: 'Under €1,500' },
+  { k: 'lt500', label: 'Under €500' },
+  { k: '500-1500', label: '€500–1,500' },
   { k: '1500-3000', label: '€1,500–3,000' },
-  { k: '3000-6000', label: '€3,000–6,000' },
-  { k: 'gt6000', label: 'Over €6,000' },
+  { k: 'gt3000', label: 'Over €3,000' },
   { k: 'unknown', label: 'Not sure yet' },
 ];
 
@@ -53,27 +53,27 @@ const timelines = lang === 'sk' ? [
 // budget ceiling, a tactful non-blocking notice appears on the next step.
 // Data-driven: adjust prices/ceilings and the rule follows.
 const TYPE_MIN_PRICE: Record<string, number> = {
-  landing: 600, web: 1000, eshop: 2000, audit: 300, other: 0,
+  web: 390, eshop: 1490, speed: 390, audit: 0, other: 0,
 };
 const BUDGET_CEILING: Record<string, number> = {
-  lt1500: 1500, '1500-3000': 3000, '3000-6000': 6000, gt6000: 1e9, unknown: 1e9,
+  lt500: 500, '500-1500': 1500, '1500-3000': 3000, gt3000: 1e9, unknown: 1e9,
 };
 
 const budgetWarn = lang === 'sk' ? {
   title: 'Krátko a na rovinu.',
-  intro: 'V tomto rozpočte ti neviem dodať projekt v kvalite, za ktorú by som vedel ručiť — rýchly, spoľahlivý a poriadne postavený. Radšej to poviem hneď, než by som sľuboval niečo, čo by ťa neskôr mrzelo.',
+  intro: 'V tomto rozpočte vám neviem dodať projekt v kvalite, za ktorú by som vedel ručiť — rýchly, spoľahlivý a poriadne postavený. Radšej to poviem hneď, než by som sľuboval niečo, čo by vás neskôr mrzelo.',
   options: [
     { label: 'Fázovanie', text: 'spustíme menší funkčný základ a rozširujeme postupne.' },
-    { label: 'Jednoduchšie riešenie', text: 'napr. landing page alebo menší web, ktorý dá zmysel hneď.' },
-    { label: 'Ozvi sa aj tak', text: 'ak mám niečo pochopené inak, napíš a povieme si to narovinu.' },
+    { label: 'Jednoduchšie riešenie', text: 'napr. menší web od 390 €, ktorý dá zmysel hneď.' },
+    { label: 'Ozvite sa aj tak', text: 'ak mám niečo pochopené inak, napíšte a povieme si to narovinu.' },
   ],
-  closer: 'Pokojne dokonči formulár — ozvem sa a nájdeme cestu, ktorá dáva zmysel.',
+  closer: 'Pokojne dokončite formulár — ozvem sa a nájdeme cestu, ktorá dáva zmysel.',
 } : {
   title: 'Straight talk.',
   intro: "On this budget I can't deliver a project at a quality I'd stand behind — fast, reliable, properly built. I'd rather say so upfront than promise something you'd regret later.",
   options: [
     { label: 'Phase it', text: 'launch a smaller working core and grow it step by step.' },
-    { label: 'Simpler solution', text: 'e.g. a landing page or a smaller site that makes sense right now.' },
+    { label: 'Simpler solution', text: 'e.g. a smaller site from €390 that makes sense right now.' },
     { label: 'Reach out anyway', text: "if I've got something wrong, drop me a line and we'll talk it straight." },
   ],
   closer: "Feel free to finish the form — I'll get back to you and we'll find a way that makes sense.",
@@ -676,6 +676,13 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     let priceCheck: { types: Record<string, number>; ceilings: Record<string, number> } = { types: {}, ceilings: {} };
     try { priceCheck = JSON.parse(wizard.dataset.priceCheck || '{}'); } catch { /* keep defaults */ }
 
+    // Preselect project type from ?typ= (e.g. Google profile offer → /ponuka/?typ=audit).
+    const preType = new URLSearchParams(location.search).get('typ');
+    if (preType) {
+      const r = form.querySelector<HTMLInputElement>(`input[name="type"][value="${CSS.escape(preType)}"]`);
+      if (r) r.checked = true;
+    }
+
     let step = 0;
     const lastInputStep = 4; // step 4 is last input, 5 is done
 
@@ -865,7 +872,7 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
       } catch {
         if (errorEl) {
           const email = wizard!.dataset.contactEmail || '';
-          const tmpl = wizard!.dataset.error || 'Nepodarilo sa odoslať. Skús to znova.';
+          const tmpl = wizard!.dataset.error || 'Nepodarilo sa odoslať. Skúste to znova.';
           errorEl.textContent = tmpl.replace('{email}', email);
           errorEl.hidden = false;
         }

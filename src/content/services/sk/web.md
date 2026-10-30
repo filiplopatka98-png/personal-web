@@ -1,19 +1,18 @@
 ---
-order: 2
+order: 1
 name: "Firemný web"
-price: "od 1 000 €"
-duration: "4–6 týždňov"
-tagline: "Web s redakčným systémom, ktorý si sám spravuješ."
-desc: "Plnohodnotný web s administráciou. WordPress alebo rýchle riešenie na mieru (Next.js) — podľa potreby."
+price: "od 390 €"
+duration: "2–4 týždne"
+tagline: "Rýchly web na vlastnej WordPress téme, ktorý si sami spravujete."
+desc: "Firemný web bez ťažkých builderov — preto je rýchly a dobre sa umiestňuje na Googli. Cenu poznáte vopred podľa rozsahu."
 featured: true
 includes:
-  - "Úvodný workshop (2h)"
-  - "2 kolá dizajnu, 1 kolo copy"
-  - "Až 12 podstránok"
-  - "Blog / aktuality modul"
-  - "Pripravené na viac jazykov (SK/EN)"
-  - "SEO základy + sitemap"
-  - "Tréning administrácie (1h)"
+  - "Vlastná WordPress téma — originálny dizajn, žiadna šablóna"
+  - "Doména a hosting na prvý rok v cene"
+  - "Responzívny web pre mobil aj počítač"
+  - "SEO základy, sitemap, Google Search Console"
+  - "Kontaktný formulár a analytika"
+  - "Zaškolenie do administrácie"
   - "3 mesiace podpory"
-notFor: "Eshopy, custom integrácie s ERP."
+notFor: "E-shopy (samostatný balík), napojenia na ERP."
 ---

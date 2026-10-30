@@ -1,17 +1,19 @@
 ---
-order: 1
-name: "Landing page"
-price: "od 600 €"
-duration: "2–3 týždne"
-tagline: "Jedna stránka, ktorá konvertuje."
-desc: "Statická landing page pre kampaň, produkt alebo službu. Návrh, copy review, build, nasadenie."
+order: 3
+name: "Zrýchlenie webu a e-shopu"
+price: "od 390 €"
+duration: "1–2 týždne"
+tagline: "Pomalý web stráca zákazníkov aj pozície na Googli."
+desc: "Audit rýchlosti a oprava Core Web Vitals za fixnú cenu podľa auditu. Výsledok dostanete v číslach pred a po."
 featured: false
+caseStudy:
+  label: "natur-life.sk — skóre na mobile 27 → 83"
+  href: "/praca/natur-life/"
 includes:
-  - "Wireframe + 1 kolo dizajnu"
-  - "Copywriting review (SK/EN)"
-  - "Build v Next.js alebo Astro"
-  - "Hosting setup (Vercel/Cloudflare)"
-  - "Analytics + form integrácia"
-  - "1 mesiac podpory"
-notFor: "Eshopy, viacjazyčné stránky, rozsiahla správa obsahu."
+  - "Meranie rýchlosti na mobile aj počítači"
+  - "Fixná cena podľa auditu — bez prekvapení"
+  - "Optimalizácia obrázkov, cache a pluginov"
+  - "Oprava Core Web Vitals (LCP, CLS, INP)"
+  - "Report s číslami pred a po"
+notFor: "Redizajn webu (samostatný projekt)."
 ---

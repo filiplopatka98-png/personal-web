@@ -1,16 +1,15 @@
 ---
 order: 4
-name: "Audit & poradenstvo"
-price: "od 300 €"
-duration: "1 týždeň"
+name: "Kontrola webu a poradenstvo"
+price: "zadarmo"
+duration: "do 2 pracovných dní"
 tagline: "Pozriem sa na váš web a poviem, čo opraviť."
-desc: "Hĺbkový audit existujúceho webu — výkon, SEO, prístupnosť, UX. Výstup: PDF + 1h video call."
+desc: "Bezplatná kontrola webu — rýchlosť na mobile, SEO a 3 najdôležitejšie opravy. Hlbšie konzultácie za 30 €/h."
 featured: false
 includes:
-  - "Analýza rýchlosti a technického stavu webu"
-  - "SEO analýza — dohľadateľnosť v Google"
-  - "Kontrola 5 najdôležitejších miest, kde návštevník niečo robí (napr. objednávka, formulár)"
-  - "Prioritizovaný zoznam opráv"
-  - "1h video call s vysvetlením"
-notFor: "Implementácia opráv (samostatný projekt)."
+  - "Rýchlosť na mobile — skóre a hlavné brzdy"
+  - "SEO — dohľadateľnosť v Google"
+  - "3 opravy s najväčším dopadom"
+  - "Konzultácie a podrobný audit 30 €/h"
+notFor: "Samotné opravy (samostatná objednávka)."
 ---

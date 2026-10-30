@@ -15,10 +15,9 @@ export interface Props {
 const { lang } = Astro.props;
 
 // ---- Pricing constants (EUR) — tunable, kept in one place on purpose ----
-const BASE_PRICE: Record<'landing' | 'web' | 'eshop', number> = {
-  landing: 600,
-  web: 1000,
-  eshop: 2000,
+const BASE_PRICE: Record<'web' | 'eshop', number> = {
+  web: 390,
+  eshop: 1490,
 };
 
 const ADDON_PRICE: Record<
@@ -41,10 +40,9 @@ const PRODUCT_COUNT_ADD: Record<'do50' | 'mid' | 'large', number> = {
 
 // [low, high] weeks per base project type. `high` gets +1 per 2 selected
 // add-ons (computed client-side) — naturally capped by the 6 add-ons on offer.
-const TIMELINE_WEEKS: Record<'landing' | 'web' | 'eshop', [number, number]> = {
-  landing: [2, 3],
-  web: [4, 6],
-  eshop: [8, 12],
+const TIMELINE_WEEKS: Record<'web' | 'eshop', [number, number]> = {
+  web: [2, 4],
+  eshop: [4, 8],
 };
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -53,14 +51,13 @@ const ctaHref = lang === 'sk' ? `${baseUrl}/ponuka/` : `${baseUrl}/en/brief/`;
 const L = lang === 'sk' ? {
   eyebrow: 'CENOVÁ KALKULAČKA',
   heading: 'Koľko by stál váš web?',
-  sub: 'Orientačný odhad za pár klikov. Presnú cenu dostaneš po krátkom briefe — toto je len vodítko, nie záväzná ponuka.',
+  sub: 'Orientačný odhad za pár klikov. Presnú cenu dostanete po krátkom dotazníku — toto je len vodítko, nie záväzná ponuka.',
   step1Title: 'Typ projektu',
   step2Title: 'Doplnky',
   step3Title: 'Počet produktov',
   types: [
-    { key: 'landing', name: 'Landing page', priceLabel: 'od 600 €' },
-    { key: 'web', name: 'Firemný web', priceLabel: 'od 1 000 €' },
-    { key: 'eshop', name: 'Eshop', priceLabel: 'od 2 000 €' },
+    { key: 'web', name: 'Firemný web', priceLabel: 'od 390 €' },
+    { key: 'eshop', name: 'E-shop na WooCommerce', priceLabel: 'od 1 490 €' },
   ],
   addons: [
     { key: 'multilang', label: 'Viacjazyčnosť' },
@@ -75,11 +72,11 @@ const L = lang === 'sk' ? {
     { key: 'mid', label: '50 – 500' },
     { key: 'large', label: '500+' },
   ],
-  neutralPrompt: 'Vyber typ projektu',
+  neutralPrompt: 'Vyberte typ projektu',
   estimatePrefix: 'Orientačne od',
   weeksSuffix: 'týždňov',
   ctaLabel: 'Chcem presnú ponuku',
-  disclaimer: 'Orientačný odhad — presnú cenu dostaneš po krátkom briefe, nejde o záväznú ponuku.',
+  disclaimer: 'Orientačný odhad — presnú cenu dostanete po krátkom dotazníku, nejde o záväznú ponuku.',
 } : {
   eyebrow: 'PRICE CALCULATOR',
   heading: 'How much would your website cost?',
@@ -88,9 +85,8 @@ const L = lang === 'sk' ? {
   step2Title: 'Add-ons',
   step3Title: 'Number of products',
   types: [
-    { key: 'landing', name: 'Landing page', priceLabel: 'from €600' },
-    { key: 'web', name: 'Company website', priceLabel: 'from €1,000' },
-    { key: 'eshop', name: 'Online store', priceLabel: 'from €2,000' },
+    { key: 'web', name: 'Company website', priceLabel: 'from €390' },
+    { key: 'eshop', name: 'WooCommerce store', priceLabel: 'from €1,490' },
   ],
   addons: [
     { key: 'multilang', label: 'Multiple languages' },

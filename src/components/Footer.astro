@@ -43,6 +43,8 @@ const CONTACT_EMAIL = t('menu.email', lang);
       <div class="footer-links">
         <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
         <a data-cursor="hover" data-umami-event="whatsapp-click" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
+        <a data-cursor="hover" data-umami-event="phone-click" href="tel:+421904902736">{lang === 'sk' ? 'Zavolať' : 'Call'} +421 904 902 736 →</a>
+        <a data-cursor="hover" data-umami-event="google-review-click" href="https://g.page/r/CVaTfpy9ZjJKECE/review" target="_blank" rel="noopener noreferrer">{lang === 'sk' ? 'Ohodnoťte ma na Google' : 'Review me on Google'} →</a>
         <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn →</a>
         <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook →</a>
         <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="me noopener noreferrer">Instagram →</a>
@@ -428,7 +430,7 @@ const CONTACT_EMAIL = t('menu.email', lang);
           }
         } catch {
           if (statusEl) {
-            const tmpl = form.dataset.error || 'Nepodarilo sa odoslať. Skús to znova.';
+            const tmpl = form.dataset.error || 'Nepodarilo sa odoslať. Skúste to znova.';
             statusEl.textContent = tmpl.replace('{email}', email);
             statusEl.classList.add('is-error');
             statusEl.hidden = false;

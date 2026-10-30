@@ -6,11 +6,11 @@ export interface ProcessStep {
 
 export const processSteps: Record<'sk' | 'en', ProcessStep[]> = {
   sk: [
-    { num: '01', title: 'Úvodný hovor', desc: '30 minút zadarmo. Spýtam sa pár otázok, ty mi povieš, čo riešiš. Ak si sadneme, pošlem ponuku.' },
+    { num: '01', title: 'Úvodný hovor', desc: '30 minút zadarmo. Spýtam sa pár otázok, vy mi poviete, čo riešite. Ak si sadneme, pošlem ponuku.' },
     { num: '02', title: 'Ponuka & zmluva', desc: 'Do 3 dní pošlem ponuku s rozpočtom, harmonogramom a rozsahom. Po podpise 30 % záloha.' },
     { num: '03', title: 'Úvodný workshop', desc: '2-hodinový workshop, kde mapujeme cieľ, publikum a obsah. Výstup: zadanie a mapa stránok.' },
     { num: '04', title: 'Dizajn', desc: '1–2 kolá dizajnu vo Figme. Pravidelná spätná väzba každý piatok formou krátkeho videa.' },
-    { num: '05', title: 'Build', desc: 'Pracujem po týždňových etapách. Od prvého dňa dostaneš odkaz na rozostavaný web, takže vidíš priebeh naživo.' },
+    { num: '05', title: 'Build', desc: 'Pracujem po týždňových etapách. Od prvého dňa dostanete odkaz na rozostavaný web, takže vidíte priebeh naživo.' },
     { num: '06', title: 'Launch', desc: 'Krátky pre-launch checklist (SEO, analytics, redirects). Po launchi 1–6 mesiacov podpory podľa balíčka.' },
   ],
   en: [

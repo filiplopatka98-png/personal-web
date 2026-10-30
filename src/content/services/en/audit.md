@@ -1,16 +1,15 @@
 ---
 order: 4
-name: "Audit & consulting"
-price: "from €300"
-duration: "1 week"
+name: "Website check & consulting"
+price: "free"
+duration: "within 2 business days"
 tagline: "I'll look at your site and tell you what to fix."
-desc: "Deep audit of an existing site — performance, SEO, accessibility, UX. Output: PDF + 1h video call."
+desc: "Free website check — mobile speed, SEO and the 3 most important fixes. In-depth consulting at €30/h."
 featured: false
 includes:
-  - "Speed & technical health analysis"
-  - "SEO analysis — findability in Google"
-  - "Review of the 5 key places visitors take action"
-  - "Prioritized list of fixes"
-  - "1h video call walkthrough"
-notFor: "Implementation of fixes (separate project)."
+  - "Mobile speed — score and main bottlenecks"
+  - "SEO — findability on Google"
+  - "3 fixes with the biggest impact"
+  - "Consulting and in-depth audit at €30/h"
+notFor: "Implementing the fixes (separate order)."
 ---
