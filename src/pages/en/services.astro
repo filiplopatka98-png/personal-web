@@ -37,7 +37,7 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   inLanguage: 'en-US',
 });
 ---
-<BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title="Services — web development, e-commerce, performance audit" description="Packages and pricing: landing page, company website, e-shop, audit and monthly maintenance. Design, build, deploy and support — focused on performance, SEO and accessibility.">
+<BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title="Services & pricing — websites from €390, online stores, speed-up" description="Company website from €390, WooCommerce store from €1,490, website speed-up from €390, maintenance from €39/month and a free website check. You know the price upfront.">
   <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
