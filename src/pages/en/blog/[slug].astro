@@ -225,7 +225,7 @@ const articleLd = {
     line-height: 1.02;
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     letter-spacing: -0.02em;
   }
   .article-excerpt {
@@ -234,7 +234,8 @@ const articleLd = {
     margin: 24px 0 0;
     opacity: 0.7;
     font-family: var(--font-display);
-    font-style: italic;
+    font-weight: 800;
+    font-style: normal;
   }
 
   .article-body {
@@ -249,7 +250,7 @@ const articleLd = {
   :global(.article-prose > :first-child) { margin-top: 0; }
   :global(.article-prose h2) {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     font-size: 36px;
     line-height: 1.15;
     letter-spacing: -0.01em;
@@ -258,7 +259,7 @@ const articleLd = {
   }
   :global(.article-prose h3) {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     font-size: 24px;
     line-height: 1.2;
     margin: 32px 0 12px;
@@ -270,7 +271,7 @@ const articleLd = {
   :global(.article-prose code) {
     background: color-mix(in srgb, var(--ink) 7%, transparent);
     padding: 2px 7px;
-    border-radius: 5px;
+    border-radius: 0;
     border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
     font-family: var(--font-mono);
     font-size: 0.85em;
@@ -295,10 +296,10 @@ const articleLd = {
   :global(.article-prose blockquote) {
     border-left: 3px solid var(--accent);
     background: color-mix(in srgb, var(--accent) 5%, transparent);
-    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+    border-radius: 0;
     padding: 12px 24px;
     margin: 32px 0;
-    font-style: italic;
+    font-style: normal;
     font-size: 1.05em;
     opacity: 0.9;
   }
@@ -445,7 +446,7 @@ const articleLd = {
     font-family: var(--font-display);
     font-size: 56px;
     line-height: 1.05;
-    font-weight: 400;
+    font-weight: 800;
     letter-spacing: -0.02em;
     max-width: 900px;
     margin: 0;

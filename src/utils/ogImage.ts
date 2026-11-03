@@ -1,8 +1,8 @@
 /**
  * Per-page Open Graph image generation.
  *
- * Renders a title-templated 1200×630 card (matching src/assets/og-default.svg
- * — warm bg, terracotta blobs, Instrument Serif title, mono eyebrow/footer) to
+ * Renders a title-templated 1200×630 card (B2 light: white, Archivo, yellow
+ * footer band and circle — matches src/assets/og-default.svg) to
  * PNG via @resvg/resvg-js. Used by the /og/**.png.ts endpoints, which Astro
  * prerenders to static files at build time (no runtime dependency, works on
  * GitHub Pages).
@@ -61,43 +61,41 @@ interface OgOptions {
 }
 
 export function buildOgSvg({ eyebrow, title, footer, url = 'lopatka.sk' }: OgOptions): string {
-  // Scale the title down as it gets longer so long headlines still fit.
+  // B2 light (11/2026): white card, Archivo ExtraBold title, yellow footer band,
+  // one yellow circle as the brand mark. Fonts: src/assets/og-fonts (static TTF —
+  // resvg can't read woff2 or pick variable-font instances).
   const len = title.length;
-  const fontSize = len > 70 ? 60 : len > 46 ? 72 : 84;
-  const lineHeight = Math.round(fontSize * 1.12);
-  const maxChars = Math.floor(TITLE_MAX_WIDTH / (fontSize * 0.46));
+  const fontSize = len > 70 ? 58 : len > 46 ? 68 : 80;
+  const lineHeight = Math.round(fontSize * 1.02);
+  const maxChars = Math.floor(860 / (fontSize * 0.52));
   const lines = wrapTitle(title, maxChars, 4);
   const blockHeight = lines.length * lineHeight;
-  // Vertically center the title block in the area between eyebrow and footer.
-  let y = Math.round((HEIGHT - blockHeight) / 2) + fontSize * 0.4 + 20;
+  let y = Math.round(150 + (330 - blockHeight) / 2) + fontSize * 0.8;
 
   const titleTspans = lines
     .map((line) => {
-      const t = `<text x="${MARGIN_X}" y="${Math.round(y)}" font-family="Instrument Serif, Georgia, serif" font-size="${fontSize}" fill="#1F1813" font-weight="400" letter-spacing="-2">${escapeXml(line)}</text>`;
+      const t = `<text x="${MARGIN_X}" y="${Math.round(y)}" font-family="Archivo OG" font-weight="800" font-size="${fontSize}" fill="#0A0A0A" letter-spacing="${-(fontSize * 0.035).toFixed(1)}">${escapeXml(line)}</text>`;
       y += lineHeight;
       return t;
     })
     .join('\n  ');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
-  <rect width="${WIDTH}" height="${HEIGHT}" fill="#F4ECE0"/>
-  <defs>
-    <filter id="blur1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
-    <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="45"/></filter>
-  </defs>
-  <ellipse cx="990" cy="150" rx="240" ry="240" fill="#D2693A" opacity="0.5" filter="url(#blur1)"/>
-  <ellipse cx="880" cy="380" rx="160" ry="160" fill="#E8A33D" opacity="0.4" filter="url(#blur2)"/>
-  <text x="${MARGIN_X}" y="110" font-family="Geist Mono, ui-monospace, monospace" font-size="20" fill="#1F1813" fill-opacity="0.6" letter-spacing="2.5">${escapeXml(eyebrow)}</text>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="#FFFFFF"/>
+  <circle cx="1090" cy="120" r="170" fill="#FED23E"/>
+  <circle cx="${MARGIN_X + 11}" cy="98" r="11" fill="#FED23E"/>
+  <text x="${MARGIN_X + 34}" y="106" font-family="Archivo OG" font-weight="600" font-size="22" fill="#0A0A0A" letter-spacing="1.5">${escapeXml(eyebrow)}</text>
   ${titleTspans}
-  <text x="${MARGIN_X}" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1">${escapeXml(footer)}</text>
-  <text x="${WIDTH - MARGIN_X}" y="555" font-family="Geist Mono, ui-monospace, monospace" font-size="22" fill="#1F1813" fill-opacity="0.5" letter-spacing="1" text-anchor="end">${escapeXml(url)}</text>
+  <rect y="530" width="${WIDTH}" height="100" fill="#FED23E"/>
+  <text x="${MARGIN_X}" y="590" font-family="Archivo OG" font-weight="600" font-size="24" fill="#0A0A0A">${escapeXml(footer)}</text>
+  <text x="${WIDTH - MARGIN_X}" y="590" font-family="Archivo OG" font-weight="800" font-size="26" fill="#0A0A0A" text-anchor="end">${escapeXml(url)}</text>
 </svg>`;
 }
 
 let cachedFontFiles: string[] | null = null;
 function fontFiles(): string[] {
   if (cachedFontFiles) return cachedFontFiles;
-  const dir = join(process.cwd(), 'public/fonts');
+  const dir = join(process.cwd(), 'src/assets/og-fonts');
   cachedFontFiles = readdirSync(dir)
     .filter((f) => /\.(woff2|ttf|otf)$/.test(f))
     .map((f) => join(dir, f));
@@ -110,7 +108,7 @@ export function renderOgPng(svg: string): ArrayBuffer {
     font: {
       fontFiles: fontFiles(),
       loadSystemFonts: true,
-      defaultFontFamily: 'Georgia',
+      defaultFontFamily: 'Archivo OG',
     },
   });
   const png = resvg.render().asPng();

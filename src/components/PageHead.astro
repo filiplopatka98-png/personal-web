@@ -43,7 +43,7 @@ const { eyebrow, titleHtml, lead, blobColor = 'var(--accent)' } = Astro.props;
     line-height: 0.92;
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     letter-spacing: -0.02em;
     max-width: 1100px;
     position: relative;
@@ -60,7 +60,11 @@ const { eyebrow, titleHtml, lead, blobColor = 'var(--accent)' } = Astro.props;
   }
   .page-head-title :global(em) {
     color: var(--accent-text);
-    font-style: italic;
+    font-style: normal;
+    background: var(--accent);
+    padding: 0 0.1em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
   @media (max-width: 768px) {
     .page-head { padding: 60px 20px 40px; }

@@ -51,7 +51,7 @@ const anchor = entry.id.split('/').pop();
   /* Card — handoff: bg2 regular, ink featured (dark inverted card). */
   .service-card {
     border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
-    border-radius: 18px;
+    border-radius: 0;
     padding: 36px 32px;
     background: var(--bg2);
     color: var(--ink);
@@ -98,7 +98,7 @@ const anchor = entry.id.split('/').pop();
     line-height: 1;
     letter-spacing: -0.02em;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     margin: 12px 0 8px;
   }
 
@@ -106,8 +106,9 @@ const anchor = entry.id.split('/').pop();
      light card; the bright accent stays on the dark featured card. */
   .service-price {
     font-family: var(--font-display);
+    font-weight: 800;
     font-size: 24px;
-    font-style: italic;
+    font-style: normal;
     color: var(--accent-text);
   }
   .service-card.is-featured .service-price {

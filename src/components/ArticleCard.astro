@@ -32,7 +32,7 @@ const readStr = `${data.read} ${t('article.read', lang)}`;
 
 <style>
   .article-card {
-    border-top: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
+    border-top: 2px solid var(--ink);
     padding-top: 16px;
     display: block;
     text-decoration: none;
@@ -40,8 +40,8 @@ const readStr = `${data.read} ${t('article.read', lang)}`;
   }
 
   .article-meta {
-    font-size: 12px;
-    opacity: 0.75;
+    font-size: 14px;
+    color: var(--ink-muted);
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
@@ -49,13 +49,15 @@ const readStr = `${data.read} ${t('article.read', lang)}`;
   }
 
   .article-title {
-    font-size: 24px;
-    line-height: 1.15;
+    font-size: 26px;
+    line-height: 1.1;
     font-family: var(--font-display);
+    font-weight: 800;
   }
 
   .article-cta {
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: 700;
     margin-top: 24px;
     /* Solid darker variant for AA contrast on small mono CTA. */
     color: var(--accent-text);
