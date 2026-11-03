@@ -1,0 +1,81 @@
+---
+/**
+ * Yellow numbers band right under the home hero — redesign B2 light.
+ * Uptime is live from Monitorix (same source as TrustStats); the rest are
+ * fixed, sourced facts (natur-life case study, Jaspravim profile, since 2020).
+ */
+import rawData from '../data/monitorix.json';
+import { coerceAgencyStats, hasAgencyStats, formatUptime, type MonitorixData } from '../utils/monitorixStats';
+import { type Lang } from '../i18n';
+
+export interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const a = coerceAgencyStats((rawData as MonitorixData).agency);
+const uptime = hasAgencyStats(a) ? formatUptime(a.avg_uptime_30d, lang) : null;
+
+const items = lang === 'sk'
+  ? [
+      { num: '27 → 83', label: 'skóre e-shopu na mobile po zrýchlení' },
+      ...(uptime ? [{ num: uptime, label: 'dostupnosť webov, ktoré strážim' }] : []),
+      { num: '32', label: 'zákaziek na Jaspravim, 100 % kladných hodnotení' },
+      { num: '2020', label: 'odkedy robím weby' },
+    ]
+  : [
+      { num: '27 → 83', label: 'mobile score of an e-shop after speed-up' },
+      ...(uptime ? [{ num: uptime, label: 'uptime of the sites I look after' }] : []),
+      { num: '32', label: 'jobs on Jaspravim, 100 % positive reviews' },
+      { num: '2020', label: 'building websites since' },
+    ];
+---
+<section class="numbers-band" aria-label={lang === 'sk' ? 'Čísla' : 'Numbers'}>
+  <ul class="numbers-band__list" style={`--n:${items.length}`}>
+    {items.map((it) => (
+      <li class="numbers-band__item">
+        <span class="numbers-band__num">{it.num.includes('→') ? (
+          <><span aria-hidden="true">{it.num}</span><span class="visually-hidden">{it.num.replace('→', lang === 'sk' ? 'na' : 'to').replace(/^/, lang === 'sk' ? 'z ' : 'from ')}</span></>
+        ) : it.num}</span>
+        <span class="numbers-band__label">{it.label}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .numbers-band { background: var(--accent); color: var(--ink); padding: 0 56px; }
+  .numbers-band__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+  }
+  .numbers-band__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 28px 20px;
+    border-left: 1px solid var(--ink);
+  }
+  .numbers-band__item:first-child { border-left: 0; padding-left: 0; }
+  .numbers-band__num {
+    font-weight: 900;
+    font-stretch: 75%;
+    font-size: clamp(40px, 4.6vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .numbers-band__label { font-size: 15px; line-height: 1.35; max-width: 18em; }
+
+  @media (max-width: 1024px) {
+    .numbers-band { padding: 0 32px; }
+    .numbers-band__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .numbers-band__item:nth-child(3) { border-left: 0; padding-left: 0; }
+    .numbers-band__item:nth-child(n+3) { border-top: 1px solid var(--ink); }
+  }
+  @media (max-width: 480px) {
+    .numbers-band { padding: 0 16px; }
+    .numbers-band__item { padding: 20px 12px; }
+    .numbers-band__label { font-size: 14px; }
+  }
+</style>

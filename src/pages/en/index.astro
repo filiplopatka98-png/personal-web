@@ -2,12 +2,13 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Reveal from '../../components/Reveal.astro';
-import Marquee from '../../components/Marquee.astro';
-import HeroDefault from '../../components/HeroDefault.astro';
+import HeroB2 from '../../components/HeroB2.astro';
+import NumbersBand from '../../components/NumbersBand.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import ExperienceList from '../../components/ExperienceList.astro';
 import TestimonialsBlock from '../../components/TestimonialsBlock.astro';
+import TrustStats from '../../components/TrustStats.astro';
 import { t } from '../../i18n';
 import { getStaticRoute } from '../../i18n/routes';
 import { visibleArticles } from '../../content/launch';
@@ -30,31 +31,17 @@ const articles = visibleArticles((await getCollection('articles'))
 ---
 <BaseLayout lang={lang} canonicalPath="/en/" altLangUrl="/" title="Freelance WordPress & WooCommerce Developer | Filip Lopatka" description="Freelance web developer building fast, custom websites and WooCommerce e-shops for SMBs — performance, Core Web Vitals and SEO. Working remotely with clients worldwide.">
 
-  <section class="home-hero">
-    <Reveal class="home-hero-toprow">
-      <div class="mono small">01 — {t('home.intro', lang)}</div>
-      <div class="mono small right">{t('home.locationCity', lang)}<br/>{t('home.locationTz', lang)}</div>
-    </Reveal>
+  <HeroB2 lang={lang} />
 
-    <HeroDefault lang={lang} />
-
-    <Reveal delay={0.2} class="home-hero-bottom">
-      <p class="home-hero-lead">{t('home.intro.lead', lang)}</p>
-      <div class="home-hero-ctas">
-        <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} data-cursor="hover" class="btn-primary">{t('cta.schedule', lang)} →</a>
-      </div>
-    </Reveal>
-  </section>
-
-  <Marquee lang={lang} />
+  <NumbersBand lang={lang} />
 
   <section class="home-work">
     <Reveal class="section-header">
       <div>
-        <div class="mono small">02 — {t('home.workEyebrow', lang)}</div>
+        <div class="eyebrow">{t('home.workEyebrow', lang)}</div>
         <h2 class="display">{t('home.workTitle', lang)}</h2>
       </div>
-      <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="mono section-all" data-cursor="hover">{t('cta.allWork', lang)} →</a>
+      <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="section-all" data-cursor="hover">{t('cta.allWork', lang)} →</a>
     </Reveal>
     <div class="work-grid">
       {projects.map((p) => (
@@ -65,18 +52,21 @@ const articles = visibleArticles((await getCollection('articles'))
     </div>
   </section>
 
+  <TrustStats locale="sk" />
+
   <section class="home-about">
     <div class="about-grid">
       <Reveal>
-        <div class="mono small">03 — {t('home.aboutEyebrow', lang)}</div>
+        <div class="eyebrow">{t('home.aboutEyebrow', lang)}</div>
         <h2 class="display about-headline">
           {t('home.aboutTitle.before', lang)} <em class="about-em">{t('home.aboutTitle.em', lang)}</em>{t('home.aboutTitle.after', lang)}
         </h2>
         <p class="about-lead">{t('home.aboutLead', lang)}</p>
+        <a href={`${baseUrl}${getStaticRoute('services', lang)}`} class="about-services-link" data-cursor="hover" data-umami-event="services-view">{t('cta.services', lang)} →</a>
       </Reveal>
 
       <Reveal delay={0.1}>
-        <div class="mono small mb-6">04 — {t('home.experienceEyebrow', lang)}</div>
+        <div class="eyebrow mb-6">{t('home.experienceEyebrow', lang)}</div>
         <ExperienceList lang={lang} />
       </Reveal>
     </div>
@@ -87,10 +77,10 @@ const articles = visibleArticles((await getCollection('articles'))
   <section class="home-blog">
     <Reveal class="section-header">
       <div>
-        <div class="mono small">06 — {t('home.journalEyebrow', lang)}</div>
+        <div class="eyebrow">{t('home.journalEyebrow', lang)}</div>
         <h2 class="display blog-h2">{t('home.journalTitle', lang)}</h2>
       </div>
-      <a href={`${baseUrl}${getStaticRoute('blog', lang)}`} class="mono section-all" data-cursor="hover">{t('cta.allArticles', lang)} →</a>
+      <a href={`${baseUrl}${getStaticRoute('blog', lang)}`} class="section-all" data-cursor="hover">{t('cta.allArticles', lang)} →</a>
     </Reveal>
     <div class="blog-grid">
       {articles.map((a) => (
@@ -155,6 +145,11 @@ const articles = visibleArticles((await getCollection('articles'))
     font-family: var(--font-mono);
     font-size: 13px;
     text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    color: var(--ink);
   }
   .btn-ghost {
     background: transparent;
@@ -176,9 +171,10 @@ const articles = visibleArticles((await getCollection('articles'))
     gap: 24px;
   }
   /* Eyebrow above h2 inside section-header gets 8px gap (handoff inline style). */
-  :global(.section-header .mono.small) { margin-bottom: 8px; }
-  :global(.section-header h2) { font-size: 64px; line-height: 1; margin: 0; font-family: var(--font-display); }
-  :global(.section-header .section-all) { font-size: 13px; white-space: nowrap; color: var(--ink); font-family: var(--font-mono); text-decoration: none; }
+  :global(.section-header .eyebrow) { margin-bottom: 12px; }
+  :global(.section-header h2) { font-size: 56px; line-height: 0.95; margin: 0; font-family: var(--font-display);
+    font-weight: 800; }
+  :global(.section-header .section-all) { font-size: 16px; font-weight: 600; white-space: nowrap; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
   .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -200,17 +196,31 @@ const articles = visibleArticles((await getCollection('articles'))
     margin: 0 0 24px;
     line-height: 1.05;
     font-family: var(--font-display);
+    font-weight: 800;
   }
   .about-em {
-    color: var(--accent-text);
-    font-style: italic;
-    padding-left: 0.06em;
+    background: var(--accent);
+    font-style: normal;
+    padding: 0 0.12em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
   .about-lead {
     font-size: 17px;
     line-height: 1.6;
     opacity: 0.8;
     max-width: 540px;
+  }
+  .about-services-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 2px;
   }
   .mb-6 { margin-bottom: 24px; }
 
@@ -220,14 +230,14 @@ const articles = visibleArticles((await getCollection('articles'))
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
   }
-  :global(.section-header h2.blog-h2) { font-size: 48px; }
+  :global(.section-header h2.blog-h2) { font-size: 56px; }
 
   /* Tablet — 32px section padding, 2-col grids stay 2-col with tighter gap. */
   @media (max-width: 1024px) {
     .home-hero { padding: 80px 32px 32px; }
     .home-work, .home-about, .home-blog { padding: 64px 32px; }
-    :global(.section-header h2) { font-size: 52px; }
-    :global(.section-header h2.blog-h2) { font-size: 44px; }
+    :global(.section-header h2) { font-size: 48px; }
+    :global(.section-header h2.blog-h2) { font-size: 48px; }
     .about-headline { font-size: 48px; }
     .blog-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
     .about-grid { gap: 36px; }
@@ -239,14 +249,23 @@ const articles = visibleArticles((await getCollection('articles'))
   @media (max-width: 768px) {
     .home-hero { padding: 56px 20px 32px; }
     .home-work, .home-about, .home-blog { padding: 56px 20px; }
-    :global(.section-header h2) { font-size: 38px; }
-    :global(.section-header h2.blog-h2) { font-size: 38px; }
+    :global(.section-header h2) { font-size: 40px; }
+    :global(.section-header h2.blog-h2) { font-size: 40px; }
     .work-grid, .about-grid, .blog-grid { grid-template-columns: 1fr; gap: 32px; }
     .about-headline { font-size: 40px; }
+    /* Hero bottom: switch from row to column with left-aligned content. */
     :global(.home-hero-bottom) {
       flex-direction: column;
       align-items: flex-start;
       gap: 24px;
+    }
+    /* Section header (eyebrow+h2 vs "all X" link) stacks instead of
+       staying a space-between row, which crowded the link against the
+       title on narrow screens. */
+    :global(.section-header) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
     }
   }
 
@@ -254,8 +273,8 @@ const articles = visibleArticles((await getCollection('articles'))
   @media (max-width: 480px) {
     .home-hero { padding: 48px 16px 28px; }
     .home-work, .home-about, .home-blog { padding: 48px 16px; }
-    :global(.section-header h2) { font-size: 32px; }
-    :global(.section-header h2.blog-h2) { font-size: 32px; }
+    :global(.section-header h2) { font-size: 36px; }
+    :global(.section-header h2.blog-h2) { font-size: 36px; }
     .about-headline { font-size: 36px; }
   }
 </style>

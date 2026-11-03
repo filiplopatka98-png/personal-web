@@ -13,12 +13,10 @@ const { lang } = Astro.props;
 
 <style>
   .availability-pill {
-    border: 1px solid color-mix(in srgb, var(--ink) 33%, transparent);
-    padding: 6px 14px;
-    border-radius: var(--radius-pill);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    border: 0;
+    padding: 6px 0;
+    font-size: 14px;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -27,10 +25,11 @@ const { lang } = Astro.props;
   }
 
   .availability-pill .pulse-dot {
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--ink);
     display: inline-block;
     flex-shrink: 0;
   }

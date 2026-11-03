@@ -4,7 +4,6 @@ import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import OverlayMenu from '../components/OverlayMenu.astro';
-import CustomCursor from '../components/CustomCursor.astro';
 import { t, type Lang } from '../i18n';
 import { jsonLd } from '../utils/jsonld';
 
@@ -194,7 +193,7 @@ const websiteLd = isHome
   : null;
 ---
 <!doctype html>
-<html lang={lang} data-theme="warm">
+<html lang={lang} data-theme="b2">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -250,8 +249,7 @@ const websiteLd = isHome
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={fullTitle} />
 
-    <link rel="preload" href={`${baseUrl}/fonts/instrument-serif.woff2`} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={`${baseUrl}/fonts/geist-regular.woff2`} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={`${baseUrl}/fonts/archivo-latin.woff2`} as="font" type="font/woff2" crossorigin />
 
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
 
@@ -291,7 +289,6 @@ const websiteLd = isHome
   </head>
   <body>
     <a class="skip-link" href="#main">{t('common.skipToContent', lang)}</a>
-    <CustomCursor />
     <Nav lang={lang} />
     <main id="main" tabindex="-1">
       <slot />

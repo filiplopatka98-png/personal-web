@@ -4,6 +4,20 @@
  * Default theme is 'warm' (set by BaseLayout).
  */
 
+/* B2 light — biela, čierna, žltá z profilovky (#FED23E). Default od 11/2026. */
+:root[data-theme='b2'] {
+  --bg: #FFFFFF;
+  --bg2: #F4F4F1;
+  --ink: #0A0A0A;
+  --accent: #FED23E;
+  --accent2: #FED23E;
+  --accent3: #FED23E;
+  --ink-muted: #3D3D3D;
+  --ink-faint: #6B6B6B;
+  /* Yellow fails as text on white — any "accent as text" renders as ink. */
+  --accent-text: #0A0A0A;
+}
+
 :root[data-theme='warm'] {
   --bg: #F4ECE0;
   --bg2: #EADFCD;
@@ -42,9 +56,10 @@
 
 :root {
   /* Typography */
-  --font-display: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, serif;
-  --font-body: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --font-display: 'Archivo', 'Archivo Fallback', Arial, sans-serif;
+  --font-body: 'Archivo', 'Archivo Fallback', Arial, sans-serif;
+  /* B2: no monospace labels — "mono" class now means small UI label. */
+  --font-mono: 'Archivo', 'Archivo Fallback', Arial, sans-serif;
 
   /* Type scale */
   --text-hero: clamp(56px, 12vw + 8px, 120px);
@@ -66,9 +81,10 @@
   --section-pad-y-loose: 96px;
 
   /* Radii */
-  --radius-card: 14px;
-  --radius-large: 18px;
-  --radius-pill: 999px;
+  /* B2: straight edges everywhere; the only round shape is the yellow circle. */
+  --radius-card: 0;
+  --radius-large: 0;
+  --radius-pill: 0;
 
   /* Borders */
   --border-soft: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);

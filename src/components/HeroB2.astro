@@ -1,0 +1,146 @@
+---
+/**
+ * Home hero — redesign B2 light (11/2026).
+ * Text left, Filip's cut-out B&W portrait on the signature yellow circle right.
+ * The circle is the ONE round shape of the brand (same as the social avatar).
+ */
+import { type Lang } from '../i18n';
+import { getStaticRoute } from '../i18n/routes';
+
+export interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}?typ=audit`;
+const workHref = `${baseUrl}${getStaticRoute('work', lang)}`;
+
+const L = lang === 'sk'
+  ? {
+      eyebrow: 'Tvorba webov a e-shopov · WordPress · WooCommerce',
+      title: 'Weby pre firmy z Piešťan, Trnavy a okolia.',
+      lead: 'Som Filip z Veľkých Kostolian. Staviam rýchle weby a e-shopy a potom sa o ne starám. Bez agentúry, priamo so mnou.',
+      primary: 'Bezplatná kontrola webu',
+      secondary: 'Pozrite si práce',
+      prices: 'Web od 390 € · E-shop od 1 490 € · Údržba od 39 €/mes',
+      alt: 'Filip Lopatka',
+    }
+  : {
+      eyebrow: 'Websites & e-shops · WordPress · WooCommerce',
+      title: 'Fast websites and e-shops for small businesses.',
+      lead: "I'm Filip, a web developer from Slovakia. I build fast websites and e-shops — and keep them running afterwards. No agency, you work with me directly.",
+      primary: 'Free website check',
+      secondary: 'See my work',
+      prices: 'Website from €390 · E-shop from €1,490 · Care from €39/mo',
+      alt: 'Filip Lopatka',
+    };
+---
+<section class="hero-b2">
+  <div class="hero-b2__text">
+    <p class="hero-b2__eyebrow">{L.eyebrow}</p>
+    <h1 class="hero-b2__title">{L.title}</h1>
+    <p class="hero-b2__lead">{L.lead}</p>
+    <div class="hero-b2__ctas">
+      <a href={briefHref} class="b2-btn b2-btn--yellow" data-umami-event="brief-start">{L.primary}</a>
+      <a href={workHref} class="b2-btn b2-btn--outline">{L.secondary}</a>
+    </div>
+    <p class="hero-b2__prices">{L.prices}</p>
+  </div>
+  <div class="hero-b2__visual" aria-hidden="false">
+    <div class="hero-b2__circle"></div>
+    <img
+      class="hero-b2__photo"
+      src={`${baseUrl}/filip-lopatka-vyrez-880.webp`}
+      srcset={`${baseUrl}/filip-lopatka-vyrez-560.webp 560w, ${baseUrl}/filip-lopatka-vyrez-880.webp 880w`}
+      sizes="(max-width: 768px) 320px, 520px"
+      width="880"
+      height="886"
+      alt={L.alt}
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+</section>
+
+<style>
+  .hero-b2 {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 32px;
+    padding: 72px 56px 0;
+    min-height: 620px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--ink);
+  }
+  .hero-b2__text {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding-bottom: 64px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-b2__eyebrow {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero-b2__title {
+    font-size: clamp(44px, 6.4vw, 92px);
+    line-height: 0.93;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+    max-width: 12ch;
+  }
+  .hero-b2__lead {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.5;
+    max-width: 30em;
+    color: var(--ink-muted);
+  }
+  .hero-b2__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-b2__prices { margin: 0; font-size: 16px; color: var(--ink-muted); }
+
+  .hero-b2__visual {
+    position: relative;
+    align-self: end;
+    height: 100%;
+    min-height: 520px;
+  }
+  .hero-b2__circle {
+    position: absolute;
+    left: 50%;
+    bottom: -90px;
+    width: min(500px, 92%);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .hero-b2__photo {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: min(520px, 100%);
+    height: auto;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 1024px) {
+    .hero-b2 { padding: 56px 32px 0; gap: 16px; }
+    .hero-b2__visual { min-height: 420px; }
+  }
+  @media (max-width: 768px) {
+    .hero-b2 { grid-template-columns: 1fr; padding: 40px 20px 0; min-height: 0; }
+    .hero-b2__text { padding-bottom: 8px; gap: 20px; }
+    .hero-b2__lead { font-size: 17px; }
+    .hero-b2__visual { min-height: 330px; }
+    .hero-b2__circle { width: 300px; bottom: -50px; }
+    .hero-b2__photo { width: 320px; }
+  }
+  @media (max-width: 480px) {
+    .hero-b2 { padding: 32px 16px 0; }
+  }
+</style>

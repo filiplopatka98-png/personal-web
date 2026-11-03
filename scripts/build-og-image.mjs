@@ -20,15 +20,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
 const svgPath = join(root, 'src/assets/og-default.svg');
-const fontsDir = join(root, 'public/fonts');
+const fontsDir = join(root, 'src/assets/og-fonts');
 const outPath = join(root, 'public/og-default.png');
 
 const svg = readFileSync(svgPath, 'utf8');
 
-// Load every woff2 in public/fonts so resvg can resolve Instrument Serif and
-// Geist Mono (named in the SVG via font-family). System fallback (Georgia,
-// monospace) kicks in if a glyph is missing — which would only happen for
-// extended Latin we don't use here.
+// Static Archivo TTFs (resvg can't read woff2 / variable instances) — 'Archivo OG'.
 const fontFiles = readdirSync(fontsDir)
   .filter((f) => f.endsWith('.woff2') || f.endsWith('.ttf') || f.endsWith('.otf'))
   .map((f) => join(fontsDir, f));
@@ -38,7 +35,7 @@ const resvg = new Resvg(svg, {
   font: {
     fontFiles,
     loadSystemFonts: true,
-    defaultFontFamily: 'Georgia',
+    defaultFontFamily: 'Archivo OG',
   },
 });
 

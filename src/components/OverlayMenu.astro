@@ -45,8 +45,8 @@ const navOrder: NavItem[] = [
   <h2 id="overlay-menu-heading" class="visually-hidden">{lang === 'sk' ? 'Hlavné menu' : 'Main menu'}</h2>
   <div class="overlay-menu-header">
     <div class="overlay-menu-brand">
-      <div class="overlay-menu-logo">fl</div>
-      filip lopatka
+      <span class="overlay-menu-logo" aria-hidden="true"></span>
+      Filip Lopatka
     </div>
     <button
       type="button"
@@ -70,7 +70,6 @@ const navOrder: NavItem[] = [
           data-cursor="hover"
           aria-current={item.href.replace(/\/?$/, '/') === currentPath ? 'page' : undefined}
         >
-          <span class="menu-link-num">0{i + 1}</span>
           {t(item.tKey, lang)}
         </a>
       ))}
@@ -106,8 +105,8 @@ const navOrder: NavItem[] = [
     position: fixed;
     inset: 0;
     z-index: 9000;
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--accent);
+    color: var(--ink);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.35s ease;
@@ -123,32 +122,30 @@ const navOrder: NavItem[] = [
     justify-content: space-between;
     align-items: center;
     padding: 20px 56px;
-    border-bottom: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   }
 
   .overlay-menu-brand {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   .overlay-menu-logo {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     background: var(--bg);
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    color: var(--ink);
-    font-weight: 600;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
   }
 
   .overlay-menu-close {
     background: transparent;
-    color: var(--bg);
-    border: 1px solid color-mix(in srgb, var(--bg) 44%, transparent);
+    color: var(--ink);
+    border: 1px solid color-mix(in srgb, var(--ink) 44%, transparent);
     padding: 10px 20px;
     border-radius: var(--radius-pill);
     font-family: var(--font-mono);
@@ -168,8 +165,8 @@ const navOrder: NavItem[] = [
 
   .menu-section-label {
     font-family: var(--font-mono);
-    font-size: 12px;
-    opacity: 0.65;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 24px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -178,9 +175,10 @@ const navOrder: NavItem[] = [
   .menu-link {
     display: block;
     font-family: var(--font-display);
+    font-weight: 800;
     font-size: 88px;
     line-height: 1.1;
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: none;
     letter-spacing: -0.02em;
     transition: color 0.2s, opacity 0.5s ease, transform 0.5s ease;
@@ -195,7 +193,9 @@ const navOrder: NavItem[] = [
   }
 
   .menu-link:hover {
-    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 6px;
+    text-underline-offset: 8px;
   }
 
   .menu-link-num {
@@ -207,7 +207,7 @@ const navOrder: NavItem[] = [
   }
 
   .menu-contact {
-    border-left: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
     padding-left: 48px;
     align-self: end;
   }
@@ -216,12 +216,12 @@ const navOrder: NavItem[] = [
     display: flex;
     flex-direction: column;
     gap: 14px;
-    font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 17px;
+    font-weight: 600;
   }
 
   .menu-links a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: none;
   }
 
@@ -230,7 +230,7 @@ const navOrder: NavItem[] = [
   }
 
   .menu-lang a {
-    color: var(--bg);
+    color: var(--ink);
     text-decoration: underline;
     font-family: var(--font-mono);
     font-size: 13px;
@@ -273,7 +273,7 @@ const navOrder: NavItem[] = [
       border-left: 0;
       padding-left: 0;
       padding-top: 24px;
-      border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+      border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
       align-self: start;
     }
   }

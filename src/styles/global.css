@@ -20,26 +20,29 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
     margin: 0;
+    text-wrap: balance;
   }
 
+  /* B2: no italic accent words — emphasis stays upright. */
   h1 em, h2 em, h3 em, .display em {
-    font-style: italic;
-    padding-left: var(--italic-pad-l);
-    padding-right: var(--italic-pad-r);
+    font-style: normal;
+    padding: 0;
+    color: inherit;
   }
 
   *:focus-visible {
     /* --accent-text (darker terracotta) clears WCAG 2.4.11 on both --bg and
        --bg2; plain --accent was ~2.74:1 on --bg2. */
-    outline: 2px solid var(--accent-text);
+    outline: 2px solid var(--ink);
     outline-offset: 4px;
-    border-radius: 2px;
+    border-radius: 0;
   }
 
-  ::selection { background: var(--accent); color: var(--bg); }
+  ::selection { background: var(--accent); color: var(--ink); }
 
   /*
    * The custom cursor is decorative only: the dot/ring float ON TOP of the
@@ -113,6 +116,7 @@
 }
 
 .blob {
+  display: none; /* B2: decorative blobs retired */
   position: absolute;
   border-radius: 50%;
   filter: blur(40px);
@@ -201,3 +205,30 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ---- B2 light shared UI (11/2026) ---- */
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.b2-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 26px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+  border: 2px solid var(--ink);
+  transition: background 0.15s, color 0.15s;
+}
+.b2-btn--yellow { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.b2-btn--yellow:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.b2-btn--outline { background: transparent; color: var(--ink); }
+.b2-btn--outline:hover { background: var(--ink); color: var(--bg); }
+.b2-btn--dark { background: var(--ink); color: var(--bg); }
+.b2-btn--dark:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }

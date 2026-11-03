@@ -61,7 +61,7 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
-    border-radius: 18px;
+    border-radius: 0;
     background: var(--bg2);
     color: var(--ink);
     scroll-margin-top: 96px;
@@ -94,13 +94,14 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
     line-height: 1;
     letter-spacing: -0.02em;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     margin: 12px 0 8px;
   }
   .band-price {
     font-family: var(--font-display);
+    font-weight: 800;
     font-size: 24px;
-    font-style: italic;
+    font-style: normal;
     color: var(--accent-text);
   }
   .band-tagline {
@@ -183,6 +184,7 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
   .band-case .band-label { margin-bottom: 4px; }
   .band-case-link {
     font-family: var(--font-display);
+    font-weight: 800;
     font-size: 22px;
     line-height: 1.25;
     color: var(--accent-text);

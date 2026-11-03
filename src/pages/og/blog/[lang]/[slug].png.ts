@@ -17,7 +17,7 @@ export const GET: APIRoute = ({ props }) => {
   const svg = buildOgSvg({
     eyebrow: lang === 'sk' ? 'BLOG · FILIP LOPATKA' : 'BLOG · FILIP LOPATKA',
     title: entry.data.title,
-    footer: 'Web developer · WordPress · Next.js · SK',
+    footer: lang === 'sk' ? 'Weby a e-shopy · WordPress · WooCommerce' : 'Websites & e-shops · WordPress · WooCommerce',
   });
   return new Response(renderOgPng(svg), {
     headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' },
