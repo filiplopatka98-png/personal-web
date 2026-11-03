@@ -288,3 +288,37 @@ details[open]::details-content { height: auto; }
   .footer-brief-btn:active, .footer-submit:active, .lp-cta-btn:active,
   .proj:active .proj-cover, .article-card:active { transform: none; }
 }
+
+/* ---- Own form errors (scripts/form-errors.ts) ---- */
+:root { --error: #B3261E; }
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--error);
+}
+.field-error__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--error);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+.has-error input:not([type="radio"]),
+.has-error textarea { border-color: var(--error) !important; }
+.has-error .brief-radio,
+.has-error .brief-tile { border-color: var(--error); }
+@media (prefers-reduced-motion: no-preference) {
+  .field-error { animation: field-error-in 0.2s var(--ease-out-soft) both; }
+  @keyframes field-error-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+}

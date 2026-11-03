@@ -20,6 +20,17 @@ const titleFirst = spaceIdx > 0 ? titleStr.slice(0, spaceIdx) : titleStr;
 const titleRest = spaceIdx > 0 ? titleStr.slice(spaceIdx + 1) : '';
 
 const CONTACT_EMAIL = t('menu.email', lang);
+const M = lang === 'sk' ? {
+  nameRequired: 'Napíšte, prosím, svoje meno.',
+  emailRequired: 'Zadajte e-mail, na ktorý vám odpíšem.',
+  emailInvalid: 'Tento e-mail nevyzerá správne — skontrolujte zavináč a doménu.',
+  messageRequired: 'Napíšte aspoň pár slov o tom, čo riešite.',
+} : {
+  nameRequired: 'Please tell me your name.',
+  emailRequired: 'Enter an e-mail I can reply to.',
+  emailInvalid: "This e-mail doesn't look right — check the @ and the domain.",
+  messageRequired: 'Write at least a few words about what you need.',
+};
 ---
 <footer class="cd-footer">
   <div class="footer-grid">
@@ -55,19 +66,23 @@ const CONTACT_EMAIL = t('menu.email', lang);
         data-sending={t('footer.formSending', lang)}
         data-success={t('footer.formSuccess', lang)}
         data-error={t('footer.formError', lang)}
+        data-msg-name-required={M.nameRequired}
+        data-msg-email-required={M.emailRequired}
+        data-msg-email-invalid={M.emailInvalid}
+        data-msg-message-required={M.messageRequired}
         novalidate
       >
         <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
         <input type="checkbox" name="botcheck" class="footer-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <div class="form-field">
+        <div class="form-field" data-field>
           <label for="footer-form-name">{t('footer.formName', lang)}</label>
           <input type="text" name="name" id="footer-form-name" required autocomplete="name" />
         </div>
-        <div class="form-field">
+        <div class="form-field" data-field>
           <label for="footer-form-email">{t('footer.formEmail', lang)}</label>
           <input type="email" name="email" id="footer-form-email" required autocomplete="email" />
         </div>
-        <div class="form-field">
+        <div class="form-field" data-field>
           <label for="footer-form-message">{t('footer.formDesc', lang)}</label>
           <textarea name="message" id="footer-form-message" rows="4" required></textarea>
         </div>
@@ -351,6 +366,8 @@ const CONTACT_EMAIL = t('menu.email', lang);
 </style>
 
 <script>
+  import { validateFields, liveRevalidate, readMessages } from '../scripts/form-errors';
+
   function initFooterContact() {
     const forms = document.querySelectorAll<HTMLFormElement>('form[data-contact-form]');
     forms.forEach((form) => {
@@ -360,10 +377,15 @@ const CONTACT_EMAIL = t('menu.email', lang);
       const submitBtn = form.querySelector<HTMLButtonElement>('.footer-submit');
       const statusEl = form.querySelector<HTMLElement>('[data-status]');
       const email = form.getAttribute('data-contact-email') || '';
+      const msgs = readMessages(form);
+      const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'));
+      liveRevalidate(fields, msgs);
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
+        // Own inline messages instead of the browser's bubbles.
+        const firstInvalid = validateFields(fields, msgs);
+        if (firstInvalid) { firstInvalid.focus(); return; }
 
         const data = new FormData(form);
         const val = (k: string) => (data.get(k) ?? '').toString().trim();
