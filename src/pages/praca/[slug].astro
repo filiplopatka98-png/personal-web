@@ -244,7 +244,7 @@ const projectLd = {
     </div>
     {data.url && (
       <a href={`https://${data.url}`} target="_blank" rel="nofollow noopener noreferrer" class="live-link mono" data-cursor="hover">
-        {t('cta.liveSite', lang)} {data.url} →
+        {t('cta.liveSite', lang)} {data.url} <span class="arr" aria-hidden="true">→</span>
       </a>
     )}
   </section>

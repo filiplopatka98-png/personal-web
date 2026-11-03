@@ -29,7 +29,7 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
     <p class="band-tagline">{data.tagline}</p>
     <p class="band-desc">{data.desc}</p>
     <a href={briefHref} class="band-cta mono" data-cursor="hover" data-umami-event="service-quote">
-      {t('services.requestQuote', lang)} →
+      {t('services.requestQuote', lang)} <span class="arr" aria-hidden="true">→</span>
     </a>
   </div>
 

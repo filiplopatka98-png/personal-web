@@ -41,7 +41,7 @@ const itemListLd = buildItemList(
     {articles.length === 0 && (
       <div class="blog-empty">
         <p class="blog-empty-msg">{t('blog.empty', lang)}</p>
-        <a href={`${baseUrl}/`} class="blog-empty-link mono" data-cursor="hover">{t('cta.back', lang)} →</a>
+        <a href={`${baseUrl}/`} class="blog-empty-link mono" data-cursor="hover">{t('cta.back', lang)} <span class="arr" aria-hidden="true">→</span></a>
       </div>
     )}
     <div class="blog-list">
