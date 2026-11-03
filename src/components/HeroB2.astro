@@ -128,6 +128,22 @@ const L = lang === 'sk'
     transform: translateX(-50%);
   }
 
+  /* One-time entrance: the brand circle unfolds and Filip rises into it.
+     No opacity fade (an invisible image would delay LCP) — transform only. */
+  @keyframes hero-circle-in {
+    from { transform: translateX(-50%) scale(0.9); }
+    to   { transform: translateX(-50%) scale(1); }
+  }
+  @keyframes hero-photo-in {
+    from { transform: translateX(-50%) translateY(28px); }
+    to   { transform: translateX(-50%) translateY(0); }
+  }
+  .hero-b2__circle { animation: hero-circle-in 0.7s var(--ease-out-soft) both; transform-origin: 50% 100%; }
+  .hero-b2__photo  { animation: hero-photo-in 0.7s var(--ease-out-soft) 0.12s both; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-b2__circle, .hero-b2__photo { animation: none; }
+  }
+
   @media (max-width: 1024px) {
     .hero-b2 { padding: 56px 32px 0; gap: 16px; }
     .hero-b2__visual { min-height: 420px; }

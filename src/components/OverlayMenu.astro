@@ -66,7 +66,7 @@ const navOrder: NavItem[] = [
         <a
           href={item.href}
           class="menu-link"
-          style={`--menu-link-delay: ${0.1 + i * 0.06}s;`}
+          style={`--menu-link-delay: ${0.12 + i * 0.04}s;`}
           data-cursor="hover"
           aria-current={item.href.replace(/\/?$/, '/') === currentPath ? 'page' : undefined}
         >
@@ -78,17 +78,17 @@ const navOrder: NavItem[] = [
     <div class="menu-contact">
       <div class="menu-section-label">{t('menu.contact', lang)}</div>
       <div class="menu-links">
-        <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} →</a>
-        <a data-cursor="hover" data-umami-event="whatsapp-click" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} →</a>
-        <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn →</a>
-        <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook →</a>
-        <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="me noopener noreferrer">Instagram →</a>
+        <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)} <span class="arr" aria-hidden="true">→</span></a>
+        <a data-cursor="hover" data-umami-event="whatsapp-click" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)} <span class="arr" aria-hidden="true">→</span></a>
+        <a data-cursor="hover" href={`https://${t('menu.linkedin', lang)}`} target="_blank" rel="me noopener noreferrer">LinkedIn <span class="arr" aria-hidden="true">→</span></a>
+        <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook <span class="arr" aria-hidden="true">→</span></a>
+        <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="me noopener noreferrer">Instagram <span class="arr" aria-hidden="true">→</span></a>
       </div>
 
       {altUrl && (
         <div class="menu-lang">
           <a href={altUrl} data-cursor="hover">
-            {otherLangLabel} →
+            {otherLangLabel} <span class="arr" aria-hidden="true">→</span>
           </a>
         </div>
       )}
@@ -107,14 +107,26 @@ const navOrder: NavItem[] = [
     z-index: 9000;
     background: var(--accent);
     color: var(--ink);
-    opacity: 0;
+    /* B2 motion: the menu is the brand's yellow circle growing out of the Menu
+       button and shrinking back into it. CSS transitions reverse from the
+       current value, so open/close can be interrupted mid-flight. */
+    --menu-x: calc(100% - 80px);
+    --menu-y: 40px;
+    clip-path: circle(0px at var(--menu-x) var(--menu-y));
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.35s ease;
+    transition:
+      clip-path 0.5s var(--ease-out-soft),
+      visibility 0s linear 0.5s;
   }
 
   .overlay-menu.open {
-    opacity: 1;
+    clip-path: circle(150vmax at var(--menu-x) var(--menu-y));
+    visibility: visible;
     pointer-events: auto;
+    transition:
+      clip-path 0.55s var(--ease-out-soft),
+      visibility 0s;
   }
 
   .overlay-menu-header {
@@ -181,15 +193,16 @@ const navOrder: NavItem[] = [
     color: var(--ink);
     text-decoration: none;
     letter-spacing: -0.02em;
-    transition: color 0.2s, opacity 0.5s ease, transform 0.5s ease;
-    transition-delay: 0s, var(--menu-link-delay), var(--menu-link-delay);
+    transition: opacity 0.3s var(--ease-out-soft), transform 0.3s var(--ease-out-soft);
+    transition-delay: 0s;
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(16px);
   }
 
   .overlay-menu.open .menu-link {
     opacity: 1;
     transform: translateY(0);
+    transition-delay: var(--menu-link-delay);
   }
 
   .menu-link:hover {
@@ -287,9 +300,16 @@ const navOrder: NavItem[] = [
     .menu-link {
       opacity: 1;
       transform: none;
-      transition: color 0.2s;
+      transition: none;
     }
-    .overlay-menu { transition: none; }
+    /* Reduced motion: no growing circle, just a short cross-fade. */
+    .overlay-menu,
+    .overlay-menu.open {
+      clip-path: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+    }
+    .overlay-menu.open { opacity: 1; transition: opacity 0.2s ease, visibility 0s; }
   }
 </style>
 
@@ -314,7 +334,18 @@ const navOrder: NavItem[] = [
         .filter((el) => !el.hasAttribute('hidden'));
     }
 
-    function open() {
+    // Anchor the circle to the Menu button that opened it (spatial consistency:
+    // the menu grows out of — and collapses back into — its trigger).
+    function setOrigin(from?: Element | null) {
+      const btn = (from as HTMLElement | null) ?? openers.find((b) => b.offsetParent !== null) ?? null;
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      menu!.style.setProperty('--menu-x', `${r.left + r.width / 2}px`);
+      menu!.style.setProperty('--menu-y', `${r.top + r.height / 2}px`);
+    }
+
+    function open(e?: Event) {
+      setOrigin((e?.currentTarget as Element | null) ?? null);
       lastFocused = (document.activeElement as HTMLElement | null) ?? null;
       menu!.classList.add('open');
       menu!.setAttribute('aria-hidden', 'false');

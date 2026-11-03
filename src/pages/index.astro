@@ -41,7 +41,7 @@ const articles = visibleArticles((await getCollection('articles'))
         <div class="eyebrow">{t('home.workEyebrow', lang)}</div>
         <h2 class="display">{t('home.workTitle', lang)}</h2>
       </div>
-      <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="section-all" data-cursor="hover">{t('cta.allWork', lang)} →</a>
+      <a href={`${baseUrl}${getStaticRoute('work', lang)}`} class="section-all" data-cursor="hover">{t('cta.allWork', lang)} <span class="arr" aria-hidden="true">→</span></a>
     </Reveal>
     <div class="work-grid">
       {projects.map((p) => (
@@ -62,7 +62,7 @@ const articles = visibleArticles((await getCollection('articles'))
           {t('home.aboutTitle.before', lang)} <em class="about-em">{t('home.aboutTitle.em', lang)}</em>{t('home.aboutTitle.after', lang)}
         </h2>
         <p class="about-lead">{t('home.aboutLead', lang)}</p>
-        <a href={`${baseUrl}${getStaticRoute('services', lang)}`} class="about-services-link" data-cursor="hover" data-umami-event="services-view">{t('cta.services', lang)} →</a>
+        <a href={`${baseUrl}${getStaticRoute('services', lang)}`} class="about-services-link" data-cursor="hover" data-umami-event="services-view">{t('cta.services', lang)} <span class="arr" aria-hidden="true">→</span></a>
       </Reveal>
 
       <Reveal delay={0.1}>
@@ -80,7 +80,7 @@ const articles = visibleArticles((await getCollection('articles'))
         <div class="eyebrow">{t('home.journalEyebrow', lang)}</div>
         <h2 class="display blog-h2">{t('home.journalTitle', lang)}</h2>
       </div>
-      <a href={`${baseUrl}${getStaticRoute('blog', lang)}`} class="section-all" data-cursor="hover">{t('cta.allArticles', lang)} →</a>
+      <a href={`${baseUrl}${getStaticRoute('blog', lang)}`} class="section-all" data-cursor="hover">{t('cta.allArticles', lang)} <span class="arr" aria-hidden="true">→</span></a>
     </Reveal>
     <div class="blog-grid">
       {articles.map((a) => (

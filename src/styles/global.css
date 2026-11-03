@@ -154,11 +154,7 @@
   animation: reveal-rise var(--motion-reveal-duration) var(--motion-reveal-ease) both;
 }
 
-.proj {
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: pointer;
-}
-.proj:hover { transform: translateY(-4px); }
+.proj { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -199,7 +195,7 @@
   animation: vt-in var(--motion-page-duration) ease forwards;
 }
 @keyframes vt-out {
-  to { opacity: 0; transform: translateY(calc(-1 * var(--motion-page-distance))); }
+  to { opacity: 0; }
 }
 @keyframes vt-in {
   from { opacity: 0; }
@@ -227,8 +223,68 @@
   transition: background 0.15s, color 0.15s;
 }
 .b2-btn--yellow { background: var(--accent); color: var(--ink); border-color: var(--accent); }
-.b2-btn--yellow:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .b2-btn--outline { background: transparent; color: var(--ink); }
-.b2-btn--outline:hover { background: var(--ink); color: var(--bg); }
 .b2-btn--dark { background: var(--ink); color: var(--bg); }
-.b2-btn--dark:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .b2-btn--yellow:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .b2-btn--outline:hover { background: var(--ink); color: var(--bg); }
+  .b2-btn--dark:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+}
+
+/* ---- B2 motion (Apple audit, 11/2026) ----
+ * 1. Feedback on press, not on release: everything tappable dips instantly.
+ * 2. Hover effects only where a real pointer hovers (no sticky hover on touch).
+ * 3. Arrows nudge toward where the link goes.
+ * All motion uses transform/opacity and the critically damped --ease-out-soft.
+ */
+.b2-btn,
+.btn-primary,
+.btn-ghost,
+.nav-menu-btn,
+.overlay-menu-close,
+.footer-brief-btn,
+.footer-submit,
+.lp-cta-btn,
+.section-all,
+.about-services-link {
+  transition: transform 0.12s var(--ease-out-soft), background 0.15s, color 0.15s, border-color 0.15s;
+}
+.b2-btn:active,
+.btn-primary:active,
+.btn-ghost:active,
+.nav-menu-btn:active,
+.overlay-menu-close:active,
+.footer-brief-btn:active,
+.footer-submit:active:not(:disabled),
+.lp-cta-btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.06s;
+}
+.proj:active .proj-cover,
+.article-card:active { transform: scale(0.99); transition: transform 0.06s; }
+
+.arr {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-out-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  a:hover .arr,
+  a:focus-visible .arr { transform: translateX(4px); }
+}
+
+/* FAQ / <details>: open smoothly instead of jumping (progressive — browsers
+   without ::details-content just open instantly, as before). */
+:root { interpolate-size: allow-keywords; }
+details::details-content {
+  height: 0;
+  overflow: clip;
+  transition: height 0.3s var(--ease-out-soft), content-visibility 0.3s allow-discrete;
+}
+details[open]::details-content { height: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .arr, details::details-content { transition: none !important; }
+  .b2-btn:active, .btn-primary:active, .btn-ghost:active, .nav-menu-btn:active,
+  .footer-brief-btn:active, .footer-submit:active, .lp-cta-btn:active,
+  .proj:active .proj-cover, .article-card:active { transform: none; }
+}

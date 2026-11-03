@@ -55,8 +55,22 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     border-bottom: var(--border-soft);
     position: sticky;
     top: 0;
-    background: var(--bg);
+    /* Material: translucent white over scrolling content; the hairline only
+       appears once content actually scrolls under the bar (scroll edge). */
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom-color: transparent;
+    transition: border-color 0.2s;
     z-index: 50;
+  }
+
+  .nav-bar.is-scrolled { border-bottom-color: color-mix(in srgb, var(--ink) 14%, transparent); }
+  @media (prefers-reduced-transparency: reduce) {
+    .nav-bar { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  }
+  @media (prefers-contrast: more) {
+    .nav-bar { background: var(--bg); border-bottom-color: var(--ink); }
   }
 
   .nav-logo {
@@ -153,3 +167,19 @@ const homeHref = lang === 'sk' ? `${baseUrl}/` : `${baseUrl}/en/`;
     }
   }
 </style>
+
+<script>
+  // Scroll edge: show the hairline under the translucent bar only once content
+  // is actually underneath it. Passive listener, rAF-throttled.
+  function initNavEdge() {
+    const nav = document.querySelector<HTMLElement>('.nav-bar');
+    if (!nav || nav.dataset.edge) return;
+    nav.dataset.edge = '1';
+    let ticking = false;
+    const update = () => { nav.classList.toggle('is-scrolled', window.scrollY > 4); ticking = false; };
+    update();
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  }
+  initNavEdge();
+  document.addEventListener('astro:page-load', initNavEdge);
+</script>

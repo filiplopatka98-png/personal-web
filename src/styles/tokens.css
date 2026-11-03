@@ -91,10 +91,12 @@
   --border-softer: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
 
   /* Motion */
-  --motion-reveal-distance: 28px;
-  --motion-reveal-duration: 900ms;
+  --motion-reveal-distance: 16px;
+  --motion-reveal-duration: 500ms;
+  /* Critically damped feel (no overshoot) — default for all UI motion. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --motion-page-duration: 250ms;
+  --motion-page-duration: 200ms;
   --motion-page-distance: 12px;
   --motion-blob-duration: 14s;
   --motion-marquee-duration: 30s;
