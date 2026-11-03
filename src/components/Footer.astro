@@ -24,11 +24,13 @@ const M = lang === 'sk' ? {
   nameRequired: 'Napíšte, prosím, svoje meno.',
   emailRequired: 'Zadajte e-mail, na ktorý vám odpíšem.',
   emailInvalid: 'Tento e-mail nevyzerá správne — skontrolujte zavináč a doménu.',
+  emailSuggest: 'Mysleli ste {email}?',
   messageRequired: 'Napíšte aspoň pár slov o tom, čo riešite.',
 } : {
   nameRequired: 'Please tell me your name.',
   emailRequired: 'Enter an e-mail I can reply to.',
   emailInvalid: "This e-mail doesn't look right — check the @ and the domain.",
+  emailSuggest: 'Did you mean {email}?',
   messageRequired: 'Write at least a few words about what you need.',
 };
 ---
@@ -70,6 +72,8 @@ const M = lang === 'sk' ? {
         data-msg-email-required={M.emailRequired}
         data-msg-email-invalid={M.emailInvalid}
         data-msg-message-required={M.messageRequired}
+        data-msg-email-suggest={M.emailSuggest}
+        data-draft-key={`contact-draft-${lang}`}
         novalidate
       >
         <!-- Web3Forms honeypot: real users leave this empty; bots that fill it get rejected. -->
@@ -366,7 +370,7 @@ const M = lang === 'sk' ? {
 </style>
 
 <script>
-  import { validateFields, liveRevalidate, readMessages } from '../scripts/form-errors';
+  import { validateFields, liveRevalidate, readMessages, attachEmailSuggest, restoreDraft, persistDraft, clearDraft } from '../scripts/form-errors';
 
   function initFooterContact() {
     const forms = document.querySelectorAll<HTMLFormElement>('form[data-contact-form]');
@@ -380,12 +384,20 @@ const M = lang === 'sk' ? {
       const msgs = readMessages(form);
       const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'));
       liveRevalidate(fields, msgs);
+      const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+      if (emailInput) attachEmailSuggest(emailInput, msgs.emailSuggest || '');
+      const draftKey = form.dataset.draftKey || 'contact-draft';
+      restoreDraft(form, draftKey);
+      persistDraft(form, draftKey);
 
+      let sending = false;
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (sending) return; // double-submit guard
         // Own inline messages instead of the browser's bubbles.
         const firstInvalid = validateFields(fields, msgs);
         if (firstInvalid) { firstInvalid.focus(); return; }
+        sending = true;
 
         const data = new FormData(form);
         const val = (k: string) => (data.get(k) ?? '').toString().trim();
@@ -407,6 +419,7 @@ const M = lang === 'sk' ? {
           originalLabel = submitBtn.textContent ?? '';
           submitBtn.disabled = true;
           submitBtn.textContent = form.dataset.sending || 'Odosielam…';
+          submitBtn.setAttribute('aria-busy', 'true');
         }
 
         try {
@@ -418,6 +431,7 @@ const M = lang === 'sk' ? {
           const json = await res.json().catch(() => ({}));
           if (!res.ok || !json.success) throw new Error(json.message || 'submit failed');
           form.reset();
+          clearDraft(draftKey);
           form.classList.add('is-sent');
           if (statusEl) {
             statusEl.textContent = form.dataset.success || 'Ďakujem!';
@@ -433,7 +447,9 @@ const M = lang === 'sk' ? {
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.textContent = originalLabel;
+            submitBtn.removeAttribute('aria-busy');
           }
+          sending = false;
         }
       });
     });

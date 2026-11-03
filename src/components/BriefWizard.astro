@@ -2,6 +2,7 @@
 import { t, type Lang } from '../i18n';
 import Reveal from './Reveal.astro';
 import { WEB3FORMS_ACCESS_KEY } from '../config';
+import { PRICES, fromPrice } from '../data/pricing';
 
 export interface Props {
   lang: Lang;
@@ -10,15 +11,15 @@ const { lang } = Astro.props;
 const titleHtml = `${t('brief.title.before', lang)}<em class="brief-h1-em">${t('brief.title.em', lang)}</em>${t('brief.title.after', lang)}`;
 
 const types = lang === 'sk' ? [
-  { k: 'web', name: 'Firemný web', sub: 'od 390 € · 2–4 týždne' },
-  { k: 'eshop', name: 'E-shop na WooCommerce', sub: 'od 1 490 € · 4–8 týždňov' },
-  { k: 'speed', name: 'Zrýchlenie webu', sub: 'od 390 € · 1–2 týždne' },
+  { k: 'web', name: 'Firemný web', sub: `${fromPrice(PRICES.web, 'sk')} · 2–4 týždne` },
+  { k: 'eshop', name: 'E-shop na WooCommerce', sub: `${fromPrice(PRICES.eshop, 'sk')} · 4–8 týždňov` },
+  { k: 'speed', name: 'Zrýchlenie webu', sub: `${fromPrice(PRICES.speed, 'sk')} · 1–2 týždne` },
   { k: 'audit', name: 'Kontrola webu zadarmo', sub: 'do 2 pracovných dní' },
   { k: 'other', name: 'Niečo iné', sub: 'Povedzme si' },
 ] : [
-  { k: 'web', name: 'Company website', sub: 'from €390 · 2–4 weeks' },
-  { k: 'eshop', name: 'WooCommerce store', sub: 'from €1,490 · 4–8 weeks' },
-  { k: 'speed', name: 'Website speed-up', sub: 'from €390 · 1–2 weeks' },
+  { k: 'web', name: 'Company website', sub: `${fromPrice(PRICES.web, 'en')} · 2–4 weeks` },
+  { k: 'eshop', name: 'WooCommerce store', sub: `${fromPrice(PRICES.eshop, 'en')} · 4–8 weeks` },
+  { k: 'speed', name: 'Website speed-up', sub: `${fromPrice(PRICES.speed, 'en')} · 1–2 weeks` },
   { k: 'audit', name: 'Free website check', sub: 'within 2 business days' },
   { k: 'other', name: 'Something else', sub: "Let's talk" },
 ];
@@ -53,7 +54,7 @@ const timelines = lang === 'sk' ? [
 // budget ceiling, a tactful non-blocking notice appears on the next step.
 // Data-driven: adjust prices/ceilings and the rule follows.
 const TYPE_MIN_PRICE: Record<string, number> = {
-  web: 390, eshop: 1490, speed: 390, audit: 0, other: 0,
+  web: PRICES.web, eshop: PRICES.eshop, speed: PRICES.speed, audit: 0, other: 0,
 };
 const BUDGET_CEILING: Record<string, number> = {
   lt500: 500, '500-1500': 1500, '1500-3000': 3000, gt3000: 1e9, unknown: 1e9,
@@ -64,7 +65,7 @@ const budgetWarn = lang === 'sk' ? {
   intro: 'V tomto rozpočte vám neviem dodať projekt v kvalite, za ktorú by som vedel ručiť — rýchly, spoľahlivý a poriadne postavený. Radšej to poviem hneď, než by som sľuboval niečo, čo by vás neskôr mrzelo.',
   options: [
     { label: 'Fázovanie', text: 'spustíme menší funkčný základ a rozširujeme postupne.' },
-    { label: 'Jednoduchšie riešenie', text: 'napr. menší web od 390 €, ktorý dá zmysel hneď.' },
+    { label: 'Jednoduchšie riešenie', text: `napr. menší web ${fromPrice(PRICES.web, 'sk')}, ktorý dá zmysel hneď.` },
     { label: 'Ozvite sa aj tak', text: 'ak mám niečo pochopené inak, napíšte a povieme si to narovinu.' },
   ],
   closer: 'Pokojne dokončite formulár — ozvem sa a nájdeme cestu, ktorá dáva zmysel.',
@@ -73,7 +74,7 @@ const budgetWarn = lang === 'sk' ? {
   intro: "On this budget I can't deliver a project at a quality I'd stand behind — fast, reliable, properly built. I'd rather say so upfront than promise something you'd regret later.",
   options: [
     { label: 'Phase it', text: 'launch a smaller working core and grow it step by step.' },
-    { label: 'Simpler solution', text: 'e.g. a smaller site from €390 that makes sense right now.' },
+    { label: 'Simpler solution', text: `e.g. a smaller site ${fromPrice(PRICES.web, 'en')} that makes sense right now.` },
     { label: 'Reach out anyway', text: "if I've got something wrong, drop me a line and we'll talk it straight." },
   ],
   closer: "Feel free to finish the form — I'll get back to you and we'll find a way that makes sense.",
@@ -101,6 +102,7 @@ const M = lang === 'sk' ? {
   nameRequired: 'Napíšte, prosím, svoje meno.',
   emailRequired: 'Zadajte e-mail, na ktorý vám pošlem návrh.',
   emailInvalid: 'Tento e-mail nevyzerá správne — skontrolujte zavináč a doménu.',
+  emailSuggest: 'Mysleli ste {email}?',
 } : {
   typeRequired: 'Pick a project type so I know what you need.',
   budgetRequired: 'Pick a rough budget — “Not sure yet” is fine too.',
@@ -110,6 +112,7 @@ const M = lang === 'sk' ? {
   nameRequired: 'Please tell me your name.',
   emailRequired: 'Enter the e-mail I should send the proposal to.',
   emailInvalid: "This e-mail doesn't look right — check the @ and the domain.",
+  emailSuggest: 'Did you mean {email}?',
 };
 ---
 <div
@@ -130,6 +133,8 @@ const M = lang === 'sk' ? {
   data-msg-name-required={M.nameRequired}
   data-msg-email-required={M.emailRequired}
   data-msg-email-invalid={M.emailInvalid}
+  data-msg-email-suggest={M.emailSuggest}
+  data-draft-key={`brief-draft-${lang}`}
 >
   {/* Header section — handoff line 442: 60/56/32, border-bottom 1px ink1f */}
   <section class="brief-header">
@@ -641,6 +646,7 @@ const M = lang === 'sk' ? {
     background: var(--accent);
     color: var(--ink);
   }
+  .brief-btn-submit[aria-busy="true"] { cursor: progress; }
   .brief-btn-next:disabled, .brief-btn-submit:disabled {
     background: color-mix(in srgb, var(--ink) 22%, transparent);
     color: var(--ink);
@@ -682,7 +688,7 @@ const M = lang === 'sk' ? {
 </style>
 
 <script>
-  import { validateFields, liveRevalidate, readMessages, setFieldError, clearFieldError, scrollIntoViewSoft } from '../scripts/form-errors';
+  import { validateFields, liveRevalidate, readMessages, setFieldError, clearFieldError, scrollIntoViewSoft, attachEmailSuggest, restoreDraft, persistDraft, clearDraft } from '../scripts/form-errors';
 
   function initBriefWizard() {
     const wizard = document.querySelector<HTMLElement>('.brief-wizard');
@@ -704,18 +710,40 @@ const M = lang === 'sk' ? {
     let priceCheck: { types: Record<string, number>; ceilings: Record<string, number> } = { types: {}, ceilings: {} };
     try { priceCheck = JSON.parse(wizard.dataset.priceCheck || '{}'); } catch { /* keep defaults */ }
 
-    // Preselect project type from ?typ= (e.g. Google profile offer → /ponuka/?typ=audit).
-    const preType = new URLSearchParams(location.search).get('typ');
-    if (preType) {
-      const r = form.querySelector<HTMLInputElement>(`input[name="type"][value="${CSS.escape(preType)}"]`);
-      if (r) r.checked = true;
-    }
-
     let step = 0;
     const lastInputStep = 4; // step 4 is last input, 5 is done
     const msgs = readMessages(wizard);
     const textFields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('textarea[required], input[required]:not([type="radio"])'));
     liveRevalidate(textFields, msgs);
+    const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+    if (emailInput) attachEmailSuggest(emailInput, msgs.emailSuggest || '');
+
+    // Draft: a reload or a quick detour doesn't wipe what was already filled in.
+    const draftKey = wizard.dataset.draftKey || 'brief-draft';
+    const draft = restoreDraft(form, draftKey);
+
+    // Preselect project type from ?typ= (e.g. Google profile offer → /ponuka/?typ=audit,
+    // calculator CTA → ?typ=eshop). The type is then already answered, so skip step 0.
+    const preType = new URLSearchParams(location.search).get('typ');
+    let preTypeOk = false;
+    if (preType) {
+      const r = form.querySelector<HTMLInputElement>(`input[name="type"][value="${CSS.escape(preType)}"]`);
+      if (r) { r.checked = true; preTypeOk = true; }
+    }
+
+    // Never land past the first unanswered step (e.g. a stale saved step).
+    function firstIncompleteStep(): number {
+      for (const name of ['type', 'budget', 'timeline']) {
+        if (!form.querySelector(`input[name="${name}"]:checked`)) return ['type', 'budget', 'timeline'].indexOf(name);
+      }
+      if ((textarea?.value.trim().length ?? 0) < 10) return 3;
+      return lastInputStep;
+    }
+    const savedStep = parseInt(draft?.__step ?? '', 10);
+    if (!Number.isNaN(savedStep)) step = Math.min(Math.max(savedStep, 0), lastInputStep, firstIncompleteStep());
+    if (preTypeOk && step === 0) step = 1;
+    if (charCounter && textarea) charCounter.textContent = String(textarea.value.length);
+    const saveDraft = persistDraft(form, draftKey, () => ({ __step: String(step) }));
 
     // Umami event tracking (analytics loads PROD-only, so guard with ?.).
     const track = (name: string, data?: Record<string, string>) =>
@@ -733,6 +761,7 @@ const M = lang === 'sk' ? {
 
     function updateUI() {
       wizard!.dataset.step = String(step);
+      if (step <= lastInputStep) saveDraft();
 
       // Show the budget notice from the timeline step onward (not on the done step).
       if (budgetWarnEl) {
@@ -882,10 +911,14 @@ const M = lang === 'sk' ? {
       }
     });
 
+    let sending = false;
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      // Double-submit guard: Enter in a field or a second click while sending.
+      if (sending) return;
       if (step !== lastInputStep) return;
       if (!validateStep()) return;
+      sending = true;
 
       const data = new FormData(form);
       const val = (k: string) => (data.get(k) ?? '').toString().trim();
@@ -913,7 +946,9 @@ const M = lang === 'sk' ? {
         originalLabel = submitBtn.textContent ?? '';
         submitBtn.disabled = true;
         submitBtn.textContent = sendingLabel;
+        submitBtn.setAttribute('aria-busy', 'true');
       }
+      form.setAttribute('aria-busy', 'true');
 
       try {
         const res = await fetch('https://api.web3forms.com/submit', {
@@ -923,6 +958,8 @@ const M = lang === 'sk' ? {
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || !json.success) throw new Error(json.message || 'submit failed');
+        clearDraft(draftKey);
+        form.removeAttribute('aria-busy');
         step = lastInputStep + 1;
         updateUI();
         focusStepHeading();
@@ -942,7 +979,10 @@ const M = lang === 'sk' ? {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = originalLabel;
+          submitBtn.removeAttribute('aria-busy');
         }
+        form.removeAttribute('aria-busy');
+        sending = false;
       }
     });
 

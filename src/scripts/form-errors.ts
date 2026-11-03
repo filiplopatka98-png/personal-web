@@ -122,3 +122,117 @@ export function scrollIntoViewSoft(el: HTMLElement, offset = 96): void {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
 }
+
+/* ---------- E-mail typo suggestion ("Did you mean …@gmail.com?") ---------- */
+
+const COMMON_DOMAINS = [
+  'gmail.com', 'centrum.sk', 'azet.sk', 'zoznam.sk', 'post.sk', 'posta.sk', 'pobox.sk', 'atlas.sk',
+  'seznam.cz', 'centrum.cz', 'outlook.com', 'outlook.sk', 'hotmail.com', 'live.com',
+  'yahoo.com', 'icloud.com', 'me.com', 'proton.me', 'protonmail.com',
+];
+
+function distance(a: string, b: string): number {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      // transposition (gmial → gmail)
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+    }
+  }
+  return d[a.length][b.length];
+}
+
+/** Returns a corrected address when the domain looks like a typo of a common one. */
+export function suggestEmail(value: string): string | null {
+  const v = value.trim().toLowerCase();
+  const at = v.lastIndexOf('@');
+  if (at < 1) return null;
+  const local = v.slice(0, at);
+  const domain = v.slice(at + 1);
+  if (!domain || COMMON_DOMAINS.includes(domain)) return null;
+  let best: string | null = null;
+  let bestD = Infinity;
+  for (const c of COMMON_DOMAINS) {
+    const dd = distance(domain, c);
+    if (dd < bestD) { bestD = dd; best = c; }
+  }
+  // Missing dot / missing TLD (gmailcom, gmail) count as a typo too.
+  const limit = domain.length <= 8 ? 1 : 2;
+  if (best && bestD > 0 && bestD <= limit) return `${local}@${best}`;
+  const bare = COMMON_DOMAINS.find((c) => c.replace('.', '') === domain || c.split('.')[0] === domain);
+  return bare ? `${local}@${bare}` : null;
+}
+
+/**
+ * On blur, offer a one-click fix under an e-mail field. `template` contains
+ * `{email}`, e.g. "Mysleli ste {email}?".
+ */
+export function attachEmailSuggest(input: HTMLInputElement, template: string): void {
+  if (!template) return;
+  const anchor = anchorOf(input);
+  const id = `${input.id || input.name}-suggest`;
+  const remove = () => document.getElementById(id)?.remove();
+  input.addEventListener('input', remove);
+  input.addEventListener('blur', () => {
+    remove();
+    const fix = suggestEmail(input.value);
+    if (!fix) return;
+    const p = document.createElement('p');
+    p.id = id;
+    p.className = 'field-suggest';
+    p.setAttribute('aria-live', 'polite');
+    const [before, after = ''] = template.split('{email}');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'field-suggest__btn';
+    btn.textContent = fix;
+    btn.addEventListener('click', () => {
+      input.value = fix;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      clearFieldError(input);
+      remove();
+      input.focus();
+    });
+    p.append(document.createTextNode(before), btn, document.createTextNode(after));
+    anchor.appendChild(p);
+  });
+}
+
+/* ---------- Draft persistence (sessionStorage, best-effort) ---------- */
+
+type Draft = Record<string, string>;
+
+/** Restore saved field values into a form. Returns the saved extra state (e.g. step). */
+export function restoreDraft(form: HTMLFormElement, key: string): Draft | null {
+  let draft: Draft | null = null;
+  try { draft = JSON.parse(sessionStorage.getItem(key) || 'null'); } catch { return null; }
+  if (!draft) return null;
+  for (const [name, value] of Object.entries(draft)) {
+    if (name.startsWith('__')) continue;
+    const els = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`);
+    els.forEach((el) => {
+      if (el instanceof HTMLInputElement && (el.type === 'radio' || el.type === 'checkbox')) el.checked = el.value === value;
+      else el.value = value;
+    });
+  }
+  return draft;
+}
+
+/** Save the form on every change; `extra()` adds non-field state (e.g. current step). */
+export function persistDraft(form: HTMLFormElement, key: string, extra?: () => Draft): () => void {
+  const save = () => {
+    const out: Draft = {};
+    new FormData(form).forEach((v, k) => { if (k !== 'botcheck' && typeof v === 'string' && v) out[k] = v; });
+    Object.assign(out, extra?.() ?? {});
+    try { sessionStorage.setItem(key, JSON.stringify(out)); } catch { /* storage unavailable */ }
+  };
+  form.addEventListener('input', save);
+  form.addEventListener('change', save);
+  return save;
+}
+
+export function clearDraft(key: string): void {
+  try { sessionStorage.removeItem(key); } catch { /* ignore */ }
+}

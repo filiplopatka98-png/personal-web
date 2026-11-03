@@ -322,3 +322,25 @@ details[open]::details-content { height: auto; }
   .field-error { animation: field-error-in 0.2s var(--ease-out-soft) both; }
   @keyframes field-error-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 }
+
+/* E-mail typo suggestion — neutral hint (not an error), one-click fix. */
+.field-suggest {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.field-suggest__btn {
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--accent);
+  border: 0;
+  padding: 1px 6px;
+  margin: 0 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.field-suggest__btn:hover { background: var(--ink); color: var(--bg); }
+.field-suggest__btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
