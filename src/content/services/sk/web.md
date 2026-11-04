@@ -1,7 +1,7 @@
 ---
 order: 1
 name: "Firemný web"
-price: "od 390 €"
+price: "od {web}"
 duration: "2–4 týždne"
 tagline: "Rýchly web na vlastnej WordPress téme, ktorý si sami spravujete."
 desc: "Firemný web bez ťažkých builderov — preto je rýchly a dobre sa umiestňuje na Googli. Cenu poznáte vopred podľa rozsahu."

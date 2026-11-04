@@ -1,7 +1,7 @@
 ---
 order: 3
 name: "Website & store speed-up"
-price: "from €390"
+price: "from {speed}"
 duration: "1–2 weeks"
 tagline: "A slow site loses customers and Google rankings."
 desc: "Speed audit and Core Web Vitals fixes for a fixed price based on the audit. You get before/after numbers."

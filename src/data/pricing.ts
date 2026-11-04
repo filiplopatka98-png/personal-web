@@ -10,7 +10,8 @@ export const PRICES = {
   web: 390,
   eshop: 1490,
   speed: 390,
-  care: 39, // per month
+  care: 39, // per month (website)
+  careEshop: 79, // per month (online store)
   consultHour: 30,
 } as const;
 
@@ -56,4 +57,30 @@ export function eur(n: number, lang: Lang): string {
 /** "od 390 €" / "from €390" */
 export function fromPrice(n: number, lang: Lang): string {
   return `${lang === 'sk' ? 'od' : 'from'} ${eur(n, lang)}`;
+}
+
+/**
+ * Fills price tokens in service copy (src/content/services/**): {web}, {eshop},
+ * {speed}, {care}, {careEshop}, {consultHour} → "390 €" / "€390".
+ * Unknown tokens are left as they are.
+ */
+export function fillPrices(text: string, lang: Lang): string {
+  return text.replace(/\{(\w+)\}/g, (m, k: string) =>
+    k in PRICES ? eur(PRICES[k as keyof typeof PRICES], lang) : m,
+  );
+}
+
+type PricedCopy = { price: string; tagline: string; desc: string; includes: string[]; notFor?: string };
+
+/** Service frontmatter with all price tokens filled. */
+export function withPrices<T extends PricedCopy>(data: T, lang: Lang): T {
+  const f = (t: string) => fillPrices(t, lang);
+  return {
+    ...data,
+    price: f(data.price),
+    tagline: f(data.tagline),
+    desc: f(data.desc),
+    includes: data.includes.map(f),
+    notFor: data.notFor === undefined ? undefined : f(data.notFor),
+  };
 }
