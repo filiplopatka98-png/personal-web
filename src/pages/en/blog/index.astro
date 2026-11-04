@@ -41,7 +41,7 @@ const itemListLd = buildItemList(
     {articles.length === 0 && (
       <div class="blog-empty">
         <p class="blog-empty-msg">{t('blog.empty', lang)}</p>
-        <a href={`${baseUrl}/`} class="blog-empty-link mono" data-cursor="hover">{t('cta.back', lang)} <span class="arr" aria-hidden="true">→</span></a>
+        <a href={`${baseUrl}/`} class="blog-empty-link mono" data-cursor="hover">{t('cta.back', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span></a>
       </div>
     )}
     <div class="blog-list">
@@ -69,7 +69,7 @@ const itemListLd = buildItemList(
               </div>
               <div class="blog-row-aside">
                 <div class="blog-row-read mono">{a.data.read} {t('article.read', lang)}</div>
-                <div class="blog-row-cta mono">{t('cta.read', lang)} →</div>
+                <div class="blog-row-cta mono">{t('cta.read', lang)}&nbsp;→</div>
               </div>
             </a>
           </Reveal>

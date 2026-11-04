@@ -36,14 +36,14 @@ const L = lang === 'sk'
 ---
 <section class="hero-b2">
   <div class="hero-b2__text">
-    <p class="hero-b2__eyebrow">{L.eyebrow}</p>
+    <p class="hero-b2__eyebrow">{L.eyebrow.replace(/ · /g, '\u00a0· ')}</p>
     <h1 class="hero-b2__title">{L.title}</h1>
     <p class="hero-b2__lead">{L.lead}</p>
     <div class="hero-b2__ctas">
       <a href={briefHref} class="b2-btn b2-btn--yellow" data-umami-event="brief-start">{L.primary}</a>
       <a href={workHref} class="b2-btn b2-btn--outline">{L.secondary}</a>
     </div>
-    <p class="hero-b2__prices">{L.prices}</p>
+    <p class="hero-b2__prices">{L.prices.split(' · ').map((x, i) => (<>{i > 0 && <span aria-hidden="true">{'\u00a0· '}</span>}<span class="hero-b2__price">{x}</span></>))}</p>
   </div>
   <div class="hero-b2__visual" aria-hidden="false">
     <div class="hero-b2__circle"></div>
@@ -103,6 +103,7 @@ const L = lang === 'sk'
   }
   .hero-b2__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
   .hero-b2__prices { margin: 0; font-size: 16px; color: var(--ink-muted); }
+  .hero-b2__price { white-space: nowrap; }
 
   .hero-b2__visual {
     position: relative;

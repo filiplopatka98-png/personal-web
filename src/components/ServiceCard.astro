@@ -43,7 +43,7 @@ const anchor = entry.id.split('/').pop();
   )}
 
   <a href={briefHref} class="service-cta mono" data-cursor="hover" data-umami-event="service-quote">
-    {t('services.requestQuote', lang)} <span class="arr" aria-hidden="true">→</span>
+    {t('services.requestQuote', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span>
   </a>
 </article>
 
@@ -165,9 +165,10 @@ const anchor = entry.id.split('/').pop();
     line-height: 1.4;
   }
   .service-check {
-    color: var(--accent);
+    color: var(--ink);
     flex-shrink: 0;
   }
+  .service-card.is-featured .service-check { color: var(--accent); }
 
   /* "Not for:" line — small, NOT a separate bordered section. */
   .service-notfor {

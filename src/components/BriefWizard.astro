@@ -271,8 +271,8 @@ const M = lang === 'sk' ? {
     <!-- Nav buttons -->
     <div class="brief-nav" data-nav>
       <button type="button" data-cursor="hover" data-back class="brief-btn-back" disabled>← {t('brief.btn.back', lang)}</button>
-      <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)} →</button>
-      <button type="submit" data-cursor="hover" data-submit data-umami-event="brief-submit" class="brief-btn-submit" hidden>{t('brief.btn.send', lang)} →</button>
+      <button type="button" data-cursor="hover" data-next class="brief-btn-next">{t('brief.btn.continue', lang)}&nbsp;→</button>
+      <button type="submit" data-cursor="hover" data-submit data-umami-event="brief-submit" class="brief-btn-submit" hidden>{t('brief.btn.send', lang)}&nbsp;→</button>
     </div>
     <p class="brief-error mono" data-error role="alert" hidden></p>
     </form>
@@ -668,8 +668,11 @@ const M = lang === 'sk' ? {
     .brief-lead { font-size: 16px; }
     .brief-q { font-size: 32px; }
     /* Progress wraps + lines hidden so dots stack cleanly. */
-    .brief-progress { flex-wrap: wrap; row-gap: 16px; margin-top: 32px; }
+    /* Compact progress on phones: one row of dots, only the current step named. */
+    .brief-progress { flex-wrap: nowrap; gap: 6px; margin-top: 32px; }
     .brief-progress-line { display: none; }
+    .brief-progress-step { gap: 8px; }
+    .brief-progress-step:not(.is-current) .brief-progress-label { display: none; }
     .brief-done-title { font-size: 40px; }
     /* Tile grid → 1-col on mobile so labels don't truncate. */
     .brief-grid { grid-template-columns: 1fr; }
@@ -776,6 +779,8 @@ const M = lang === 'sk' ? {
 
       progressSteps.forEach((el, i) => {
         el.style.opacity = i <= step ? '1' : '0.7';
+        el.classList.toggle('is-current', i === step);
+        if (i === step) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
         const dot = el.querySelector<HTMLElement>('.brief-progress-dot');
         if (!dot) return;
         if (i < step) {
