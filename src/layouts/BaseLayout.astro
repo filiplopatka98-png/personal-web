@@ -47,6 +47,8 @@ export interface Props {
     author?: string;
     tags?: string[];
   };
+  /** Contacts only in the footer (no contact form / brief button) — for the brief page. */
+  compactFooter?: boolean;
 }
 
 const {
@@ -60,6 +62,7 @@ const {
   breadcrumbName,
   ogType = 'website',
   article,
+  compactFooter = false,
 } = Astro.props;
 
 const fullTitle = title ?? t('site.title', lang);
@@ -293,7 +296,7 @@ const websiteLd = isHome
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer lang={lang} />
+    <Footer lang={lang} compact={compactFooter} />
     <OverlayMenu lang={lang} altLangUrl={altLangUrl} />
   </body>
 </html>

@@ -6,8 +6,10 @@ import { WEB3FORMS_ACCESS_KEY } from '../config';
 
 export interface Props {
   lang: Lang;
+  /** Brief page: contacts only — no second form and no "start a brief" button. */
+  compact?: boolean;
 }
-const { lang } = Astro.props;
+const { lang, compact = false } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const briefHref = `${baseUrl}${getStaticRoute('brief', lang)}`;
 const privacyHref = `${baseUrl}${getStaticRoute('privacy', lang)}`;
@@ -35,13 +37,15 @@ const M = lang === 'sk' ? {
 };
 ---
 <footer class="cd-footer">
-  <div class="footer-grid">
+  <div class:list={['footer-grid', compact && 'is-compact']}>
     <Reveal>
       <div class="footer-eyebrow">{t('footer.eyebrow', lang)}</div>
       <h2 class="footer-title display">
         {titleFirst}{titleRest && <><br/>{titleRest}</>}
       </h2>
-      <p class="footer-lead">{t('footer.lead', lang)}</p>
+      <p class="footer-lead">{compact
+        ? (lang === 'sk' ? 'Nechce sa vám vypĺňať formulár? Napíšte alebo zavolajte priamo.' : "Rather skip the form? Write or call me directly.")
+        : t('footer.lead', lang)}</p>
       <div class="footer-links">
         <a data-cursor="hover" data-umami-event="contact-click" href={`mailto:${t('menu.email', lang)}`}>{t('menu.email', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span></a>
         <a data-cursor="hover" data-umami-event="whatsapp-click" href={t('menu.whatsappHref', lang)} target="_blank" rel="nofollow noopener noreferrer">WhatsApp {t('menu.whatsapp', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span></a>
@@ -51,13 +55,16 @@ const M = lang === 'sk' ? {
         <a data-cursor="hover" href={`https://${t('menu.facebook', lang)}`} target="_blank" rel="me noopener noreferrer">Facebook&nbsp;<span class="arr" aria-hidden="true">→</span></a>
         <a data-cursor="hover" href={`https://${t('menu.instagram', lang)}`} target="_blank" rel="me noopener noreferrer">Instagram&nbsp;<span class="arr" aria-hidden="true">→</span></a>
       </div>
+      {!compact && (
       <div class="footer-cta">
         <a href={briefHref} data-cursor="hover" data-umami-event="brief-start" class="footer-brief-btn">
           {t('footer.briefStart', lang)}
         </a>
       </div>
+      )}
     </Reveal>
 
+    {!compact && (
     <Reveal delay={0.1} class="footer-form-wrap">
       <form
         class="footer-form"
@@ -96,6 +103,7 @@ const M = lang === 'sk' ? {
         <p class="footer-form-status" data-status role="alert" hidden></p>
       </form>
     </Reveal>
+    )}
   </div>
 
   <div class="footer-bottom">
@@ -130,6 +138,7 @@ const M = lang === 'sk' ? {
     gap: 64px;
     position: relative;
   }
+  .footer-grid.is-compact { grid-template-columns: 1fr; }
 
   .footer-eyebrow {
     font-size: 14px;
