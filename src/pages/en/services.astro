@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { PRICES, fromPrice } from '../../data/pricing';
+import { PRICES, fromPrice, withPrices } from '../../data/pricing';
 import PageHead from '../../components/PageHead.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import ServiceBand from '../../components/ServiceBand.astro';
@@ -21,7 +21,9 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const services = (await getCollection('services'))
   .filter((s) => s.id.startsWith('en/'))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.order - b.data.order)
+  // Prices in service copy come from src/data/pricing.ts ({web}, {care}…)
+  .map((s) => ({ ...s, data: withPrices(s.data, lang) }));
 
 // One-off project packages fill the 2×2 grid; recurring (monthly) services
 // render as the wide "after launch" band below it.

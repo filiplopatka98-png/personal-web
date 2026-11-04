@@ -1,7 +1,7 @@
 ---
 order: 2
 name: "E-shop na WooCommerce"
-price: "od 1 490 €"
+price: "od {eshop}"
 duration: "4–8 týždňov"
 tagline: "Rýchly, prehľadný e-shop pripravený predávať."
 desc: "E-shop na WooCommerce s platobnou bránou, dopravou a napojením na fakturáciu. Cenu poznáte vopred podľa rozsahu."

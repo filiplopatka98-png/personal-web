@@ -1,7 +1,7 @@
 ---
 order: 3
 name: "Zrýchlenie webu a e-shopu"
-price: "od 390 €"
+price: "od {speed}"
 duration: "1–2 týždne"
 tagline: "Pomalý web stráca zákazníkov aj pozície na Googli."
 desc: "Audit rýchlosti a oprava Core Web Vitals za fixnú cenu podľa auditu. Výsledok dostanete v číslach pred a po."

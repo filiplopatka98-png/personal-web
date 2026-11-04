@@ -1,10 +1,10 @@
 ---
 order: 5
 name: "Údržba a starostlivosť"
-price: "od 39 € / mesiac"
+price: "od {care} / mesiac"
 duration: "mesačne"
 tagline: "Web, ktorý zostane rýchly a bezpečný aj po spustení."
-desc: "Pravidelná starostlivosť o WordPress a WooCommerce — aktualizácie, zálohy, bezpečnosť a rýchlosť. Weby od 39 €/mesiac, e-shopy od 79 €/mesiac, úpravy navyše 30 €/h."
+desc: "Pravidelná starostlivosť o WordPress a WooCommerce — aktualizácie, zálohy, bezpečnosť a rýchlosť. Weby od {care}/mesiac, e-shopy od {careEshop}/mesiac, úpravy navyše {consultHour}/h."
 featured: false
 recurring: true
 caseStudy:
@@ -18,5 +18,5 @@ includes:
   - "Stráženie expirácie domény a SSL certifikátu"
   - "Pravidelné meranie rýchlosti (Lighthouse)"
   - "Mesačný report a verejná stavová stránka webu"
-notFor: "Nové funkcie a redizajn (samostatná objednávka). Úpravy navyše 30 €/h."
+notFor: "Nové funkcie a redizajn (samostatná objednávka). Úpravy navyše {consultHour}/h."
 ---

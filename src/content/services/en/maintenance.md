@@ -1,10 +1,10 @@
 ---
 order: 5
 name: "Maintenance & care"
-price: "from €39 / month"
+price: "from {care} / month"
 duration: "monthly"
 tagline: "A site that stays fast and secure after launch."
-desc: "Ongoing care for WordPress and WooCommerce — updates, backups, security and speed. Sites from €39/month, stores from €79/month, extra changes €30/h."
+desc: "Ongoing care for WordPress and WooCommerce — updates, backups, security and speed. Sites from {care}/month, stores from {careEshop}/month, extra changes {consultHour}/h."
 featured: false
 recurring: true
 caseStudy:

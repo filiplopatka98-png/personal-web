@@ -1,7 +1,7 @@
 ---
 order: 2
 name: "WooCommerce online store"
-price: "from €1,490"
+price: "from {eshop}"
 duration: "4–8 weeks"
 tagline: "A fast, clear online store ready to sell."
 desc: "A WooCommerce store with payment gateway, shipping and invoicing integration. You know the price upfront."

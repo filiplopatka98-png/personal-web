@@ -35,7 +35,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Poskytujete podporu po spustení?',
-      a: 'Áno. Firemný web má 3 mesiace podpory, e-shop 6 mesiacov. Potom môžete pokračovať s údržbou od 39 € mesačne (e-shopy od 79 €), úpravy navyše 30 €/h.',
+      a: `Áno. Firemný web má 3 mesiace podpory, e-shop 6 mesiacov. Potom môžete pokračovať s údržbou ${fromPrice(PRICES.care, 'sk')} mesačne (e-shopy ${fromPrice(PRICES.careEshop, 'sk')}), úpravy navyše ${eur(PRICES.consultHour, 'sk')}/h.`,
     },
   ],
   en: [
@@ -61,7 +61,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Do you provide support after launch?',
-      a: 'Yes. A company website includes 3 months of support, an online store 6 months. After that, maintenance starts at €39/month (stores from €79), extra changes €30/h.',
+      a: `Yes. A company website includes 3 months of support, an online store 6 months. After that, maintenance starts at ${eur(PRICES.care, 'en')}/month (stores ${fromPrice(PRICES.careEshop, 'en')}), extra changes ${eur(PRICES.consultHour, 'en')}/h.`,
     },
   ],
 };
