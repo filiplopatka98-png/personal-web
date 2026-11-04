@@ -6,6 +6,7 @@
  */
 import { type Lang } from '../i18n';
 import { getStaticRoute } from '../i18n/routes';
+import { PRICES, fromPrice } from '../data/pricing';
 
 export interface Props { lang: Lang; }
 const { lang } = Astro.props;
@@ -20,7 +21,7 @@ const L = lang === 'sk'
       lead: 'Som Filip z Veľkých Kostolian. Staviam rýchle weby a e-shopy a potom sa o ne starám. Bez agentúry, priamo so mnou.',
       primary: 'Bezplatná kontrola webu',
       secondary: 'Pozrite si práce',
-      prices: 'Web od 390 € · E-shop od 1 490 € · Údržba od 39 €/mes',
+      prices: `Web ${fromPrice(PRICES.web, 'sk')} · E-shop ${fromPrice(PRICES.eshop, 'sk')} · Údržba ${fromPrice(PRICES.care, 'sk')}/mes`,
       alt: 'Filip Lopatka',
     }
   : {
@@ -29,20 +30,20 @@ const L = lang === 'sk'
       lead: "I'm Filip, a web developer from Slovakia. I build fast websites and e-shops — and keep them running afterwards. No agency, you work with me directly.",
       primary: 'Free website check',
       secondary: 'See my work',
-      prices: 'Website from €390 · E-shop from €1,490 · Care from €39/mo',
+      prices: `Website ${fromPrice(PRICES.web, 'en')} · E-shop ${fromPrice(PRICES.eshop, 'en')} · Care ${fromPrice(PRICES.care, 'en')}/mo`,
       alt: 'Filip Lopatka',
     };
 ---
 <section class="hero-b2">
   <div class="hero-b2__text">
-    <p class="hero-b2__eyebrow">{L.eyebrow}</p>
+    <p class="hero-b2__eyebrow">{L.eyebrow.replace(/ · /g, '\u00a0· ')}</p>
     <h1 class="hero-b2__title">{L.title}</h1>
     <p class="hero-b2__lead">{L.lead}</p>
     <div class="hero-b2__ctas">
       <a href={briefHref} class="b2-btn b2-btn--yellow" data-umami-event="brief-start">{L.primary}</a>
       <a href={workHref} class="b2-btn b2-btn--outline">{L.secondary}</a>
     </div>
-    <p class="hero-b2__prices">{L.prices}</p>
+    <p class="hero-b2__prices">{L.prices.split(' · ').map((x, i) => (<>{i > 0 && <span aria-hidden="true">{'\u00a0· '}</span>}<span class="hero-b2__price">{x}</span></>))}</p>
   </div>
   <div class="hero-b2__visual" aria-hidden="false">
     <div class="hero-b2__circle"></div>
@@ -102,6 +103,7 @@ const L = lang === 'sk'
   }
   .hero-b2__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
   .hero-b2__prices { margin: 0; font-size: 16px; color: var(--ink-muted); }
+  .hero-b2__price { white-space: nowrap; }
 
   .hero-b2__visual {
     position: relative;

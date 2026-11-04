@@ -57,7 +57,7 @@ const cover = projectImages[`/src/assets/projects/${cleanSlug}-hero.png`]?.defau
   <div class="proj-meta">
     <div>
       <h3 class="proj-name display">{data.name}</h3>
-      <div class="proj-kind mono">{data.kind}{variant === 'work' ? ` · ${data.role}` : ''}</div>
+      <div class="proj-kind mono">{(data.kind + (variant === 'work' ? ` · ${data.role}` : '')).replace(/ · /g, '\u00a0· ')}</div>
     </div>
     {variant === 'home' && (
       <div class="proj-year mono">{data.year}</div>

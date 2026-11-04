@@ -7,6 +7,7 @@
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { PRICES, fromPrice } from '../data/pricing';
 import PageHead from '../components/PageHead.astro';
 import Reveal from '../components/Reveal.astro';
 import Blob from '../components/Blob.astro';
@@ -29,9 +30,9 @@ const localProof = ['sk/sona-estetic', 'sk/kukodetskysvet', 'sk/krivosik']
   .slice(0, 2);
 
 const whatIDo = [
-  { t: 'Firemné weby od 390 €', d: 'Weby na vlastnej WordPress téme, ktoré si sami spravujete. Doména a hosting na prvý rok v cene.' },
-  { t: 'E-shopy od 1 490 €', d: 'WooCommerce s platobnou bránou, dopravou a napojením na fakturáciu.' },
-  { t: 'Zrýchlenie od 390 €', d: 'Pomalý web alebo e-shop zrýchlim za fixnú cenu — výsledok v číslach pred a po.' },
+  { t: `Firemné weby ${fromPrice(PRICES.web, 'sk')}`, d: 'Weby na vlastnej WordPress téme, ktoré si sami spravujete. Doména a hosting na prvý rok v cene.' },
+  { t: `E-shopy ${fromPrice(PRICES.eshop, 'sk')}`, d: 'WooCommerce s platobnou bránou, dopravou a napojením na fakturáciu.' },
+  { t: `Zrýchlenie ${fromPrice(PRICES.speed, 'sk')}`, d: 'Pomalý web alebo e-shop zrýchlim za fixnú cenu — výsledok v číslach pred a po.' },
   { t: 'Kontrola webu zadarmo', d: 'Pozriem rýchlosť na mobile a SEO a do 2 pracovných dní pošlem 3 najdôležitejšie opravy.' },
 ];
 
@@ -49,7 +50,7 @@ const faqItems = [
   },
   {
     q: 'Koľko stojí webová stránka alebo eshop?',
-    a: 'Firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie existujúceho webu od 390 € a údržba od 39 € mesačne. Presnú cenu poznáte vopred podľa rozsahu. Detailné balíčky nájdete na stránke Služby.',
+    a: `Firemný web ${fromPrice(PRICES.web, 'sk')}, e-shop na WooCommerce ${fromPrice(PRICES.eshop, 'sk')}, zrýchlenie existujúceho webu ${fromPrice(PRICES.speed, 'sk')} a údržba ${fromPrice(PRICES.care, 'sk')} mesačne. Presnú cenu poznáte vopred podľa rozsahu. Detailné balíčky nájdete na stránke Služby.`,
   },
   {
     q: 'Ako dlho trvá vytvorenie webu?',
@@ -98,7 +99,7 @@ const faqItems = [
       ))}
     </div>
     <Reveal>
-      <a href={`${baseUrl}/sluzby/`} class="lp-link mono" data-cursor="hover">Pozrieť balíčky a ceny <span class="arr" aria-hidden="true">→</span></a>
+      <a href={`${baseUrl}/sluzby/`} class="lp-link mono" data-cursor="hover">Pozrieť balíčky a ceny&nbsp;<span class="arr" aria-hidden="true">→</span></a>
     </Reveal>
   </section>
 
@@ -117,7 +118,7 @@ const faqItems = [
         ))}
       </div>
       <Reveal>
-        <a href={`${baseUrl}/praca/`} class="lp-link mono" data-cursor="hover">Všetky realizácie <span class="arr" aria-hidden="true">→</span></a>
+        <a href={`${baseUrl}/praca/`} class="lp-link mono" data-cursor="hover">Všetky realizácie&nbsp;<span class="arr" aria-hidden="true">→</span></a>
       </Reveal>
     </section>
   )}
@@ -149,7 +150,7 @@ const faqItems = [
     <Reveal>
       <h2 class="lp-cta-title display">Máte projekt v Trnavskom kraji?</h2>
       <p class="lp-cta-lead">Pošlite mi pár viet o ňom a do 24 hodín sa ozvem s návrhom.</p>
-      <a href={`${baseUrl}/ponuka/`} class="lp-cta-btn mono" data-cursor="hover" data-umami-event="brief-start">Začnime brief <span class="arr" aria-hidden="true">→</span></a>
+      <a href={`${baseUrl}/ponuka/`} class="lp-cta-btn mono" data-cursor="hover" data-umami-event="brief-start">Začnime brief&nbsp;<span class="arr" aria-hidden="true">→</span></a>
     </Reveal>
   </section>
 </BaseLayout>

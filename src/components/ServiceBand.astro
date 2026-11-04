@@ -29,7 +29,7 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
     <p class="band-tagline">{data.tagline}</p>
     <p class="band-desc">{data.desc}</p>
     <a href={briefHref} class="band-cta mono" data-cursor="hover" data-umami-event="service-quote">
-      {t('services.requestQuote', lang)} <span class="arr" aria-hidden="true">→</span>
+      {t('services.requestQuote', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span>
     </a>
   </div>
 
@@ -50,7 +50,7 @@ const caseLabel = data.caseStudy?.label.replace(/ → /g, '\u00a0→\u00a0');
     {data.caseStudy && (
       <a href={`${baseUrl}${data.caseStudy.href}`} class="band-case" data-cursor="hover" data-umami-event="service-case-study">
         <span class="band-label mono">{t('services.caseStudy', lang)}</span>
-        <span class="band-case-link display">{caseLabel} <span aria-hidden="true">→</span></span>
+        <span class="band-case-link display">{caseLabel}&nbsp;<span aria-hidden="true">→</span></span>
       </a>
     )}
   </div>

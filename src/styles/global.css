@@ -264,12 +264,15 @@
 .article-card:active { transform: scale(0.99); transition: transform 0.06s; }
 
 .arr {
-  display: inline-block;
-  transition: transform 0.25s var(--ease-out-soft);
+  /* Inline (not inline-block) so the &nbsp; before it really glues it to the
+     last word — an atomic inline box would add a line-break opportunity. */
+  position: relative;
+  left: 0;
+  transition: left 0.25s var(--ease-out-soft);
 }
 @media (hover: hover) and (pointer: fine) {
   a:hover .arr,
-  a:focus-visible .arr { transform: translateX(4px); }
+  a:focus-visible .arr { left: 4px; }
 }
 
 /* FAQ / <details>: open smoothly instead of jumping (progressive — browsers
@@ -288,3 +291,63 @@ details[open]::details-content { height: auto; }
   .footer-brief-btn:active, .footer-submit:active, .lp-cta-btn:active,
   .proj:active .proj-cover, .article-card:active { transform: none; }
 }
+
+/* ---- Own form errors (scripts/form-errors.ts) ---- */
+:root { --error: #B3261E; }
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--error);
+}
+.field-error__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--error);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+.has-error input:not([type="radio"]),
+.has-error textarea { border-color: var(--error) !important; }
+.has-error .brief-radio,
+.has-error .brief-tile { border-color: var(--error); }
+@media (prefers-reduced-motion: no-preference) {
+  .field-error { animation: field-error-in 0.2s var(--ease-out-soft) both; }
+  @keyframes field-error-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+}
+
+/* E-mail typo suggestion — neutral hint (not an error), one-click fix. */
+.field-suggest {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.field-suggest__btn {
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--accent);
+  border: 0;
+  padding: 1px 6px;
+  margin: 0 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.field-suggest__btn:hover { background: var(--ink); color: var(--bg); }
+.field-suggest__btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* Arrows travel with the last word (glued via &nbsp; in markup) and never
+   start a line on their own. */
+.arr { white-space: nowrap; }

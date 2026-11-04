@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { PRICES, fromPrice } from '../data/pricing';
 import PageHead from '../components/PageHead.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ServiceBand from '../components/ServiceBand.astro';
@@ -37,7 +38,7 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   inLanguage: 'sk-SK',
 });
 ---
-<BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title="Služby a ceny — weby od 390 €, e-shopy, zrýchlenie | Filip Lopatka" description="Firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie webu od 390 €, údržba od 39 €/mes. a kontrola webu zadarmo. Cenu poznáte vopred.">
+<BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title={`Služby a ceny — weby ${fromPrice(PRICES.web, 'sk')}, e-shopy, zrýchlenie | Filip Lopatka`} description={`Firemný web ${fromPrice(PRICES.web, 'sk')}, e-shop na WooCommerce ${fromPrice(PRICES.eshop, 'sk')}, zrýchlenie webu ${fromPrice(PRICES.speed, 'sk')}, údržba ${fromPrice(PRICES.care, 'sk')}/mes. a kontrola webu zadarmo. Cenu poznáte vopred.`}>
   <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
   <PageHead
     eyebrow={t('services.eyebrow', lang)}
@@ -110,7 +111,7 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
       </h2>
       <p class="final-cta-lead">{t('services.finalCta.lead', lang)}</p>
       <a href={`${baseUrl}${getStaticRoute('brief', lang)}`} class="final-cta-btn mono" data-cursor="hover">
-        {t('cta.briefStart', lang)} <span class="arr" aria-hidden="true">→</span>
+        {t('cta.briefStart', lang)}&nbsp;<span class="arr" aria-hidden="true">→</span>
       </a>
     </Reveal>
   </section>

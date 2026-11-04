@@ -1,3 +1,5 @@
+import { PRICES, eur, fromPrice } from './pricing';
+
 export interface FaqItem {
   q: string;
   a: string;
@@ -13,7 +15,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
   sk: [
     {
       q: 'Koľko stojí web alebo e-shop?',
-      a: 'Firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie existujúceho webu od 390 € a údržba od 39 € mesačne. Kontrola webu je zadarmo, konzultácie 30 €/h. Presnú cenu poznáte vopred podľa rozsahu.',
+      a: `Firemný web ${fromPrice(PRICES.web, 'sk')}, e-shop na WooCommerce ${fromPrice(PRICES.eshop, 'sk')}, zrýchlenie existujúceho webu ${fromPrice(PRICES.speed, 'sk')} a údržba ${fromPrice(PRICES.care, 'sk')} mesačne. Kontrola webu je zadarmo, konzultácie ${eur(PRICES.consultHour, 'sk')}/h. Presnú cenu poznáte vopred podľa rozsahu.`,
     },
     {
       q: 'Ako dlho trvá vytvorenie webu?',
@@ -29,7 +31,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Zrýchlite alebo skontrolujete môj existujúci web?',
-      a: 'Áno — kontrola webu je zadarmo: do 2 pracovných dní dostanete rýchlosť na mobile, SEO a 3 najdôležitejšie opravy. Samotné zrýchlenie robím za fixnú cenu od 390 € s výsledkom v číslach pred a po.',
+      a: `Áno — kontrola webu je zadarmo: do 2 pracovných dní dostanete rýchlosť na mobile, SEO a 3 najdôležitejšie opravy. Samotné zrýchlenie robím za fixnú cenu ${fromPrice(PRICES.speed, 'sk')} s výsledkom v číslach pred a po.`,
     },
     {
       q: 'Poskytujete podporu po spustení?',
@@ -39,7 +41,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
   en: [
     {
       q: 'How much does a website or online store cost?',
-      a: 'A company website starts at €390, a WooCommerce store at €1,490, speeding up an existing site at €390 and maintenance at €39/month. A website check is free, consulting €30/h. You know the exact price upfront.',
+      a: `A company website starts at ${eur(PRICES.web, 'en')}, a WooCommerce store at ${eur(PRICES.eshop, 'en')}, speeding up an existing site at ${eur(PRICES.speed, 'en')} and maintenance at ${eur(PRICES.care, 'en')}/month. A website check is free, consulting ${eur(PRICES.consultHour, 'en')}/h. You know the exact price upfront.`,
     },
     {
       q: 'How long does it take to build a website?',
@@ -55,7 +57,7 @@ export const faqItems: Record<'sk' | 'en', FaqItem[]> = {
     },
     {
       q: 'Can you speed up or review my existing website?',
-      a: 'Yes — the website check is free: within 2 business days you get mobile speed, SEO and the 3 most important fixes. The speed-up itself is a fixed price from €390 with before/after numbers.',
+      a: `Yes — the website check is free: within 2 business days you get mobile speed, SEO and the 3 most important fixes. The speed-up itself is a fixed price ${fromPrice(PRICES.speed, 'en')} with before/after numbers.`,
     },
     {
       q: 'Do you provide support after launch?',

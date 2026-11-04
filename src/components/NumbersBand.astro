@@ -72,6 +72,7 @@ const items = lang === 'sk'
     .numbers-band__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .numbers-band__item:nth-child(3) { border-left: 0; padding-left: 0; }
     .numbers-band__item:nth-child(n+3) { border-top: 1px solid var(--ink); }
+    .numbers-band__item:last-child:nth-child(odd) { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
   }
   @media (max-width: 480px) {
     .numbers-band { padding: 0 16px; }

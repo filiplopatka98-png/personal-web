@@ -14,36 +14,8 @@ export interface Props {
 
 const { lang } = Astro.props;
 
-// ---- Pricing constants (EUR) — tunable, kept in one place on purpose ----
-const BASE_PRICE: Record<'web' | 'eshop', number> = {
-  web: 390,
-  eshop: 1490,
-};
-
-const ADDON_PRICE: Record<
-  'multilang' | 'blog' | 'booking' | 'stock' | 'migration' | 'content',
-  number
-> = {
-  multilang: 300,
-  blog: 200,
-  booking: 500,
-  stock: 400,
-  migration: 300,
-  content: 400,
-};
-
-const PRODUCT_COUNT_ADD: Record<'do50' | 'mid' | 'large', number> = {
-  do50: 0,
-  mid: 500,
-  large: 1500,
-};
-
-// [low, high] weeks per base project type. `high` gets +1 per 2 selected
-// add-ons (computed client-side) — naturally capped by the 6 add-ons on offer.
-const TIMELINE_WEEKS: Record<'web' | 'eshop', [number, number]> = {
-  web: [2, 4],
-  eshop: [4, 8],
-};
+// Prices live in src/data/pricing.ts (shared with brief, hero, FAQ).
+import { PRICES, ADDONS, PRODUCT_COUNT, WEEKS, fromPrice } from '../data/pricing';
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const ctaHref = lang === 'sk' ? `${baseUrl}/ponuka/` : `${baseUrl}/en/brief/`;
@@ -56,21 +28,8 @@ const L = lang === 'sk' ? {
   step2Title: 'Doplnky',
   step3Title: 'Počet produktov',
   types: [
-    { key: 'web', name: 'Firemný web', priceLabel: 'od 390 €' },
-    { key: 'eshop', name: 'E-shop na WooCommerce', priceLabel: 'od 1 490 €' },
-  ],
-  addons: [
-    { key: 'multilang', label: 'Viacjazyčnosť' },
-    { key: 'blog', label: 'Blog / aktuality' },
-    { key: 'booking', label: 'Rezervačný alebo objednávkový systém' },
-    { key: 'stock', label: 'Napojenie na sklad či účtovníctvo' },
-    { key: 'migration', label: 'Prenos z existujúceho webu' },
-    { key: 'content', label: 'Texty a fotky na mieru' },
-  ],
-  products: [
-    { key: 'do50', label: 'do 50' },
-    { key: 'mid', label: '50 – 500' },
-    { key: 'large', label: '500+' },
+    { key: 'web', name: 'Firemný web', priceLabel: fromPrice(PRICES.web, 'sk') },
+    { key: 'eshop', name: 'E-shop na WooCommerce', priceLabel: fromPrice(PRICES.eshop, 'sk') },
   ],
   neutralPrompt: 'Vyberte typ projektu',
   estimatePrefix: 'Orientačne od',
@@ -85,21 +44,8 @@ const L = lang === 'sk' ? {
   step2Title: 'Add-ons',
   step3Title: 'Number of products',
   types: [
-    { key: 'web', name: 'Company website', priceLabel: 'from €390' },
-    { key: 'eshop', name: 'WooCommerce store', priceLabel: 'from €1,490' },
-  ],
-  addons: [
-    { key: 'multilang', label: 'Multiple languages' },
-    { key: 'blog', label: 'Blog / news' },
-    { key: 'booking', label: 'Booking or ordering system' },
-    { key: 'stock', label: 'Stock or accounting integration' },
-    { key: 'migration', label: 'Migration from an existing site' },
-    { key: 'content', label: 'Custom copy & photos' },
-  ],
-  products: [
-    { key: 'do50', label: 'up to 50' },
-    { key: 'mid', label: '50–500' },
-    { key: 'large', label: '500+' },
+    { key: 'web', name: 'Company website', priceLabel: fromPrice(PRICES.web, 'en') },
+    { key: 'eshop', name: 'WooCommerce store', priceLabel: fromPrice(PRICES.eshop, 'en') },
   ],
   neutralPrompt: 'Pick a project type',
   estimatePrefix: 'Estimated from',
@@ -111,11 +57,13 @@ const L = lang === 'sk' ? {
 // Mirrored into a data attribute so the inline script (which re-runs on
 // astro:page-load, i.e. after a fresh DOM swap with no Astro props around)
 // has everything it needs without re-deriving strings.
+const addons = ADDONS.map((a) => ({ key: a.key, label: a.label[lang], from: !!a.from }));
+const products = PRODUCT_COUNT.map((p) => ({ key: p.key, label: p.label[lang] }));
 const calcConfig = JSON.stringify({
-  base: BASE_PRICE,
-  addons: ADDON_PRICE,
-  products: PRODUCT_COUNT_ADD,
-  weeks: TIMELINE_WEEKS,
+  base: { web: PRICES.web, eshop: PRICES.eshop },
+  addons: Object.fromEntries(ADDONS.map((a) => [a.key, a.price])),
+  products: Object.fromEntries(PRODUCT_COUNT.map((p) => [p.key, p.add])),
+  weeks: WEEKS,
   lang,
   i18n: {
     neutral: L.neutralPrompt,
@@ -154,11 +102,12 @@ const calcConfig = JSON.stringify({
           <fieldset class="price-calc-step">
             <legend class="price-calc-step-title mono">{L.step2Title}</legend>
             <div class="price-calc-addons">
-              {L.addons.map((opt) => (
-                <label class="price-calc-addon">
+              {addons.map((opt) => (
+                <label class="price-calc-addon" data-addon-row={opt.key}>
                   <input type="checkbox" value={opt.key} data-calc-addon />
                   <span class="price-calc-addon-box" aria-hidden="true">✓</span>
                   <span class="price-calc-addon-label">{opt.label}</span>
+                  <span class="price-calc-addon-price mono" data-addon-price data-from={opt.from ? '1' : ''}></span>
                 </label>
               ))}
             </div>
@@ -167,7 +116,7 @@ const calcConfig = JSON.stringify({
           <fieldset class="price-calc-step price-calc-step-eshop" data-calc-eshop-step hidden>
             <legend class="price-calc-step-title mono">{L.step3Title}</legend>
             <select class="price-calc-select" data-calc-products aria-label={L.step3Title}>
-              {L.products.map((opt) => (
+              {products.map((opt) => (
                 <option value={opt.key}>{opt.label}</option>
               ))}
             </select>
@@ -183,7 +132,7 @@ const calcConfig = JSON.stringify({
             data-cursor="hover"
             data-umami-event="calculator-cta"
           >
-            {L.ctaLabel} <span class="arr" aria-hidden="true">→</span>
+            {L.ctaLabel}&nbsp;<span class="arr" aria-hidden="true">→</span>
           </a>
           <p class="price-calc-disclaimer">{L.disclaimer}</p>
         </div>
@@ -287,12 +236,12 @@ const calcConfig = JSON.stringify({
     border-color: color-mix(in srgb, var(--ink) 50%, transparent);
   }
   .price-calc-type:has(input:checked) {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    border-color: var(--ink);
+    background: var(--accent);
   }
   .price-calc-type:has(input:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 4px;
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
   }
   .price-calc-type-content {
     display: flex;
@@ -308,10 +257,11 @@ const calcConfig = JSON.stringify({
   .price-calc-type-price {
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--accent-text);
+    color: var(--ink);
+    opacity: 0.78;
   }
   .price-calc-type-check {
-    color: var(--accent);
+    color: var(--ink);
     font-size: 18px;
     opacity: 0;
     flex-shrink: 0;
@@ -346,12 +296,12 @@ const calcConfig = JSON.stringify({
     border-color: color-mix(in srgb, var(--ink) 40%, transparent);
   }
   .price-calc-addon:has(input:checked) {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 6%, transparent);
+    border-color: var(--ink);
+    background: color-mix(in srgb, var(--accent) 35%, var(--bg));
   }
   .price-calc-addon:has(input:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 4px;
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
   }
   .price-calc-addon-box {
     flex: 0 0 18px;
@@ -366,14 +316,22 @@ const calcConfig = JSON.stringify({
     transition: all 0.15s;
   }
   .price-calc-addon:has(input:checked) .price-calc-addon-box {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--ink);
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--accent);
   }
   .price-calc-addon-label {
     font-size: 14px;
     line-height: 1.4;
+    flex: 1;
   }
+  .price-calc-addon-price {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0.78;
+  }
+  .price-calc-addon[hidden] { display: none; }
 
   /* Step 3 — eshop product count (hidden unless eshop chosen) */
   .price-calc-step-eshop[hidden] {
@@ -390,7 +348,7 @@ const calcConfig = JSON.stringify({
     font-size: 15px;
   }
   .price-calc-select:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid var(--ink);
     outline-offset: 2px;
   }
 
@@ -429,6 +387,7 @@ const calcConfig = JSON.stringify({
     font-size: 13px;
     opacity: 0.8;
   }
+  .price-calc-cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   .price-calc-cta {
     display: inline-block;
     margin-top: 4px;
@@ -478,7 +437,7 @@ const calcConfig = JSON.stringify({
 <script>
   interface CalcConfig {
     base: Record<string, number>;
-    addons: Record<string, number>;
+    addons: Record<string, { web: number | null; eshop: number | null }>;
     products: Record<string, number>;
     weeks: Record<string, [number, number]>;
     lang: 'sk' | 'en';
@@ -505,6 +464,8 @@ const calcConfig = JSON.stringify({
       const eshopStep = root.querySelector<HTMLElement>('[data-calc-eshop-step]');
       const priceEl = root.querySelector<HTMLElement>('[data-calc-price]');
       const weeksEl = root.querySelector<HTMLElement>('[data-calc-weeks]');
+      const ctaEl = root.querySelector<HTMLAnchorElement>('.price-calc-cta');
+      const ctaBase = ctaEl?.getAttribute('href') || '';
       if (!priceEl) return;
 
       const currencyFmt = new Intl.NumberFormat(lang === 'sk' ? 'sk' : 'en', {
@@ -527,6 +488,18 @@ const calcConfig = JSON.stringify({
       function update() {
         const type = selectedType();
         const isEshop = type === 'eshop';
+        // Per-type add-on prices; hide add-ons not offered for the type.
+        const priceType = (type ?? 'web') as 'web' | 'eshop';
+        addonInputs.forEach((input) => {
+          const row = input.closest<HTMLElement>('[data-addon-row]');
+          const pr = addons[input.value]?.[priceType];
+          if (row) row.hidden = pr === null;
+          if (pr === null) input.checked = false;
+          const tag = row?.querySelector<HTMLElement>('[data-addon-price]');
+          if (tag && pr != null) tag.textContent = `${tag.dataset.from ? (lang === 'sk' ? 'od ' : 'from ') : ''}+${currencyFmt.format(pr)}`;
+        });
+        // Hand the chosen type to the brief, so it can skip its first question.
+        if (ctaEl) ctaEl.href = type ? `${ctaBase}?typ=${encodeURIComponent(type)}` : ctaBase;
         if (eshopStep) eshopStep.hidden = !isEshop;
 
         if (!type) {
@@ -539,7 +512,7 @@ const calcConfig = JSON.stringify({
 
         const chosenAddons = selectedAddonKeys();
         let total = base[type] ?? 0;
-        for (const key of chosenAddons) total += addons[key] ?? 0;
+        for (const key of chosenAddons) total += addons[key]?.[type as 'web' | 'eshop'] ?? 0;
         // Product-count step only counts toward the total while it's the
         // active (eshop) step — hidden state is ignored per spec.
         if (isEshop && productSelect) {

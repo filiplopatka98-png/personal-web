@@ -104,7 +104,7 @@ const projectLd = {
       <div>
         <div class="proj-eyebrow mono">{t('project.caseStudy', lang)} · {data.year}</div>
         <h1 class="proj-name display">{data.name}</h1>
-        <div class="proj-kind mono">{data.kind}</div>
+        <div class="proj-kind mono">{data.kind.replace(/ · /g, '\u00a0· ')}</div>
       </div>
       <dl class="proj-meta-grid">
         <div class="proj-meta-cell">
@@ -244,7 +244,7 @@ const projectLd = {
     </div>
     {data.url && (
       <a href={`https://${data.url}`} target="_blank" rel="nofollow noopener noreferrer" class="live-link mono" data-cursor="hover">
-        {t('cta.liveSite', lang)} {data.url} <span class="arr" aria-hidden="true">→</span>
+        {t('cta.liveSite', lang)} {data.url}&nbsp;<span class="arr" aria-hidden="true">→</span>
       </a>
     )}
   </section>
@@ -255,8 +255,8 @@ const projectLd = {
       <Reveal>
         <h2 class="next-eyebrow mono">{t('project.next', lang).toUpperCase()}</h2>
         <a href={`${baseUrl}/praca/${nextSlug}/`} class="next-link" data-cursor="hover">
-          <div class="next-name display">{next.data.name} <span class="next-arrow">→</span></div>
-          <div class="next-kind mono">{next.data.kind}</div>
+          <div class="next-name display">{next.data.name}&nbsp;<span class="next-arrow">→</span></div>
+          <div class="next-kind mono">{next.data.kind.replace(/ · /g, '\u00a0· ')}</div>
         </a>
       </Reveal>
     </section>
@@ -492,10 +492,7 @@ const projectLd = {
     flex-wrap: wrap;
     gap: 4px 16px;
   }
-  .stack-sep {
-    opacity: 0.5;
-    margin-left: 16px;
-  }
+  .stack-sep { display: none; }
   .live-link {
     color: var(--accent);
     font-family: var(--font-mono);
@@ -536,7 +533,7 @@ const projectLd = {
     letter-spacing: -0.02em;
   }
   .next-arrow {
-    color: var(--accent);
+    color: var(--ink);
   }
   .next-kind {
     font-family: var(--font-mono);
