@@ -90,6 +90,8 @@
 .nlcs .nlcs-stat {
   margin: 0;
   padding: 24px 24px 22px;
+  min-width: 0;
+  container-type: inline-size; /* stat value scales to the box width */
   background: var(--bg2);
   border: 1px solid var(--nlcs-line);
   border-radius: var(--radius-card);
@@ -98,7 +100,8 @@
   display: block;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 46px;
+  /* Longest value („−52 až −73 %“) must fit the box: cap by container width */
+  font-size: min(46px, 15cqi);
   line-height: 1;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -296,7 +299,7 @@
   .nlcs .nlcs-cta { padding: 0 32px 72px; }
   .nlcs .nlcs-title { font-size: 56px; }
   .nlcs .nlcs-perex { font-size: 20px; }
-  .nlcs .nlcs-stat-value { font-size: 38px; }
+  .nlcs .nlcs-stat-value { font-size: min(38px, 15cqi); }
 }
 @media (max-width: 768px) {
   .nlcs .nlcs-head { padding: 40px 20px 24px; }
