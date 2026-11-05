@@ -88,10 +88,17 @@ const postalAddress = {
   addressRegion: 'Trnavský kraj',
   addressCountry: 'SK',
 };
+// Person = Filip himself (LinkedIn stays personal, R4); Organization = the
+// business profiles (FB page, IG, Google Business Profile, Jaspravim).
 const socialProfiles = [
   'https://www.linkedin.com/in/filip-lopatka-wordpress-dev/',
-  'https://www.facebook.com/filip.lopatka98',
-  'https://www.instagram.com/lopatkafilip/',
+];
+const businessProfiles = [
+  'https://www.facebook.com/profile.php?id=61596201033674',
+  'https://www.instagram.com/lopatka.sk/',
+  'https://g.page/r/CVaTfpy9ZjJKECE',
+  'https://www.jaspravim.sk/lopatkafilip',
+  'https://www.linkedin.com/in/filip-lopatka-wordpress-dev/',
 ];
 // Locale-aware service area: the SK site targets the local market (Trnava
 // region — the winnable niche for a new domain), the EN site targets
@@ -139,7 +146,7 @@ const organizationLd = {
   areaServed,
   priceRange: '39 € – 5 000 €',
   founder: { '@id': personId },
-  sameAs: socialProfiles,
+  sameAs: businessProfiles,
   knowsAbout: ['WordPress', 'WooCommerce', 'Next.js', 'Astro', 'Web Performance', 'Core Web Vitals', 'SEO'],
 };
 
