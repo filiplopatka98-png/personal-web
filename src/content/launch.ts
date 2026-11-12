@@ -40,6 +40,9 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'sk/wordpress-alebo-web-na-mieru',
   'en/kolko-stoji-web-eshop-2026',
   'en/wordpress-alebo-web-na-mieru',
+  // 2026-11 — buyer-intent: firemný web na dopyty (Profi House)
+  'sk/firemny-web-dopyty',
+  'en/firemny-web-dopyty',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
