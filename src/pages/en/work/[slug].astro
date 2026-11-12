@@ -9,6 +9,7 @@ import InlineCta from '../../../components/InlineCta.astro';
 import { t } from '../../../i18n';
 import { jsonLd } from '../../../utils/jsonld';
 import { visibleProjects } from '../../../content/launch';
+import { compareProjects } from '../../../utils/sortProjects';
 
 // Optimized project mockups, resolved from src/assets at build time.
 const projectImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -40,7 +41,7 @@ const cleanSlug = entry.id.replace(/^en\//, '');
 
 const allProjects = (visibleProjects(await getCollection('projects')))
   .filter((p) => p.id.startsWith('en/'))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort(compareProjects);
 const idx = allProjects.findIndex((p) => p.id === entry.id);
 // Null when this is the only project, so "Next" never links to itself.
 const next = allProjects.length > 1 ? allProjects[(idx + 1) % allProjects.length] : null;
@@ -358,6 +359,23 @@ const projectLd = {
   }
   :global(.proj-body-prose p) { margin: 0; }
   :global(.proj-body-prose p + p) { margin-top: 20px; }
+
+  :global(.proj-body-prose h3) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 48px 0 16px;
+  }
+  :global(.proj-body-prose h3:first-child) { margin-top: 0; }
+  :global(.proj-body-prose ul) {
+    margin: 0;
+    padding-left: 22px;
+  }
+  :global(.proj-body-prose li + li) { margin-top: 8px; }
+  :global(.proj-body-prose p + ul),
+  :global(.proj-body-prose ul + p) { margin-top: 20px; }
 
   .proj-process {
     padding: 60px 56px;

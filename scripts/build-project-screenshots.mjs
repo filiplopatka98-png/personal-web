@@ -17,6 +17,8 @@
  *   npm run shots https://www.grkatpo.sk/
  *   npm run shots profihouse-screen2=https://profihouse.sk/realizacie/::desktop
  *   npm run shots:all          (regenerates every project mockup, idempotent)
+ *   HIDE_POPUPS=1 npm run shots ntm-cleaning=https://ntmcleaning.sk/::desktop
+ *                              (hides promo popups + dark backdrop before the shot)
  *
  * Output:
  *   src/assets/projects/<slug>-hero.png    (laptop mockup, 2610×1800)
@@ -195,6 +197,40 @@ async function hideLeftoverConsent(page) {
 }
 
 /**
+ * Opt-in (HIDE_POPUPS=1): hide promo popups and their dark backdrops so the
+ * mockup shows the page itself. Targets position:fixed elements that either
+ * cover most of the viewport (backdrop) or sit in the middle of it (modal
+ * card). Header, call-to-action buttons and cookie icons are at the edges
+ * and stay.
+ */
+async function hidePromoPopups(page) {
+  return page.evaluate(() => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let hidden = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      const cs = getComputedStyle(el);
+      if (cs.position !== 'fixed' || cs.display === 'none' || cs.visibility === 'hidden') continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) continue;
+      const area = (r.width * r.height) / (vw * vh);
+      const cx = (r.left + r.width / 2) / vw;
+      const cy = (r.top + r.height / 2) / vh;
+      const isBackdrop = area > 0.6;
+      const isCentered = area > 0.08 && cx > 0.25 && cx < 0.75 && cy > 0.25 && cy < 0.75;
+      const isDialog = el.matches('[role="dialog"], [aria-modal="true"]');
+      if (isBackdrop || isCentered || isDialog) {
+        el.style.setProperty('display', 'none', 'important');
+        hidden++;
+      }
+    }
+    document.documentElement.style.setProperty('overflow', 'visible', 'important');
+    document.body.style.setProperty('overflow', 'visible', 'important');
+    return hidden;
+  });
+}
+
+/**
  * Trigger every lazy loader on the page, then return to the top.
  *
  * Elementor and friends load hero CSS *background* images through an
@@ -296,6 +332,12 @@ async function captureWebsite(browser, url, mode) {
   if (forced > 0) console.log(`  → ${forced} leftover consent element(s) hidden [${mode}]`);
 
   await waitForImages(page);
+
+  if (process.env.HIDE_POPUPS === '1') {
+    const popups = await hidePromoPopups(page);
+    if (popups > 0) console.log(`  → ${popups} popup/backdrop element(s) hidden [${mode}]`);
+    await new Promise((r) => setTimeout(r, 400));
+  }
 
   const buffer = await page.screenshot({ type: 'png', fullPage: false });
   await page.close();
