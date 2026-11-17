@@ -13,6 +13,7 @@ import { getStaticRoute } from '../../i18n/routes';
 import { processSteps } from '../../data/process';
 import { jsonLd } from '../../utils/jsonld';
 import { buildServiceCatalog } from '../../utils/serviceCatalog';
+import reviewsData from '../../data/reviews.json';
 import TrustStats from '../../components/TrustStats.astro';
 import PriceCalculator from '../../components/PriceCalculator.astro';
 
@@ -39,6 +40,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   orgId: `${siteUrl}${baseUrl}/#organization`,
   inLanguage: 'en-US',
 });
+const featuredReview = reviewsData.reviews.find((r) => r.featured) ?? reviewsData.reviews[0];
+const featuredQuote = featuredReview.text.split('\n').pop();
 ---
 <BaseLayout lang={lang} canonicalPath="/en/services/" altLangUrl="/sluzby/" title={`Services & pricing — websites ${fromPrice(PRICES.web, 'en')}, online stores, speed-up`} description={`Company website ${fromPrice(PRICES.web, 'en')}, WooCommerce store ${fromPrice(PRICES.eshop, 'en')}, website speed-up ${fromPrice(PRICES.speed, 'en')}, maintenance ${fromPrice(PRICES.care, 'en')}/month and a free website check. You know the price upfront.`}>
   <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
@@ -98,8 +101,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
     <Reveal>
       <div class="services-testimonial-eyebrow mono">TESTIMONIAL</div>
       <figure class="services-testimonial-fig">
-        <blockquote class="services-testimonial-quote display">„Filip built us a new website and now new customers reach out through it. He delivered on time, and whenever I need a change I just message him and he handles it."</blockquote>
-        <figcaption class="services-testimonial-author mono">— Adam Kolarovič, owner of Profi House s.r.o.</figcaption>
+        <blockquote class="services-testimonial-quote display">„{featuredQuote}“</blockquote>
+        <figcaption class="services-testimonial-author mono">— {featuredReview.author} · Google review ★★★★★ · Original in Slovak</figcaption>
       </figure>
     </Reveal>
   </section>

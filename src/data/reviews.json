@@ -1,0 +1,26 @@
+{
+  "source": "google",
+  "profileUrl": "https://www.google.com/search?q=Filip+Lopatka+Tvorba+webov+a+e-shopov",
+  "writeUrl": "https://g.page/r/CVaTfpy9ZjJKECE/review",
+  "rating": 5,
+  "count": 2,
+  "reviews": [
+    {
+      "id": "kollar",
+      "author": "Nikolas Kollár",
+      "rating": 5,
+      "date": "2026-11-05",
+      "lang": "sk",
+      "text": "Web som mal od vzniku firmy, snažil som sa ho robiť sám, no po 7 mesiacoch som bol stále na tom istom mieste. Zrazu som narazil na Filipa, ten mi úprimne povedal, čo nefunguje, čo je zlé a ponúkol mi jeho pomocnú ruku. Dohodli sme sa na cene/podmienkach a pustili sme sa do toho. Od začiatku bola komunikácia výborná, previedol ma celým procesom od A po Z, pýtal sa, čo má web obsahovať a ako má vyzerať, v oblastiach, kde som začiatočník, mi vysvetlil, čo upraviť, pridať alebo naopak vynechať. Výsledok je úžasný. Môj web je od základov prekopaný, prehľadný a moderný. Som nadšený z Filipovej šikovnosti, rýchlosti, trpezlivosti a hlavne ľudskosti.\nHodnotím 11/10 a odporúčam ho každému, kto potrebuje web pre firmu, eshop alebo blog. Ďakujem, Filip!"
+    },
+    {
+      "id": "krivosik",
+      "author": "Ľubomír Krivošík",
+      "rating": 5,
+      "date": "2026-11-12",
+      "lang": "sk",
+      "featured": true,
+      "text": "S Filipom spolupracujeme od roku 2021, vždy mi poradí so všetkým čo potrebujem, navrhne najlepšie riešenie, je spoľahlivý a veľký detailista.\nVďaka webu sa moje podnikanie posúva dopredu a získavam stále viac a viac nových zákazníkov."
+    }
+  ]
+}

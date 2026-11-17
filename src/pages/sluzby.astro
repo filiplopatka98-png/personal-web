@@ -13,6 +13,7 @@ import { getStaticRoute } from '../i18n/routes';
 import { processSteps } from '../data/process';
 import { jsonLd } from '../utils/jsonld';
 import { buildServiceCatalog } from '../utils/serviceCatalog';
+import reviewsData from '../data/reviews.json';
 import TrustStats from '../components/TrustStats.astro';
 import PriceCalculator from '../components/PriceCalculator.astro';
 
@@ -39,6 +40,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
   orgId: `${siteUrl}${baseUrl}/#organization`,
   inLanguage: 'sk-SK',
 });
+const featuredReview = reviewsData.reviews.find((r) => r.featured) ?? reviewsData.reviews[0];
+const featuredQuote = featuredReview.text.split('\n').pop();
 ---
 <BaseLayout lang={lang} canonicalPath="/sluzby/" altLangUrl="/en/services/" title={`Služby a ceny — weby ${fromPrice(PRICES.web, 'sk')}, e-shopy, zrýchlenie | Filip Lopatka`} description={`Firemný web ${fromPrice(PRICES.web, 'sk')}, e-shop na WooCommerce ${fromPrice(PRICES.eshop, 'sk')}, zrýchlenie webu ${fromPrice(PRICES.speed, 'sk')}, údržba ${fromPrice(PRICES.care, 'sk')}/mes. a kontrola webu zadarmo. Cenu poznáte vopred.`}>
   <script is:inline slot="head" type="application/ld+json" set:html={jsonLd(serviceCatalogLd)}></script>
@@ -98,8 +101,8 @@ const serviceCatalogLd = buildServiceCatalog(services.map((s) => s.data), {
     <Reveal>
       <div class="services-testimonial-eyebrow mono">REFERENCIA</div>
       <figure class="services-testimonial-fig">
-        <blockquote class="services-testimonial-quote display">„Filip nám spravil novú stránku a odvtedy sa nám cez ňu ozývajú noví zákazníci. Stihol to načas a keď potrebujem niečo zmeniť, stačí napísať a vybaví to."</blockquote>
-        <figcaption class="services-testimonial-author mono">— Adam Kolarovič, majiteľ Profi House s.r.o.</figcaption>
+        <blockquote class="services-testimonial-quote display">„{featuredQuote}“</blockquote>
+        <figcaption class="services-testimonial-author mono">— {featuredReview.author} · Google recenzia ★★★★★</figcaption>
       </figure>
     </Reveal>
   </section>
