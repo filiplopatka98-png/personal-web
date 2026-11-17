@@ -43,6 +43,9 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   // 2026-11 — buyer-intent: firemný web na dopyty (Profi House)
   'sk/firemny-web-dopyty',
   'en/firemny-web-dopyty',
+  // 2026-11 — SEO články (návod + cena)
+  'sk/seo-optimalizacia-webu-navod',
+  'sk/kolko-stoji-seo-optimalizacia',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */

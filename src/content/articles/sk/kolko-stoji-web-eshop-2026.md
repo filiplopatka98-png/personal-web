@@ -1,10 +1,11 @@
 ---
-title: "Koľko stojí webová stránka a eshop na Slovensku (2026)"
+title: "Tvorba eshopu a webu: cena na Slovensku (2026)"
 date: 2026-08-08
-updated: 2026-10-30
+updated: 2026-11-17
 read: 7
 tags: ["Process"]
 excerpt: "Orientačne: firemný web od 390 €, e-shop na WooCommerce od 1 490 €, zrýchlenie existujúceho webu od 390 €. Cenu neurčuje počet stránok, ale rozsah funkcií a integrácií."
+metaDescription: "Tvorba eshopu od 1 490 €, firemný web od 390 €. Z čoho sa skladá cena, čo je v nej a prečo web za 150 € vychádza draho."
 featured: false
 faq:
   - q: "Koľko stojí jednoduchá webová stránka?"
@@ -15,9 +16,13 @@ faq:
     a: "Lebo pod slovom „web“ sa skrývajú úplne iné projekty — jednoduchá firemná prezentácia a e-shop s tisíckami produktov a napojením na sklad majú rádovo iný rozsah práce. Cenu neurčuje počet podstránok, ale funkcie a integrácie."
   - q: "Čo ovplyvňuje cenu webu najviac?"
     a: "Najviac váži rozsah funkcií (správa obsahu, viacjazyčnosť, e-shop), počet a náročnosť integrácií (platobné brány, ERP, fakturácia) a miera dizajnu na mieru. Až potom nasleduje počet podstránok."
+  - q: "Koľko stojí tvorba eshopu na mieru?"
+    a: "Eshop na WooCommerce na mieru sa u mňa začína od 1 490 € a realizácia trvá 4 – 8 týždňov. Konečná cena závisí od počtu produktov, platobných brán, dopravy a napojení na sklad či účtovníctvo."
+  - q: "Koľko stojí vytvorenie eshopu?"
+    a: "Vytvorenie eshopu sa začína od 1 490 € vrátane platobnej brány, dopravy a napojenia na fakturáciu. Firemný web bez eshopu je lacnejší, od 390 €."
 ---
 
-Orientačne: firemný web sa u mňa začína od 390 €, e-shop na WooCommerce od 1 490 € a zrýchlenie existujúceho webu od 390 €. Presné číslo pre váš projekt poznáte vopred — po krátkom rozhovore o tom, čo má web reálne robiť.
+Orientačne: tvorba eshopu na WooCommerce stojí od 1 490 €, firemný web sa u mňa začína od 390 € a zrýchlenie existujúceho webu od 390 €. Presné číslo pre váš projekt poznáte vopred — po krátkom rozhovore o tom, čo má web reálne robiť.
 
 Táto otázka mi chodí do e-mailu skoro každý týždeň a odpoveď „záleží“ nikoho neuspokojí. Tak poďme rozobrať, od čoho to závisí, a dám vám aj konkrétne čísla, s ktorými môžete počítať.
 
@@ -31,7 +36,7 @@ Najčastejší omyl pri odhadovaní ceny je počítať podstránky. V praxi na c
 
 **Integrácie.** Toto je najčastejší dôvod, prečo sa dva „podobné“ projekty cenovo líšia. Platobná brána, napojenie na sklad alebo účtovníctvo (napr. Pohoda, Money S3), CRM, e-mailový marketing — každá integrácia je ďalší kus práce, testovania a údržby.
 
-## Prečo je eshop drahší než firemný web
+## Vytvorenie eshopu: prečo stojí viac než firemný web
 
 Skok z 390 € (firemný web) na 1 490 € (e-shop) je skok v komplexnosti. Firemný web má v podstate jeden typ obsahu: stránky a články. E-shop má navyše celý transakčný tok, ktorý musí fungovať bezchybne, lebo tam tečú peniaze vašich zákazníkov.
 
@@ -68,7 +73,7 @@ Pri poriadnej ponuke by malo byť jasné, čo presne dostávate — nielen „we
 - **Nasadenie** — hosting, doména, SSL, základné SEO (sitemap, popisy stránok).
 - **Podpora po spustení** — obdobie, kedy sa drobné úpravy a chyby riešia bez ďalšej faktúry.
 
-Čo v cene väčšinou nie je: texty na mieru (dodávate zvyčajne vy alebo sa fakturujú zvlášť), produktové fotografie a dlhodobý marketing (SEO kampane, platená reklama).
+Čo v cene väčšinou nie je: texty na mieru (dodávate zvyčajne vy alebo sa fakturujú zvlášť), produktové fotografie a dlhodobý marketing (SEO kampane, platená reklama). Chcete vedieť, či je váš web pripravený na vyhľadávače? Prejdite si [SEO optimalizáciu webu krok za krokom](/blog/seo-optimalizacia-webu-navod/) alebo pozrite, [koľko stojí SEO optimalizácia](/blog/kolko-stoji-seo-optimalizacia/).
 
 ## Ako získať presnú cenu pre váš projekt
 
