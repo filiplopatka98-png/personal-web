@@ -46,6 +46,8 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   // 2026-11 — SEO články (návod + cena)
   'sk/seo-optimalizacia-webu-navod',
   'sk/kolko-stoji-seo-optimalizacia',
+  'en/seo-optimalizacia-webu-navod',
+  'en/kolko-stoji-seo-optimalizacia',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */

@@ -1,10 +1,11 @@
 ---
-title: "How much does a website or online store cost in 2026"
+title: "Online store and website development: pricing in Slovakia (2026)"
 date: 2026-08-08
-updated: 2026-10-30
+updated: 2026-11-17
 read: 7
 tags: ["Process"]
 excerpt: "As a rough guide: a company website from €390, a WooCommerce store from €1,490, speeding up an existing site from €390. Price is driven by features and integrations, not page count."
+metaDescription: "Online store development from €1,490, company website from €390. What drives the price, what is included and why a €150 website costs more."
 featured: false
 faq:
   - q: "How much does a simple website cost?"
@@ -15,9 +16,13 @@ faq:
     a: "Because \"website\" covers wildly different projects — a simple company site and a store with thousands of products and inventory sync have a fundamentally different scope. Price is driven by features and integrations, not page count."
   - q: "What affects the price the most?"
     a: "Feature scope (content management, multiple languages, e-commerce), the number and complexity of integrations (payment gateways, ERP, invoicing) and how much of the design is custom. Page count matters far less."
+  - q: "How much does custom online store development cost?"
+    a: "A custom WooCommerce store starts at €1,490 and takes 4–8 weeks. The final price depends on the number of products, payment gateways, shipping and integrations with inventory or accounting."
+  - q: "How much does it cost to build an online store?"
+    a: "Building an online store starts at €1,490 including a payment gateway, shipping and invoicing integration. A company website without a store is cheaper, from €390."
 ---
 
-As a rough guide: a company website starts at €390, a WooCommerce store at €1,490, and speeding up an existing site at €390. You know the exact price upfront — after a short conversation about what the site actually needs to do.
+As a rough guide: building a WooCommerce store costs from €1,490, a company website starts at €390, and speeding up an existing site at €390. You know the exact price upfront — after a short conversation about what the site actually needs to do.
 
 ## What drives the price (not page count)
 
@@ -27,7 +32,7 @@ As a rough guide: a company website starts at €390, a WooCommerce store at €
 
 **Integrations.** Payment gateways, inventory or accounting sync (Pohoda, Money S3), CRM, email marketing — each one is extra work, testing and maintenance.
 
-## Why an online store costs more than a company website
+## Building an online store: why it costs more than a company website
 
 The jump from €390 to €1,490 is a jump in complexity. A store has a whole transaction flow that must work flawlessly, because your customers' money runs through it: payments, stock levels and a checkout that doesn't scare people away — more on that in a [separate article](/en/blog/checkout-konvertuje-9-uprav/).
 
@@ -44,6 +49,17 @@ These are starting prices — a specific project can land higher depending on sc
 ## Why a "€150 website" often ends up costing more
 
 Cheap offers sometimes make sense, but usually mean a template you can't edit, no speed optimization, no support after handover, or skipped security and SEO basics you pay for later. A good test: ask the vendor directly what the price doesn't include.
+
+## What is included in the price
+
+A proper quote should make it clear what exactly you get — not just "a website" but a concrete list. Typically:
+
+- **Design** — a layout and at least one round of changes based on your feedback.
+- **Development** — the build itself, tested on mobile and desktop.
+- **Launch** — hosting, domain, SSL, basic SEO (sitemap, page descriptions).
+- **Post-launch support** — a period when small tweaks and bugs are fixed without another invoice.
+
+What is usually not included: custom copywriting (you typically supply it, or it is billed separately), product photography and long-term marketing (SEO campaigns, paid ads). Want to know whether your site is ready for search engines? Read [SEO optimization step by step](/en/blog/seo-optimalizacia-webu-navod/) or see [how much SEO costs](/en/blog/kolko-stoji-seo-optimalizacia/).
 
 ## How to get an exact price
 
