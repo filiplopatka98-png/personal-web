@@ -21,6 +21,7 @@ const L = lang === 'sk'
       lead: 'Som Filip z Veľkých Kostolian. Staviam rýchle weby a e-shopy a potom sa o ne starám. Bez agentúry, priamo so mnou.',
       primary: 'Bezplatná kontrola webu',
       secondary: 'Pozrite si práce',
+      note: 'Zistíte rýchlosť a chyby webu. Odpoviem do 2 pracovných dní.',
       prices: `Web ${fromPrice(PRICES.web, 'sk')} · E-shop ${fromPrice(PRICES.eshop, 'sk')} · Údržba ${fromPrice(PRICES.care, 'sk')}/mes`,
       alt: 'Filip Lopatka',
     }
@@ -30,6 +31,7 @@ const L = lang === 'sk'
       lead: "I'm Filip, a web developer from Slovakia. I build fast websites and e-shops — and keep them running afterwards. No agency, you work with me directly.",
       primary: 'Free website check',
       secondary: 'See my work',
+      note: "Find out your site's speed and errors. I reply within 2 working days.",
       prices: `Website ${fromPrice(PRICES.web, 'en')} · E-shop ${fromPrice(PRICES.eshop, 'en')} · Care ${fromPrice(PRICES.care, 'en')}/mo`,
       alt: 'Filip Lopatka',
     };
@@ -41,8 +43,9 @@ const L = lang === 'sk'
     <p class="hero-b2__lead">{L.lead}</p>
     <div class="hero-b2__ctas">
       <a href={briefHref} class="b2-btn b2-btn--yellow" data-umami-event="brief-start">{L.primary}</a>
-      <a href={workHref} class="b2-btn b2-btn--outline">{L.secondary}</a>
+      <a href={workHref} class="hero-b2__link">{L.secondary} <span aria-hidden="true">→</span></a>
     </div>
+    <p class="hero-b2__note">{L.note}</p>
     <p class="hero-b2__prices">{L.prices.split(' · ').map((x, i) => (<>{i > 0 && <span aria-hidden="true">{'\u00a0· '}</span>}<span class="hero-b2__price">{x}</span></>))}</p>
   </div>
   <div class="hero-b2__visual" aria-hidden="false">
@@ -101,7 +104,17 @@ const L = lang === 'sk'
     max-width: 30em;
     color: var(--ink-muted);
   }
-  .hero-b2__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-b2__ctas { display: flex; gap: 12px 24px; flex-wrap: wrap; align-items: center; }
+  .hero-b2__link {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
+  .hero-b2__link:hover { text-decoration-color: var(--accent); }
+  .hero-b2__note { margin: -12px 0 0; font-size: 15px; color: var(--ink-muted); }
   .hero-b2__prices { margin: 0; font-size: 16px; color: var(--ink-muted); }
   .hero-b2__price { white-space: nowrap; }
 
