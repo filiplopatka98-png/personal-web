@@ -48,6 +48,9 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'sk/kolko-stoji-seo-optimalizacia',
   'en/seo-optimalizacia-webu-navod',
   'en/kolko-stoji-seo-optimalizacia',
+  // 2026-11-18 — SEO pre WordPress a WooCommerce
+  'sk/seo-wordpress-woocommerce-zaklad',
+  'en/seo-wordpress-woocommerce-zaklad',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
@@ -73,6 +76,9 @@ export function visibleArticles<T extends { id: string }>(list: T[]): T[] {
  */
 export const HIDDEN_PROJECTS: string[] = [
   'kukodetskysvet',
+  // debneniestropov — 2026-11-12: koncept prípadovej štúdie. Zverejniť (slug odtiaľto vymazať + push) až po súhlase
+  // klienta (Peter, Profi House s.r.o.) s referenciou a po schválení textu Filipom.
+  'debneniestropov',
 ];
 
 /** Je projekt (id `sk/slug` / `en/slug`) na webe? */
