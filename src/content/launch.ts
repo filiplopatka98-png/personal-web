@@ -54,6 +54,9 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   // 2026-11-19 — rýchlosť webu vs. SEO
   'sk/seo-rychlost-webu-poradie',
   'en/seo-rychlost-webu-poradie',
+  // 2026-11-20 — čo je WooCommerce a pre koho sa hodí
+  'sk/co-je-woocommerce-pre-koho',
+  'en/co-je-woocommerce-pre-koho',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
