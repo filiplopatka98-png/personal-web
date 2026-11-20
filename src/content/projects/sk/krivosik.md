@@ -1,50 +1,59 @@
 ---
-name: "Krivošík – zemné práce"
-kind: "Firemný web · WordPress"
-year: "2021"
+name: "krivosik.sk"
+kind: "Nový web na mieru · WordPress"
+year: "2026"
 role: "WordPress Developer · priebežná správa"
-duration: "Build 2021 + ongoing"
+duration: "2 dni build + ongoing"
 client: "Ľubomír Krivošík"
 url: "krivosik.sk"
 accent: accent
 order: 29
 featured: true
-brief: "Firemný web so silným lokálnym SEO pre živnostníka v zemných a výkopových prácach v okolí Piešťan — služby, portfólio realizácií a telefón nadosah."
+brief: "Nový web pre firmu na zemné a výkopové práce: formulár vedľa mapy, recenzie z Google priamo na webe a meranie dopytov. Mobilný výkon z 79 na 95 bodov, prvé zobrazenie za 1,0 s namiesto 3,4 s."
 metrics:
-  - value: "1. strana"
-    label: "Google · „zemné práce Piešťany“"
-  - value: "1. strana"
-    label: "Google · „výkopové práce Piešťany“"
-  - value: "1 500+"
-    label: "návštev za pol roka"
-process:
-  - title: "Analýza"
-    duration: "1 deň"
-    desc: "Ciele, lokálne kľúčové slová („zemné práce“ / „výkopové práce“ + Piešťany), rýchly audit konkurencie v regióne."
-  - title: "Design"
-    duration: "2 dni"
-    desc: "Mobile-first rozvrhnutie na téme Impreza — služby a telefón v prvej sekcii, samostatná sekcia realizácií."
-  - title: "Build"
-    duration: "1 týždeň"
-    desc: "Nastavenie témy Impreza, galéria realizácií z reálnych fotiek z terénu, kontaktný formulár a klik-na-telefón."
-  - title: "Launch + lokálne SEO"
-    duration: "1 deň"
-    desc: "GA, Search Console, on-page lokálne SEO, LocalBusiness schema, sitemap — cielené na dopyty z okolia Piešťan."
-  - title: "Priebežná správa"
-    duration: "ongoing"
-    desc: "Pridávanie nových realizácií, aktualizácie a drobné úpravy podľa potreby."
+  - value: "79 → 95"
+    label: "výkon na mobile (PageSpeed)"
+  - value: "3,4 → 1,0 s"
+    label: "prvé zobrazenie (FCP) na mobile"
+  - value: "80 → 0 ms"
+    label: "blokovanie vstupu (TBT) na mobile"
 stack:
   - "WordPress"
-  - "Impreza (téma)"
-  - "Local SEO"
-  - "Galéria realizácií"
-heroCaption: "domovská stránka · služby a telefón v hero sekcii"
-mobileCaption: "služby a kontakt na mobile"
+  - "Vlastná téma"
+  - "Yoast SEO"
+  - "Contact Form 7"
+  - "Cloudflare Turnstile"
+  - "Complianz"
+  - "GA4"
+heroCaption: "homepage · služby a telefón v hero sekcii"
+mobileCaption: "úvod na mobile"
 secondaryCaption: "detail realizácie · výkop a stavba bazéna"
 ---
 
-Firemný web pre živnostníka v zemných a výkopových prácach v okolí Piešťan. Cieľ je jednoduchý — keď niekto v regióne hľadá výkopy, prípojky alebo terénne úpravy, nájde Ľuba a má hneď nadosah telefón.
+### Východisko
 
-Web slúži zároveň ako portfólio hotových realizácií (výkopy, prípojky, základy, terénne úpravy) — reálne fotky z terénu namiesto stock obrázkov budujú dôveru.
+Zemné práce Krivošík je rodinná firma z Veľkých Kostolian. Robí zemné a výkopové práce, terénne úpravy, betónovanie a búranie pre domácnosti, firmy aj obce a cenovú ponuku pripravuje zadarmo. Web jej robím od roku 2021 a stále ho spravujem.
 
-Ťažiskom bolo lokálne SEO. Web sa drží na prvej strane Google na „zemné práce Piešťany“ aj „výkopové práce Piešťany“, odkiaľ chodia reálne dopyty. Postavený na WordPresse s témou Impreza, mobile-first. Stránku odvtedy **stále spravujem** — pridávam nové realizácie a robím drobné úpravy.
+Starý web bežal na hotovej téme s page builderom. Fungoval, no mal tri slabiny: pomalý mobil, žiadny formulár a žiadne meranie dopytov. Ľudia mohli zavolať, ale firma nevedela, koľko návštev k tomu skutočne viedlo.
+
+### Čo sa urobilo
+
+- Vlastná WordPress téma bez page buildera, s tým, čo stránka naozaj používa.
+- Formulár vedľa mapy, chránený proti spamu bez otravnej captcha (Cloudflare Turnstile), odosiela sa na firemný e-mail.
+- Vlastný karusel recenzií z Google, sekcia O nás s fotkou a číslami a nové poradie sekcií.
+- Časté otázky so štruktúrovanými údajmi, nová sitemap, presmerovania starých adries a súbor llms.txt.
+- Cookie lišta v dizajne webu a GA4 s udalosťami `generate_lead` a `contact`, takže sa dopyty zo stránky dajú sledovať.
+- Kompletná sada ikon webu.
+
+### Výsledok
+
+Porovnanie v Google PageSpeed Insights, 12. 11. 2026, starý web ráno a nový po nasadení:
+
+- výkon na mobile: 79 → 95
+- prvé zobrazenie (FCP) na mobile: 3,4 s → 1,0 s
+- blokovanie vstupu (TBT) na mobile: 80 ms → 0 ms
+- Speed Index na mobile: 6,9 s → 3,0 s
+- dostupnosť na mobile: 91 → 99
+- SEO a osvedčené postupy: 100 na oboch verziách
+
+Čo sa nezlepšilo: desktop bol už predtým na hornej hranici (97 → 96) a hlavný obsah (LCP) na mobile sa skrátil len z 3,4 s na 2,9 s, stále nad hranicou 2,5 s, ktorú Google považuje za dobrú. Sú to laboratórne čísla; dáta od skutočných návštevníkov doplním, keď ich nazbiera Search Console.

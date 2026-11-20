@@ -15,7 +15,8 @@ WordPress, WooCommerce, Next.js, React, Astro, headless CMS, web performance and
 ## Content
 - [Blog (EN)](https://lopatka.sk/en/blog/) · [Blog (SK)](https://lopatka.sk/blog/) — practical articles on WordPress, WooCommerce, Next.js, Astro, Core Web Vitals, performance, SEO and accessibility, from real projects.
 - [Selected work (EN)](https://lopatka.sk/en/work/) · [Realizácie (SK)](https://lopatka.sk/praca/) — case studies of delivered websites and e-shops.
-- Case study: [NTM Cleaning, new website (SK)](https://lopatka.sk/praca/ntm-cleaning/) — mobile PageSpeed 60 → 99, main content (LCP) 11.4 s → 1.7 s.
+- Case study: NTM Cleaning, new website — [EN](https://lopatka.sk/en/work/ntm-cleaning/) · [SK](https://lopatka.sk/praca/ntm-cleaning/) — mobile PageSpeed 60 → 99, main content (LCP) 11.4 s → 1.7 s.
+- Case study: Krivosik, new website for an earthworks company — [EN](https://lopatka.sk/en/work/krivosik/) · [SK](https://lopatka.sk/praca/krivosik/) — mobile PageSpeed 79 → 95, first contentful paint 3.4 s → 1.0 s.
 
 ## Selected articles
 - [WooCommerce checkout: 9 conversion tweaks](https://lopatka.sk/en/blog/checkout-konvertuje-9-uprav/)
