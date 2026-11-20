@@ -252,6 +252,24 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 #demoBadge{position:fixed;left:16px;bottom:16px;z-index:65;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--navy);border-radius:8px;padding:7px 8px 7px 14px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.2)}
 #demoBadge button{width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;background:var(--navy);color:#fff;font-size:14px;line-height:1;font-family:inherit;display:flex;align-items:center;justify-content:center}
+.overlay{display:none;position:fixed;inset:0;z-index:70;background:rgba(11,37,69,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:clamp(16px,5vw,40px)}
+.overlay.open{display:flex}
+.modal{position:relative;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:#fff;border-radius:var(--r);border-top:8px solid var(--yellow);box-shadow:0 26px 70px rgba(0,0,0,.45);padding:clamp(26px,3vw,40px)}
+.modal-close{position:absolute;top:12px;right:12px;width:40px;height:40px;border:1px solid var(--line);border-radius:8px;background:#f5f8fc;color:var(--ink);font-size:20px;line-height:1;cursor:pointer;font-family:inherit}
+.modal-close:hover{border-color:var(--navy)}
+.modal .eyebrow{margin-bottom:0;color:var(--blue)}
+.modal h3{margin:10px 0 14px;font-weight:800;font-size:clamp(23px,2.4vw,30px);line-height:1.2;color:var(--navy)}
+.modal p{margin:0;font-size:16px;line-height:1.6;color:var(--mute)}
+.modal p+p{margin-top:12px}
+.modal p strong{color:var(--ink)}
+.modal-me{margin:22px 0 16px;display:flex;align-items:center;gap:12px}
+.modal-me i{width:36px;height:3px;background:var(--yellow);flex:none}
+.modal-me span{font-size:17px;font-weight:700;color:var(--navy)}
+.modal-actions{display:flex;flex-wrap:wrap;gap:10px}
+.modal-actions a{padding:12px 18px;min-height:48px;display:inline-flex;align-items:center;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none}
+.modal-actions .p1{background:var(--yellow);color:var(--navy)}
+.modal-actions .s{border:1px solid var(--line);color:var(--ink)}.modal-actions .s:hover{border-color:var(--navy)}
+body.pop #demoBadge{display:none}
 @media(max-width:560px){#demoBadge{left:12px;right:12px;justify-content:space-between;font-size:10px}}
 </style>
 <!-- Umami: cookieless analytika, rovnaké website ID ako lopatka.sk; meria len na živej doméne. -->
@@ -263,7 +281,7 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
 
 <div class="top"><div class="wrap">
   <span>Po–Pi 08.00 – 16.30 · Hencovská 287, 093 02 Hencovce</span>
-  <span><a href="tel:+421903601733">+421 903 601 733</a> &nbsp;·&nbsp; <a href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a></span>
+  <span><a class="js-demo" href="tel:+421903601733">+421 903 601 733</a> &nbsp;·&nbsp; <a class="js-demo" href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a></span>
 </div></div>
 
 <header class="main"><div class="wrap">
@@ -288,7 +306,7 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
       <p class="lead">Vyrábame hliníkové okná a dvere, zimné záhrady, zasklenia balkónov a terás, zábradlia, prístrešky aj oceľové konštrukcie. Povrchovú úpravu robíme vo vlastnej lakovni.</p>
       <div class="cta">
         <a class="btn" href="#dopyt">Poslať dopyt <span aria-hidden="true">→</span></a>
-        <a class="btn ghost" href="tel:+421903601733">Zavolať +421 903 601 733</a>
+        <a class="btn ghost js-demo" href="tel:+421903601733">Zavolať +421 903 601 733</a>
       </div>
       <p class="hero-note">Dopyt je nezáväzný. Ozveme sa vám s ponukou na mieru.</p>
     </div>
@@ -318,23 +336,23 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
     <div class="prod-grid">
       <div>
       <ol class="plist" id="plist">
-        <li><a href="#"><span class="n">01</span><span class="t">Zasklenia balkónov a terás</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li><a href="#"><span class="n">02</span><span class="t">Zimné záhrady</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li><a href="#"><span class="n">03</span><span class="t">Hliníkové okná a dvere<small>Econline, Triline, Imperial, Superial, Star · posuvné Visoglide, Ultraglide · harmonikové Visofold</small></span><span class="go" aria-hidden="true">→</span></a></li>
-        <li><a href="#"><span class="n">04</span><span class="t">Protipožiarne okná a dvere<small>systémy AF 55 / AF 70, odolnosť EI15–EI90</small></span><span class="go" aria-hidden="true">→</span></a></li>
-        <li><a href="#"><span class="n">05</span><span class="t">Zábradlia</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li><a href="#"><span class="n">06</span><span class="t">Prístrešky</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">07</span><span class="t">Schody</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">08</span><span class="t">Prekrytia bazénov<small>polykarbonát 10 mm, koľajnice eloxované, rám 60 × 40 mm</small></span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">09</span><span class="t">Svetlíky</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">10</span><span class="t">Oceľové konštrukcie</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">11</span><span class="t">Hliníkové fasády<small>systémy MC-Wall, MC-Glass</small></span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">12</span><span class="t">Vitríny</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">13</span><span class="t">Deliace steny</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">14</span><span class="t">Brány a ploty</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">15</span><span class="t">Atypické výrobky</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">16</span><span class="t">Informačné tabule</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="more"><a href="#"><span class="n">17</span><span class="t">Výsuvné okná</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">01</span><span class="t">Zasklenia balkónov a terás</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">02</span><span class="t">Zimné záhrady</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">03</span><span class="t">Hliníkové okná a dvere<small>Econline, Triline, Imperial, Superial, Star · posuvné Visoglide, Ultraglide · harmonikové Visofold</small></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">04</span><span class="t">Protipožiarne okná a dvere<small>systémy AF 55 / AF 70, odolnosť EI15–EI90</small></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">05</span><span class="t">Zábradlia</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li><a href="#" class="js-demo"><span class="n">06</span><span class="t">Prístrešky</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">07</span><span class="t">Schody</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">08</span><span class="t">Prekrytia bazénov<small>polykarbonát 10 mm, koľajnice eloxované, rám 60 × 40 mm</small></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">09</span><span class="t">Svetlíky</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">10</span><span class="t">Oceľové konštrukcie</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">11</span><span class="t">Hliníkové fasády<small>systémy MC-Wall, MC-Glass</small></span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">12</span><span class="t">Vitríny</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">13</span><span class="t">Deliace steny</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">14</span><span class="t">Brány a ploty</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">15</span><span class="t">Atypické výrobky</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">16</span><span class="t">Informačné tabule</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="more"><a href="#" class="js-demo"><span class="n">17</span><span class="t">Výsuvné okná</span><span class="go" aria-hidden="true">→</span></a></li>
       </ol>
       <button class="morebtn" type="button" id="morebtn" aria-expanded="false" aria-controls="plist"><span>Zobraziť všetkých 17 výrobkov</span> <i aria-hidden="true">↓</i></button>
       </div>
@@ -411,7 +429,7 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
         <li>Pripravíme zameranie a cenovú ponuku.</li>
         <li>Vyrobíme a namontujeme.</li>
       </ol>
-      <div class="callbox"><small>Radšej telefonicky? Po–Pi 08.00 – 16.30</small><a href="tel:+421903601733">+421 903 601 733</a></div>
+      <div class="callbox"><small>Radšej telefonicky? Po–Pi 08.00 – 16.30</small><a class="js-demo" href="tel:+421903601733">+421 903 601 733</a></div>
     </div>
     <form id="dopytForm" novalidate>
       <div class="steps" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
@@ -442,9 +460,8 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
         <div class="f"><label class="chk-l" for="gdpr"><input type="checkbox" id="gdpr" name="gdpr" required><span>Súhlasím so spracovaním osobných údajov na účel vybavenia dopytu.</span></label></div>
         <p class="err" id="e3">Vyplňte meno, telefón, platný e-mail a potvrďte súhlas.</p>
         <div class="nav"><button class="back" type="button" data-prev>← Späť</button><button class="btn" type="submit">Odoslať dopyt <span aria-hidden="true">→</span></button></div>
-        <p class="fnote">Ukážkový formulár: odosielanie sa zapojí pri nasadení.</p>
+        <p class="fnote">Ukážkový formulár: nič sa neodošle.</p>
       </div>
-      <div id="ok" role="status">Ďakujeme, dopyt je pripravený na odoslanie. V ostrej verzii príde firme na e-mail a vám príde potvrdenie.</div>
     </form>
   </div>
 </section>
@@ -453,9 +470,9 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
   <div class="wrap">
     <h2>Kontakt</h2>
     <div class="grid">
-      <div class="card"><h3>Výroba (centrála)</h3><p><b>M-MONT s.r.o.</b></p><p>Hencovská 287<br>093 02 Hencovce</p><p style="margin-top:12px"><a href="tel:+421903601733">+421 903 601 733</a><br><small>Martin Jakubko, riaditeľ</small></p><p style="margin-top:8px"><a href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a></p></div>
-      <div class="card"><h3>Sekretariát</h3><p><a href="tel:+421948850810">+421 948 850 810</a><br><small>Mária Jakubková, Martin Jakubko ml.</small></p><p style="margin-top:8px"><a href="mailto:mariajakubkova@m-mont.sk">mariajakubkova@m-mont.sk</a></p><h3 style="margin-top:22px">Obchodný zástupca</h3><p><a href="tel:+421948850820">+421 948 850 820</a><br><small>Mgr. Peter Jakubko</small></p><p style="margin-top:8px"><a href="mailto:jakubkopeter@m-mont.sk">jakubkopeter@m-mont.sk</a></p></div>
-      <div class="card"><h3>Bratislava</h3><p><b>Pobočka</b><br>Znievska 6, 851 06 Bratislava<br><small>tel. <a href="tel:+421948850820">0948 850 820</a></small></p><p style="margin-top:14px"><b>Sklad</b><br>Vlčie Hrdlo 77, 821 07 Bratislava</p></div>
+      <div class="card"><h3>Výroba (centrála)</h3><p><b>M-MONT s.r.o.</b></p><p>Hencovská 287<br>093 02 Hencovce</p><p style="margin-top:12px"><a class="js-demo" href="tel:+421903601733">+421 903 601 733</a><br><small>Martin Jakubko, riaditeľ</small></p><p style="margin-top:8px"><a class="js-demo" href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a></p></div>
+      <div class="card"><h3>Sekretariát</h3><p><a class="js-demo" href="tel:+421948850810">+421 948 850 810</a><br><small>Mária Jakubková, Martin Jakubko ml.</small></p><p style="margin-top:8px"><a class="js-demo" href="mailto:mariajakubkova@m-mont.sk">mariajakubkova@m-mont.sk</a></p><h3 style="margin-top:22px">Obchodný zástupca</h3><p><a class="js-demo" href="tel:+421948850820">+421 948 850 820</a><br><small>Mgr. Peter Jakubko</small></p><p style="margin-top:8px"><a class="js-demo" href="mailto:jakubkopeter@m-mont.sk">jakubkopeter@m-mont.sk</a></p></div>
+      <div class="card"><h3>Bratislava</h3><p><b>Pobočka</b><br>Znievska 6, 851 06 Bratislava<br><small>tel. <a class="js-demo" href="tel:+421948850820">0948 850 820</a></small></p><p style="margin-top:14px"><b>Sklad</b><br>Vlčie Hrdlo 77, 821 07 Bratislava</p></div>
     </div>
     <p class="hours">Otváracie hodiny: Po–Pi 08.00 – 16.30</p>
   </div>
@@ -470,15 +487,15 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
     </div>
     <nav aria-label="Pätička – výrobky">
       <h4>Výrobky</h4>
-      <ul><li><a href="#">Zasklenia balkónov a terás</a></li><li><a href="#">Zimné záhrady</a></li><li><a href="#">Okná a dvere</a></li><li><a href="#">Protipožiarne okná a dvere</a></li><li><a href="#">Zábradlia a schody</a></li><li><a href="#vyrobky">Všetky výrobky</a></li></ul>
+      <ul><li><a href="#" class="js-demo">Zasklenia balkónov a terás</a></li><li><a href="#" class="js-demo">Zimné záhrady</a></li><li><a href="#" class="js-demo">Okná a dvere</a></li><li><a href="#" class="js-demo">Protipožiarne okná a dvere</a></li><li><a href="#" class="js-demo">Zábradlia a schody</a></li><li><a href="#vyrobky">Všetky výrobky</a></li></ul>
     </nav>
     <nav aria-label="Pätička – firma">
       <h4>Firma</h4>
-      <ul><li><a href="#o-nas">O nás</a></li><li><a href="#lakovna">Prášková lakovňa</a></li><li><a href="#predaj">Predaj materiálov</a></li><li><a href="#">Spolupráca</a></li><li><a href="#">Kariéra</a></li><li><a href="#">Dokumenty</a></li></ul>
+      <ul><li><a href="#o-nas">O nás</a></li><li><a href="#lakovna">Prášková lakovňa</a></li><li><a href="#predaj">Predaj materiálov</a></li><li><a href="#" class="js-demo">Spolupráca</a></li><li><a href="#" class="js-demo">Kariéra</a></li><li><a href="#" class="js-demo">Dokumenty</a></li></ul>
     </nav>
     <div>
       <h4>Kontakt</h4>
-      <address>M-MONT s.r.o.<br>Hencovská 287<br>093 02 Hencovce<br><a class="tel" href="tel:+421903601733">+421 903 601 733</a><br><a href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a><br>Po–Pi 08.00 – 16.30</address>
+      <address>M-MONT s.r.o.<br>Hencovská 287<br>093 02 Hencovce<br><a class="tel js-demo" href="tel:+421903601733">+421 903 601 733</a><br><a class="js-demo" href="mailto:m-mont@m-mont.sk">m-mont@m-mont.sk</a><br>Po–Pi 08.00 – 16.30</address>
       <p style="margin-top:18px"><a class="btn sm" href="#dopyt" style="color:var(--navy)">Poslať dopyt</a></p>
     </div>
   </div>
@@ -488,6 +505,22 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
   </div>
 </footer>
 
+<div id="demoPopup" class="overlay" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+  <div class="modal">
+    <button type="button" class="modal-close" data-close aria-label="Zavrieť">×</button>
+    <div class="eyebrow">Ukážkový návrh</div>
+    <h3 id="demoTitle">Toto je zatiaľ len ukážka</h3>
+    <p>Túto stránku som pripravil ako <strong>nezáväzný návrh</strong> pre M-mont s.r.o. — zadarmo a bez toho, aby ste o čokoľvek žiadali. Nie je to živá stránka, preto odkazy zatiaľ nikam nevedú a formulár nič neodošle.</p>
+    <p>Ak sa vám páči, rád vám ju spravím <strong>naostro</strong> — funkčnú, rýchlu a na mieru.</p>
+    <div class="modal-me"><i></i><span>Filip Lopatka · web developer</span></div>
+    <div class="modal-actions">
+      <a class="p1" href="mailto:filip@lopatka.sk">Napíšte mi</a>
+      <a class="s" href="tel:+421904902736">Zavolať</a>
+      <a class="s" href="https://lopatka.sk" target="_blank" rel="noopener">lopatka.sk</a>
+    </div>
+  </div>
+</div>
+
 <div id="demoBadge"><span>UKÁŽKOVÝ NÁVRH — NIE JE TO ŽIVÁ STRÁNKA</span><button type="button" id="badgeClose" aria-label="Skryť upozornenie">×</button></div>
 <script>
 (function(){
@@ -495,9 +528,15 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
   var b=document.querySelector('.burger'),n=document.getElementById('nav');
   b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
   n.addEventListener('click',function(e){if(e.target.tagName==='A'){n.classList.remove('open');b.setAttribute('aria-expanded','false')}});
+  var pop=document.getElementById('demoPopup'),lastF=null;
+  function openPop(){lastF=document.activeElement;pop.classList.add('open');document.body.classList.add('pop');document.body.style.overflow='hidden';var c=pop.querySelector('[data-close]');if(c)c.focus()}
+  function closePop(){pop.classList.remove('open');document.body.classList.remove('pop');document.body.style.overflow='';if(lastF&&lastF.focus)lastF.focus()}
+  document.querySelectorAll('.js-demo').forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();openPop()})});
+  pop.addEventListener('click',function(e){if(e.target===pop||e.target.hasAttribute('data-close'))closePop()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop.classList.contains('open'))closePop()});
   var mb=document.getElementById('morebtn'),pl=document.getElementById('plist');
   mb.addEventListener('click',function(){var o=pl.classList.toggle('open');pl.closest('.prod-grid').classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.firstElementChild.textContent=o?'Zobraziť menej':'Zobraziť všetkých 17 výrobkov'});
-  var f=document.getElementById('dopytForm'),ok=document.getElementById('ok');
+  var f=document.getElementById('dopytForm');
   var st=[].slice.call(f.querySelectorAll('.step')),bars=f.querySelectorAll('.steps span'),cur=0;
   function go(i){cur=i;st.forEach(function(x,k){x.classList.toggle('on',k===i)});[].forEach.call(bars,function(x,k){x.classList.toggle('on',k<=i)});var t=st[i].querySelector('h3');if(t){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}}
   f.addEventListener('click',function(e){
@@ -514,9 +553,23 @@ footer{background:#0a1a30;color:#9db6d2;font-size:15px}
     if(!f.gdpr.checked&&!bad)bad=f.gdpr;
     document.getElementById('e3').style.display=bad?'block':'none';
     if(bad){bad.focus();return}
-    st.forEach(function(x){x.classList.remove('on')});f.querySelector('.steps').style.display='none';
-    ok.style.display='block';
+    openPop();
   });
+})();
+</script>
+<script>
+(function(){
+  var DEMO='m-mont';
+  function track(n,x){var d={demo:DEMO},k;if(x)for(k in x)d[k]=x[k];if(window.umami&&typeof window.umami.track==='function')window.umami.track(n,d)}
+  document.addEventListener('click',function(e){
+    var a=e.target;while(a&&a.nodeType===1&&a.tagName!=='A')a=a.parentNode;
+    if(!a||a.nodeType!==1)return;var h=a.getAttribute('href')||'';
+    if(h.indexOf('mailto:filip@lopatka.sk')===0)track('demo-lead',{via:'mail'});
+    else if(h.indexOf('tel:+421904902736')===0)track('demo-lead',{via:'call'});
+    else if(h.indexOf('//lopatka.sk')>-1)track('demo-lead',{via:'web'});
+    else if(a.className.indexOf('js-demo')>-1)track('demo-click');
+  },true);
+  document.addEventListener('submit',function(){track('demo-form')},true);
 })();
 </script>
 </body>
