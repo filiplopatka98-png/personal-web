@@ -333,6 +333,27 @@ async function captureWebsite(browser, url, mode) {
 
   await waitForImages(page);
 
+  // URL with #anchor → scroll that element to the top of the viewport.
+  // primeLazyContent() returns to y=0, which would otherwise discard the anchor.
+  const anchor = (() => {
+    try { return decodeURIComponent(new URL(url).hash.slice(1)); } catch { return ''; }
+  })();
+  if (anchor) {
+    const found = await page.evaluate((id) => {
+      const el = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+      if (!el) return false;
+      el.scrollIntoView({ block: 'start' });
+      return true;
+    }, anchor);
+    if (found) {
+      console.log(`  → scrolled to #${anchor} [${mode}]`);
+      await new Promise((r) => setTimeout(r, 1200));
+      await waitForImages(page);
+    } else {
+      console.warn(`  ⚠ anchor #${anchor} not found [${mode}]`);
+    }
+  }
+
   if (process.env.HIDE_POPUPS === '1') {
     const popups = await hidePromoPopups(page);
     if (popups > 0) console.log(`  → ${popups} popup/backdrop element(s) hidden [${mode}]`);
