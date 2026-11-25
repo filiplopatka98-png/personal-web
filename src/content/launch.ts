@@ -60,6 +60,8 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   // 2026-11-23 — Webnode vs. WordPress
   'sk/webnode-vs-wordpress-pre-malu-firmu',
   'en/webnode-vs-wordpress-pre-malu-firmu',
+  'sk/sprava-wordpress-webu-cena',
+  'en/sprava-wordpress-webu-cena',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
