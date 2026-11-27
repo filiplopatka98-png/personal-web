@@ -62,6 +62,8 @@ export const ARTICLE_ALLOWLIST: string[] | null = [
   'en/webnode-vs-wordpress-pre-malu-firmu',
   'sk/sprava-wordpress-webu-cena',
   'en/sprava-wordpress-webu-cena',
+  'sk/seo-audit-co-obsahuje-cena',
+  'en/seo-audit-co-obsahuje-cena',
 ];
 
 /** Je článok (id `sk/slug` / `en/slug`) na webe? Bez allowlistu áno každý. */
